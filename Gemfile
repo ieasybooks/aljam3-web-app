@@ -6,6 +6,8 @@ gem "rails-i18n", "~> 8.0", ">= 8.0.1"
 
 group :development do
   gem "annotaterb", "~> 4.14"
+  gem "better_errors", "~> 2.10", ">= 2.10.1"
+  gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
 end
 
 # Template gems ↓
