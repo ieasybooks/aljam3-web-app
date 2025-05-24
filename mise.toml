@@ -8,17 +8,25 @@ ruby = "{{ get_env(name='RUBY_VERSION', default='3.4.4') }}"
 node = "{{ get_env(name='NODE_VERSION', default='24.1.0') }}"
 bitwarden-secrets-manager = "latest"
 
-[tasks.docker-compose-up]
-description = "Run docker compose up"
+[tasks."docker:start"]
+description = "Start Docker services using docker-compose"
 run = "docker compose -f dev-docker-compose.yml up -d"
 
-[tasks.docker-compose-down]
-description = "Run docker compose down"
+[tasks."docker:stop"]
+description = "Stop Docker services using docker-compose"
 run = "docker compose -f dev-docker-compose.yml down"
 
-[tasks."bin:dev"]
-description = "Run the development server"
-run = "./bin/dev"
+[tasks."deps:js"]
+description = "Install JavaScript dependencies"
+run = "yarn install"
+
+[tasks."deps:ruby"]
+description = "Install Ruby gems"
+run = "bundle install"
+
+[tasks."db:prepare"]
+description = "Prepare database (create and migrate)"
+run = "bundle exec rails db:create db:migrate"
 
 [tasks.test]
 description = "Run tests using RSpec"
@@ -29,92 +37,32 @@ description = "Run lint using Rubocop"
 run = "bundle exec rubocop"
 
 [tasks.dev]
-description = "Start development environment (Docker + Rails server) with cleanup on shutdown"
+description = "Start development environment"
 run = '''
 #!/bin/bash
 set -e
 
-# Colors for pretty output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-PURPLE='\033[0;35m'
-CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+mise run docker:start
+mise run deps:js
+mise run deps:ruby
+mise run db:prepare
 
-# Cleanup function
 cleanup() {
-  echo
-  echo -e "${YELLOW}🛑 Shutting down development environment...${NC}"
-  echo -e "${BLUE}📦 Stopping Docker containers...${NC}"
-  
-  if mise run docker-compose-down; then
-    echo -e "${GREEN}✅ Docker containers stopped successfully!${NC}"
-  else
-    echo -e "${RED}❌ Failed to stop Docker containers${NC}"
-  fi
-  
-  echo -e "${PURPLE}👋 Thanks for coding! See you next time!${NC}"
-  echo
+  mise docker:stop
+
   exit 0
 }
 
 # Set up trap to call cleanup on SIGINT (Ctrl+C) and SIGTERM
 trap cleanup SIGINT SIGTERM
 
-# Welcome banner
 echo
-echo -e "${CYAN}╔══════════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║                🚀 Development Environment 🚀             ║${NC}"
-echo -e "${CYAN}╚══════════════════════════════════════════════════════════╝${NC}"
-echo
-
-echo -e "${BLUE}🐳 Starting Docker services...${NC}"
-
-# Start docker compose with error handling
-if mise run docker-compose-up; then
-  echo -e "${GREEN}✅ Docker services are up and running!${NC}"
-else
-  echo -e "${RED}❌ Failed to start Docker services${NC}"
-  cleanup
-  exit 1
-fi
-
-echo
-echo -e "${BLUE}💎 Installing Ruby gems...${NC}"
-
-# Install gems with error handling
-if bundle install; then
-  echo -e "${GREEN}✅ Gems installed successfully!${NC}"
-else
-  echo -e "${RED}❌ Failed to install gems${NC}"
-  cleanup
-  exit 1
-fi
-
-echo
-echo -e "${BLUE}🔍 Preparing database...${NC}"
-if bundle exec rails db:create db:migrate; then
-  echo -e "${GREEN}✅ Database prepared successfully!${NC}"
-else
-  echo -e "${RED}❌ Failed to prepare database${NC}"
-  cleanup
-  exit 1
-fi
-
-echo
-echo -e "${YELLOW}⚡ Starting Rails server...${NC}"
-echo -e "${PURPLE}💡 Press Ctrl+C to stop everything and clean up${NC}"
+echo -e "\033[0;36m╔══════════════════════════════════════════════════════════╗\033[0m"
+echo -e "\033[0;36m║                🚀 Development Environment 🚀             ║\033[0m"
+echo -e "\033[0;36m╚══════════════════════════════════════════════════════════╝\033[0m"
 echo
 
-# Start the server (this will block until interrupted)
-if mise run bin:dev; then
-  echo -e "${GREEN}✅ Server started successfully!${NC}"
-else
-  echo -e "${YELLOW}⚠️ Server stopped${NC}"
-fi
+./bin/dev
 
-# If server exits normally, also run cleanup
 cleanup
 '''
