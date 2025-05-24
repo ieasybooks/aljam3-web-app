@@ -192,7 +192,7 @@ dist
 ### Rails ###
 *.rbc
 capybara-*.html
-.rspec
+# .rspec
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /db/*.sqlite3-[0-9]*

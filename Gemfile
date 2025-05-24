@@ -16,6 +16,16 @@ group :development do
   gem "rubocop-rspec_rails", "~> 2.31"
 end
 
+group :test do
+  gem "factory_bot_rails", "~> 6.4", ">= 6.4.4"
+  gem "shoulda-matchers", "~> 6.5"
+  gem "simplecov", "~> 0.22.0", require: false
+end
+
+group :development, :test do
+  gem "rspec-rails", "~> 8.0"
+end
+
 # Template gems ↓
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
