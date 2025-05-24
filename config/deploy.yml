@@ -20,6 +20,7 @@ servers:
 proxy:
   ssl: true
   host: app.example.com
+  forward_headers: true
 
 # Credentials for your image host.
 registry:

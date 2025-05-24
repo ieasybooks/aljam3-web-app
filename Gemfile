@@ -3,6 +3,7 @@ source "https://rubygems.org"
 # Added gems ↓
 
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
+gem "rack-attack", "~> 6.7"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 
@@ -24,6 +25,10 @@ end
 
 group :development, :test do
   gem "rspec-rails", "~> 8.0"
+end
+
+group :production do
+  gem "cloudflare-rails", "~> 6.2"
 end
 
 # Template gems ↓
