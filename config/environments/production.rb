@@ -87,7 +87,4 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-
-  # Configure Solid Errors
-  config.solid_errors.connects_to = { database: { writing: :errors } }
 end
