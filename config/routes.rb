@@ -11,4 +11,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  authenticate :user, ->(user) { user.admin? } do
+    mount SolidErrors::Engine, at: "/solid_errors"
+  end
 end
