@@ -19,3 +19,6 @@ AllCops:
     - '**/._*'
     - 'db/schema.rb'
     - 'vendor/bundle/**/*'
+
+Bundler/OrderedGems:
+  Enabled: true

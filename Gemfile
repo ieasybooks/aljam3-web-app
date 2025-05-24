@@ -2,9 +2,9 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "rails_cloudflare_turnstile", "~> 0.4.1"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
 gem "rack-attack", "~> 6.7"
+gem "rails_cloudflare_turnstile", "~> 0.4.1"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
 gem "solid_errors", "~> 0.6.1"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
@@ -61,9 +61,9 @@ gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
+gem "solid_cable"
 gem "solid_cache"
 gem "solid_queue"
-gem "solid_cable"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
