@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "Shopify.ruby-lsp",
+    "aki77.rails-db-schema",
+    "aki77.rails-i18n",
+    "bradlc.vscode-tailwindcss",
+    "bung87.vscode-gemfile",
+    "eamodio.gitlens",
+    "marcoroth.stimulus-lsp",
+    "ms-vscode.live-server",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    "vscode-icons-team.vscode-icons",
+    "waderyan.gitblame"
+  ]
+}

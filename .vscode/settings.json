@@ -1,0 +1,55 @@
+{
+  "workbench.iconTheme": "vscode-icons",
+  "editor.formatOnSave": true,
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.formatOnType": true
+  },
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "mise"
+  },
+  "rubyLsp.formatter": "rubocop_internal",
+  "railsI18n.localeFilePattern": "config/locales/**/*.yml",
+  "railsI18n.priorityOfLocales": [
+    "ar"
+  ],
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html"
+  },
+  "livePreview.portNumber": 9620,
+  "sqltools.connections": [
+    {
+      "name": "Aljam3 Rails Development Database",
+      "driver": "PostgreSQL",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5433,
+      "database": "aljam3_development",
+      "username": "aljam3",
+      "password": "aljam3"
+    },
+    {
+      "name": "Aljam3 Rails Test Database",
+      "driver": "PostgreSQL",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5433,
+      "database": "aljam3_test",
+      "username": "aljam3",
+      "password": "aljam3"
+    }
+  ],
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/Users/aliosm/.local/share/mise/shims/node"
+  }
+}
