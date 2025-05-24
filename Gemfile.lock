@@ -292,6 +292,16 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
+    rubocop-rake (0.7.1)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1)
+    rubocop-rspec (3.6.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
+    rubocop-rspec_rails (2.31.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
+      rubocop-rspec (~> 3.5)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
     solid_cable (3.0.8)
@@ -378,6 +388,9 @@ DEPENDENCIES
   rails (~> 8.0.2)
   rails-i18n (~> 8.0, >= 8.0.1)
   rubocop-rails-omakase
+  rubocop-rake (~> 0.7.1)
+  rubocop-rspec (~> 3.6)
+  rubocop-rspec_rails (~> 2.31)
   solid_cable
   solid_cache
   solid_queue

@@ -9,6 +9,9 @@ group :development do
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
   gem "i18n-tasks", "~> 1.0", ">= 1.0.15"
+  gem "rubocop-rake", "~> 0.7.1"
+  gem "rubocop-rspec", "~> 3.6"
+  gem "rubocop-rspec_rails", "~> 2.31"
 end
 
 # Template gems ↓
