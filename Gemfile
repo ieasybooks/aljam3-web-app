@@ -8,6 +8,7 @@ group :development do
   gem "annotaterb", "~> 4.14"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
+  gem "i18n-tasks", "~> 1.0", ">= 1.0.15"
 end
 
 # Template gems ↓
