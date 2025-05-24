@@ -190,6 +190,9 @@ dist
 .svelte-kit
 
 ### Rails ###
+app/assets/builds/*
+!app/assets/builds/.keep
+
 *.rbc
 capybara-*.html
 # .rspec
