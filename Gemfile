@@ -4,6 +4,10 @@ source "https://rubygems.org"
 
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
 
+group :development do
+  gem "annotaterb", "~> 4.14"
+end
+
 # Template gems ↓
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
