@@ -35,22 +35,20 @@
   <li><a href="https://mise.jdx.dev">Mise</a></li>
   <li><a href="https://postgresql.org/docs/current/libpq.html">libpq</a></li>
   <li><a href="https://postgresql.org">PostgreSQL</a> (17.5)</li>
-  <li><a href="https://memcached.org">Memcached</a> (1.6.38)</li>
   <li><a href="https://meilisearch.com">Meilisearch</a> (1.14.0)</li>
   <li><a href="https://ruby-lang.org">Ruby</a> (3.4.4)</li>
   <li><a href="https://rubyonrails.org">Rails</a> 8.0.2</li>
 </ul>
 
-<p dir="rtl">كما يمكنك الوصول إلى PostgreSQL و Memcached و Meilisearch من خلال المنافذ التالية:</p>
+<p dir="rtl">كما يمكنك الوصول إلى PostgreSQL و Meilisearch من خلال المنافذ التالية:</p>
 
 <ul>
   <li>PostgreSQL → 5433 (localhost:5433)</li>
-  <li>Memcached → 11212 (localhost:11212)</li>
   <li>Meilisearch → 7701 (localhost:7701)</li>
 </ul>
 
 <p dir="rtl">
-وبمجرّد إيقاف تشغيل خادم التطوير المحلّي من خلال الضغط على <code>Cmd+C</code> أو <code>Ctrl+C</code> ستتوقف خدمات <code>Docker</code> (PostgreSQL و Memcached و Meilisearch) عن العمل تلقائيا.
+وبمجرّد إيقاف تشغيل خادم التطوير المحلّي من خلال الضغط على <code>Cmd+C</code> أو <code>Ctrl+C</code> ستتوقف خدمات <code>Docker</code> (PostgreSQL و Meilisearch) عن العمل تلقائيا.
 </p>
 
 <h2 dir="rtl">تجهيز المحرر</h2>
