@@ -1,3 +1,3 @@
 Rack::Attack.blocklist("CloudFlare WAF bypass") do |req|
-  !req.cloudflare?
+  Rails.env.production? && !req.cloudflare?
 end
