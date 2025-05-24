@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
+gem "devise", "~> 4.9", ">= 4.9.4"
+gem "devise-i18n", "~> 1.13"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.1"
