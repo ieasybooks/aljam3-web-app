@@ -2,7 +2,9 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
+gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
+gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 
 group :development do
   gem "annotaterb", "~> 4.14"
@@ -73,3 +75,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
+
+# Added gems ↓
+
+gem "rack-mini-profiler", "~> 3.3", ">= 3.3.1" # Needs to be added after `pg` gem for auto-detection.
