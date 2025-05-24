@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
+gem "rails_cloudflare_turnstile", "~> 0.4.1"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
 gem "rack-attack", "~> 6.7"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
