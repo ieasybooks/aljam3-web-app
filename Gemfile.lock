@@ -101,6 +101,7 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
+    csv (3.3.4)
     date (3.4.1)
     debug (1.10.0)
       irb (~> 1.10)
@@ -143,6 +144,10 @@ GEM
     hashie (5.0.0)
     highline (3.1.2)
       reline
+    httparty (0.23.1)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.0.15)
@@ -192,12 +197,18 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
+    meilisearch (0.31.0)
+      httparty (~> 0.22)
+    meilisearch-rails (0.15.0)
+      meilisearch (~> 0.31.0)
+      mutex_m (~> 0.2)
     memory_profiler (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
     multi_xml (0.7.2)
       bigdecimal (~> 3.1)
+    mutex_m (0.3.0)
     net-http (0.6.0)
       uri
     net-imap (0.5.8)
@@ -503,6 +514,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   kamal
+  meilisearch-rails (~> 0.15.0)
   memory_profiler (~> 1.0, >= 1.0.2)
   oj (~> 3.16, >= 3.16.10)
   omniauth (~> 2.1, >= 2.1.3)

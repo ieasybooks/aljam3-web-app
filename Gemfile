@@ -4,6 +4,7 @@ source "https://rubygems.org"
 
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.13"
+gem "meilisearch-rails", "~> 0.15.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
 gem "oj", "~> 3.16", ">= 3.16.10"
 gem "omniauth", "~> 2.1", ">= 2.1.3"
