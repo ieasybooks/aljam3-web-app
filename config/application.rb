@@ -42,5 +42,7 @@ module Aljam3
     config.i18n.available_locales = %i[ar en]
     config.i18n.default_locale = :ar
     config.i18n.load_path += Rails.root.glob("config/locales/**/*.yml")
+
+    config.mission_control.jobs.http_basic_auth_enabled = false
   end
 end

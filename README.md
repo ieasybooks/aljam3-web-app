@@ -134,6 +134,7 @@
 
 <h4 dir="rtl">مكتبات الإنتاج والمراقبة</h3>
 <ul dir="rtl">
+  <li><strong><a href="https://github.com/rails/mission_control-jobs">mission_control-jobs</a></strong> - لوحة تحكم لمراقبة وإدارة المهام</li>
   <li><strong><a href="https://github.com/modosc/cloudflare-rails">cloudflare-rails</a></strong> - تهيئة Rails للعمل مع Cloudflare والحصول على عناوين IP الحقيقية للعملاء</li>
   <li><strong><a href="https://github.com/fractaledmind/solid_errors">solid_errors</a></strong> - نظام تتبع وإدارة الأخطاء</li>
   <li><strong><a href="https://github.com/MiniProfiler/rack-mini-profiler">rack-mini-profiler</a></strong> - أداة مراقبة أداء التطبيق</li>
