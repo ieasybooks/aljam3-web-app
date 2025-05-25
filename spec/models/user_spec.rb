@@ -30,7 +30,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User do
   pending "add some examples to (or delete) #{__FILE__}"

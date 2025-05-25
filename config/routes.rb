@@ -3,6 +3,9 @@
 #                                   Prefix Verb     URI Pattern                                                                                       Controller#Action
 #                                                   /assets                                                                                           Propshaft::Server
 #                       rails_health_check GET      /up(.:format)                                                                                     rails/health#show
+#                             pwa_manifest GET      /manifest(.:format)                                                                               rails/pwa#manifest
+#                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
+#                                     root GET      /                                                                                                 pages#home
 #                         new_user_session GET      /users/sign_in(.:format)                                                                          devise/sessions#new
 #                             user_session POST     /users/sign_in(.:format)                                                                          devise/sessions#create
 #                     destroy_user_session DELETE   /users/sign_out(.:format)                                                                         devise/sessions#destroy
@@ -70,11 +73,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "pages#home"
 
   devise_for :users
 

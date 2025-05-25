@@ -1,2 +1,5 @@
 ar:
-  hello: مرحبا بالعالم
+  aljam3: "الجامع"
+  pages:
+    home:
+      title: "الرئيسية"

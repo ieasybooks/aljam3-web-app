@@ -7,6 +7,18 @@ class Components::Base < Phlex::HTML
 
   # Include any helpers you want to be available across all components
   include Phlex::Rails::Helpers::Routes
+  include Phlex::Rails::Helpers::T
+  include Phlex::Rails::Layout
+
+  def self.translation_path
+    @translation_path ||= name&.dup.tap do |n|
+      n.gsub!("::", ".")
+      n.gsub!(/([a-z])([A-Z])/, '\1_\2')
+      n.downcase!
+      n.delete_prefix!("views.")
+      n.delete_prefix!("components.")
+    end
+  end
 
   if Rails.env.development?
     def before_template
