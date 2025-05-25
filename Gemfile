@@ -11,11 +11,14 @@ gem "omniauth", "~> 2.1", ">= 2.1.3"
 gem "omniauth-google-oauth2", "~> 1.2", ">= 1.2.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.3", ">= 9.3.4"
+gem "phlex-icons", "~> 2.22"
+gem "phlex-rails", "~> 2.2"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.1"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
 gem "solid_errors", "~> 0.6.1"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
+gem "tailwind_merge", "~> 1.2"
 
 group :development do
   gem "annotaterb", "~> 4.14"
@@ -25,6 +28,7 @@ group :development do
   gem "rubocop-rake", "~> 0.7.1"
   gem "rubocop-rspec", "~> 3.6"
   gem "rubocop-rspec_rails", "~> 2.31"
+  gem "ruby_ui", "~> 1.0", ">= 1.0.1"
 end
 
 group :test do
