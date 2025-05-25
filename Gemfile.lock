@@ -141,6 +141,9 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    goldiloader (5.4.0)
+      activerecord (>= 6.1, < 8.1)
+      activesupport (>= 6.1, < 8.1)
     hashie (5.0.0)
     highline (3.1.2)
       reline
@@ -521,6 +524,7 @@ DEPENDENCIES
   devise (~> 4.9, >= 4.9.4)
   devise-i18n (~> 1.13)
   factory_bot_rails (~> 6.4, >= 6.4.4)
+  goldiloader (~> 5.4)
   i18n-tasks (~> 1.0, >= 1.0.15)
   jbuilder
   jsbundling-rails
