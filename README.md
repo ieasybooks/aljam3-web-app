@@ -34,10 +34,13 @@
   <li><a href="https://docker.com">Docker</a></li>
   <li><a href="https://mise.jdx.dev">Mise</a></li>
   <li><a href="https://postgresql.org/docs/current/libpq.html">libpq</a></li>
+  <li><a href="https://ruby-lang.org">Ruby</a> (3.4.4)</li>
+  <li><a href="https://rubyonrails.org">Rails</a> (8.0.2)</li>
+  <li><a href="https://nodejs.org">Node.js</a> (24.1.0)</li>
+  <li><a href="https://yarnpkg.com">Yarn</a> (4.9.1)</li>
+  <li><a href="https://bitwarden.com/help/secrets-manager-cli">bitwarden-secrets-manager</a> (latest)</li>
   <li><a href="https://postgresql.org">PostgreSQL</a> (17.5)</li>
   <li><a href="https://meilisearch.com">Meilisearch</a> (1.14.0)</li>
-  <li><a href="https://ruby-lang.org">Ruby</a> (3.4.4)</li>
-  <li><a href="https://rubyonrails.org">Rails</a> 8.0.2</li>
 </ul>
 
 <p dir="rtl">كما يمكنك الوصول إلى PostgreSQL و Meilisearch من خلال المنافذ التالية:</p>
