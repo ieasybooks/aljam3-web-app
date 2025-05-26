@@ -204,10 +204,10 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    meilisearch (0.31.0)
+    meilisearch (0.32.0)
       httparty (~> 0.22)
-    meilisearch-rails (0.15.0)
-      meilisearch (~> 0.31.0)
+    meilisearch-rails (0.16.0)
+      meilisearch (~> 0.32.0)
       mutex_m (~> 0.2)
     memory_profiler (1.1.0)
     mini_mime (1.1.5)
@@ -547,7 +547,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   kamal
-  meilisearch-rails (~> 0.15.0)
+  meilisearch-rails (~> 0.16.0)
   memory_profiler (~> 1.0, >= 1.0.2)
   mission_control-jobs (~> 1.0, >= 1.0.2)
   oj (~> 3.16, >= 3.16.10)

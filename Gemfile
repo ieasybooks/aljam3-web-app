@@ -5,7 +5,7 @@ source "https://rubygems.org"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.13"
 gem "goldiloader", "~> 5.4"
-gem "meilisearch-rails", "~> 0.15.0"
+gem "meilisearch-rails", "~> 0.16.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
 gem "mission_control-jobs", "~> 1.0", ">= 1.0.2"
 gem "oj", "~> 3.16", ">= 3.16.10"
