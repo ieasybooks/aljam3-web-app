@@ -19,11 +19,27 @@
 require 'rails_helper'
 
 RSpec.describe Page do
+  include Meilisearch::Rails
+
   describe "associations" do
-    it { is_expected.to belong_to(:book_file) }
+    it { is_expected.to belong_to(:file).class_name("BookFile") }
   end
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:content) }
+  end
+
+  describe "Meilisearch configuration" do
+    it 'includes Meilisearch::Rails' do
+      expect(described_class.included_modules).to include(Meilisearch::Rails)
+    end
+
+    it 'has the correct searchable attributes' do
+      expect(described_class.index.searchable_attributes).to match_array(%w[content])
+    end
+
+    it 'has the correct filterable attributes' do
+      expect(described_class.index.filterable_attributes).to match_array(%w[category author book library])
+    end
   end
 end
