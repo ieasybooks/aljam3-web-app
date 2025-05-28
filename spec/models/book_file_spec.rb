@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: book_files
+#
+#  id         :bigint           not null, primary key
+#  file_type  :integer          not null
+#  size       :float            not null
+#  url        :text             not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  book_id    :bigint           not null
+#
+# Indexes
+#
+#  index_book_files_on_book_id  (book_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (book_id => books.id)
+#
 require 'rails_helper'
 
 RSpec.describe BookFile do

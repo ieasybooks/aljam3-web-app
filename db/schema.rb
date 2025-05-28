@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_28_124609) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_28_130042) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_28_124609) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "book_file_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_file_id"], name: "index_pages_on_book_file_id"
   end
 
   create_table "solid_errors", force: :cascade do |t|
@@ -92,5 +100,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_28_124609) do
 
   add_foreign_key "book_files", "books"
   add_foreign_key "books", "libraries"
+  add_foreign_key "pages", "book_files"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
 end
