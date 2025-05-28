@@ -21,6 +21,8 @@
 #  fk_rails_...  (library_id => libraries.id)
 #
 class Book < ApplicationRecord
+  include Meilisearch::Rails
+
   belongs_to :library
   has_many :files, class_name: "BookFile", dependent: :destroy
   has_many :pdf_files, -> { where(file_type: :pdf) }, class_name: "BookFile"
@@ -28,4 +30,23 @@ class Book < ApplicationRecord
   has_many :docx_files, -> { where(file_type: :docx) }, class_name: "BookFile"
 
   validates :title, :author, :category, :volumes, :pages, presence: true
+
+  meilisearch enqueue: true do
+    attribute :title
+
+    attribute :category do
+      category
+    end
+
+    attribute :author do
+      author
+    end
+
+    attribute :library do
+      library_id
+    end
+
+    searchable_attributes %i[title]
+    filterable_attributes %i[category author library]
+  end
 end

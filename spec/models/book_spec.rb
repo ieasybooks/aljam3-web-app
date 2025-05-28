@@ -38,4 +38,18 @@ RSpec.describe Book do
     it { is_expected.to validate_presence_of(:volumes) }
     it { is_expected.to validate_presence_of(:pages) }
   end
+
+  describe "Meilisearch configuration" do
+    it 'includes Meilisearch::Rails' do
+      expect(described_class.included_modules).to include(Meilisearch::Rails)
+    end
+
+    it 'has the correct searchable attributes' do
+      expect(described_class.index.searchable_attributes).to match_array(%w[title])
+    end
+
+    it 'has the correct filterable attributes' do
+      expect(described_class.index.filterable_attributes).to match_array(%w[category author library])
+    end
+  end
 end
