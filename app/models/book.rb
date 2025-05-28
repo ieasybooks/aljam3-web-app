@@ -22,6 +22,10 @@
 #
 class Book < ApplicationRecord
   belongs_to :library
+  has_many :files, class_name: "BookFile", dependent: :destroy
+  has_many :pdf_files, -> { where(file_type: :pdf) }, class_name: "BookFile"
+  has_many :txt_files, -> { where(file_type: :txt) }, class_name: "BookFile"
+  has_many :docx_files, -> { where(file_type: :docx) }, class_name: "BookFile"
 
   validates :title, :author, :category, :volumes, :pages, presence: true
 end

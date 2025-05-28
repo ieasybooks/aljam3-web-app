@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_27_222440) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_28_124609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "book_files", force: :cascade do |t|
+    t.integer "file_type", null: false
+    t.text "url", null: false
+    t.float "size", null: false
+    t.bigint "book_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_book_files_on_book_id"
+  end
 
   create_table "books", force: :cascade do |t|
     t.string "title", null: false
@@ -80,6 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_27_222440) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "book_files", "books"
   add_foreign_key "books", "libraries"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
 end
