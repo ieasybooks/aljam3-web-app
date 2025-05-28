@@ -23,6 +23,14 @@
 require "rails_helper"
 
 RSpec.describe Book do
+  describe "associations" do
+    it { is_expected.to belong_to(:library) }
+    it { is_expected.to have_many(:files).class_name("BookFile").dependent(:destroy) }
+    it { is_expected.to have_many(:pdf_files).class_name("BookFile") }
+    it { is_expected.to have_many(:txt_files).class_name("BookFile") }
+    it { is_expected.to have_many(:docx_files).class_name("BookFile") }
+  end
+
   describe "validations" do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:author) }
