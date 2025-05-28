@@ -38,6 +38,7 @@ group :test do
   gem "factory_bot_rails", "~> 6.4", ">= 6.4.4"
   gem "shoulda-matchers", "~> 6.5"
   gem "simplecov", "~> 0.22.0", require: false
+  gem "simplecov-json", "~> 0.2.3"
 end
 
 group :development, :test do

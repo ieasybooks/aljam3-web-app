@@ -36,3 +36,54 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
+
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17.5
+        ports:
+          - "5433:5432"
+        env:
+          POSTGRES_USER: aljam3
+          POSTGRES_PASSWORD: aljam3
+          POSTGRES_DB: aljam3_test
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+      meilisearch:
+        image: getmeili/meilisearch:v1.14.0
+        ports:
+          - "7701:7700"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install libpq-dev
+        run: sudo apt-get -yqq install libpq-dev
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.1.0
+          cache: 'yarn'
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.4
+          bundler-cache: true
+
+      - name: Create database
+        run: bin/rails db:create
+
+      - name: Run database migrations
+        run: bin/rails db:migrate
+
+      - name: Run tests
+        run: bin/rspec
+      
+      - uses: joshmfrankel/simplecov-check-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

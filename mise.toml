@@ -31,7 +31,7 @@ run = "bundle exec rails db:create db:migrate"
 
 [tasks.test]
 description = "Run tests using RSpec"
-run = "bundle exec rspec"
+run = "CI=1 bundle exec rspec"
 
 [tasks.lint]
 description = "Run lint using Rubocop"

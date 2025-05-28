@@ -1,11 +1,14 @@
 require "simplecov"
+require "simplecov-json"
 
 SimpleCov.start "rails" do
   enable_coverage :branch
+  minimum_coverage line: 90, branch: 70
 
   SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::SimpleFormatter,
-    SimpleCov::Formatter::HTMLFormatter
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::JSONFormatter
   ])
 end
 

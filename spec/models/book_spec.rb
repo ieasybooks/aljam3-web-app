@@ -40,6 +40,10 @@ RSpec.describe Book do
   end
 
   describe "Meilisearch configuration" do
+    before do
+      described_class.index.number_of_documents
+    end
+
     it 'includes Meilisearch::Rails' do
       expect(described_class.included_modules).to include(Meilisearch::Rails)
     end

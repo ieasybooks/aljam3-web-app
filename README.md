@@ -130,6 +130,7 @@
   <li><strong><a href="https://github.com/thoughtbot/factory_bot_rails">factory_bot_rails</a></strong> - إنشاء بيانات اختبار وهمية</li>
   <li><strong><a href="https://github.com/thoughtbot/shoulda-matchers">shoulda-matchers</a></strong> - مطابقات اختبار إضافية لـ RSpec</li>
   <li><strong><a href="https://github.com/simplecov-ruby/simplecov">simplecov</a></strong> - قياس تغطية الشيفرة المصدرية بالاختبارات</li>
+  <li><strong><a href="https://github.com/vicentllongo/simplecov-json">simplecov-json</a></strong> - تصدير تقارير تغطية الشيفرة المصدرية بصيغة JSON</li>
 </ul>
 
 <h4 dir="rtl">مكتبات الإنتاج والمراقبة</h3>
