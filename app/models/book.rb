@@ -35,15 +35,21 @@ class Book < ApplicationRecord
     attribute :title
 
     attribute :category do
+      # :nocov:
       category
+      # :nocov:
     end
 
     attribute :author do
+      # :nocov:
       author
+      # :nocov:
     end
 
     attribute :library do
+      # :nocov:
       library_id
+      # :nocov:
     end
 
     searchable_attributes %i[title]

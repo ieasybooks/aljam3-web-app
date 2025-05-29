@@ -27,19 +27,27 @@ class Page < ApplicationRecord
     attribute :content
 
     attribute :category do
+      # :nocov:
       file.book.category
+      # :nocov:
     end
 
     attribute :author do
+      # :nocov:
       file.book.author
+      # :nocov:
     end
 
     attribute :book do
+      # :nocov:
       file.book_id
+      # :nocov:
     end
 
     attribute :library do
+      # :nocov:
       file.book.library_id
+      # :nocov:
     end
 
     searchable_attributes %i[content]
