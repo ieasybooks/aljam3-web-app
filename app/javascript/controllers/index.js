@@ -6,3 +6,6 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
+application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
