@@ -1,3 +1,5 @@
+@import "./fonts.css";
+
 @import "tailwindcss";
 
 @plugin "@tailwindcss/forms";
@@ -133,6 +135,14 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+
+  --font-body: NotoNaskhArabicUI, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    Noto Color Emoji;
+  --font-sans: NotoNaskhArabicUI, ui-sans-serif, system-ui, -apple-system,
+    system-ui, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
 /* Container settings */
