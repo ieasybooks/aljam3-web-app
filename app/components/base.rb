@@ -20,6 +20,10 @@ class Components::Base < Phlex::HTML
     end
   end
 
+  def html_dir = rtl? ? :rtl : :ltr
+  def sheet_side = rtl? ? :right : :left
+  def rtl? = I18n.locale == :ar
+
   if Rails.env.development?
     def before_template
       comment { "Before #{self.class.name}" }

@@ -8,7 +8,7 @@ class Components::Layout < Components::Base
   def view_template
     doctype
 
-    html do
+    html dir: html_dir, lang: I18n.locale do
       Head(@page_info)
 
       body { yield }
