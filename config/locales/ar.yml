@@ -4,3 +4,5 @@ ar:
   pages:
     home:
       title: الرئيسية
+  navbar:
+    home: الرئيسية

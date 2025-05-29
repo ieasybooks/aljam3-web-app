@@ -10,6 +10,7 @@ class Components::Layout < Components::Base
 
     html dir: html_dir, lang: I18n.locale do
       Head(@page_info)
+      Navbar()
 
       body { yield }
     end

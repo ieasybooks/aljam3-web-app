@@ -4,3 +4,5 @@ en:
   pages:
     home:
       title: Home
+  navbar:
+    home: Home
