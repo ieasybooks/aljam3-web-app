@@ -17,6 +17,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  role                   :integer          default("user"), not null
 #  sign_in_count          :integer          default(0), not null
 #  unconfirmed_email      :string
 #  unlock_token           :string
@@ -33,5 +34,7 @@
 require "rails_helper"
 
 RSpec.describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "enums" do
+    it { is_expected.to define_enum_for(:role).with_values(user: 0, admin: 1) }
+  end
 end
