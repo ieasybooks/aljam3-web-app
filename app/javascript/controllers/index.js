@@ -7,5 +7,11 @@ import { application } from "./application"
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import RubyUi__SheetContentController from "./ruby_ui/sheet_content_controller"
+application.register("ruby-ui--sheet-content", RubyUi__SheetContentController)
+
+import RubyUi__SheetController from "./ruby_ui/sheet_controller"
+application.register("ruby-ui--sheet", RubyUi__SheetController)
+
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
