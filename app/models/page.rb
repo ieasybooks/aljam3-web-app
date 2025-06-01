@@ -4,6 +4,7 @@
 #
 #  id           :bigint           not null, primary key
 #  content      :text             not null
+#  number       :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  book_file_id :bigint           not null
@@ -21,7 +22,7 @@ class Page < ApplicationRecord
 
   belongs_to :file, class_name: "BookFile", foreign_key: "book_file_id"
 
-  validates :content, presence: true
+  validates :content, :number, presence: true
 
   meilisearch enqueue: true do
     attribute :content

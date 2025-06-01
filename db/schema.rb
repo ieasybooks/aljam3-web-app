@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_100250) do
 
   create_table "pages", force: :cascade do |t|
     t.text "content", null: false
+    t.integer "number", null: false
     t.bigint "book_file_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
