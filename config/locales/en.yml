@@ -4,5 +4,7 @@ en:
   pages:
     home:
       title: Home
+      search_input_placeholder: Search in more than 150K books!
+      discover_books: Discover Books
   navbar:
     home: Home

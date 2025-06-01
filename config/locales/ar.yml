@@ -4,5 +4,7 @@ ar:
   pages:
     home:
       title: الرئيسية
+      search_input_placeholder: ابحث في أكثر من 150 ألف كتاب!
+      discover_books: استكشف الكتب
   navbar:
     home: الرئيسية
