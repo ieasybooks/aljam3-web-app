@@ -16,8 +16,8 @@ module RubyUI
     end
 
     def view_template(&block)
-      template(data: {ruby_ui__sheet_target: "content"}) do
-        div(data: {controller: "ruby-ui--sheet-content"}) do
+      template(data: { ruby_ui__sheet_target: "content" }) do
+        div(data: { controller: "ruby-ui--sheet-content" }) do
           backdrop
           div(**attrs) do
             block&.call
