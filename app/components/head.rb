@@ -16,6 +16,20 @@ class Components::Head < Components::Base
       csrf_meta_tags
       csp_meta_tag
 
+      script do
+        raw(safe(
+        <<-JS
+          if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+            document.documentElement.classList.remove("light");
+          } else {
+            document.documentElement.classList.add("light");
+            document.documentElement.classList.remove("dark");
+          }
+        JS
+        ))
+      end
+
       link rel: "manifest", href: pwa_manifest_path(format: :json)
       link rel: "icon", href: "/icon.png", type: "image/png"
       link rel: "icon", href: "/icon.svg", type: "image/svg+xml"
