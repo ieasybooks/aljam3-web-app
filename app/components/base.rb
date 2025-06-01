@@ -11,6 +11,8 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::T
   include Phlex::Rails::Layout
 
+  register_value_helper :params
+
   def self.translation_path
     @translation_path ||= name&.dup.tap do |n|
       n.gsub!("::", ".")
