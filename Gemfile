@@ -27,6 +27,7 @@ group :development do
   gem "annotaterb", "~> 4.14"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
+  gem "faker", "~> 3.5", ">= 3.5.1", require: false
   gem "hotwire-spark", "~> 0.1.13"
   gem "i18n-tasks", "~> 1.0", ">= 1.0.15"
   gem "rubocop-rake", "~> 0.7.1"

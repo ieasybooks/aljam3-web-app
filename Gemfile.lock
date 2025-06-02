@@ -130,6 +130,8 @@ GEM
     factory_bot_rails (6.4.4)
       factory_bot (~> 6.5)
       railties (>= 5.0.0)
+    faker (3.5.1)
+      i18n (>= 1.8.11, < 2)
     faraday (2.13.1)
       faraday-net_http (>= 2.0, < 3.5)
       json
@@ -562,6 +564,7 @@ DEPENDENCIES
   devise (~> 4.9, >= 4.9.4)
   devise-i18n (~> 1.13)
   factory_bot_rails (~> 6.4, >= 6.4.4)
+  faker (~> 3.5, >= 3.5.1)
   goldiloader (~> 5.4)
   hotwire-spark (~> 0.1.13)
   i18n-tasks (~> 1.0, >= 1.0.15)

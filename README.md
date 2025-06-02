@@ -122,6 +122,7 @@
   <li><strong><a href="https://github.com/drwl/annotaterb">annotaterb</a></strong> - إضافة تعليقات توضيحية تلقائية لنماذج Rails</li>
   <li><strong><a href="https://github.com/BetterErrors/better_errors">better_errors</a></strong> - صفحات أخطاء محسنة أثناء التطوير</li>
   <li><strong><a href="https://github.com/banister/binding_of_caller">binding_of_caller</a></strong> - تحسين تجربة مكتبة <strong>better_errors</strong></li>
+  <li><strong><a href="https://github.com/faker-ruby/faker">faker</a></strong> - توليد بيانات وهمية لأغراض التطوير والاختبار</li>
   <li><strong><a href="https://github.com/hotwired/spark">hotwire-spark</a></strong> - إعادة تحميل تلقائي للصفحات أثناء التطوير</li>
   <li><strong><a href="https://github.com/glebm/i18n-tasks">i18n-tasks</a></strong> - إدارة وتنظيم ملفات الترجمة</li>
   <li><strong><a href="https://github.com/rubocop/rubocop-rake">rubocop-rake</a></strong> - قواعد RuboCop لملفات Rake</li>
