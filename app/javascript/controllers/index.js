@@ -18,3 +18,6 @@ application.register("ruby-ui--sheet", RubyUi__SheetController)
 
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
+
+import RubyUi__TooltipController from "./ruby_ui/tooltip_controller"
+application.register("ruby-ui--tooltip", RubyUi__TooltipController)
