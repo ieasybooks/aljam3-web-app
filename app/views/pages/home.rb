@@ -4,6 +4,7 @@ class Views::Pages::Home < Views::Base
   def view_template
     div(class: "px-2 sm:px-4 pt-4 sm:container") do
       search_form
+      carousel
     end
   end
 
@@ -39,6 +40,24 @@ class Views::Pages::Home < Views::Base
           Hero::PaperAirplane(class: "size-6 rtl:transform rtl:-scale-x-100")
         end
       end
+    end
+  end
+
+  def carousel
+    Heading(level: 2, class: "my-4 mb-5") { t(".discover_books") }
+
+    Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: html_dir }) do
+      CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
+        # TODO: Update the sampling logic later.
+        Book.all.sample(10).each do |book|
+          CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
+            div(class: "pb-px") { CarouselBookCard(book:) }
+          end
+        end
+      end
+
+      CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
+      CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
     end
   end
 end
