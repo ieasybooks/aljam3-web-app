@@ -8,3 +8,6 @@ en:
       discover_books: Discover Books
   navbar:
     home: Home
+  carousel_book_card:
+    volumes: Volumes
+    pages: Pages

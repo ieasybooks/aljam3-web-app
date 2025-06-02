@@ -8,3 +8,6 @@ ar:
       discover_books: استكشف الكتب
   navbar:
     home: الرئيسية
+  carousel_book_card:
+    volumes: المجلدات
+    pages: الصفحات
