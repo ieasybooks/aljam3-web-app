@@ -24,7 +24,7 @@ gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
 gem "tailwind_merge", "~> 1.2"
 
 group :development do
-  gem "annotaterb", "~> 4.14"
+  gem "annotaterb", "~> 4.15"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
   gem "faker", "~> 3.5", ">= 3.5.1", require: false
