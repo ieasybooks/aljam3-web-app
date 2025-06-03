@@ -12,7 +12,7 @@ class Components::Layout < Components::Base
       Head(@page_info)
       Navbar()
 
-      body { yield }
+      body(data: { controller: "sync-value" }) { yield }
     end
   end
 end
