@@ -1,11 +1,18 @@
 ---
 en:
+  close: Close
   aljam3: Aljam3
   pages:
     home:
       title: Home
       search_input_placeholder: Search in more than 150K books!
       discover_books: Discover Books
+      refinements_sheet_title: Refinements
+      search_scope: Search Scope
+      search_scope_placeholder: Select a scope
+      search_scope_title_and_content: Titles and Content
+      search_scope_title: Titles Only
+      search_scope_content: Content Only
   navbar:
     home: Home
   carousel_book_card:
