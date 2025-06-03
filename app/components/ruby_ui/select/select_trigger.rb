@@ -17,7 +17,7 @@ module RubyUI
         viewbox: "0 0 24 24",
         fill: "none",
         stroke: "currentColor",
-        class: "ml-2 h-4 w-4 shrink-0 opacity-50",
+        class: "ms-2 h-4 w-4 shrink-0 opacity-50",
         stroke_width: "2",
         stroke_linecap: "round",
         stroke_linejoin: "round"

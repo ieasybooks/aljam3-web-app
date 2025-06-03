@@ -22,7 +22,7 @@ module RubyUI
         viewbox: "0 0 24 24",
         fill: "none",
         stroke: "currentColor",
-        class: "invisible group-aria-selected:visible	mr-2 h-4 w-4 flex-none",
+        class: "invisible group-aria-selected:visible	me-2 h-4 w-4 flex-none",
         stroke_width: "2",
         stroke_linecap: "round",
         stroke_linejoin: "round"
