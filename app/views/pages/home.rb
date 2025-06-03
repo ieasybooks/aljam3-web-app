@@ -51,7 +51,7 @@ class Views::Pages::Home < Views::Base
         # TODO: Update the sampling logic later.
         Book.all.sample(10).each do |book|
           CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
-            div(class: "pb-px") { CarouselBookCard(book:) }
+            div(class: "pb-0.5") { CarouselBookCard(book:) }
           end
         end
       end
