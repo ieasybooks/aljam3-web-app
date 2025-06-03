@@ -75,6 +75,14 @@ jobs:
           ruby-version: 3.4.4
           bundler-cache: true
 
+      - name: Install JS dependencies
+        run: yarn install
+
+      - name: Build JS/CSS assets
+        run: |
+          yarn build
+          yarn run build:css
+
       - name: Create database
         run: bin/rails db:create
 
@@ -83,7 +91,7 @@ jobs:
 
       - name: Run tests
         run: bin/rspec
-      
+
       - uses: joshmfrankel/simplecov-check-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
