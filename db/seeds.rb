@@ -52,9 +52,10 @@ if Book.count == 0
     end
   end
 
+  Book.reindex!
   Page.reindex!
 
   puts "Waiting for Meilisearch to finish indexing ⌛"
-  sleep 1 while Page.index.stats["isIndexing"]
+  sleep 1 while Book.index.stats["isIndexing"] || Page.index.stats["isIndexing"]
   puts "Meilisearch finished indexing 🚀"
 end
