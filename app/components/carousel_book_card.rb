@@ -10,7 +10,12 @@ class Components::CarouselBookCard < Components::Base
       CardHeader(class: "p-4") do
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category }
         CardTitle { @book.title }
-        CardDescription { @book.author }
+
+        CardDescription(class: "flex items-center gap-x-1") do
+          Bootstrap::Feather(class: "size-4")
+
+          plain @book.author
+        end
       end
 
       CardContent(class: "flex justify-between items-center p-4 border-t") do
