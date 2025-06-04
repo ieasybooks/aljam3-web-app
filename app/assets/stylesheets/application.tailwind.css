@@ -160,3 +160,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.read-more-content {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--read-more-line-clamp, 2);
+  line-clamp: var(--read-more-line-clamp, 2);
+}
