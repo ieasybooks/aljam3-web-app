@@ -12,14 +12,26 @@ class PagesController < ApplicationController
     when "title-and-content"
       Meilisearch::Rails.federated_search(
         queries: {
-          Book => { q: query, filter: },
-          Page => { q: query, filter: }
+          Book => {
+            q: query,
+            filter:,
+            attributes_to_highlight: %i[title],
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          },
+          Page => {
+            q: query,
+            filter:,
+            attributes_to_highlight: %i[title],
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          }
         }
       )
     when "title"
-      Book.search(query, filter:)
+      Book.search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>")
     when "content"
-      Page.search(query, filter:)
+      Page.search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>")
     end
   end
 

@@ -40,6 +40,7 @@ class Book < ApplicationRecord
       # :nocov:
     end
 
+    attributes_to_highlight %i[title]
     searchable_attributes %i[title]
     filterable_attributes %i[category author library]
   end
