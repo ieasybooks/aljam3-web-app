@@ -23,6 +23,9 @@
 class Book < ApplicationRecord
   include Meilisearch::Rails
 
+  extend Pagy::Meilisearch
+  ActiveRecord_Relation.include Pagy::Meilisearch
+
   belongs_to :library
   has_many :files, class_name: "BookFile", dependent: :destroy
   has_many :pdf_files, -> { where(file_type: :pdf) }, class_name: "BookFile"

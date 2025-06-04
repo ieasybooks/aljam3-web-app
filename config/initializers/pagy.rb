@@ -90,7 +90,7 @@
 # Pagy::DEFAULT[:meilisearch_pagy_search] = :pagy_search
 # Default original :search method called internally to do the actual search
 # Pagy::DEFAULT[:meilisearch_search] = :ms_search
-# require 'pagy/extras/meilisearch'
+require "pagy/extras/meilisearch"
 
 # Metadata extra: Provides the pagination metadata to Javascript frameworks like Vue.js, react.js, etc.
 # See https://ddnexus.github.io/pagy/docs/extras/metadata

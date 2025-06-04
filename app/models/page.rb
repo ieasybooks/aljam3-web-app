@@ -20,6 +20,9 @@
 class Page < ApplicationRecord
   include Meilisearch::Rails
 
+  extend Pagy::Meilisearch
+  ActiveRecord_Relation.include Pagy::Meilisearch
+
   belongs_to :file, class_name: "BookFile", foreign_key: "book_file_id"
 
   validates :content, :number, presence: true
