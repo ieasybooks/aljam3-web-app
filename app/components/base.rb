@@ -9,6 +9,7 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::Request
   include Phlex::Rails::Helpers::Routes
   include Phlex::Rails::Helpers::T
+  include Phlex::Rails::Helpers::TurboFrameTag
   include Phlex::Rails::Layout
 
   register_value_helper :params
