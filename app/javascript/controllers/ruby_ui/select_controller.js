@@ -168,4 +168,24 @@ export default class extends Controller {
 
     this.inputTarget.dispatchEvent(event);
   }
+
+  inputTargetConnected() {
+    this.inputTarget.addEventListener("change", () => {
+      this.localRubyUiSelectItemOutlets.forEach((item) => {
+        if (item.element.dataset.value === this.inputTarget.value) {
+          item.element.setAttribute("aria-selected", true);
+
+          this.valueTarget.innerText = item.element.innerText;
+        } else {
+          item.element.removeAttribute("aria-selected");
+        }
+      });
+    });
+  }
+
+  get localRubyUiSelectItemOutlets() {
+    return this.rubyUiSelectItemOutlets.filter((outlet) =>
+      this.element.contains(outlet.element)
+    );
+  }
 }
