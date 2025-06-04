@@ -1,5 +1,9 @@
 class PagesController < ApplicationController
-  def home = render Views::Pages::Home.new(results: search)
+  def home
+    pagy, results = search
+
+    render Views::Pages::Home.new(results:, pagy:)
+  end
 
   private
 
@@ -29,9 +33,9 @@ class PagesController < ApplicationController
         }
       )
     when "title"
-      Book.search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>")
+      pagy_meilisearch(Book.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     when "content"
-      Page.search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>")
+      pagy_meilisearch(Page.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     end
   end
 
