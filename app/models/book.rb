@@ -32,19 +32,7 @@ class Book < ApplicationRecord
   validates :title, :author, :category, :volumes, :pages, presence: true
 
   meilisearch enqueue: true do
-    attribute :title
-
-    attribute :category do
-      # :nocov:
-      category
-      # :nocov:
-    end
-
-    attribute :author do
-      # :nocov:
-      author
-      # :nocov:
-    end
+    attribute :title, :category, :author
 
     attribute :library do
       # :nocov:
