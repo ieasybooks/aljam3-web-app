@@ -17,7 +17,7 @@ class Components::SearchRefinementsSheet < Components::Base
     Input(
       type: :hidden,
       name: "refinements[search_scope]",
-      value: "title-and-content",
+      value: params.dig(:refinements, :search_scope) || "title-and-content",
       data: {
         sync_value_target: "target",
         sync_id: "refinements[search_scope]"
@@ -27,7 +27,7 @@ class Components::SearchRefinementsSheet < Components::Base
     Input(
       type: :hidden,
       name: "refinements[library]",
-      value: "all-libraries",
+      value: params.dig(:refinements, :library) || "all-libraries",
       data: {
         sync_value_target: "target",
         sync_id: "refinements[library]"
@@ -37,7 +37,7 @@ class Components::SearchRefinementsSheet < Components::Base
     Input(
       type: :hidden,
       name: "refinements[category]",
-      value: "all-categories",
+      value: params.dig(:refinements, :category) || "all-categories",
       data: {
         sync_value_target: "target",
         sync_id: "refinements[category]"
@@ -77,7 +77,7 @@ class Components::SearchRefinementsSheet < Components::Base
 
       Select do
         SelectInput(
-          value: "title-and-content",
+          value: params.dig(:refinements, :search_scope) || "title-and-content",
           id: "select-a-search-scope",
           data: {
             sync_value_target: "source",
@@ -109,7 +109,7 @@ class Components::SearchRefinementsSheet < Components::Base
 
       Select do
         SelectInput(
-          value: "all-libraries",
+          value: params.dig(:refinements, :library) || "all-libraries",
           id: "select-a-library",
           data: {
             sync_value_target: "source",
@@ -141,7 +141,7 @@ class Components::SearchRefinementsSheet < Components::Base
 
       Select do
         SelectInput(
-          value: "all-categories",
+          value: params.dig(:refinements, :category) || "all-categories",
           id: "select-a-category",
           data: {
             sync_value_target: "source",
