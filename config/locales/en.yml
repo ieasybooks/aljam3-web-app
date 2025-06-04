@@ -11,6 +11,7 @@ en:
     home:
       discover_books: Discover Books
       search_input_placeholder: Search in more than 63K books!
+      no_results_found: No results found
       title: Home
   search_refinements_sheet:
     category: Category

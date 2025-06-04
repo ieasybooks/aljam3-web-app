@@ -9,10 +9,14 @@ class Views::Pages::Home < Views::Base
     div(class: "px-2 sm:px-4 pt-4 sm:container") do
       search_form
 
-      if @results.present?
-        # TODO: Show the results.
-      else
+      if @results.nil?
         carousel
+      else
+        if @results.any?
+          # TODO: Show the results.
+        else
+          no_results_found
+        end
       end
     end
   end
@@ -73,6 +77,14 @@ class Views::Pages::Home < Views::Base
 
       CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
       CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+    end
+  end
+
+  def no_results_found
+    div(class: "flex flex-col items-center gap-y-5 mt-10 px-4") do
+      img(src: "/no_results_found.png", class: "mx-auto w-100")
+
+      Text(size: "7", class: "text-center") { t(".no_results_found") }
     end
   end
 end
