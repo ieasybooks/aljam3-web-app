@@ -6,17 +6,13 @@ class Views::Pages::Home < Views::Base
   def page_title = t(".title")
 
   def view_template
-    div(class: "px-2 sm:px-4 pt-4 sm:container") do
+    div(class: "px-2 sm:px-4 py-4 sm:container") do
       search_form
 
       if @results.nil?
         carousel
       else
-        if @results.any?
-          # TODO: Show the results.
-        else
-          no_results_found
-        end
+        @results.any? ? results_list : no_results_found
       end
     end
   end
@@ -77,6 +73,19 @@ class Views::Pages::Home < Views::Base
 
       CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
       CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+    end
+  end
+
+  def results_list
+    div(class: "mt-2 space-y-4") do
+      @results.each do |result|
+        case result
+        when Book
+          SearchBookCard(book: result)
+        when Page
+          SearchPageCard(page: result)
+        end
+      end
     end
   end
 

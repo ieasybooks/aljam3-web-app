@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 
-class Components::CarouselBookCard < Components::Base
+class Components::SearchBookCard < Components::Base
   def initialize(book:)
     @book = book
   end
 
   def view_template
-    Card() do
+    Card(class: "relative") do
+      div(class: "absolute top-0 left-0 p-2 border-b border-r rounded-br-xl") do
+        Hero::BookOpen(variant: :outline, class: "size-6 text-muted-foreground")
+      end
+
       CardHeader(class: "p-4") do
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category }
-        CardTitle { @book.title }
+        CardTitle { safe (@book.formatted["title"] || @book.title) }
 
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
@@ -50,9 +54,7 @@ class Components::CarouselBookCard < Components::Base
         end
 
         # TODO: Add a link to the book page.
-        Link(variant: :outline, size: :sm, icon: true) do
-          Hero::ArrowSmallRight(variant: :solid, class: "size-3.5 rtl:transform rtl:-scale-x-100")
-        end
+        Link(variant: :outline, size: :sm) { t(".book_page") }
       end
     end
   end

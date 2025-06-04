@@ -1,9 +1,8 @@
 ---
 en:
+  pages: Pages
+  volumes: Volumes
   aljam3: Aljam3
-  carousel_book_card:
-    pages: Pages
-    volumes: Volumes
   close: Close
   navbar:
     home: Home
@@ -29,3 +28,9 @@ en:
     "المكتبة الشاملة الوقفية": Shamela Waqfeya Library (4.6K books)
     title: Refinements
     "المكتبة الوقفية": Waqfeya Library (10.2K books)
+  search_book_card:
+    book_page: Book Page
+  search_page_card:
+    show_page: Show Page
+    read_more: Read more
+    hide: Hide

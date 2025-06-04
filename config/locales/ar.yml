@@ -1,9 +1,8 @@
 ---
 ar:
+  pages_text: الصفحات
+  volumes: المجلدات
   aljam3: الجامع
-  carousel_book_card:
-    pages: الصفحات
-    volumes: المجلدات
   close: إغلاق
   navbar:
     home: الرئيسية
@@ -29,3 +28,9 @@ ar:
     "المكتبة الشاملة الوقفية": المكتبة الشاملة الوقفية (4,600 كتاب)
     title: خصّص البحث
     "المكتبة الوقفية": المكتبة الوقفية (10,200 كتاب)
+  search_book_card:
+    book_page: صفحة الكتاب
+  search_page_card:
+    show_page: عرض الصفحة
+    read_more: عرض المزيد
+    hide: إخفاء
