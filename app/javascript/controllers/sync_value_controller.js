@@ -4,23 +4,39 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["source", "target"]
 
-  sourceTargetConnected(target) {
-    target.addEventListener(target.dataset.syncEvent, (event) => {
-      this.syncValue(event.target)
+  sourceTargetConnected(source) {
+    this.syncValueFromTargetToSource(source)
+
+    source.addEventListener(source.dataset.syncEvent, (event) => {
+      this.syncValueFromSourceToTarget(event.target)
     })
   }
 
-  syncValue(source) {
-    const id = source.dataset.syncId
-
-    const matchingTargets = this.targetTargets.filter(target => 
-      target.dataset.syncId === id
-    )
-
-    matchingTargets.forEach(target => {
-      if (target !== source) {
-        target.value = source.value
-      }
+  sourceTargetDisconnected(source) {
+    source.removeEventListener(source.dataset.syncEvent, (event) => {
+      this.syncValueFromSourceToTarget(event.target)
     })
+  }
+
+  syncValueFromSourceToTarget(source) {
+    const target = this.findTargetBySyncId(source.dataset.syncId)
+    
+    if (target) {
+      target.value = source.value
+    }
+  }
+
+  syncValueFromTargetToSource(source) {
+    const target = this.findTargetBySyncId(source.dataset.syncId)
+    
+    if (target) {
+      source.value = target.value
+
+      source.dispatchEvent(new InputEvent(source.dataset.syncEvent, { bubbles: true }));
+    }
+  }
+
+  findTargetBySyncId(syncId) {
+    return this.targetTargets.find(target => target.dataset.syncId === syncId)
   }
 }
