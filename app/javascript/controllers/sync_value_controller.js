@@ -4,14 +4,6 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["source", "target"]
 
-  connect() {
-    this.sourceTargets.forEach(source => {
-      source.addEventListener(source.dataset.syncEvent, (event) => {
-        this.syncValue(event.target)
-      })
-    })
-  }
-
   sourceTargetConnected(target) {
     target.addEventListener(target.dataset.syncEvent, (event) => {
       this.syncValue(event.target)
