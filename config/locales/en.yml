@@ -1,20 +1,30 @@
 ---
 en:
-  close: Close
   aljam3: Aljam3
-  pages:
-    home:
-      title: Home
-      search_input_placeholder: Search in more than 150K books!
-      discover_books: Discover Books
-      refinements_sheet_title: Refinements
-      search_scope: Search Scope
-      search_scope_placeholder: Select a scope
-      search_scope_title_and_content: Titles and Content
-      search_scope_title: Titles Only
-      search_scope_content: Content Only
+  carousel_book_card:
+    pages: Pages
+    volumes: Volumes
+  close: Close
   navbar:
     home: Home
-  carousel_book_card:
-    volumes: Volumes
-    pages: Pages
+  pages:
+    home:
+      discover_books: Discover Books
+      search_input_placeholder: Search in more than 150K books!
+      title: Home
+  search_refinements_sheet:
+    category: Category
+    category_placeholder: Select a category
+    all_categories: All Categories
+    all_libraries: All Libraries (63.5K books)
+    library: Library
+    library_placeholder: Select a library
+    "مكتبة المسجد النبوي": Prophet's Mosque Library (48.7K books)
+    search_scope: Search Scope
+    search_scope_content: Content Only
+    search_scope_placeholder: Select a scope
+    search_scope_title: Titles Only
+    search_scope_title_and_content: Titles and Content
+    "المكتبة الشاملة الوقفية": Shamela Waqfeya Library (4.6K books)
+    title: Refinements
+    "المكتبة الوقفية": Waqfeya Library (10.2K books)

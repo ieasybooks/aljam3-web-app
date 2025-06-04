@@ -22,16 +22,10 @@ class Views::Pages::Home < Views::Base
   def search_form
     Form(action: root_path, method: :get, accept_charset: "UTF-8") do
       div(class: "flex items-top gap-x-4") do
-        refinements_sheet
-
-        Input(
-          type: :hidden,
-          name: "refinements[search_scope]",
-          value: "title-and-content",
-          data: {
-            sync_value_target: "target",
-            sync_id: "refinements[search_scope]"
-          }
+        # TODO: Move the categories extraction logic to a background job.
+        SearchRefinementsSheet(
+          libraries: Library.all.select(:id, :name),
+          categories: Book.all.pluck(:category).uniq.sort
         )
 
         FormField(class: "flex-grow") do
@@ -79,56 +73,6 @@ class Views::Pages::Home < Views::Base
 
       CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
       CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
-    end
-  end
-
-  def refinements_sheet
-    Sheet do
-      SheetTrigger do
-        Button(variant: :secondary, size: :xl, icon: true) do
-          Hero::Cog8Tooth(variant: :outline, class: "size-6")
-        end
-      end
-
-      SheetContent(class: "sm:w-sm") do
-        SheetHeader do
-          SheetTitle { t(".refinements_sheet_title") }
-        end
-
-        SheetMiddle do
-          FormField do
-            FormFieldLabel { t(".search_scope") }
-
-            Select do
-              SelectInput(
-                value: "title-and-content",
-                id: "select-a-scope",
-                data: {
-                  sync_value_target: "source",
-                  sync_id: "refinements[search_scope]",
-                  sync_event: "change"
-                }
-              )
-
-              SelectTrigger(class: "mt-1") do
-                SelectValue(placeholder: t(".search_scope_placeholder"), id: "select-a-scope") { t(".search_scope_title_and_content") }
-              end
-
-              SelectContent(outlet_id: "select-a-scope") do
-                SelectGroup do
-                  SelectItem(value: "title-and-content", aria_selected!: "true") { t(".search_scope_title_and_content") }
-                  SelectItem(value: "title") { t(".search_scope_title") }
-                  SelectItem(value: "content") { t(".search_scope_content") }
-                end
-              end
-            end
-          end
-        end
-
-        SheetFooter do
-          Button(variant: :outline, data: { action: "click->ruby-ui--sheet-content#close" }) { t("close") }
-        end
-      end
     end
   end
 end

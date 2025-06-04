@@ -1,20 +1,30 @@
 ---
 ar:
-  close: إغلاق
   aljam3: الجامع
-  pages:
-    home:
-      title: الرئيسية
-      search_input_placeholder: ابحث في أكثر من 150 ألف كتاب!
-      discover_books: استكشف الكتب
-      refinements_sheet_title: خصّص البحث
-      search_scope: نطاق البحث
-      search_scope_placeholder: اختر نطاق البحث
-      search_scope_title_and_content: "عناوين الكتب ومحتواها"
-      search_scope_title: "عناوين الكتب فقط"
-      search_scope_content: "محتوى الكتب فقط"
+  carousel_book_card:
+    pages: الصفحات
+    volumes: المجلدات
+  close: إغلاق
   navbar:
     home: الرئيسية
-  carousel_book_card:
-    volumes: المجلدات
-    pages: الصفحات
+  pages:
+    home:
+      discover_books: استكشف الكتب
+      search_input_placeholder: ابحث في أكثر من 150 ألف كتاب!
+      title: الرئيسية
+  search_refinements_sheet:
+    category: التصنيف
+    category_placeholder: اختر التصنيف
+    all_categories: جميع التصنيفات
+    all_libraries: جميع المكتبات (63,500 كتاب)
+    library: المكتبة
+    library_placeholder: اختر المكتبة
+    "مكتبة المسجد النبوي": مكتبة المسجد النبوي (48,700 كتاب)
+    search_scope: نطاق البحث
+    search_scope_content: محتوى الكتب فقط
+    search_scope_placeholder: اختر نطاق البحث
+    search_scope_title: عناوين الكتب فقط
+    search_scope_title_and_content: عناوين الكتب ومحتواها
+    "المكتبة الشاملة الوقفية": المكتبة الشاملة الوقفية (4,600 كتاب)
+    title: خصّص البحث
+    "المكتبة الوقفية": المكتبة الوقفية (10,200 كتاب)
