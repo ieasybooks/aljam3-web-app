@@ -22,7 +22,7 @@ class PagesController < ApplicationController
           Page => {
             q: query,
             filter:,
-            attributes_to_highlight: %i[title],
+            attributes_to_highlight: %i[content],
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           }

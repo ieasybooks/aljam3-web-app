@@ -51,6 +51,7 @@ class Page < ApplicationRecord
       # :nocov:
     end
 
+    attributes_to_highlight %i[content]
     searchable_attributes %i[content]
     filterable_attributes %i[category author book library]
   end
