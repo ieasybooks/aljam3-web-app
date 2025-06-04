@@ -1,27 +1,36 @@
 class PagesController < ApplicationController
-  def home
-    results = (search if params[:query].present?)
-
-    render Views::Pages::Home.new(results:)
-  end
+  def home = render Views::Pages::Home.new(results: search)
 
   private
 
   def search
     query = params[:query]
-    scope = params[:refinements][:search_scope]
 
-    if scope == "title-and-content"
+    return nil if query.blank?
+
+    case params.dig(:refinements, :search_scope)
+    when "title-and-content"
       Meilisearch::Rails.federated_search(
         queries: {
-          Book => { q: query },
-          Page => { q: query }
+          Book => { q: query, filter: },
+          Page => { q: query, filter: }
         }
       )
-    elsif scope == "title"
-      Book.search(query)
-    elsif scope == "content"
-      Page.search(query)
+    when "title"
+      Book.search(query, filter:)
+    when "content"
+      Page.search(query, filter:)
     end
+  end
+
+  def filter
+    library = params.dig(:refinements, :library)
+    category = params.dig(:refinements, :category)
+
+    expression = []
+    expression << "library = \"#{library}\"" if library.present? && library != "all-libraries"
+    expression << "category = \"#{category}\"" if category.present? && category != "all-categories"
+
+    expression.any? ? expression.join(" AND ") : nil
   end
 end
