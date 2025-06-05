@@ -5,15 +5,15 @@
 <ul dir="rtl">
   <li>ثبّت <code>Docker</code> حسب نظام تشغيلك من خلال <a href="https://docs.docker.com/engine/install/">هذا</a> الرابط.</li>
   <li>ثبّت <code>Mise</code> حسب نظام تشغيلك من خلال <a href="https://mise.jdx.dev/installing-mise.html">هذا</a> الرابط.</li>
-  <li>ثبّت مكتبة <code>libpq</code> حسب نظام تشغيلك. على سبيل المثال، نفّذ هذا الأمر إذا كنت على نظام MacOS:</li>
+  <li>ثبّت مكتبة <code>libpq</code> حسب نظام تشغيلك. على سبيل المثال، نفّذ هذا الأمر إذا كنت تستخدم نظام MacOS:</li>
 
   <pre dir="ltr">brew install libpq</pre>
 
-  <li>أضِف مكتبة <code>libpq</code> إلى متغير <code>PATH</code> حسب نظام تشغيلك باتباع التعليمات الموضّحة بعد تثبيت المكتبة. على سبيل المثال، نفّذ هذا الأمر إذا كنت على نظام MacOS وتستخدم <code>Zsh</code>:</li>
+  <li>أضِف مكتبة <code>libpq</code> إلى متغير <code>PATH</code> حسب نظام تشغيلك باتباع التعليمات الموضّحة بعد تثبيت المكتبة. على سبيل المثال، نفّذ هذا الأمر إذا كنت تستخدم نظام MacOS مع <code>Zsh</code>:</li>
 
   <pre dir="ltr">echo 'export PATH="/opt/homebrew/opt/libpq/bin:$PATH"' >> /Users/{user}/.zshrc</pre>
 
-  <li>نفّذ الأمر التالي لسحب مستودع المشروع على حاسبك:</li>
+  <li>نفّذ الأمر التالي لنسخ مستودع المشروع إلى حاسبك:</li>
 
   <pre dir="ltr">git clone git@github.com:ieasybooks/aljam3.git</pre>
 
@@ -25,10 +25,10 @@
 
   <pre dir="ltr">mise dev</pre>
 
-  <li>افتح الرابط <a href="http://localhost:3000"><code>http://localhost:3000</code></a> على متصفحك لتحصل على الصفحة الرئيسية للمشروع.</li>
+  <li>افتح الرابط <a href="http://localhost:3000"><code>http://localhost:3000</code></a> في متصفحك للوصول إلى الصفحة الرئيسية للمشروع.</li>
 </ul>
 
-<p dir="rtl">ستحصل على الأدوات التالية باتباعك للخطوات المذكورة في الأعلى:</p>
+<p dir="rtl">ستحصل على الأدوات التالية باتباعك للخطوات المذكورة أعلاه:</p>
 
 <ul>
   <li><a href="https://docker.com">Docker</a></li>
@@ -51,13 +51,13 @@
 </ul>
 
 <p dir="rtl">
-وبمجرّد إيقاف تشغيل خادم التطوير المحلّي من خلال الضغط على <code>Cmd+C</code> أو <code>Ctrl+C</code> ستتوقف خدمات <code>Docker</code> (PostgreSQL و Meilisearch) عن العمل تلقائيا.
+وبمجرّد إيقاف تشغيل خادم التطوير المحلّي من خلال الضغط على <code>Cmd+C</code> أو <code>Ctrl+C</code>، ستتوقف خدمات <code>Docker</code> (PostgreSQL و Meilisearch) عن العمل تلقائيًا.
 </p>
 
 <h2 dir="rtl">تجهيز المحرر</h2>
 
 <p dir="rtl">
-جُهّز هذا المشروع ليعمل مع محرر VSCode أو ما يشبهه من المحررات مثل Cursor و Windsurf وغيرهما. بمجرّد فتح المشروع على أحد هذه المحررات سيظهر لك إشعار شبيه بالإشعار الموضّح في الصورة يسألك "هل تريد تثبيت الإضافات المُوصى بها؟"، إذا ضغطت على زر Install ستبدأ عملية تثبيت الإضافات الموجودة في ملف <a href=".vscode/extensions.json"><code dir="ltr">.vscode/extensions.json</code></a>.
+أُعِدّ هذا المشروع ليعمل مع محرر VSCode أو ما يشبهه من المحررات مثل Cursor و Windsurf وغيرهما. بمجرّد فتح المشروع في أحد هذه المحررات سيظهر لك إشعار شبيه بالإشعار الموضّح في الصورة يسألك "هل تريد تثبيت الإضافات المُوصى بها؟"، وإذا ضغطت على زر Install ستبدأ عملية تثبيت الإضافات الموجودة في ملف <a href=".vscode/extensions.json"><code dir="ltr">.vscode/extensions.json</code></a>.
 </p>
 
 <p align="center">
@@ -81,15 +81,15 @@
   <li><a href="https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame">Git Blame</a></li>
 </ul>
 
-<p dir="rtl">كما أن إعدادات جميع هذه الإضافات موجودة مسبقًا في ملف <a href=".vscode/settings.json"><code dir="ltr">.vscode/settings.json</code></a>، فلا داعي لإعدادها يدويًّا.</p>
+<p dir="rtl">كما أن إعدادات جميع هذه الإضافات موجودة مسبقًا في ملف <a href=".vscode/settings.json"><code dir="ltr">.vscode/settings.json</code></a>، لذا لا داعي لإعدادها يدويًّا.</p>
 
 <h2 dir="rtl">المكتبات المستخدمة للغة Ruby</h2>
 
 <h3 dir="rtl">المكتبات المُضافة</h3>
 
-<p dir="rtl"><em>ملاحظة: كل المكتبات المُضافة يجب أن تكون مُحددة بنسخة مُعيّنة.</em></p>
+<p dir="rtl"><em>ملاحظة: جميع المكتبات المُضافة يجب أن تكون مُحددة بإصدار مُعيّن.</em></p>
 
-<h4 dir="rtl">مكتبات المصادقة والأمان</h3>
+<h4 dir="rtl">مكتبات المصادقة والأمان</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/heartcombo/devise">devise</a></strong> - نظام مصادقة شامل للمستخدمين يوفر تسجيل الدخول والخروج وإدارة كلمات المرور</li>
   <li><strong><a href="https://github.com/tigrish/devise-i18n">devise-i18n</a></strong> - ترجمات متعددة اللغات لمكتبة Devise</li>
@@ -100,7 +100,7 @@
   <li><strong><a href="https://github.com/instrumentl/rails-cloudflare-turnstile">rails_cloudflare_turnstile</a></strong> - تكامل مع خدمة Cloudflare Turnstile للحماية من الهجمات</li>
 </ul>
 
-<h4 dir="rtl">مكتبات البحث والأداء</h3>
+<h4 dir="rtl">مكتبات البحث والأداء</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/meilisearch/meilisearch-rails">meilisearch-rails</a></strong> - محرك بحث سريع ومرن مع تكامل Rails</li>
   <li><strong><a href="https://github.com/salsify/goldiloader">goldiloader</a></strong> - تحسين استعلامات قاعدة البيانات وتقليل مشكلة N+1</li>
@@ -108,7 +108,7 @@
   <li><strong><a href="https://github.com/ohler55/oj">oj</a></strong> - معالج JSON سريع وفعال</li>
 </ul>
 
-<h4 dir="rtl">مكتبات واجهة المستخدم</h3>
+<h4 dir="rtl">مكتبات واجهة المستخدم</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/yippee-fun/phlex-rails">phlex-rails</a></strong> - إطار عمل لبناء مكونات HTML باستخدام Ruby</li>
   <li><strong><a href="https://github.com/AliOsm/phlex-icons">phlex-icons</a></strong> - مجموعة أيقونات لاستخدامها مع Phlex</li>
@@ -117,7 +117,7 @@
   <li><strong><a href="https://github.com/svenfuchs/rails-i18n">rails-i18n</a></strong> - ترجمات Rails الأساسية للغات متعددة</li>
 </ul>
 
-<h4 dir="rtl">مكتبات التطوير والاختبار</h3>
+<h4 dir="rtl">مكتبات التطوير والاختبار</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/drwl/annotaterb">annotaterb</a></strong> - إضافة تعليقات توضيحية تلقائية لنماذج Rails</li>
   <li><strong><a href="https://github.com/BetterErrors/better_errors">better_errors</a></strong> - صفحات أخطاء محسنة أثناء التطوير</li>
@@ -135,7 +135,7 @@
   <li><strong><a href="https://github.com/vicentllongo/simplecov-json">simplecov-json</a></strong> - تصدير تقارير تغطية الشيفرة المصدرية بصيغة JSON</li>
 </ul>
 
-<h4 dir="rtl">مكتبات الإنتاج والمراقبة</h3>
+<h4 dir="rtl">مكتبات الإنتاج والمراقبة</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/rails/mission_control-jobs">mission_control-jobs</a></strong> - لوحة تحكم لمراقبة وإدارة المهام</li>
   <li><strong><a href="https://github.com/modosc/cloudflare-rails">cloudflare-rails</a></strong> - تهيئة Rails للعمل مع Cloudflare والحصول على عناوين IP الحقيقية للعملاء</li>
@@ -153,7 +153,7 @@
   <li><strong><a href="https://github.com/rails/rails">rails</a></strong> - إطار عمل تطوير المواقع</li>
   <li><strong><a href="https://github.com/rails/propshaft">propshaft</a></strong> - نظام إدارة الأصول الحديث لـ Rails</li>
   <li><strong><a href="https://github.com/postgres/postgres">pg</a></strong> - مكتبة التعامل مع قاعدة بيانات PostgreSQL</li>
-  <li><strong><a href="https://github.com/puma/puma">puma</a></strong> - خادم سريع ومتوازي</li>
+  <li><strong><a href="https://github.com/puma/puma">puma</a></strong> - خادم ويب سريع ومتوازي</li>
 </ul>
 
 <h4 dir="rtl">مكتبات JavaScript و CSS</h4>
@@ -194,14 +194,14 @@
 
 <p dir="rtl"><em>ملاحظات:</em></p>
 <ul dir="rtl">
-  <li><em>كل المكتبات المُضافة يجب أن تكون مُحددة بنسخة مُعيّنة</em></li>
+  <li><em>جميع المكتبات المُضافة يجب أن تكون مُحددة بإصدار مُعيّن</em></li>
   <li><em>المكتبات التالية أُضيفت بواسطة <a href="https://rubyui.com">RubyUI</a> باستثناء مكتبة <span dir="ltr">@stimulus-components/read-more</span></em></li>
 </ul>
 
 <h4 dir="rtl">مكتبات واجهة المستخدم والتفاعل</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/floating-ui/floating-ui" dir="ltr">@floating-ui/dom</a></strong> - مكتبة لعرض العناصر العائمة (كالنوافذ المنبثقة والقوائم المنسدلة والتلميحات) مع المزيد من المميزات</li>
-  <li><strong><a href="https://github.com/stimulus-components/stimulus-components" dir="ltr">@stimulus-components/read-more</a></strong> - مُتحّكم Stimulus لإظهار وإخفاء النص (اقرأ المزيد/اقرأ أقل) باستخدام CSS line-clamp</li>
+  <li><strong><a href="https://github.com/stimulus-components/stimulus-components" dir="ltr">@stimulus-components/read-more</a></strong> - مُتحكّم Stimulus لإظهار وإخفاء النص (اقرأ المزيد/اقرأ أقل) باستخدام CSS line-clamp</li>
   <li><strong><a href="https://github.com/davidjerleke/embla-carousel">embla-carousel</a></strong> - مكتبة عرض شرائح خفيفة ومستقلة عن المكتبات الأخرى مع حركة سلسة ودقة في التمرير ونظام إضافات قابل للتوسع</li>
 </ul>
 
@@ -216,7 +216,7 @@
 
 <h4 dir="rtl">أدوات البناء والتجميع</h4>
 <ul dir="rtl">
-  <li><strong><a href="https://github.com/evanw/esbuild">esbuild</a></strong> - أداة تجميع وتصغيير JavaScript و TypeScript سريعة جداً</li>
+  <li><strong><a href="https://github.com/evanw/esbuild">esbuild</a></strong> - أداة تجميع وتصغير JavaScript و TypeScript سريعة جداً</li>
   <li><strong><a href="https://github.com/tailwindlabs/tailwindcss">tailwindcss</a></strong> - إطار عمل CSS مساعد لبناء واجهات مخصصة بسرعة</li>
   <li><strong><a href="https://github.com/tailwindlabs/tailwindcss" dir="ltr">@tailwindcss/cli</a></strong> - أداة سطر الأوامر لـ Tailwind CSS</li>
 </ul>
@@ -229,7 +229,7 @@
 
 <h2 dir="rtl">تشغيل حالات الاختبار</h2>
 
-<p dir="rtl"><em>ملاحظة: نُحاول في هذا المشروع أن نُحافظ على تغطية كاملة (100%) للشيفرة المصدرية بحالات اختبار دقيقة وذات معنى.</em></p>
+<p dir="rtl"><em>ملاحظة: نسعى في هذا المشروع إلى المحافظة على تغطية كاملة (100%) للشيفرة المصدرية بحالات اختبار دقيقة ومفيدة.</em></p>
 
 <ul dir="rtl">
   <li>شغّل خادم التطوير من خلال تنفيذ الأمر <code dir="ltr">mise dev</code> أو ابدأ تشغيل حاويات Docker الخاصة بالمشروع من خلال تنفيذ الأمر <code dir="ltr">mise docker:start</code></li>
