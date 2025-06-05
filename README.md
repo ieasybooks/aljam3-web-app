@@ -227,4 +227,12 @@
   <li><strong><a href="https://github.com/hotwired/turbo-rails" dir="ltr">@hotwired/turbo-rails</a></strong> - مكتبة لتسريع صفحات الموقع وجعلها تعمل كتطبيق صفحة واحدة (SPA)</li>
 </ul>
 
+<h2 dir="rtl">تشغيل حالات الاختبار</h2>
 
+<p dir="rtl"><em>ملاحظة: نُحاول في هذا المشروع أن نُحافظ على تغطية كاملة (100%) للشيفرة المصدرية بحالات اختبار دقيقة وذات معنى.</em></p>
+
+<ul dir="rtl">
+  <li>شغّل خادم التطوير من خلال تنفيذ الأمر <code dir="ltr">mise dev</code> أو ابدأ تشغيل حاويات Docker الخاصة بالمشروع من خلال تنفيذ الأمر <code dir="ltr">mise docker:start</code></li>
+  <li>نفّذ الأمر <code dir="ltr">mise test</code> أو الأمر <code dir="ltr">CI=1 bundle exec rspec</code> لتشغيل حالات الاختبار</li>
+  <li>ستحصل على تقرير بنسبة تغطية الشيفرة المصدرية بحالات الاختبار ويمكنك تصفّح التقرير المُفصّل الموجود في <code dir="ltr">coverage/index.html</code></li>
+</ul>
