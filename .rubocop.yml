@@ -22,3 +22,15 @@ AllCops:
 
 Bundler/OrderedGems:
   Enabled: true
+
+Metrics/ClassLength:
+  CountAsOne: ['array', 'method_call']
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'method_call']
+
+RSpec/ExampleLength:
+  CountAsOne: ['array', 'method_call']
+
+RSpec/NestedGroups:
+  Max: 4
