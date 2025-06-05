@@ -4,7 +4,7 @@
 
 <h2 dir="rtl">تجهيز بيئة التطوير</h2>
 
-<ul dir="rtl">
+<ol dir="rtl">
   <li>ثبّت <code>Docker</code> حسب نظام تشغيلك من خلال <a href="https://docs.docker.com/engine/install/">هذا</a> الرابط.</li>
   <li>ثبّت <code>Mise</code> حسب نظام تشغيلك من خلال <a href="https://mise.jdx.dev/installing-mise.html">هذا</a> الرابط.</li>
   <li>ثبّت مكتبة <code>libpq</code> حسب نظام تشغيلك. على سبيل المثال، نفّذ هذا الأمر إذا كنت تستخدم نظام MacOS:</li>
@@ -28,7 +28,7 @@
   <pre dir="ltr">mise dev</pre>
 
   <li>افتح الرابط <a href="http://localhost:3000"><code>http://localhost:3000</code></a> في متصفحك للوصول إلى الصفحة الرئيسية للمشروع.</li>
-</ul>
+</ol>
 
 <p dir="rtl">ستحصل على الأدوات التالية باتباعك للخطوات المذكورة أعلاه:</p>
 
@@ -233,8 +233,13 @@
 
 <p dir="rtl"><em>ملاحظة: نسعى في هذا المشروع إلى المحافظة على تغطية كاملة (100%) للشيفرة المصدرية بحالات اختبار دقيقة ومفيدة.</em></p>
 
-<ul dir="rtl">
+<ol dir="rtl">
   <li>شغّل خادم التطوير من خلال تنفيذ الأمر <code dir="ltr">mise dev</code> أو ابدأ تشغيل حاويات Docker الخاصة بالمشروع من خلال تنفيذ الأمر <code dir="ltr">mise docker:start</code></li>
   <li>نفّذ الأمر <code dir="ltr">mise test</code> أو الأمر <code dir="ltr">CI=1 bundle exec rspec</code> لتشغيل حالات الاختبار</li>
   <li>ستحصل على تقرير بنسبة تغطية الشيفرة المصدرية بحالات الاختبار ويمكنك تصفّح التقرير المُفصّل الموجود في <code dir="ltr">coverage/index.html</code></li>
-</ul>
+  <li>أوقف تشغيل خادم التطوير أو أوقف حاويات Docker إذا كنت شغّلتها من خلال تنفيذ الأمر <code dir="ltr">mise docker:stop</code></li>
+</ol>
+
+<p align="center">
+  <img src="docs/coverage-report.png" />
+</p>
