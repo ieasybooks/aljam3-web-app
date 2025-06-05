@@ -83,7 +83,7 @@
 
 <p dir="rtl">كما أن إعدادات جميع هذه الإضافات موجودة مسبقًا في ملف <a href=".vscode/settings.json"><code dir="ltr">.vscode/settings.json</code></a>، فلا داعي لإعدادها يدويًّا.</p>
 
-<h2 dir="rtl">المكتبات المستخدمة</h2>
+<h2 dir="rtl">المكتبات المستخدمة للغة Ruby</h2>
 
 <h3 dir="rtl">المكتبات المُضافة</h3>
 
@@ -161,7 +161,7 @@
   <li><strong><a href="https://github.com/rails/cssbundling-rails">cssbundling-rails</a></strong> - تجميع ومعالجة CSS</li>
   <li><strong><a href="https://github.com/rails/jsbundling-rails">jsbundling-rails</a></strong> - تجميع ومعالجة JavaScript</li>
   <li><strong><a href="https://github.com/rails/jbuilder">jbuilder</a></strong> - بناء واجهات برمجة التطبيقات باستخدام JSON بسهولة</li>
-  <li><strong><a href="https://github.com/hotwired/turbo-rails">turbo-rails</a></strong> - تسريع صفحات الموقع بتقنية شبيهة لـ SPA</li>
+  <li><strong><a href="https://github.com/hotwired/turbo-rails">turbo-rails</a></strong> - تسريع صفحات الموقع بتقنية شبيهة بتقنيات تطبيقات الصفحة الواحدة (SPA)</li>
   <li><strong><a href="https://github.com/hotwired/stimulus-rails">stimulus-rails</a></strong> - إطار عمل JavaScript</li>
 </ul>
 
@@ -187,3 +187,44 @@
   <li><strong><a href="https://github.com/rails/rubocop-rails-omakase">rubocop-rails-omakase</a></strong> - قواعد تنسيق الكود المُوصى بها من Rails</li>
   <li><strong><a href="https://github.com/rails/web-console">web-console</a></strong> - وحدة تحكم تفاعلية في صفحات الأخطاء</li>
 </ul>
+
+<h2 dir="rtl">المكتبات المستخدمة للغة JavaScript</h2>
+
+<h3 dir="rtl">المكتبات المُضافة</h3>
+
+<p dir="rtl"><em>ملاحظات:</em></p>
+<ul dir="rtl">
+  <li><em>كل المكتبات المُضافة يجب أن تكون مُحددة بنسخة مُعيّنة</em></li>
+  <li><em>المكتبات التالية أُضيفت بواسطة <a href="https://rubyui.com">RubyUI</a> باستثناء مكتبة <span dir="ltr">@stimulus-components/read-more</span></em></li>
+</ul>
+
+<h4 dir="rtl">مكتبات واجهة المستخدم والتفاعل</h4>
+<ul dir="rtl">
+  <li><strong><a href="https://github.com/floating-ui/floating-ui" dir="ltr">@floating-ui/dom</a></strong> - مكتبة لعرض العناصر العائمة (كالنوافذ المنبثقة والقوائم المنسدلة والتلميحات) مع المزيد من المميزات</li>
+  <li><strong><a href="https://github.com/stimulus-components/stimulus-components" dir="ltr">@stimulus-components/read-more</a></strong> - مُتحّكم Stimulus لإظهار وإخفاء النص (اقرأ المزيد/اقرأ أقل) باستخدام CSS line-clamp</li>
+  <li><strong><a href="https://github.com/davidjerleke/embla-carousel">embla-carousel</a></strong> - مكتبة عرض شرائح خفيفة ومستقلة عن المكتبات الأخرى مع حركة سلسة ودقة في التمرير ونظام إضافات قابل للتوسع</li>
+</ul>
+
+<h4 dir="rtl">مكتبات التصميم والرسوم المتحركة</h4>
+<ul dir="rtl">
+  <li><strong><a href="https://github.com/Wombosvideo/tw-animate-css">tw-animate-css</a></strong> - مجموعة أدوات الرسوم المتحركة لـ Tailwind CSS v4.0، بديل لـ <a href="https://github.com/jamiebuilds/tailwindcss-animate">tailwindcss-animate</a>، يتضمن رسوم متحركة جاهزة للاستخدام</li>
+  <li><strong><a href="https://github.com/tailwindlabs/tailwindcss-forms" dir="ltr">@tailwindcss/forms</a></strong> - إضافة Tailwind CSS توفر إعادة تعيين لعناصر النماذج يمكن تخصيصها بسهولة باستخدام الفئات المساعدة</li>
+  <li><strong><a href="https://github.com/tailwindlabs/tailwindcss-typography" dir="ltr">@tailwindcss/typography</a></strong> - إضافة Tailwind CSS مع فئات prose لتطبيق تنسيق نصي جميل افتراضيًا على محتوى HTML</li>
+</ul>
+
+<h3 dir="rtl">المكتبات الأساسية</h3>
+
+<h4 dir="rtl">أدوات البناء والتجميع</h4>
+<ul dir="rtl">
+  <li><strong><a href="https://github.com/evanw/esbuild">esbuild</a></strong> - أداة تجميع وتصغيير JavaScript و TypeScript سريعة جداً</li>
+  <li><strong><a href="https://github.com/tailwindlabs/tailwindcss">tailwindcss</a></strong> - إطار عمل CSS مساعد لبناء واجهات مخصصة بسرعة</li>
+  <li><strong><a href="https://github.com/tailwindlabs/tailwindcss" dir="ltr">@tailwindcss/cli</a></strong> - أداة سطر الأوامر لـ Tailwind CSS</li>
+</ul>
+
+<h4 dir="rtl">إطار العمل والتفاعل</h4>
+<ul dir="rtl">
+  <li><strong><a href="https://github.com/hotwired/stimulus" dir="ltr">@hotwired/stimulus</a></strong> - إطار عمل JavaScript يربط كائنات JavaScript بعناصر HTML</li>
+  <li><strong><a href="https://github.com/hotwired/turbo-rails" dir="ltr">@hotwired/turbo-rails</a></strong> - مكتبة لتسريع صفحات الموقع وجعلها تعمل كتطبيق صفحة واحدة (SPA)</li>
+</ul>
+
+
