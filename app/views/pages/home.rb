@@ -8,56 +8,17 @@ class Views::Pages::Home < Views::Base
 
   def view_template
     div(class: "px-2 sm:px-4 py-4 sm:container") do
-      search_form
+      SearchForm()
 
       if @results.nil?
         carousel
       else
-        @results.any? ? results_list : no_results_found
+        @results.any? ? SearchResultsList(results: @results, pagy: @pagy) : SearchNoResultsFound()
       end
     end
   end
 
   private
-
-  def search_form
-    Form(action: root_path, method: :get, accept_charset: "UTF-8") do
-      div(class: "flex items-top gap-x-4") do
-        # TODO: Move the categories extraction logic to a background job.
-        SearchRefinementsSheet(
-          libraries: Library.all.select(:id, :name),
-          categories: Book.all.pluck(:category).uniq.sort
-        )
-
-        FormField(class: "flex-grow") do
-          Hero::MagnifyingGlass(class: "size-6 absolute translate-x-[-50%] translate-y-[50%]")
-
-          Input(
-            type: :search,
-            name: "query",
-            value: params[:query],
-            class: "h-12 px-4 ps-11 text-base",
-            placeholder: t(".search_input_placeholder"),
-            required: true
-          )
-
-          FormFieldError() { }
-        end
-
-        Button(
-          variant: :primary,
-          size: :xl,
-          type: :submit,
-          icon: true,
-          data: {
-            turbo_submits_with: capture { render PhlexIcons::Lucide::LoaderCircle.new(class: "size-6 animate-spin") }
-          }
-        ) do
-          Hero::PaperAirplane(class: "size-6 rtl:transform rtl:-scale-x-100")
-        end
-      end
-    end
-  end
 
   def carousel
     Heading(level: 2, class: "my-4 mb-5") { t(".discover_books") }
@@ -75,61 +36,5 @@ class Views::Pages::Home < Views::Base
       CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
       CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
     end
-  end
-
-  def results_list
-    turbo_frame_tag :results_list, current_page do
-      div(
-        class: [
-          "mt-2 space-y-4",
-          ("mt-4" if current_page > 1)
-        ]
-      ) do
-        @results.each do |result|
-          case result
-          when Book
-            SearchBookCard(book: result)
-          when Page
-            SearchPageCard(page: result)
-          end
-        end
-      end
-
-      if next_page
-        turbo_frame_tag :results_list, next_page, src: root_path(
-          query: params[:query],
-          refinements: {
-            search_scope: params.dig(:refinements, :search_scope),
-            library: params.dig(:refinements, :library),
-            category: params.dig(:refinements, :category)
-          },
-          page: next_page
-        ), loading: :lazy do
-          div(class: "flex justify-center mt-4") { loading_spinner }
-        end
-      end
-    end
-  end
-
-  def no_results_found
-    div(class: "flex flex-col items-center gap-y-5 mt-10 px-4") do
-      img(src: "/no_results_found.png", class: "mx-auto w-100")
-
-      Text(size: "7", class: "text-center") { t(".no_results_found") }
-    end
-  end
-
-  def loading_spinner
-    svg(class: "size-5 animate-spin", fill: "none", viewbox: "0 0 24 24") do |s|
-      s.circle(class: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", stroke_width: "4")
-      s.path(class: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z")
-    end
-  end
-
-  def current_page = @pagy&.page || (params[:page] || 1).to_i
-
-  def next_page
-    return @pagy.next if @pagy
-    @results.metadata["estimatedTotalHits"] > current_page * 20 ? current_page + 1 : nil
   end
 end

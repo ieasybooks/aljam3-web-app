@@ -2,7 +2,14 @@ class PagesController < ApplicationController
   def home
     pagy, results = search
 
-    render Views::Pages::Home.new(results:, pagy:)
+    if params[:page].presence.to_i > 1
+      render turbo_stream: turbo_stream.replace(
+        "results_list_#{params[:page]}",
+        Components::SearchResultsList.new(results:, pagy:)
+      )
+    else
+      render Views::Pages::Home.new(results:, pagy:)
+    end
   end
 
   private
