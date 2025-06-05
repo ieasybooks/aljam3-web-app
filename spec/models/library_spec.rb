@@ -17,4 +17,18 @@ RSpec.describe Library do
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
   end
+
+  describe "factory" do
+    it "has a valid factory" do
+      expect(create(:library)).to be_valid
+    end
+
+    it "has a valid factory with books" do # rubocop:disable RSpec/MultipleExpectations
+      library = create(:library, :with_books, books_count: 3)
+
+      expect(library.books.count).to eq(3)
+      expect(BookFile.count).to eq(library.books.pluck(:volumes).sum * 3)
+      expect(Page.count).to eq(library.books.pluck(:pages).sum)
+    end
+  end
 end

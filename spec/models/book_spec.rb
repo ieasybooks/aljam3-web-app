@@ -56,4 +56,18 @@ RSpec.describe Book do
       expect(described_class.index.filterable_attributes).to match_array(%w[category author library])
     end
   end
+
+  describe "factory" do
+    it "has a valid factory" do
+      expect(create(:book)).to be_valid
+    end
+
+    it "has a valid factory with files" do # rubocop:disable RSpec/MultipleExpectations
+      book = create(:book, :with_files)
+
+      expect(book.library).to eq(Library.first)
+      expect(book.files.count).to eq(book.volumes * 3)
+      expect(book.files.map { it.pages.count }.sum).to eq(book.pages)
+    end
+  end
 end

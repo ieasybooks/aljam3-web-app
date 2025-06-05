@@ -34,4 +34,34 @@ RSpec.describe BookFile do
   describe "enums" do
     it { is_expected.to define_enum_for(:file_type).with_values(pdf: 0, txt: 1, docx: 2) }
   end
+
+  describe "factory" do
+    it "has a valid factory" do
+      expect(create(:book_file)).to be_valid
+    end
+
+    it "has a valid PDF book_file factory with pages" do # rubocop:disable RSpec/MultipleExpectations
+      book_file = create(:book_file, :pdf, :with_pages, pages_count: 5)
+
+      expect(book_file.book.library).to eq(Library.first)
+      expect(book_file.book).to eq(Book.first)
+      expect(book_file.pages.count).to eq(0)
+    end
+
+    it "has a valid TXT book_file factory with pages" do # rubocop:disable RSpec/MultipleExpectations
+      book_file = create(:book_file, :txt, :with_pages, pages_count: 5)
+
+      expect(book_file.book.library).to eq(Library.first)
+      expect(book_file.book).to eq(Book.first)
+      expect(book_file.pages.count).to eq(5)
+    end
+
+    it "has a valid DOCX book_file factory with pages" do # rubocop:disable RSpec/MultipleExpectations
+      book_file = create(:book_file, :docx, :with_pages, pages_count: 5)
+
+      expect(book_file.book.library).to eq(Library.first)
+      expect(book_file.book).to eq(Book.first)
+      expect(book_file.pages.count).to eq(0)
+    end
+  end
 end

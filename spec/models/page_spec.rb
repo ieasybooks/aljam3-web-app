@@ -47,4 +47,16 @@ RSpec.describe Page do
       expect(described_class.index.filterable_attributes).to match_array(%w[category author book library])
     end
   end
+
+  describe "factory" do
+    it "has a valid factory" do # rubocop:disable RSpec/MultipleExpectations
+      page = create(:page)
+
+      expect(page).to be_valid
+
+      expect(page.file.book.library).to eq(Library.first)
+      expect(page.file.book).to eq(Book.first)
+      expect(page.file).to eq(BookFile.first)
+    end
+  end
 end
