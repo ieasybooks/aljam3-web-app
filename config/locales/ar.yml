@@ -1,7 +1,5 @@
 ---
 ar:
-  pages_text: الصفحات
-  volumes: المجلدات
   aljam3: الجامع
   close: إغلاق
   navbar:
@@ -9,28 +7,32 @@ ar:
   pages:
     home:
       discover_books: استكشف الكتب
-      search_input_placeholder: ابحث في أكثر من 63 ألف كتاب!
-      no_results_found: لم نعثر على نتائج
       title: الرئيسية
+  pages_text: الصفحات
+  search_book_card:
+    book_page: صفحة الكتاب
+  search_form:
+    search_input_placeholder: ابحث في أكثر من 63 ألف كتاب!
+  search_no_results_found:
+    no_results_found: لم نعثر على نتائج
+  search_page_card:
+    hide: إخفاء
+    read_more: عرض المزيد
+    show_page: عرض الصفحة
   search_refinements_sheet:
-    category: التصنيف
-    category_placeholder: اختر التصنيف
     all_categories: جميع التصنيفات
     all_libraries: جميع المكتبات (63,500 كتاب)
+    category: التصنيف
+    category_placeholder: اختر التصنيف
     library: المكتبة
     library_placeholder: اختر المكتبة
-    "مكتبة المسجد النبوي": مكتبة المسجد النبوي (48,700 كتاب)
     search_scope: نطاق البحث
     search_scope_content: محتوى الكتب فقط
     search_scope_placeholder: اختر نطاق البحث
     search_scope_title: عناوين الكتب فقط
     search_scope_title_and_content: عناوين الكتب ومحتواها
-    "المكتبة الشاملة الوقفية": المكتبة الشاملة الوقفية (4,600 كتاب)
     title: خصّص البحث
-    "المكتبة الوقفية": المكتبة الوقفية (10,200 كتاب)
-  search_book_card:
-    book_page: صفحة الكتاب
-  search_page_card:
-    show_page: عرض الصفحة
-    read_more: عرض المزيد
-    hide: إخفاء
+    المكتبة الشاملة الوقفية: المكتبة الشاملة الوقفية (4,600 كتاب)
+    المكتبة الوقفية: المكتبة الوقفية (10,200 كتاب)
+    مكتبة المسجد النبوي: مكتبة المسجد النبوي (48,700 كتاب)
+  volumes: المجلدات

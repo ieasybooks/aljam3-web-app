@@ -1,7 +1,5 @@
 ---
 en:
-  pages: Pages
-  volumes: Volumes
   aljam3: Aljam3
   close: Close
   navbar:
@@ -9,28 +7,32 @@ en:
   pages:
     home:
       discover_books: Discover Books
-      search_input_placeholder: Search in more than 63K books!
-      no_results_found: No results found
       title: Home
+  pages_text: Pages
+  search_book_card:
+    book_page: Book Page
+  search_form:
+    search_input_placeholder: Search in more than 63K books!
+  search_no_results_found:
+    no_results_found: No results found
+  search_page_card:
+    hide: Hide
+    read_more: Read more
+    show_page: Show Page
   search_refinements_sheet:
-    category: Category
-    category_placeholder: Select a category
     all_categories: All Categories
     all_libraries: All Libraries (63.5K books)
+    category: Category
+    category_placeholder: Select a category
     library: Library
     library_placeholder: Select a library
-    "مكتبة المسجد النبوي": Prophet's Mosque Library (48.7K books)
     search_scope: Search Scope
     search_scope_content: Content Only
     search_scope_placeholder: Select a scope
     search_scope_title: Titles Only
     search_scope_title_and_content: Titles and Content
-    "المكتبة الشاملة الوقفية": Shamela Waqfeya Library (4.6K books)
     title: Refinements
-    "المكتبة الوقفية": Waqfeya Library (10.2K books)
-  search_book_card:
-    book_page: Book Page
-  search_page_card:
-    show_page: Show Page
-    read_more: Read more
-    hide: Hide
+    المكتبة الشاملة الوقفية: Shamela Waqfeya Library (4.6K books)
+    المكتبة الوقفية: Waqfeya Library (10.2K books)
+    مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
+  volumes: Volumes
