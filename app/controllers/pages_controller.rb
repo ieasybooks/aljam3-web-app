@@ -14,7 +14,7 @@ class PagesController < ApplicationController
 
     case params.dig(:refinements, :search_scope)
     when "title-and-content"
-      Meilisearch::Rails.federated_search(
+      [ nil, Meilisearch::Rails.federated_search(
         queries: {
           Book => {
             q: query,
@@ -30,8 +30,9 @@ class PagesController < ApplicationController
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           }
-        }
-      )
+        },
+        federation: { offset: ((params[:page] || 1).to_i - 1) * 20 }
+      ) ]
     when "title"
       pagy_meilisearch(Book.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     when "content"

@@ -78,11 +78,11 @@ class Views::Pages::Home < Views::Base
   end
 
   def results_list
-    turbo_frame_tag :results_list, @pagy.page do
+    turbo_frame_tag :results_list, current_page do
       div(
         class: [
           "mt-2 space-y-4",
-          ("mt-4" if @pagy.page > 1)
+          ("mt-4" if current_page > 1)
         ]
       ) do
         @results.each do |result|
@@ -95,15 +95,15 @@ class Views::Pages::Home < Views::Base
         end
       end
 
-      if @pagy.next
-        turbo_frame_tag :results_list, @pagy.next, src: root_path(
+      if next_page
+        turbo_frame_tag :results_list, next_page, src: root_path(
           query: params[:query],
           refinements: {
             search_scope: params.dig(:refinements, :search_scope),
             library: params.dig(:refinements, :library),
             category: params.dig(:refinements, :category)
           },
-          page: @pagy.next
+          page: next_page
         ), loading: :lazy do
           div(class: "flex justify-center mt-4") { loading_spinner }
         end
@@ -124,5 +124,12 @@ class Views::Pages::Home < Views::Base
       s.circle(class: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", stroke_width: "4")
       s.path(class: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z")
     end
+  end
+
+  def current_page = @pagy&.page || (params[:page] || 1).to_i
+
+  def next_page
+    return @pagy.next if @pagy
+    @results.metadata["estimatedTotalHits"] > current_page * 20 ? current_page + 1 : nil
   end
 end
