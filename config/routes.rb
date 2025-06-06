@@ -5,8 +5,9 @@
 #                       rails_health_check GET      /up(.:format)                                                                                     rails/health#show
 #                             pwa_manifest GET      /manifest(.:format)                                                                               rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
-#                                     root GET      /                                                                                                 pages#home
-#                                     page GET      /pages/:id(.:format)                                                                              pages#show
+#                                     root GET      /                                                                                                 static#home
+#                                book_page GET      /books/:book_id/pages/:id(.:format)                                                               pages#show
+#                                     book GET      /books/:id(.:format)                                                                              books#show
 #                         new_user_session GET      /users/sign_in(.:format)                                                                          devise/sessions#new
 #                             user_session POST     /users/sign_in(.:format)                                                                          devise/sessions#create
 #                     destroy_user_session DELETE   /users/sign_out(.:format)                                                                         devise/sessions#destroy
@@ -105,7 +106,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "static#home"
 
-  resources :pages, only: :show
+  resources :books, only: :show do
+    resources :pages, only: :show
+  end
 
   devise_for :users
 
