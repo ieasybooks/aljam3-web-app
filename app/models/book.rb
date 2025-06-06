@@ -47,4 +47,6 @@ class Book < ApplicationRecord
     searchable_attributes %i[title]
     filterable_attributes %i[category author library]
   end
+
+  def first_page = txt_files.first.ordered_pages.first
 end
