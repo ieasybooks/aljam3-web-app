@@ -1,4 +1,4 @@
-class Views::Pages::Home < Views::Base
+class Views::Static::Home < Views::Base
   def initialize(results:, pagy:)
     @results = results
     @pagy = pagy

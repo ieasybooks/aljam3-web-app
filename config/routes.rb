@@ -6,6 +6,7 @@
 #                             pwa_manifest GET      /manifest(.:format)                                                                               rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
 #                                     root GET      /                                                                                                 pages#home
+#                                     page GET      /pages/:id(.:format)                                                                              pages#show
 #                         new_user_session GET      /users/sign_in(.:format)                                                                          devise/sessions#new
 #                             user_session POST     /users/sign_in(.:format)                                                                          devise/sessions#create
 #                     destroy_user_session DELETE   /users/sign_out(.:format)                                                                         devise/sessions#destroy
@@ -102,7 +103,7 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "pages#home"
+  root "static#home"
 
   devise_for :users
 

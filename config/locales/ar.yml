@@ -4,7 +4,7 @@ ar:
   close: إغلاق
   navbar:
     home: الرئيسية
-  pages:
+  static:
     home:
       discover_books: استكشف الكتب
       title: الرئيسية

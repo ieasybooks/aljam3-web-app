@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Pages" do
+RSpec.describe "Static" do
   let(:library_one) { create(:library, :with_books, name: "Library One") }
 
   let(:mock_book) do
@@ -16,11 +16,11 @@ RSpec.describe "Pages" do
       end
 
       it "renders home view with nil results and pagy" do
-        allow(Views::Pages::Home).to receive(:new).and_call_original
+        allow(Views::Static::Home).to receive(:new).and_call_original
 
         get "/"
 
-        expect(Views::Pages::Home).to have_received(:new).with(results: nil, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
       end
     end
 
@@ -49,7 +49,7 @@ RSpec.describe "Pages" do
 
       before do
         allow(Meilisearch::Rails).to receive(:federated_search).and_return(mock_federated_results)
-        allow(Views::Pages::Home).to receive(:new).and_call_original
+        allow(Views::Static::Home).to receive(:new).and_call_original
       end
 
       it "performs federated search on both Book and Page models" do
@@ -79,7 +79,7 @@ RSpec.describe "Pages" do
       it "renders home view with federated results" do
         get "/", params: params
 
-        expect(Views::Pages::Home).to have_received(:new).with(results: mock_federated_results, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_federated_results, pagy: nil)
       end
 
       context "with library filter" do
@@ -233,8 +233,8 @@ RSpec.describe "Pages" do
 
       before do
         allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(PagesController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
-        allow(Views::Pages::Home).to receive(:new).and_call_original
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow(Views::Static::Home).to receive(:new).and_call_original
       end
 
       it "performs search on Book model only" do
@@ -251,7 +251,7 @@ RSpec.describe "Pages" do
       it "renders home view with paginated results" do
         get "/", params: params
 
-        expect(Views::Pages::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
       end
 
       context "with filters" do
@@ -300,8 +300,8 @@ RSpec.describe "Pages" do
 
       before do
         allow(Page).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(PagesController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
-        allow(Views::Pages::Home).to receive(:new).and_call_original
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow(Views::Static::Home).to receive(:new).and_call_original
       end
 
       it "performs search on Page model only" do
@@ -318,7 +318,7 @@ RSpec.describe "Pages" do
       it "renders home view with paginated results" do
         get "/", params: params
 
-        expect(Views::Pages::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
       end
 
       context "with filters" do
@@ -367,24 +367,24 @@ RSpec.describe "Pages" do
 
       before do
         allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(PagesController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
       end
 
       context "when page is 1 or not provided" do
         it "renders home view when page not provided" do
-          allow(Views::Pages::Home).to receive(:new).and_call_original
+          allow(Views::Static::Home).to receive(:new).and_call_original
 
           get "/", params: base_params
 
-          expect(Views::Pages::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
         end
 
         it "renders home view for page 1" do
-          allow(Views::Pages::Home).to receive(:new).and_call_original
+          allow(Views::Static::Home).to receive(:new).and_call_original
 
           get "/", params: base_params.merge(page: "1")
 
-          expect(Views::Pages::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
         end
       end
 
@@ -429,15 +429,15 @@ RSpec.describe "Pages" do
 
       before do
         allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(PagesController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
       end
 
       it "handles missing refinements gracefully" do
-        allow(Views::Pages::Home).to receive(:new).and_call_original
+        allow(Views::Static::Home).to receive(:new).and_call_original
 
         get "/", params: { query: "test query" }
 
-        expect(Views::Pages::Home).to have_received(:new).with(results: nil, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
       end
 
       it "handles empty library filter" do
@@ -489,19 +489,19 @@ RSpec.describe "Pages" do
       let(:base_params) { { query: "test query" } }
 
       before do
-        allow(Views::Pages::Home).to receive(:new).and_call_original
+        allow(Views::Static::Home).to receive(:new).and_call_original
       end
 
       it "handles missing search_scope (defaults to nil case)" do
         get "/", params: base_params
 
-        expect(Views::Pages::Home).to have_received(:new).with(results: nil, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
       end
 
       it "handles unknown search_scope value" do
         get "/", params: base_params.merge(refinements: { search_scope: "unknown" })
 
-        expect(Views::Pages::Home).to have_received(:new).with(results: nil, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
       end
     end
   end

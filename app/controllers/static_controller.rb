@@ -1,4 +1,4 @@
-class PagesController < ApplicationController
+class StaticController < ApplicationController
   def home
     pagy, results = search
 
@@ -8,7 +8,7 @@ class PagesController < ApplicationController
         Components::SearchResultsList.new(results:, pagy:)
       )
     else
-      render Views::Pages::Home.new(results:, pagy:)
+      render Views::Static::Home.new(results:, pagy:)
     end
   end
 

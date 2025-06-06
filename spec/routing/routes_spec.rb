@@ -34,8 +34,8 @@ RSpec.describe 'Routes' do
   end
 
   describe 'Root route' do
-    it 'routes GET / to pages#home' do
-      expect(get: '/').to route_to(controller: 'pages', action: 'home')
+    it 'routes GET / to static#home' do
+      expect(get: '/').to route_to(controller: 'static', action: 'home')
     end
 
     it 'has a named route for root' do
