@@ -11,7 +11,8 @@
 #
 # Indexes
 #
-#  index_pages_on_book_file_id  (book_file_id)
+#  index_pages_on_book_file_id             (book_file_id)
+#  index_pages_on_book_file_id_and_number  (book_file_id,number) UNIQUE
 #
 # Foreign Keys
 #
