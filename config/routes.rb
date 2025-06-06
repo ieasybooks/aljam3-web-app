@@ -105,6 +105,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "static#home"
 
+  resources :pages, only: :show
+
   devise_for :users
 
   authenticate :user, ->(user) { user.admin? } do

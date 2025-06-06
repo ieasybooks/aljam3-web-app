@@ -4,10 +4,9 @@ ar:
   close: إغلاق
   navbar:
     home: الرئيسية
-  static:
-    home:
-      discover_books: استكشف الكتب
-      title: الرئيسية
+  pages:
+    show:
+      title: كتاب %{title}
   pages_text: الصفحات
   search_book_card:
     book_page: صفحة الكتاب
@@ -35,4 +34,8 @@ ar:
     المكتبة الشاملة الوقفية: المكتبة الشاملة الوقفية (4,600 كتاب)
     المكتبة الوقفية: المكتبة الوقفية (10,200 كتاب)
     مكتبة المسجد النبوي: مكتبة المسجد النبوي (48,700 كتاب)
+  static:
+    home:
+      discover_books: استكشف الكتب
+      title: الرئيسية
   volumes: المجلدات

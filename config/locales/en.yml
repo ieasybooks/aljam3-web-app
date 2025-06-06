@@ -4,10 +4,9 @@ en:
   close: Close
   navbar:
     home: Home
-  static:
-    home:
-      discover_books: Discover Books
-      title: Home
+  pages:
+    show:
+      title: "%{title} Book"
   pages_text: Pages
   search_book_card:
     book_page: Book Page
@@ -35,4 +34,8 @@ en:
     المكتبة الشاملة الوقفية: Shamela Waqfeya Library (4.6K books)
     المكتبة الوقفية: Waqfeya Library (10.2K books)
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
+  static:
+    home:
+      discover_books: Discover Books
+      title: Home
   volumes: Volumes
