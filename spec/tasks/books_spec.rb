@@ -46,12 +46,10 @@ RSpec.describe "rake db:import_book", type: :task do
       ARGV.replace(valid_argv)
 
       expect { task.invoke }.to change(Book, :count).by(1)
-                            .and change(BookFile.where(file_type: :pdf), :count).by(2)
-                            .and change(BookFile.where(file_type: :txt), :count).by(2)
-                            .and change(BookFile.where(file_type: :docx), :count).by(2)
+                            .and change(BookFile, :count).by(2)
                             .and change(Page, :count).by(5)
 
-      expect(BookFile.pluck(:size)).to eq([ 15.4, 10.1, 0.3, 0.1, 1.3, 0.9 ])
+      expect(BookFile.pluck(:pdf_size, :txt_size, :docx_size)).to eq([ [ 15.4, 0.3, 1.3 ], [ 10.1, 0.1, 0.9 ] ])
       expect(Page.pluck(:content)).to eq([ "page 1", "page 2", "page 3", "page 1", "page 2" ])
       expect(Page.pluck(:number)).to eq([ 1, 2, 3, 1, 2 ])
     ensure

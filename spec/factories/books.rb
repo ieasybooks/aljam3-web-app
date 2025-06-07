@@ -31,14 +31,20 @@ FactoryBot.define do
     association :library
 
     trait :with_files do
-      after(:create) do |book|
-        pages_per_file = book.pages / book.volumes
-        remaining_pages = book.pages % book.volumes
+      transient do
+        files_count { nil }
+      end
 
-        book.volumes.times do |index|
-          create(:book_file, :pdf, book:)
-          create(:book_file, :txt, :with_pages, pages_count: pages_per_file + (index < remaining_pages ? 1 : 0), book:)
-          create(:book_file, :docx, book:)
+      after(:create) do |book, evaluator|
+        final_files_count = evaluator.files_count || Random.rand(book.volumes..(book.volumes + 2))
+
+        book.update(volumes: final_files_count) if evaluator.files_count.present?
+
+        pages_per_file = book.pages / final_files_count
+        remaining_pages = book.pages % final_files_count
+
+        final_files_count.times do |index|
+          create(:book_file, :with_pages, pages_count: pages_per_file + (index < remaining_pages ? 1 : 0), book:)
         end
       end
     end

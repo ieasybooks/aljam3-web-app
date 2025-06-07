@@ -96,32 +96,40 @@ namespace :db do
         library_id: options[:library_id]
       )
 
-      txt_book_files = []
+      book_files = []
 
-      [ :pdf_urls, :txt_urls, :docx_urls ].each do |url_type|
-        options[url_type].each_with_index do |url, index|
-          begin
-            file_type = url_type.to_s.split("_").first.to_sym
-
-            book_file = book.files.create!(file_type:, url:, size: options[:"#{file_type}_sizes"][index].to_f)
-
-            txt_book_files << book_file if file_type == :txt
-          rescue => e
-            puts "An error occurred while creating BookFile for '#{url}': #{e.message}"; exit 1
-          end
+      [
+        options[:pdf_urls],
+        options[:pdf_sizes],
+        options[:txt_urls],
+        options[:txt_sizes],
+        options[:docx_urls],
+        options[:docx_sizes]
+      ].transpose.each do |pdf_url, pdf_size, txt_url, txt_size, docx_url, docx_size|
+        begin
+          book_files << book.files.create!(
+            pdf_url:,
+            pdf_size:,
+            txt_url:,
+            txt_size:,
+            docx_url:,
+            docx_size:
+          )
+        rescue => e
+          puts "An error occurred while creating BookFile for '#{pdf_url}': #{e.message}"; exit 1
         end
       end
 
       options[:txt_paths].each_with_index do |txt_path, index|
-        txt_book_file = txt_book_files[index]
+        book_file = book_files[index]
         pages = File.read(txt_path).split(/\r?\nPAGE_SEPARATOR\r?\n/)
 
-        txt_book_file.pages.insert_all(
+        book_file.pages.insert_all(
           pages.map.with_index(1) do |page, jndex|
             {
               content: page.strip,
               number: jndex,
-              book_file_id: txt_book_file.id
+              book_file_id: book_file.id
             }
           end
         )

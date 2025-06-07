@@ -3,9 +3,12 @@
 # Table name: book_files
 #
 #  id         :bigint           not null, primary key
-#  file_type  :integer          not null
-#  size       :float            not null
-#  url        :text             not null
+#  docx_size  :float            default(0.0), not null
+#  docx_url   :text             default("")
+#  pdf_size   :float            default(0.0), not null
+#  pdf_url    :text             default("")
+#  txt_size   :float            default(0.0), not null
+#  txt_url    :text             default("")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  book_id    :bigint           not null
@@ -20,26 +23,14 @@
 #
 FactoryBot.define do
   factory :book_file do
-    file_type { :pdf }
-    sequence(:url) { |n| "https://example.com/files/file_#{n}.pdf" }
-    size { rand(1.0..10.0).round(2) }
+    pdf_url { "https://example.com/files/file_1.pdf" }
+    txt_url { "https://example.com/files/file_1.txt" }
+    docx_url { "https://example.com/files/file_1.docx" }
+    pdf_size { rand(10.0..50.0).round(2) }
+    txt_size { rand(0.1..3.0).round(2) }
+    docx_size { rand(1.5..5.0).round(2) }
 
     association :book
-
-    trait :pdf do
-      file_type { :pdf }
-      url { "https://example.com/files/document.pdf" }
-    end
-
-    trait :txt do
-      file_type { :txt }
-      url { "https://example.com/files/document.txt" }
-    end
-
-    trait :docx do
-      file_type { :docx }
-      url { "https://example.com/files/document.docx" }
-    end
 
     trait :with_pages do
       transient do
@@ -47,10 +38,8 @@ FactoryBot.define do
       end
 
       after(:create) do |book_file, evaluator|
-        if book_file.txt?
-          evaluator.pages_count.times do |page_number|
-            create(:page, number: page_number + 1, file: book_file)
-          end
+        evaluator.pages_count.times do |page_number|
+          create(:page, number: page_number + 1, file: book_file)
         end
       end
     end

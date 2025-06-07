@@ -14,10 +14,15 @@ FactoryBot.define do
     trait :with_books do
       transient do
         books_count { 3 }
+        deterministic_files_count { false }
       end
 
       after(:create) do |library, evaluator|
-        create_list(:book, evaluator.books_count, :with_files, library:)
+        if evaluator.deterministic_files_count
+          create_list(:book, evaluator.books_count, :with_files, files_count: Random.rand(1..5), library:)
+        else
+          create_list(:book, evaluator.books_count, :with_files, library:)
+        end
       end
     end
   end

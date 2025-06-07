@@ -28,9 +28,6 @@ class Book < ApplicationRecord
 
   belongs_to :library
   has_many :files, -> { order(:id) }, class_name: "BookFile", dependent: :destroy
-  has_many :pdf_files, -> { where(file_type: :pdf).order(:id) }, class_name: "BookFile"
-  has_many :txt_files, -> { where(file_type: :txt).order(:id) }, class_name: "BookFile"
-  has_many :docx_files, -> { where(file_type: :docx).order(:id) }, class_name: "BookFile"
 
   validates :title, :author, :category, :volumes, :pages, presence: true
 
@@ -48,5 +45,5 @@ class Book < ApplicationRecord
     filterable_attributes %i[category author library]
   end
 
-  def first_page = txt_files.first.ordered_pages.first
+  def first_page = files.first.ordered_pages.first
 end

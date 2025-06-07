@@ -24,10 +24,10 @@ RSpec.describe Library do
     end
 
     it "has a valid factory with books" do # rubocop:disable RSpec/MultipleExpectations
-      library = create(:library, :with_books, books_count: 3)
+      library = create(:library, :with_books, books_count: 3, deterministic_files_count: true)
 
       expect(library.books.count).to eq(3)
-      expect(BookFile.count).to eq(library.books.pluck(:volumes).sum * 3)
+      expect(BookFile.count).to eq(library.books.pluck(:volumes).sum)
       expect(Page.count).to eq(library.books.pluck(:pages).sum)
     end
   end

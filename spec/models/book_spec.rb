@@ -26,9 +26,6 @@ RSpec.describe Book do
   describe "associations" do
     it { is_expected.to belong_to(:library) }
     it { is_expected.to have_many(:files).class_name("BookFile").dependent(:destroy) }
-    it { is_expected.to have_many(:pdf_files).class_name("BookFile") }
-    it { is_expected.to have_many(:txt_files).class_name("BookFile") }
-    it { is_expected.to have_many(:docx_files).class_name("BookFile") }
   end
 
   describe "validations" do
@@ -63,10 +60,10 @@ RSpec.describe Book do
     end
 
     it "has a valid factory with files" do # rubocop:disable RSpec/MultipleExpectations
-      book = create(:book, :with_files)
+      book = create(:book, :with_files, files_count: 3)
 
       expect(book.library).to eq(Library.first)
-      expect(book.files.count).to eq(book.volumes * 3)
+      expect(book.files.count).to eq(book.volumes)
       expect(book.files.map { it.pages.count }.sum).to eq(book.pages)
     end
   end

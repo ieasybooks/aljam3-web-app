@@ -3,9 +3,12 @@
 # Table name: book_files
 #
 #  id         :bigint           not null, primary key
-#  file_type  :integer          not null
-#  size       :float            not null
-#  url        :text             not null
+#  docx_size  :float            default(0.0), not null
+#  docx_url   :text             default("")
+#  pdf_size   :float            default(0.0), not null
+#  pdf_url    :text             default("")
+#  txt_size   :float            default(0.0), not null
+#  txt_url    :text             default("")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  book_id    :bigint           not null
@@ -26,42 +29,28 @@ RSpec.describe BookFile do
   end
 
   describe "validations" do
-    it { is_expected.to validate_presence_of(:file_type) }
-    it { is_expected.to validate_presence_of(:url) }
-    it { is_expected.to validate_presence_of(:size) }
-  end
-
-  describe "enums" do
-    it { is_expected.to define_enum_for(:file_type).with_values(pdf: 0, txt: 1, docx: 2) }
+    it { is_expected.to validate_presence_of(:pdf_url) }
+    it { is_expected.to validate_presence_of(:txt_url) }
+    it { is_expected.to validate_presence_of(:docx_url) }
+    it { is_expected.to validate_presence_of(:pdf_size) }
+    it { is_expected.to validate_presence_of(:txt_size) }
+    it { is_expected.to validate_presence_of(:docx_size) }
   end
 
   describe "factory" do
-    it "has a valid factory" do
-      expect(create(:book_file)).to be_valid
-    end
+    it "has a valid factory" do # rubocop:disable RSpec/MultipleExpectations
+      book_file = create(:book_file)
 
-    it "has a valid PDF book_file factory with pages" do # rubocop:disable RSpec/MultipleExpectations
-      book_file = create(:book_file, :pdf, :with_pages, pages_count: 5)
-
+      expect(book_file).to be_valid
       expect(book_file.book.library).to eq(Library.first)
       expect(book_file.book).to eq(Book.first)
       expect(book_file.pages.count).to eq(0)
     end
 
-    it "has a valid TXT book_file factory with pages" do # rubocop:disable RSpec/MultipleExpectations
-      book_file = create(:book_file, :txt, :with_pages, pages_count: 5)
+    it "has a valid book_file factory with pages" do # rubocop:disable RSpec/MultipleExpectations
+      book_file = create(:book_file, :with_pages, pages_count: 5)
 
-      expect(book_file.book.library).to eq(Library.first)
-      expect(book_file.book).to eq(Book.first)
       expect(book_file.pages.count).to eq(5)
-    end
-
-    it "has a valid DOCX book_file factory with pages" do # rubocop:disable RSpec/MultipleExpectations
-      book_file = create(:book_file, :docx, :with_pages, pages_count: 5)
-
-      expect(book_file.book.library).to eq(Library.first)
-      expect(book_file.book).to eq(Book.first)
-      expect(book_file.pages.count).to eq(0)
     end
   end
 end

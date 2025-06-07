@@ -22,30 +22,21 @@ if Book.count == 0
     )
 
     volumes.times do |index|
-      book.files.create(
-        file_type: :pdf,
-        url: "https://example.com/book-#{book.id}-file-#{index + 1}.pdf",
-        size: Random.rand(0.0..50.0)
+      book_file = book.files.create(
+        pdf_url: "https://example.com/book-#{book.id}-file-#{index + 1}.pdf",
+        txt_url: "https://example.com/book-#{book.id}-file-#{index + 1}.txt",
+        docx_url: "https://example.com/book-#{book.id}-file-#{index + 1}.docx",
+        pdf_size: Random.rand(10.0..50.0),
+        txt_size: Random.rand(0.1..3.0),
+        docx_size: Random.rand(1.5..5.0)
       )
 
-      txt_book_file = book.files.create(
-        file_type: :txt,
-        url: "https://example.com/book-#{book.id}-file-#{index + 1}.txt",
-        size: Random.rand(0.0..5.0)
-      )
-
-      book.files.create(
-        file_type: :docx,
-        url: "https://example.com/book-#{book.id}-file-#{index + 1}.docx",
-        size: Random.rand(0.0..10.0)
-      )
-
-      txt_book_file.pages.insert_all(
+      book_file.pages.insert_all(
         ([ 0 ] * volumes_pages[index]).map.with_index do |_value, jndex|
           {
             content: Faker::Lorem.paragraph,
             number: jndex,
-            book_file_id: txt_book_file.id
+            book_file_id: book_file.id
           }
         end
       )

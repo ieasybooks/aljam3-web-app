@@ -10,17 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_06_230250) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_07_140935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "book_files", force: :cascade do |t|
-    t.integer "file_type", null: false
-    t.text "url", null: false
-    t.float "size", null: false
     t.bigint "book_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "pdf_url", default: ""
+    t.text "txt_url", default: ""
+    t.text "docx_url", default: ""
+    t.float "pdf_size", default: 0.0, null: false
+    t.float "txt_size", default: 0.0, null: false
+    t.float "docx_size", default: 0.0, null: false
     t.index ["book_id"], name: "index_book_files_on_book_id"
   end
 

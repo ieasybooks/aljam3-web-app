@@ -3,9 +3,12 @@
 # Table name: book_files
 #
 #  id         :bigint           not null, primary key
-#  file_type  :integer          not null
-#  size       :float            not null
-#  url        :text             not null
+#  docx_size  :float            default(0.0), not null
+#  docx_url   :text             default("")
+#  pdf_size   :float            default(0.0), not null
+#  pdf_url    :text             default("")
+#  txt_size   :float            default(0.0), not null
+#  txt_url    :text             default("")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  book_id    :bigint           not null
@@ -22,9 +25,7 @@ class BookFile < ApplicationRecord
   belongs_to :book
   has_many :pages, dependent: :destroy
 
-  validates :file_type, :url, :size, presence: true
-
-  enum :file_type, { pdf: 0, txt: 1, docx: 2 }
+  validates :pdf_url, :txt_url, :docx_url, :pdf_size, :txt_size, :docx_size, presence: true
 
   def ordered_pages = pages.order(:number)
 end
