@@ -53,8 +53,7 @@ class Components::SearchBookCard < Components::Base
           end
         end
 
-        # TODO: Add a link to the book page.
-        Link(variant: :outline, size: :sm) { t(".book_page") }
+        Link(href: book_path(@book), variant: :outline, size: :sm, target: "_top") { t(".book_page") }
       end
     end
   end

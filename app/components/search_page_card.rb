@@ -70,8 +70,7 @@ class Components::SearchPageCard < Components::Base
           end
         end
 
-        # TODO: Add a link to the book page.
-        Link(variant: :outline, size: :sm) { t(".show_page") }
+        Link(href: book_page_path(@page.file.book, @page), variant: :outline, size: :sm, target: "_top") { t(".show_page") }
       end
     end
   end

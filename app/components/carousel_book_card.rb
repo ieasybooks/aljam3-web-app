@@ -49,8 +49,7 @@ class Components::CarouselBookCard < Components::Base
           end
         end
 
-        # TODO: Add a link to the book page.
-        Link(variant: :outline, size: :sm, icon: true) do
+        Link(href: book_path(@book), variant: :outline, size: :sm, icon: true) do
           Hero::ArrowSmallRight(variant: :solid, class: "size-3.5 rtl:transform rtl:-scale-x-100")
         end
       end
