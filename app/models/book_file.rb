@@ -23,9 +23,7 @@
 #
 class BookFile < ApplicationRecord
   belongs_to :book
-  has_many :pages, dependent: :destroy
+  has_many :pages, -> { order(:number) }, dependent: :destroy
 
   validates :pdf_url, :txt_url, :docx_url, :pdf_size, :txt_size, :docx_size, presence: true
-
-  def ordered_pages = pages.order(:number)
 end

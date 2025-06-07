@@ -45,5 +45,5 @@ class Book < ApplicationRecord
     filterable_attributes %i[category author library]
   end
 
-  def first_page = files.first.ordered_pages.first
+  def first_page = files.first.pages.first
 end
