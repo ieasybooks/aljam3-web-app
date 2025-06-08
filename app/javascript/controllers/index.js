@@ -36,3 +36,6 @@ application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
 import SyncValueController from "./sync_value_controller"
 application.register("sync-value", SyncValueController)
+
+import TxtContentController from "./txt_content_controller"
+application.register("txt-content", TxtContentController)

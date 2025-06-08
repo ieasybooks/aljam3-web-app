@@ -67,10 +67,17 @@ class Views::Pages::Show < Views::Base
   def txt_content
     # Dark background color is similar to the PDF's viewer background color.
     div(
-      id: "txt-content",
-      class: "flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg p-4 overflow-y-auto",
+      class: "flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col",
+      data: {
+        controller: "txt-content",
+        txt_content_copy_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
+      }
     ) do
-      simple_format @page.content
+      div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { txt_content_target: "content" }) do
+        simple_format @page.content
+      end
+
+      txt_content_controls
     end
   end
 
@@ -81,6 +88,34 @@ class Views::Pages::Show < Views::Base
         class: "w-full h-full",
         data: { book_page_target: "iframe" }
       )
+    end
+  end
+
+  def txt_content_controls
+    div(class: "flex items-center p-2 gap-x-2 rounded-b-lg border-t border-neutral-300 dark:border-neutral-700") do
+      copy_button
+    end
+  end
+
+  def copy_button
+    Tooltip do
+      TooltipTrigger do
+        Button(
+          variant: :outline,
+          size: :md,
+          icon: true,
+          data: {
+            action: "click->txt-content#copy",
+            txt_content_target: "copyButton"
+          }
+        ) do
+          Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
+        end
+      end
+
+      TooltipContent(class: "delay-100") do
+        Text { t(".copy_content") }
+      end
     end
   end
 end
