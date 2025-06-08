@@ -229,6 +229,42 @@
   <li><strong><a href="https://github.com/hotwired/turbo-rails" dir="ltr">@hotwired/turbo-rails</a></strong> - مكتبة لتسريع صفحات الموقع وجعلها تعمل كتطبيق صفحة واحدة (SPA)</li>
 </ul>
 
+<h2 dir="rtl">إضافة بيانات حقيقية إلى المشروع</h2>
+
+<p dir="rtl">يمكنك إضافة كتب حقيقية إلى المشروع من إحدى المكتبات المُعالجة رقميًا التالية:</p>
+
+<ul dir="rtl">
+  <li><a href="https://huggingface.co/datasets/ieasybooks-org/prophet-mosque-library"><strong>مكتبة المسجد النبوي</strong></a></li>
+  <li><a href="https://huggingface.co/datasets/ieasybooks-org/waqfeya-library"><strong>المكتبة الوقفية</strong></a></li>
+  <li><a href="https://huggingface.co/datasets/ieasybooks-org/shamela-waqfeya-library"><strong>المكتبة الشاملة الوقفية</strong></a></li>
+</ul>
+
+<h3 dir="rtl">خطوات إضافة كتاب</h3>
+
+<ol dir="rtl">
+  <li>اختر إحدى المكتبات واستعرض الكتب المتاحة</li>
+  <li>احصل على روابط تحميل ملفات PDF و TXT و DOCX للكتاب المطلوب من مستودع المكتبة على HuggingFace</li>
+  <li>حمّل ملف TXT إلى جهازك</li>
+  <li>نفّذ الأمر التالي مع استبدال المتغيرات بالقيم المناسبة:</li>
+</ol>
+
+<pre dir="ltr">
+rake db:import_book -- \
+  --title="القول الصواب في حكم النسخ في الكتاب" \
+  --author="ـ" \
+  --category="علوم القرآن" \
+  --pages=16 \
+  --volumes=-1 \
+  --library-id=1 \
+  --pdf-urls="https://huggingface.co/datasets/ieasybooks-org/prophet-mosque-library/resolve/main/pdf/1%D9%80%20211.0%20%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86/00016%D9%80%20%D8%A7%D9%84%D9%82%D9%88%D9%84%20%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%A8%20%D9%81%D9%8A%20%D8%AD%D9%83%D9%85%20%D8%A7%D9%84%D9%86%D8%B3%D8%AE%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8%20---%20%D9%80.PDF/KTB.pdf" \
+  --pdf-sizes="0.34" \
+  --txt-urls="https://huggingface.co/datasets/ieasybooks-org/prophet-mosque-library/resolve/main/txt/1%D9%80%20211.0%20%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86/00016%D9%80%20%D8%A7%D9%84%D9%82%D9%88%D9%84%20%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%A8%20%D9%81%D9%8A%20%D8%AD%D9%83%D9%85%20%D8%A7%D9%84%D9%86%D8%B3%D8%AE%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8%20---%20%D9%80.PDF/KTB.txt" \
+  --txt-sizes="0.04" \
+  --docx-urls="https://huggingface.co/datasets/ieasybooks-org/prophet-mosque-library/resolve/main/docx/1%D9%80%20211.0%20%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86/00016%D9%80%20%D8%A7%D9%84%D9%82%D9%88%D9%84%20%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%A8%20%D9%81%D9%8A%20%D8%AD%D9%83%D9%85%20%D8%A7%D9%84%D9%86%D8%B3%D8%AE%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8%20---%20%D9%80.PDF/KTB.docx" \
+  --docx-sizes="0.09" \
+  --txt-paths="path/to/KTB.txt"
+</pre>
+
 <h2 dir="rtl">تشغيل حالات الاختبار</h2>
 
 <p dir="rtl"><em>ملاحظة: نسعى في هذا المشروع إلى المحافظة على تغطية كاملة (100%) للشيفرة المصدرية بحالات اختبار دقيقة ومفيدة.</em></p>
