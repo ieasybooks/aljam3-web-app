@@ -14,7 +14,8 @@ class Views::Pages::Show < Views::Base
       data: {
         controller: "book-page content-controls",
         book_page_book_id_value: @book.id,
-        content_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
+        content_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
+        content_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
       }
     ) do
       header
@@ -90,10 +91,16 @@ class Views::Pages::Show < Views::Base
   end
 
   def controls
-    div(class: "flex items-center p-2 gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
-      copy_text_button
-      text_size_increase_button
-      text_size_decrease_button
+    div(class: "flex items-center justify-between p-2 gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
+      div(class: "flex items-center gap-x-2") do
+        copy_text_button
+        text_size_increase_button
+        text_size_decrease_button
+      end
+
+      div(class: "flex items-center gap-x-2") do
+        copy_image_button
+      end
     end
   end
 
@@ -143,6 +150,28 @@ class Views::Pages::Show < Views::Base
 
       TooltipContent(class: "delay-100") do
         Text { t(".text_size_decrease") }
+      end
+    end
+  end
+
+  def copy_image_button
+    Tooltip do
+      TooltipTrigger do
+        Button(
+          variant: :outline,
+          size: :md,
+          icon: true,
+          data: {
+            action: "click->content-controls#copyImage",
+            content_controls_target: "copyImageButton"
+          }
+        ) do
+          Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
+        end
+      end
+
+      TooltipContent(class: "delay-100") do
+        Text { t(".copy_image") }
       end
     end
   end

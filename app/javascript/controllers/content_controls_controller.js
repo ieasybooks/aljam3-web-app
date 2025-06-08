@@ -14,9 +14,10 @@ const SIZE_TO_CLASS = {
 
 // Connects to data-controller="content-controls"
 export default class extends Controller {
-  static targets = [ "content", "copyTextButton" ]
+  static targets = [ "content", "copyTextButton", "iframe", "copyImageButton" ]
   static values = {
-    copyTextButtonDoneStatus: String
+    copyTextButtonDoneStatus: String,
+    copyImageButtonDoneStatus: String
   }
 
   connect() {
@@ -63,5 +64,26 @@ export default class extends Controller {
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
 
     localStorage.setItem("txt-content-size", this.currentContentSize)
+  }
+
+  copyImage() {
+    this.#currentPageView().canvas.toBlob(async (blob) => {
+      const item = new ClipboardItem({ "image/png": blob })
+      await navigator.clipboard.write([item])
+    }, "image/png")
+
+    const oldInnerHTML = this.copyImageButtonTarget.innerHTML
+
+    this.copyImageButtonTarget.setAttribute("disabled", true)
+    this.copyImageButtonTarget.innerHTML = this.copyImageButtonDoneStatusValue
+
+    setTimeout(() => {
+      this.copyImageButtonTarget.innerHTML = oldInnerHTML
+      this.copyImageButtonTarget.removeAttribute("disabled")
+    }, 1000)
+  }
+
+  #currentPageView() {
+    return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(this.iframeTarget.contentWindow.PDFViewerApplication.page - 1)
   }
 }

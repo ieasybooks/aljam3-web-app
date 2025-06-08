@@ -8,6 +8,7 @@ ar:
     show:
       title: كتاب %{title}
       copy_content: نسخ المحتوى
+      copy_image: نسخ الصورة
       text_size_increase: تكبير حجم الخط
       text_size_decrease: تصغير حجم الخط
   pages_text: الصفحات

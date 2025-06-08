@@ -8,6 +8,7 @@ en:
     show:
       title: "%{title} Book"
       copy_content: Copy Content
+      copy_image: Copy Image
       text_size_increase: Increase Text Size
       text_size_decrease: Decrease Text Size
   pages_text: Pages
