@@ -13,19 +13,19 @@ namespace :db do
       puts ""
       puts "Examples:"
       puts "  rake db:import_book -- \\"
-      puts "    --title 'صحيح البخاري' \\"
-      puts "    --author 'محمد بن اسماعيل البخاري' \\"
-      puts "    --category 'الحديث' \\"
-      puts "    --pages 180 \\"
-      puts "    --volumes 1 \\"
-      puts "    --library-id 1 \\"
-      puts "    --pdf-urls 'https://example.com/file with spaces.pdf;https://example.com/another file.pdf' \\"
-      puts "    --pdf-sizes '15.4;10.1' \\"
-      puts "    --txt-urls 'https://example.com/file with spaces.txt;https://example.com/another file.txt' \\"
-      puts "    --txt-sizes '0.3;0.1' \\"
-      puts "    --docx-urls 'https://example.com/file with spaces.docx;https://example.com/another file.docx' \\"
-      puts "    --docx-sizes '1.3;0.9' \\"
-      puts "    --txt-paths '/path/to/file with spaces.txt;/path/to/another file.txt'"
+      puts '    --title="صحيح البخاري" \\'
+      puts '    --author="محمد بن اسماعيل البخاري" \\'
+      puts '    --category="الحديث" \\'
+      puts "    --pages=180 \\"
+      puts "    --volumes=1 \\"
+      puts "    --library-id=1 \\"
+      puts '    --pdf-urls="https://example.com/file with spaces.pdf;https://example.com/another file.pdf" \\'
+      puts '    --pdf-sizes="15.4;10.1" \\'
+      puts '    --txt-urls="https://example.com/file with spaces.txt;https://example.com/another file.txt" \\'
+      puts '    --txt-sizes="0.3;0.1" \\'
+      puts '    --docx-urls="https://example.com/file with spaces.docx;https://example.com/another file.docx" \\'
+      puts '    --docx-sizes="1.3;0.9" \\'
+      puts '    --txt-paths="/path/to/file with spaces.txt;/path/to/another file.txt"'
     end
 
     split_list = lambda { it.split(";").map(&:strip).reject(&:empty?) }
@@ -57,7 +57,7 @@ namespace :db do
     end
 
     begin
-      option_parser.parse!(ARGV)
+      option_parser.parse!(ARGV[2..])
     rescue => e
       show_help.call(option_parser, "Error: #{e.message}"); exit 1
     end
@@ -65,7 +65,7 @@ namespace :db do
     options[:volumes] ||= -1
 
     required_args = [ :title, :author, :category, :pages, :library_id, :pdf_urls, :pdf_sizes, :txt_urls, :txt_sizes, :docx_urls, :docx_sizes, :txt_paths ]
-    missing_args = required_args.select { |arg| options[arg].nil? }
+    missing_args = required_args.select { options[it].nil? }
     if missing_args.any?
       show_help.call(option_parser, "Error: Missing required arguments: #{missing_args.join(', ')}"); exit 1
     end

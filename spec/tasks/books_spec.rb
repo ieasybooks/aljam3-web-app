@@ -10,6 +10,8 @@ RSpec.describe "rake db:import_book", type: :task do
 
     new_argv = []
 
+    new_argv << "db:import_book"
+    new_argv << "--"
     new_argv << "--title"
     new_argv << "صحيح البخاري"
     new_argv << "--author"
@@ -68,12 +70,12 @@ RSpec.describe "rake db:import_book", type: :task do
     end
   end
 
-  context "without arguments" do
-    it "shows the help and exits" do # rubocop:disable RSpec/ExampleLength
+  context "with missing arguments" do
+    it "shows the error and exits" do # rubocop:disable RSpec/ExampleLength
       original_argv = ARGV.dup
-      ARGV.replace([])
+      ARGV.replace(valid_argv[0..-3])
 
-      expect { task.invoke }.to raise_error(SystemExit).and output(/Usage: rake db:import_book/).to_stdout
+      expect { task.invoke }.to raise_error(SystemExit).and output(/Error: Missing required arguments: txt_paths/).to_stdout
     ensure
       ARGV.replace(original_argv)
     end
