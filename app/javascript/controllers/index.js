@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import BookPageController from "./book_page_controller"
+application.register("book-page", BookPageController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

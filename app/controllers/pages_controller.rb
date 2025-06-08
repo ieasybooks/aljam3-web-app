@@ -2,7 +2,10 @@ class PagesController < ApplicationController
   before_action :set_page, only: :show
 
   def show
-    render Views::Pages::Show.new(page: @page)
+    respond_to do |format|
+      format.html { render Views::Pages::Show.new(page: @page) }
+      format.turbo_stream { render turbo_stream: turbo_stream.update("txt-content", helpers.simple_format(@page.content)) }
+    end
   end
 
   private

@@ -9,7 +9,13 @@ class Views::Pages::Show < Views::Base
   def page_title = t(".title", title: @page.file.book.title)
 
   def view_template
-    div(class: "flex flex-col h-[calc(100vh-57px)] sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4") do
+    div(
+      class: "flex flex-col h-[calc(100vh-57px)] sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
+      data: {
+        controller: "book-page",
+        book_page_book_id_value: @book.id
+      }
+    ) do
       header
       content
     end
@@ -60,14 +66,21 @@ class Views::Pages::Show < Views::Base
 
   def txt_content
     # Dark background color is similar to the PDF's viewer background color.
-    div(class: "flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg p-4 overflow-y-auto") do
+    div(
+      id: "txt-content",
+      class: "flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg p-4 overflow-y-auto",
+    ) do
       simple_format @page.content
     end
   end
 
   def pdf_content
     div(class: "flex-1 rounded-lg overflow-y-auto") do
-      iframe(src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"), class: "w-full h-full")
+      iframe(
+        src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
+        class: "w-full h-full",
+        data: { book_page_target: "iframe" }
+      )
     end
   end
 end
