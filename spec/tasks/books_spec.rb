@@ -4,9 +4,9 @@ RSpec.describe "rake db:import_book", type: :task do
   let(:library) { create(:library) }
   let(:valid_argv) { build_argv }
 
-  def build_argv(library_id: nil, txt_paths: nil)
+  def build_argv(library_id: nil, txt_urls: nil)
     library_id ||= library.id.to_s
-    txt_paths ||= "spec/data/txt_book_file_1.txt;spec/data/txt_book_file_2.txt"
+    txt_urls ||= "https://example.com/file with spaces.txt;https://example.com/another file.txt"
 
     new_argv = []
 
@@ -29,15 +29,13 @@ RSpec.describe "rake db:import_book", type: :task do
     new_argv << "--pdf-sizes"
     new_argv << "15.4;10.1"
     new_argv << "--txt-urls"
-    new_argv << "https://example.com/file with spaces.txt;https://example.com/another file.txt"
+    new_argv << txt_urls
     new_argv << "--txt-sizes"
     new_argv << "0.3;0.1"
     new_argv << "--docx-urls"
     new_argv << "https://example.com/file with spaces.docx;https://example.com/another file.docx"
     new_argv << "--docx-sizes"
     new_argv << "1.3;0.9"
-    new_argv << "--txt-paths"
-    new_argv << txt_paths
 
     new_argv
   end
@@ -47,13 +45,15 @@ RSpec.describe "rake db:import_book", type: :task do
       original_argv = ARGV.dup
       ARGV.replace(valid_argv)
 
+      allow(URI).to receive(:open).and_yield(StringIO.new("First page.\nPAGE_SEPARATOR\nSecond page."))
+
       expect { task.invoke }.to change(Book, :count).by(1)
                             .and change(BookFile, :count).by(2)
-                            .and change(Page, :count).by(5)
+                            .and change(Page, :count).by(2)
 
       expect(BookFile.pluck(:pdf_size, :txt_size, :docx_size)).to eq([ [ 15.4, 0.3, 1.3 ], [ 10.1, 0.1, 0.9 ] ])
-      expect(Page.pluck(:content)).to eq([ "page 1", "page 2", "page 3", "page 1", "page 2" ])
-      expect(Page.pluck(:number)).to eq([ 1, 2, 3, 1, 2 ])
+      expect(Page.pluck(:content)).to eq([ "First page.", "Second page." ])
+      expect(Page.pluck(:number)).to eq([ 1, 2 ])
     ensure
       ARGV.replace(original_argv)
     end
@@ -75,7 +75,7 @@ RSpec.describe "rake db:import_book", type: :task do
       original_argv = ARGV.dup
       ARGV.replace(valid_argv[0..-3])
 
-      expect { task.invoke }.to raise_error(SystemExit).and output(/Error: Missing required arguments: txt_paths/).to_stdout
+      expect { task.invoke }.to raise_error(SystemExit).and output(/Error: Missing required arguments: docx_sizes/).to_stdout
     ensure
       ARGV.replace(original_argv)
     end
@@ -95,10 +95,10 @@ RSpec.describe "rake db:import_book", type: :task do
   context "with un-equal number of URLs, sizes, and paths" do
     it "shows the error and exits" do # rubocop:disable RSpec/ExampleLength
       original_argv = ARGV.dup
-      ARGV.replace(build_argv(txt_paths: "/path/to/file with spaces.txt"))
+      ARGV.replace(build_argv(txt_urls: "https://example.com/file with spaces.txt"))
 
       expect { task.invoke }.to raise_error(SystemExit)
-                            .and output(/Error: The number of URLs, sizes, and paths must be the same for all file types/).to_stdout
+                            .and output(/Error: The number of URLs and sizes must be the same for all file types/).to_stdout
     ensure
       ARGV.replace(original_argv)
     end
@@ -109,6 +109,19 @@ RSpec.describe "rake db:import_book", type: :task do
       allow_any_instance_of(OptionParser).to receive(:parse!).and_raise(OptionParser::InvalidOption) # rubocop:disable RSpec/AnyInstance
 
       expect { task.invoke }.to raise_error(SystemExit).and output(/Error:/).to_stdout
+    end
+  end
+
+  context "when URI.open raises an error" do
+    it "shows the error and exits" do # rubocop:disable RSpec/ExampleLength
+      original_argv = ARGV.dup
+      ARGV.replace(valid_argv)
+
+      allow(URI).to receive(:open).and_raise(URI::InvalidURIError)
+
+      expect { task.invoke }.to raise_error(SystemExit).and output(/An error occurred while downloading or processing TXT file from/).to_stdout
+    ensure
+      ARGV.replace(original_argv)
     end
   end
 

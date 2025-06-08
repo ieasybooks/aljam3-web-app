@@ -1,4 +1,6 @@
 require "optparse"
+require "open-uri"
+require "tempfile"
 
 namespace :db do
   desc "Import a book"
@@ -24,8 +26,7 @@ namespace :db do
       puts '    --txt-urls="https://example.com/file with spaces.txt;https://example.com/another file.txt" \\'
       puts '    --txt-sizes="0.3;0.1" \\'
       puts '    --docx-urls="https://example.com/file with spaces.docx;https://example.com/another file.docx" \\'
-      puts '    --docx-sizes="1.3;0.9" \\'
-      puts '    --txt-paths="/path/to/file with spaces.txt;/path/to/another file.txt"'
+      puts '    --docx-sizes="1.3;0.9"'
     end
 
     split_list = lambda { it.split(";").map(&:strip).reject(&:empty?) }
@@ -47,7 +48,6 @@ namespace :db do
       opts.on("--txt-sizes TXT_SIZES", "Semicolon-separated list of TXT file sizes in MB (use semicolons to separate files)") { options[:txt_sizes] = split_list.call(it) }
       opts.on("--docx-urls DOCX_URLS", "Semicolon-separated list of DOCX file URLs (use semicolons to separate files)") { options[:docx_urls] = split_list.call(it) }
       opts.on("--docx-sizes DOCX_SIZES", "Semicolon-separated list of DOCX file sizes in MB (use semicolons to separate files)") { options[:docx_sizes] = split_list.call(it) }
-      opts.on("--txt-paths TXT_PATHS", "Semicolon-separated list of local TXT file paths (use semicolons to separate files)") { options[:txt_paths] = split_list.call(it) }
 
       opts.on("-h", "--help", "Show this help message")
     end
@@ -59,15 +59,15 @@ namespace :db do
     begin
       option_parser.parse!(ARGV[2..])
     rescue => e
-      show_help.call(option_parser, "Error: #{e.message}"); exit 1
+      show_help.call(option_parser, e.message); exit 1
     end
 
     options[:volumes] ||= -1
 
-    required_args = [ :title, :author, :category, :pages, :library_id, :pdf_urls, :pdf_sizes, :txt_urls, :txt_sizes, :docx_urls, :docx_sizes, :txt_paths ]
+    required_args = [ :title, :author, :category, :pages, :library_id, :pdf_urls, :pdf_sizes, :txt_urls, :txt_sizes, :docx_urls, :docx_sizes ]
     missing_args = required_args.select { options[it].nil? }
     if missing_args.any?
-      show_help.call(option_parser, "Error: Missing required arguments: #{missing_args.join(', ')}"); exit 1
+      show_help.call(option_parser, "Missing required arguments: #{missing_args.join(', ')}"); exit 1
     end
 
     if [
@@ -76,10 +76,9 @@ namespace :db do
       options[:txt_urls].size,
       options[:txt_sizes].size,
       options[:docx_urls].size,
-      options[:docx_sizes].size,
-      options[:txt_paths].size
+      options[:docx_sizes].size
     ].uniq.size != 1
-      puts "Error: The number of URLs, sizes, and paths must be the same for all file types"; exit 1
+      puts "Error: The number of URLs and sizes must be the same for all file types"; exit 1
     end
 
     unless Library.exists?(options[:library_id].to_i)
@@ -120,19 +119,30 @@ namespace :db do
         end
       end
 
-      options[:txt_paths].each_with_index do |txt_path, index|
+      options[:txt_urls].each_with_index do |txt_url, index|
         book_file = book_files[index]
-        pages = File.read(txt_path).split(/\r?\nPAGE_SEPARATOR\r?\n/)
 
-        book_file.pages.insert_all(
-          pages.map.with_index(1) do |page, jndex|
-            {
-              content: page.strip,
-              number: jndex,
-              book_file_id: book_file.id
-            }
-          end
-        )
+        begin
+          temp_file = Tempfile.new([ "book_content", ".txt" ])
+
+          URI.open(txt_url) { temp_file.write(it.read) }
+          temp_file.rewind
+
+          book_file.pages.insert_all(
+            temp_file.read.split(/\r?\nPAGE_SEPARATOR\r?\n/).map.with_index(1) do |page, jndex|
+              {
+                content: page.strip,
+                number: jndex,
+                book_file_id: book_file.id
+              }
+            end
+          )
+        rescue => e
+          puts "An error occurred while downloading or processing TXT file from '#{txt_url}': #{e.message}"; exit 1
+        ensure
+          temp_file.close
+          temp_file.unlink
+        end
       end
     rescue => e
       puts "An error occurred while creating the book: #{e.message}"; exit 1
