@@ -120,7 +120,7 @@ class Views::Pages::Show < Views::Base
         end
       end
 
-      TooltipContent(class: "delay-100") do
+      TooltipContent(class: "delay-100 max-sm:hidden") do
         Text { t(".copy_content") }
       end
     end
@@ -134,7 +134,7 @@ class Views::Pages::Show < Views::Base
         end
       end
 
-      TooltipContent(class: "delay-100") do
+      TooltipContent(class: "delay-100 max-sm:hidden") do
         Text { t(".text_size_increase") }
       end
     end
@@ -148,7 +148,7 @@ class Views::Pages::Show < Views::Base
         end
       end
 
-      TooltipContent(class: "delay-100") do
+      TooltipContent(class: "delay-100 max-sm:hidden") do
         Text { t(".text_size_decrease") }
       end
     end
@@ -170,7 +170,7 @@ class Views::Pages::Show < Views::Base
         end
       end
 
-      TooltipContent(class: "delay-100") do
+      TooltipContent(class: "delay-100 max-sm:hidden") do
         Text { t(".copy_image") }
       end
     end
