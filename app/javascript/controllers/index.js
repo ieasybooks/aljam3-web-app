@@ -7,6 +7,9 @@ import { application } from "./application"
 import BookPageController from "./book_page_controller"
 application.register("book-page", BookPageController)
 
+import ContentControlsController from "./content_controls_controller"
+application.register("content-controls", ContentControlsController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
@@ -36,6 +39,3 @@ application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
 import SyncValueController from "./sync_value_controller"
 application.register("sync-value", SyncValueController)
-
-import TxtContentController from "./txt_content_controller"
-application.register("txt-content", TxtContentController)

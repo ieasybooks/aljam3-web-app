@@ -12,7 +12,7 @@ const SIZE_TO_CLASS = {
   9: "text-5xl"
 }
 
-// Connects to data-controller="txt-content"
+// Connects to data-controller="content-controls"
 export default class extends Controller {
   static targets = [ "content", "copyButton" ]
   static values = {

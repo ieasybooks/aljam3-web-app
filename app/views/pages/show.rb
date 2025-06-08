@@ -12,8 +12,9 @@ class Views::Pages::Show < Views::Base
     div(
       class: "flex flex-col h-[calc(100vh-57px)] sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
       data: {
-        controller: "book-page",
-        book_page_book_id_value: @book.id
+        controller: "book-page content-controls",
+        book_page_book_id_value: @book.id,
+        content_controls_copy_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
       }
     ) do
       header
@@ -62,22 +63,16 @@ class Views::Pages::Show < Views::Base
       txt_content
       pdf_content
     end
+
+    controls
   end
 
   def txt_content
     # Dark background color is similar to the PDF's viewer background color.
-    div(
-      class: "flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col",
-      data: {
-        controller: "txt-content",
-        txt_content_copy_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
-      }
-    ) do
-      div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { txt_content_target: "content" }) do
+    div(class: "flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col") do
+      div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { content_controls_target: "content" }) do
         simple_format @page.content
       end
-
-      txt_content_controls
     end
   end
 
@@ -91,8 +86,8 @@ class Views::Pages::Show < Views::Base
     end
   end
 
-  def txt_content_controls
-    div(class: "flex items-center p-2 gap-x-2 rounded-b-lg border-t border-neutral-300 dark:border-neutral-700") do
+  def controls
+    div(class: "flex items-center p-2 gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
       copy_button
       text_size_increase_button
       text_size_decrease_button
@@ -107,8 +102,8 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->txt-content#copy",
-            txt_content_target: "copyButton"
+            action: "click->content-controls#copy",
+            content_controls_target: "copyButton"
           }
         ) do
           Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
@@ -124,7 +119,7 @@ class Views::Pages::Show < Views::Base
   def text_size_increase_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->txt-content#textSizeIncrease" }) do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->content-controls#textSizeIncrease" }) do
           Tabler::TextIncrease(variant: :outline, class: "size-5")
         end
       end
@@ -138,7 +133,7 @@ class Views::Pages::Show < Views::Base
   def text_size_decrease_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->txt-content#textSizeDecrease" }) do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->content-controls#textSizeDecrease" }) do
           Tabler::TextDecrease(variant: :outline, class: "size-5")
         end
       end
