@@ -10,9 +10,6 @@ application.register("book-page", BookPageController)
 import ContentControlsController from "./content_controls_controller"
 application.register("content-controls", ContentControlsController)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
-
 import RubyUi__CarouselController from "./ruby_ui/carousel_controller"
 application.register("ruby-ui--carousel", RubyUi__CarouselController)
 
