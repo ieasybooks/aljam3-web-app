@@ -6,15 +6,15 @@ ar:
     home: الرئيسية
   pages:
     show:
-      title: كتاب %{title}
       copy_content: نسخ المحتوى
-      copy_image: نسخ 
+      copy_image: نسخ
       first_page: الصفحة الأولى
-      previous_page: الصفحة السابقة
-      next_page: الصفحة التالية
       last_page: الصفحة الأخيرة
-      text_size_increase: تكبير حجم الخط
+      next_page: الصفحة التالية
+      previous_page: الصفحة السابقة
       text_size_decrease: تصغير حجم الخط
+      text_size_increase: تكبير حجم الخط
+      title: كتاب %{title}
   pages_text: الصفحات
   search_book_card:
     book_page: صفحة الكتاب
