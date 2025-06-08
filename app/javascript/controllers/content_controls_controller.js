@@ -14,9 +14,9 @@ const SIZE_TO_CLASS = {
 
 // Connects to data-controller="content-controls"
 export default class extends Controller {
-  static targets = [ "content", "copyButton" ]
+  static targets = [ "content", "copyTextButton" ]
   static values = {
-    copyButtonDoneStatus: String
+    copyTextButtonDoneStatus: String
   }
 
   connect() {
@@ -25,17 +25,17 @@ export default class extends Controller {
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
   }
 
-  copy() {
+  copyText() {
     navigator.clipboard.writeText(this.contentTarget.textContent)
 
-    const oldInnerHTML = this.copyButtonTarget.innerHTML
+    const oldInnerHTML = this.copyTextButtonTarget.innerHTML
 
-    this.copyButtonTarget.setAttribute("disabled", true)
-    this.copyButtonTarget.innerHTML = this.copyButtonDoneStatusValue
+    this.copyTextButtonTarget.setAttribute("disabled", true)
+    this.copyTextButtonTarget.innerHTML = this.copyTextButtonDoneStatusValue
 
     setTimeout(() => {
-      this.copyButtonTarget.innerHTML = oldInnerHTML
-      this.copyButtonTarget.removeAttribute("disabled")
+      this.copyTextButtonTarget.innerHTML = oldInnerHTML
+      this.copyTextButtonTarget.removeAttribute("disabled")
     }, 1000)
   }
 

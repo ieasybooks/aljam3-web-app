@@ -14,7 +14,7 @@ class Views::Pages::Show < Views::Base
       data: {
         controller: "book-page content-controls",
         book_page_book_id_value: @book.id,
-        content_controls_copy_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
+        content_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
       }
     ) do
       header
@@ -81,20 +81,23 @@ class Views::Pages::Show < Views::Base
       iframe(
         src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
         class: "w-full h-full",
-        data: { book_page_target: "iframe" }
+        data: {
+          book_page_target: "iframe",
+          content_controls_target: "iframe"
+        }
       )
     end
   end
 
   def controls
     div(class: "flex items-center p-2 gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
-      copy_button
+      copy_text_button
       text_size_increase_button
       text_size_decrease_button
     end
   end
 
-  def copy_button
+  def copy_text_button
     Tooltip do
       TooltipTrigger do
         Button(
@@ -102,8 +105,8 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->content-controls#copy",
-            content_controls_target: "copyButton"
+            action: "click->content-controls#copyText",
+            content_controls_target: "copyTextButton"
           }
         ) do
           Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
