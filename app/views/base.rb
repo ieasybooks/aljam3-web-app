@@ -9,7 +9,7 @@ class Views::Base < Components::Base
 
   include Components
 
-  PageInfo = Data.define(:title)
+  PageInfo = Data.define(:title, :no_navbar)
 
   def around_template
     if layout
@@ -23,10 +23,12 @@ class Views::Base < Components::Base
 
   def layout = Components::Layout
   def page_title = t("aljam3")
+  def no_navbar = false
 
   def page_info
     PageInfo.new(
-      title: page_title
+      title: page_title,
+      no_navbar: no_navbar
     )
   end
 end

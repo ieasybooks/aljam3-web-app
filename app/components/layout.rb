@@ -12,7 +12,7 @@ class Components::Layout < Components::Base
       Head(@page_info)
 
       body(data: { controller: "sync-value" }) do
-        Navbar()
+        Navbar() unless @page_info.no_navbar
 
         yield
       end
