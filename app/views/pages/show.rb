@@ -77,7 +77,12 @@ class Views::Pages::Show < Views::Base
 
   def txt_content
     # Dark background color is similar to the PDF's viewer background color.
-    div(class: "sm:max-w-1/2 flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col", data: { content_controls_target: "txtContent" }) do
+    div(
+      class: "sm:max-w-1/2 flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col",
+      data: {
+        content_controls_target: "txtContent"
+      }
+    ) do
       div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { content_controls_target: "content" }) do
         simple_format @page.content
       end
@@ -249,12 +254,19 @@ class Views::Pages::Show < Views::Base
   def first_page_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#firstPage" }) do
+        Button(
+          variant: :outline,
+          size: :md,
+          icon: true,
+          data: {
+            action: "click->pages-controls#firstPage",
+            pages_controls_target: "firstPageButton"
+          }) do
           Hero::ChevronDoubleLeft(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden") do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "firstPageButtonTooltip" }) do
         Text { t(".first_page") }
       end
     end
@@ -263,12 +275,20 @@ class Views::Pages::Show < Views::Base
   def previous_page_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#previousPage" }) do
+        Button(
+          variant: :outline,
+          size: :md,
+          icon: true,
+          data: {
+            action: "click->pages-controls#previousPage",
+            pages_controls_target: "previousPageButton"
+          }
+        ) do
           Hero::ChevronLeft(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden") do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "previousPageButtonTooltip" }) do
         Text { t(".previous_page") }
       end
     end
@@ -277,12 +297,20 @@ class Views::Pages::Show < Views::Base
   def next_page_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#nextPage" }) do
+        Button(
+          variant: :outline,
+          size: :md,
+          icon: true,
+          data: {
+            action: "click->pages-controls#nextPage",
+            pages_controls_target: "nextPageButton"
+          }
+        ) do
           Hero::ChevronRight(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden") do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "nextPageButtonTooltip" }) do
         Text { t(".next_page") }
       end
     end
@@ -291,12 +319,20 @@ class Views::Pages::Show < Views::Base
   def last_page_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#lastPage" }) do
+        Button(
+          variant: :outline,
+          size: :md,
+          icon: true,
+          data: {
+            action: "click->pages-controls#lastPage",
+            pages_controls_target: "lastPageButton"
+          }
+        ) do
           Hero::ChevronDoubleRight(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden") do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "lastPageButtonTooltip" }) do
         Text { t(".last_page") }
       end
     end
