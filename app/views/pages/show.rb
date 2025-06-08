@@ -94,6 +94,8 @@ class Views::Pages::Show < Views::Base
   def txt_content_controls
     div(class: "flex items-center p-2 gap-x-2 rounded-b-lg border-t border-neutral-300 dark:border-neutral-700") do
       copy_button
+      text_size_increase_button
+      text_size_decrease_button
     end
   end
 
@@ -115,6 +117,34 @@ class Views::Pages::Show < Views::Base
 
       TooltipContent(class: "delay-100") do
         Text { t(".copy_content") }
+      end
+    end
+  end
+
+  def text_size_increase_button
+    Tooltip do
+      TooltipTrigger do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->txt-content#textSizeIncrease" }) do
+          Tabler::TextIncrease(variant: :outline, class: "size-5")
+        end
+      end
+
+      TooltipContent(class: "delay-100") do
+        Text { t(".text_size_increase") }
+      end
+    end
+  end
+
+  def text_size_decrease_button
+    Tooltip do
+      TooltipTrigger do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->txt-content#textSizeDecrease" }) do
+          Tabler::TextDecrease(variant: :outline, class: "size-5")
+        end
+      end
+
+      TooltipContent(class: "delay-100") do
+        Text { t(".text_size_decrease") }
       end
     end
   end

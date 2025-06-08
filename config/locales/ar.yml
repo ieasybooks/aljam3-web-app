@@ -8,6 +8,8 @@ ar:
     show:
       title: كتاب %{title}
       copy_content: نسخ المحتوى
+      text_size_increase: تكبير حجم الخط
+      text_size_decrease: تصغير حجم الخط
   pages_text: الصفحات
   search_book_card:
     book_page: صفحة الكتاب
