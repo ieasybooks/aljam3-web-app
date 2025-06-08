@@ -14,7 +14,19 @@ const SIZE_TO_CLASS = {
 
 // Connects to data-controller="content-controls"
 export default class extends Controller {
-  static targets = [ "content", "copyTextButton", "iframe", "copyImageButton" ]
+  static targets = [
+    "txtContent",
+    "content",
+    "copyTextButton",
+
+    "pdfContent",
+    "iframe",
+    "copyImageButton",
+    "txtContentOnlyButton",
+    "txtAndPdfContentButton",
+    "pdfContentOnlyButton"
+  ]
+
   static values = {
     copyTextButtonDoneStatus: String,
     copyImageButtonDoneStatus: String
@@ -22,8 +34,10 @@ export default class extends Controller {
 
   connect() {
     this.currentContentSize = parseInt(localStorage.getItem("txt-content-size")) || 3
+    this.currentLayout = localStorage.getItem("content-layout") || "txt-and-pdf"
 
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
+    this.#applyLayout()
   }
 
   copyText() {
@@ -66,6 +80,24 @@ export default class extends Controller {
     localStorage.setItem("txt-content-size", this.currentContentSize)
   }
 
+  txtContentOnly() {
+    this.currentLayout = "txt-only"
+    localStorage.setItem("content-layout", this.currentLayout)
+    this.#applyLayout()
+  }
+
+  txtAndPdfContent() {
+    this.currentLayout = "txt-and-pdf"
+    localStorage.setItem("content-layout", this.currentLayout)
+    this.#applyLayout()
+  }
+
+  pdfContentOnly() {
+    this.currentLayout = "pdf-only"
+    localStorage.setItem("content-layout", this.currentLayout)
+    this.#applyLayout()
+  }
+
   copyImage() {
     this.#currentPageView().canvas.toBlob(async (blob) => {
       const item = new ClipboardItem({ "image/png": blob })
@@ -81,6 +113,31 @@ export default class extends Controller {
       this.copyImageButtonTarget.innerHTML = oldInnerHTML
       this.copyImageButtonTarget.removeAttribute("disabled")
     }, 1000)
+  }
+
+  #applyLayout() {
+    this.txtContentOnlyButtonTarget.classList.remove("bg-accent!")
+    this.txtAndPdfContentButtonTarget.classList.remove("bg-accent!")
+    this.pdfContentOnlyButtonTarget.classList.remove("bg-accent!")
+
+    switch (this.currentLayout) {
+      case "txt-only":
+        this.txtContentOnlyButtonTarget.classList.add("bg-accent!")
+        this.txtContentTarget.classList.remove("hidden")
+        this.pdfContentTarget.classList.add("hidden")
+        break
+      case "pdf-only":
+        this.pdfContentOnlyButtonTarget.classList.add("bg-accent!")
+        this.txtContentTarget.classList.add("hidden")
+        this.pdfContentTarget.classList.remove("hidden")
+        break
+      case "txt-and-pdf":
+      default:
+        this.txtAndPdfContentButtonTarget.classList.add("bg-accent!")
+        this.txtContentTarget.classList.remove("hidden")
+        this.pdfContentTarget.classList.remove("hidden")
+        break
+    }
   }
 
   #currentPageView() {

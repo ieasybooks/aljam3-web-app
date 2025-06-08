@@ -60,7 +60,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def content
-    div(class: "flex-1 flex gap-2 sm:gap-4 min-h-0") do
+    div(class: "flex-1 flex justify-center gap-2 sm:gap-4 min-h-0") do
       txt_content
       pdf_content
     end
@@ -70,7 +70,7 @@ class Views::Pages::Show < Views::Base
 
   def txt_content
     # Dark background color is similar to the PDF's viewer background color.
-    div(class: "flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col") do
+    div(class: "max-w-1/2 flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col", data: { content_controls_target: "txtContent" }) do
       div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { content_controls_target: "content" }) do
         simple_format @page.content
       end
@@ -78,7 +78,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def pdf_content
-    div(class: "flex-1 rounded-lg overflow-y-auto") do
+    div(class: "max-w-1/2 flex-1 rounded-lg overflow-y-auto", data: { content_controls_target: "pdfContent" }) do
       iframe(
         src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
         class: "w-full h-full",
@@ -99,6 +99,14 @@ class Views::Pages::Show < Views::Base
       end
 
       div(class: "flex items-center gap-x-2") do
+        txt_content_only_button
+        txt_and_pdf_content_button
+        pdf_content_only_button
+      end
+
+      div(class: "flex items-center gap-x-2") do
+        dummy_button
+        dummy_button
         copy_image_button
       end
     end
@@ -154,6 +162,48 @@ class Views::Pages::Show < Views::Base
     end
   end
 
+  def txt_content_only_button
+    Button(
+      variant: :outline,
+      size: :md,
+      icon: true,
+      data: {
+        action: "click->content-controls#txtContentOnly",
+        content_controls_target: "txtContentOnlyButton"
+      }
+    ) do
+      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "size-5")
+    end
+  end
+
+  def txt_and_pdf_content_button
+    Button(
+      variant: :outline,
+      size: :md,
+      icon: true,
+      data: {
+        action: "click->content-controls#txtAndPdfContent",
+        content_controls_target: "txtAndPdfContentButton"
+      }
+    ) do
+      Tabler::LayoutColumns(variant: :outline, class: "size-5")
+    end
+  end
+
+  def pdf_content_only_button
+    Button(
+      variant: :outline,
+      size: :md,
+      icon: true,
+      data: {
+        action: "click->content-controls#pdfContentOnly",
+        content_controls_target: "pdfContentOnlyButton"
+      }
+    ) do
+      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "size-5")
+    end
+  end
+
   def copy_image_button
     Tooltip do
       TooltipTrigger do
@@ -175,4 +225,6 @@ class Views::Pages::Show < Views::Base
       end
     end
   end
+
+  def dummy_button = Button(variant: :link, size: :md, icon: true, class: "max-sm:hidden pointer-events-none")
 end
