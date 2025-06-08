@@ -8,7 +8,11 @@ ar:
     show:
       title: كتاب %{title}
       copy_content: نسخ المحتوى
-      copy_image: نسخ الصورة
+      copy_image: نسخ 
+      first_page: الصفحة الأولى
+      previous_page: الصفحة السابقة
+      next_page: الصفحة التالية
+      last_page: الصفحة الأخيرة
       text_size_increase: تكبير حجم الخط
       text_size_decrease: تصغير حجم الخط
   pages_text: الصفحات

@@ -11,6 +11,10 @@ en:
       copy_image: Copy Image
       text_size_increase: Increase Text Size
       text_size_decrease: Decrease Text Size
+      first_page: First Page
+      previous_page: Previous Page
+      next_page: Next Page
+      last_page: Last Page
   pages_text: Pages
   search_book_card:
     book_page: Book Page

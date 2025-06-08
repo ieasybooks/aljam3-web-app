@@ -7,12 +7,13 @@ class Views::Pages::Show < Views::Base
   end
 
   def page_title = t(".title", title: @page.file.book.title)
+  def no_navbar = true
 
   def view_template
     div(
-      class: "flex flex-col h-[calc(100vh-57px)] sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
+      class: "flex flex-col h-screen sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
       data: {
-        controller: "book-page content-controls",
+        controller: "book-page content-controls pages-controls",
         book_page_book_id_value: @book.id,
         content_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         content_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
@@ -38,6 +39,10 @@ class Views::Pages::Show < Views::Base
   def breadcrumb
     Breadcrumb do
       BreadcrumbList do
+        BreadcrumbLink(href: root_path) { t("aljam3") }
+
+        BreadcrumbSeparator { Radix::Slash() }
+
         # TODO: Add a link to the library page IF implemented.
         BreadcrumbLink(href: "#") { @library.name }
 
@@ -60,12 +65,14 @@ class Views::Pages::Show < Views::Base
   end
 
   def content
+    content_controls
+
     div(class: "flex-1 flex justify-center gap-2 sm:gap-4 min-h-0") do
       txt_content
       pdf_content
     end
 
-    controls
+    pages_controls
   end
 
   def txt_content
@@ -84,13 +91,14 @@ class Views::Pages::Show < Views::Base
         class: "w-full h-full",
         data: {
           book_page_target: "iframe",
-          content_controls_target: "iframe"
+          content_controls_target: "iframe",
+          pages_controls_target: "iframe"
         }
       )
     end
   end
 
-  def controls
+  def content_controls
     div(class: "flex items-center justify-between p-2 gap-x-2 overflow-x-auto rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
       div(class: "flex items-center gap-x-2") do
         copy_text_button
@@ -172,7 +180,7 @@ class Views::Pages::Show < Views::Base
         content_controls_target: "txtContentOnlyButton"
       }
     ) do
-      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-5")
+      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-6")
       Bootstrap::FiletypeTxt(class: "max-sm:block sm:hidden size-5")
     end
   end
@@ -188,7 +196,7 @@ class Views::Pages::Show < Views::Base
         content_controls_target: "txtAndPdfContentButton"
       }
     ) do
-      Tabler::LayoutColumns(variant: :outline, class: "size-5")
+      Tabler::LayoutColumns(variant: :outline, class: "size-6")
     end
   end
 
@@ -202,7 +210,7 @@ class Views::Pages::Show < Views::Base
         content_controls_target: "pdfContentOnlyButton"
       }
     ) do
-      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-5")
+      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-6")
       Bootstrap::FiletypePdf(class: "max-sm:block sm:hidden size-5")
     end
   end
@@ -225,6 +233,71 @@ class Views::Pages::Show < Views::Base
 
       TooltipContent(class: "delay-100 max-sm:hidden") do
         Text { t(".copy_image") }
+      end
+    end
+  end
+
+  def pages_controls
+    div(class: "flex items-center justify-center p-2 gap-x-2 overflow-x-auto rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
+      first_page_button
+      previous_page_button
+      next_page_button
+      last_page_button
+    end
+  end
+
+  def first_page_button
+    Tooltip do
+      TooltipTrigger do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#firstPage" }) do
+          Hero::ChevronDoubleLeft(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
+        end
+      end
+
+      TooltipContent(class: "delay-100 max-sm:hidden") do
+        Text { t(".first_page") }
+      end
+    end
+  end
+
+  def previous_page_button
+    Tooltip do
+      TooltipTrigger do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#previousPage" }) do
+          Hero::ChevronLeft(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
+        end
+      end
+
+      TooltipContent(class: "delay-100 max-sm:hidden") do
+        Text { t(".previous_page") }
+      end
+    end
+  end
+
+  def next_page_button
+    Tooltip do
+      TooltipTrigger do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#nextPage" }) do
+          Hero::ChevronRight(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
+        end
+      end
+
+      TooltipContent(class: "delay-100 max-sm:hidden") do
+        Text { t(".next_page") }
+      end
+    end
+  end
+
+  def last_page_button
+    Tooltip do
+      TooltipTrigger do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->pages-controls#lastPage" }) do
+          Hero::ChevronDoubleRight(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
+        end
+      end
+
+      TooltipContent(class: "delay-100 max-sm:hidden") do
+        Text { t(".last_page") }
       end
     end
   end
