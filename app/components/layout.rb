@@ -10,9 +10,12 @@ class Components::Layout < Components::Base
 
     html dir: html_dir, lang: I18n.locale do
       Head(@page_info)
-      Navbar()
 
-      body(data: { controller: "sync-value" }) { yield }
+      body(data: { controller: "sync-value" }) do
+        Navbar()
+
+        yield
+      end
     end
   end
 end
