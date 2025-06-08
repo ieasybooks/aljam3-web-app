@@ -70,7 +70,7 @@ class Views::Pages::Show < Views::Base
 
   def txt_content
     # Dark background color is similar to the PDF's viewer background color.
-    div(class: "max-w-1/2 flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col", data: { content_controls_target: "txtContent" }) do
+    div(class: "sm:max-w-1/2 flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col", data: { content_controls_target: "txtContent" }) do
       div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { content_controls_target: "content" }) do
         simple_format @page.content
       end
@@ -78,7 +78,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def pdf_content
-    div(class: "max-w-1/2 flex-1 rounded-lg overflow-y-auto", data: { content_controls_target: "pdfContent" }) do
+    div(class: "sm:max-w-1/2 flex-1 rounded-lg overflow-y-auto", data: { content_controls_target: "pdfContent" }) do
       iframe(
         src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
         class: "w-full h-full",
@@ -91,7 +91,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def controls
-    div(class: "flex items-center justify-between p-2 gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
+    div(class: "flex items-center justify-between p-2 gap-x-2 overflow-x-auto rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
       div(class: "flex items-center gap-x-2") do
         copy_text_button
         text_size_increase_button
@@ -172,7 +172,8 @@ class Views::Pages::Show < Views::Base
         content_controls_target: "txtContentOnlyButton"
       }
     ) do
-      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "size-5")
+      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-5")
+      Bootstrap::FiletypeTxt(class: "max-sm:block sm:hidden size-5")
     end
   end
 
@@ -181,6 +182,7 @@ class Views::Pages::Show < Views::Base
       variant: :outline,
       size: :md,
       icon: true,
+      class: "max-sm:hidden",
       data: {
         action: "click->content-controls#txtAndPdfContent",
         content_controls_target: "txtAndPdfContentButton"
@@ -200,7 +202,8 @@ class Views::Pages::Show < Views::Base
         content_controls_target: "pdfContentOnlyButton"
       }
     ) do
-      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "size-5")
+      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-5")
+      Bootstrap::FiletypePdf(class: "max-sm:block sm:hidden size-5")
     end
   end
 

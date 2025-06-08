@@ -34,7 +34,9 @@ export default class extends Controller {
 
   connect() {
     this.currentContentSize = parseInt(localStorage.getItem("txt-content-size")) || 3
-    this.currentLayout = localStorage.getItem("content-layout") || "txt-and-pdf"
+    
+    const defaultLayout = this.#isMobile() ? "pdf-only" : "txt-and-pdf"
+    this.currentLayout = localStorage.getItem("content-layout") || defaultLayout
 
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
     this.#applyLayout()
@@ -142,5 +144,9 @@ export default class extends Controller {
 
   #currentPageView() {
     return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(this.iframeTarget.contentWindow.PDFViewerApplication.page - 1)
+  }
+
+  #isMobile() {
+    return window.innerWidth < 640 // Tailwind's sm breakpoint
   }
 }
