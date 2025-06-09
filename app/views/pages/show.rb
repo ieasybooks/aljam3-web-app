@@ -56,7 +56,7 @@ class Views::Pages::Show < Views::Base
     end
   end
 
-  def title = Heading(level: "1") { @book.title }
+  def title = Heading(level: "1", class: "max-sm:text-2xl line-clamp-3 sm:line-clamp-2") { @book.title }
 
   def author
     Text(size: "1", weight: "muted", class: "flex gap-x-1") do
