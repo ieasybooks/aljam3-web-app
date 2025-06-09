@@ -7,8 +7,8 @@ import { application } from "./application"
 import BookPageController from "./book_page_controller"
 application.register("book-page", BookPageController)
 
-import ContentControlsController from "./content_controls_controller"
-application.register("content-controls", ContentControlsController)
+import TopControlsController from "./top_controls_controller"
+application.register("top-controls", TopControlsController)
 
 import PagesControlsController from "./pages_controls_controller"
 application.register("pages-controls", PagesControlsController)

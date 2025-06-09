@@ -13,10 +13,10 @@ class Views::Pages::Show < Views::Base
     div(
       class: "flex flex-col h-screen sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
       data: {
-        controller: "book-page content-controls pages-controls",
+        controller: "book-page top-controls pages-controls",
         book_page_book_id_value: @book.id,
-        content_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
-        content_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
+        top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
+        top_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
       }
     ) do
       header
@@ -65,7 +65,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def content
-    content_controls
+    top_controls
 
     div(class: "flex-1 flex justify-center gap-2 sm:gap-4 min-h-0") do
       txt_content
@@ -80,30 +80,30 @@ class Views::Pages::Show < Views::Base
     div(
       class: "sm:max-w-1/2 flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col",
       data: {
-        content_controls_target: "txtContent"
+        top_controls_target: "txtContent"
       }
     ) do
-      div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { content_controls_target: "content" }) do
+      div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { top_controls_target: "content" }) do
         simple_format @page.content
       end
     end
   end
 
   def pdf_content
-    div(class: "sm:max-w-1/2 flex-1 rounded-lg overflow-y-auto", data: { content_controls_target: "pdfContent" }) do
+    div(class: "sm:max-w-1/2 flex-1 rounded-lg overflow-y-auto", data: { top_controls_target: "pdfContent" }) do
       iframe(
         src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
         class: "w-full h-full",
         data: {
           book_page_target: "iframe",
-          content_controls_target: "iframe",
+          top_controls_target: "iframe",
           pages_controls_target: "iframe"
         }
       )
     end
   end
 
-  def content_controls
+  def top_controls
     div(class: "flex items-center justify-between p-2 gap-x-2 overflow-x-auto rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
       div(class: "flex items-center gap-x-2") do
         copy_text_button
@@ -133,8 +133,8 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->content-controls#copyText",
-            content_controls_target: "copyTextButton"
+            action: "click->top-controls#copyText",
+            top_controls_target: "copyTextButton"
           }
         ) do
           Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
@@ -150,7 +150,7 @@ class Views::Pages::Show < Views::Base
   def text_size_increase_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->content-controls#textSizeIncrease" }) do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->top-controls#textSizeIncrease" }) do
           Tabler::TextIncrease(variant: :outline, class: "size-5")
         end
       end
@@ -164,7 +164,7 @@ class Views::Pages::Show < Views::Base
   def text_size_decrease_button
     Tooltip do
       TooltipTrigger do
-        Button(variant: :outline, size: :md, icon: true, data: { action: "click->content-controls#textSizeDecrease" }) do
+        Button(variant: :outline, size: :md, icon: true, data: { action: "click->top-controls#textSizeDecrease" }) do
           Tabler::TextDecrease(variant: :outline, class: "size-5")
         end
       end
@@ -181,8 +181,8 @@ class Views::Pages::Show < Views::Base
       size: :md,
       icon: true,
       data: {
-        action: "click->content-controls#txtContentOnly",
-        content_controls_target: "txtContentOnlyButton"
+        action: "click->top-controls#txtContentOnly",
+        top_controls_target: "txtContentOnlyButton"
       }
     ) do
       Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-6")
@@ -197,8 +197,8 @@ class Views::Pages::Show < Views::Base
       icon: true,
       class: "max-sm:hidden",
       data: {
-        action: "click->content-controls#txtAndPdfContent",
-        content_controls_target: "txtAndPdfContentButton"
+        action: "click->top-controls#txtAndPdfContent",
+        top_controls_target: "txtAndPdfContentButton"
       }
     ) do
       Tabler::LayoutColumns(variant: :outline, class: "size-6")
@@ -211,8 +211,8 @@ class Views::Pages::Show < Views::Base
       size: :md,
       icon: true,
       data: {
-        action: "click->content-controls#pdfContentOnly",
-        content_controls_target: "pdfContentOnlyButton"
+        action: "click->top-controls#pdfContentOnly",
+        top_controls_target: "pdfContentOnlyButton"
       }
     ) do
       Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-6")
@@ -228,8 +228,8 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->content-controls#copyImage",
-            content_controls_target: "copyImageButton"
+            action: "click->top-controls#copyImage",
+            top_controls_target: "copyImageButton"
           }
         ) do
           Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
