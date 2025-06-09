@@ -4,14 +4,11 @@
 
 import { application } from "./application"
 
-import BookPageController from "./book_page_controller"
-application.register("book-page", BookPageController)
-
-import TopControlsController from "./top_controls_controller"
-application.register("top-controls", TopControlsController)
-
 import BottomControlsController from "./bottom_controls_controller"
 application.register("bottom-controls", BottomControlsController)
+
+import PdfReaderController from "./pdf_reader_controller"
+application.register("pdf-reader", PdfReaderController)
 
 import RubyUi__CarouselController from "./ruby_ui/carousel_controller"
 application.register("ruby-ui--carousel", RubyUi__CarouselController)
@@ -39,3 +36,6 @@ application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
 import SyncValueController from "./sync_value_controller"
 application.register("sync-value", SyncValueController)
+
+import TopControlsController from "./top_controls_controller"
+application.register("top-controls", TopControlsController)
