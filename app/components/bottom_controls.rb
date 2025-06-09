@@ -3,11 +3,16 @@
 class Components::BottomControls < Components::Base
   def view_template
     ControlsBar(class: "justify-center") do |bar|
-      div(class: "flex items-center gap-x-2") do
-        first_page_button(bar)
-        previous_page_button(bar)
-        next_page_button(bar)
-        last_page_button(bar)
+      div(class: "max-sm:w-full flex items-center max-sm:justify-between gap-x-2") do
+        div(class: "flex items-center gap-x-2") do
+          first_page_button(bar)
+          previous_page_button(bar)
+        end
+
+        div(class: "flex items-center gap-x-2") do
+          next_page_button(bar)
+          last_page_button(bar)
+        end
       end
     end
   end
