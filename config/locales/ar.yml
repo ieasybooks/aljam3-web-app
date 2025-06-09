@@ -7,12 +7,13 @@ ar:
   pages:
     show:
       copy_content: نسخ المحتوى
-      copy_image: نسخ
+      copy_image: نسخ الصورة
       first_page: الصفحة الأولى
       last_page: الصفحة الأخيرة
       next_page: الصفحة التالية
       previous_page: الصفحة السابقة
       text_size_decrease: تصغير حجم الخط
+      download_image: تحميل الصورة
       text_size_increase: تكبير حجم الخط
       title: كتاب %{title}
   pages_text: الصفحات

@@ -15,7 +15,9 @@ class Views::Pages::Show < Views::Base
       data: {
         controller: "book-page top-controls bottom-controls",
         book_page_book_id_value: @book.id,
+        top_controls_book_title_value: @book.title,
         top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
+        top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
       }
     ) do
@@ -119,7 +121,7 @@ class Views::Pages::Show < Views::Base
 
       div(class: "flex items-center gap-x-2") do
         dummy_button
-        dummy_button
+        download_image_button
         copy_image_button
       end
     end
@@ -217,6 +219,28 @@ class Views::Pages::Show < Views::Base
     ) do
       Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-6")
       Bootstrap::FiletypePdf(class: "max-sm:block sm:hidden size-5")
+    end
+  end
+
+  def download_image_button
+    Tooltip do
+      TooltipTrigger do
+        Button(
+          variant: :outline,
+          size: :md,
+          icon: true,
+          data: {
+            action: "click->top-controls#downloadImage",
+            top_controls_target: "downloadImageButton"
+          }
+        ) do
+          Lucide::ImageDown(class: "size-5 ltr:transform ltr:-scale-x-100")
+        end
+      end
+
+      TooltipContent(class: "delay-100 max-sm:hidden") do
+        Text { t(".download_image") }
+      end
     end
   end
 

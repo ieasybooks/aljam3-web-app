@@ -15,6 +15,7 @@ en:
       text_size_decrease: Decrease Text Size
       text_size_increase: Increase Text Size
       title: "%{title} Book"
+      download_image: Download Image
   pages_text: Pages
   search_book_card:
     book_page: Book Page

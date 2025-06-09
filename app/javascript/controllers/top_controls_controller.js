@@ -19,16 +19,20 @@ export default class extends Controller {
     "content",
     "copyTextButton",
 
-    "pdfContent",
-    "iframe",
-    "copyImageButton",
     "txtContentOnlyButton",
     "txtAndPdfContentButton",
-    "pdfContentOnlyButton"
+    "pdfContentOnlyButton",
+
+    "pdfContent",
+    "iframe",
+    "downloadImageButton",
+    "copyImageButton"
   ]
 
   static values = {
+    bookTitle: String,
     copyTextButtonDoneStatus: String,
+    downloadImageButtonDoneStatus: String,
     copyImageButtonDoneStatus: String
   }
 
@@ -98,6 +102,23 @@ export default class extends Controller {
     this.currentLayout = "pdf-only"
     localStorage.setItem("content-layout", this.currentLayout)
     this.#applyLayout()
+  }
+
+  downloadImage() {
+    const link = document.createElement("a")
+    link.href = this.#currentPageView().canvas.toDataURL("image/png")
+    link.download = `${this.bookTitleValue}-${this.iframeTarget.contentWindow.PDFViewerApplication.page}.png`
+    link.click()
+
+    const oldInnerHTML = this.downloadImageButtonTarget.innerHTML
+
+    this.downloadImageButtonTarget.setAttribute("disabled", true)
+    this.downloadImageButtonTarget.innerHTML = this.downloadImageButtonDoneStatusValue
+
+    setTimeout(() => {
+      this.downloadImageButtonTarget.innerHTML = oldInnerHTML
+      this.downloadImageButtonTarget.removeAttribute("disabled")
+    }, 1000)
   }
 
   copyImage() {
