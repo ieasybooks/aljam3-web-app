@@ -11,7 +11,7 @@ class Components::SearchForm < Components::Base
         )
 
         FormField(class: "flex-grow") do
-          Hero::MagnifyingGlass(class: "size-6 absolute translate-x-[-50%] translate-y-[50%]")
+          Hero::MagnifyingGlass(class: "size-6 absolute translate-x-[-50%] translate-y-[50%] ltr:translate-x-[50%] ltr:transform ltr:-scale-x-100")
 
           Input(
             type: :search,

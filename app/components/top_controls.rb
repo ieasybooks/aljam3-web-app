@@ -119,7 +119,7 @@ class Components::TopControls < Components::Base
 
   def txt_content_only_button(bar)
     bar.button(data: { action: "click->top-controls#txtContentOnly", top_controls_target: "txtContentOnlyButton" }) do
-      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-6")
+      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-6 ltr:transform ltr:-scale-x-100")
       Bootstrap::FiletypeTxt(class: "max-sm:block sm:hidden size-5")
     end
   end
@@ -138,7 +138,7 @@ class Components::TopControls < Components::Base
 
   def pdf_content_only_button(bar)
     bar.button(data: { action: "click->top-controls#pdfContentOnly", top_controls_target: "pdfContentOnlyButton" }) do
-      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-6")
+      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-6 ltr:transform ltr:-scale-x-100")
       Bootstrap::FiletypePdf(class: "max-sm:block sm:hidden size-5")
     end
   end

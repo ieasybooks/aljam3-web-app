@@ -53,7 +53,7 @@ class Components::SearchRefinementsSheet < Components::Base
         end
       end
 
-      SheetContent(class: "sm:w-sm") do
+      SheetContent(side: sheet_side, class: "sm:w-sm") do
         SheetHeader do
           SheetTitle { t(".title") }
         end
