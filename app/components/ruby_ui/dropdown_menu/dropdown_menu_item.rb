@@ -2,13 +2,15 @@
 
 module RubyUI
   class DropdownMenuItem < Base
-    def initialize(href: "#", **attrs)
+    def initialize(href: "#", as: :a, **attrs)
       @href = href
+      @as = as
+
       super(**attrs)
     end
 
     def view_template(&)
-      a(**attrs, &)
+      public_send(@as, **attrs, &)
     end
 
     private
