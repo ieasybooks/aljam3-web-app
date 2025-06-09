@@ -13,7 +13,7 @@ class Views::Pages::Show < Views::Base
     div(
       class: "flex flex-col h-screen sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
       data: {
-        controller: "book-page top-controls pages-controls",
+        controller: "book-page top-controls bottom-controls",
         book_page_book_id_value: @book.id,
         top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") }
@@ -72,7 +72,7 @@ class Views::Pages::Show < Views::Base
       pdf_content
     end
 
-    pages_controls
+    bottom_controls
   end
 
   def txt_content
@@ -97,7 +97,7 @@ class Views::Pages::Show < Views::Base
         data: {
           book_page_target: "iframe",
           top_controls_target: "iframe",
-          pages_controls_target: "iframe"
+          bottom_controls_target: "iframe"
         }
       )
     end
@@ -242,7 +242,7 @@ class Views::Pages::Show < Views::Base
     end
   end
 
-  def pages_controls
+  def bottom_controls
     div(class: "flex items-center justify-center p-2 gap-x-2 overflow-x-auto rounded-lg bg-gray-100 dark:bg-[#2a2a2e]") do
       first_page_button
       previous_page_button
@@ -259,14 +259,14 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->pages-controls#firstPage",
-            pages_controls_target: "firstPageButton"
+            action: "click->bottom-controls#firstPage",
+            bottom_controls_target: "firstPageButton"
           }) do
           Hero::ChevronDoubleLeft(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "firstPageButtonTooltip" }) do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { bottom_controls_target: "firstPageButtonTooltip" }) do
         Text { t(".first_page") }
       end
     end
@@ -280,15 +280,15 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->pages-controls#previousPage",
-            pages_controls_target: "previousPageButton"
+            action: "click->bottom-controls#previousPage",
+            bottom_controls_target: "previousPageButton"
           }
         ) do
           Hero::ChevronLeft(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "previousPageButtonTooltip" }) do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { bottom_controls_target: "previousPageButtonTooltip" }) do
         Text { t(".previous_page") }
       end
     end
@@ -302,15 +302,15 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->pages-controls#nextPage",
-            pages_controls_target: "nextPageButton"
+            action: "click->bottom-controls#nextPage",
+            bottom_controls_target: "nextPageButton"
           }
         ) do
           Hero::ChevronRight(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "nextPageButtonTooltip" }) do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { bottom_controls_target: "nextPageButtonTooltip" }) do
         Text { t(".next_page") }
       end
     end
@@ -324,15 +324,15 @@ class Views::Pages::Show < Views::Base
           size: :md,
           icon: true,
           data: {
-            action: "click->pages-controls#lastPage",
-            pages_controls_target: "lastPageButton"
+            action: "click->bottom-controls#lastPage",
+            bottom_controls_target: "lastPageButton"
           }
         ) do
           Hero::ChevronDoubleRight(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
         end
       end
 
-      TooltipContent(class: "delay-100 max-sm:hidden", data: { pages_controls_target: "lastPageButtonTooltip" }) do
+      TooltipContent(class: "delay-100 max-sm:hidden", data: { bottom_controls_target: "lastPageButtonTooltip" }) do
         Text { t(".last_page") }
       end
     end

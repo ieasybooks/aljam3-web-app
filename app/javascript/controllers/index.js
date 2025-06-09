@@ -10,8 +10,8 @@ application.register("book-page", BookPageController)
 import TopControlsController from "./top_controls_controller"
 application.register("top-controls", TopControlsController)
 
-import PagesControlsController from "./pages_controls_controller"
-application.register("pages-controls", PagesControlsController)
+import BottomControlsController from "./bottom_controls_controller"
+application.register("bottom-controls", BottomControlsController)
 
 import RubyUi__CarouselController from "./ruby_ui/carousel_controller"
 application.register("ruby-ui--carousel", RubyUi__CarouselController)

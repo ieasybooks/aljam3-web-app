@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="pages-controls"
+// Connects to data-controller="bottom-controls"
 export default class extends Controller {
   static targets = [
     "iframe",
