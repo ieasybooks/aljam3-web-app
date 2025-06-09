@@ -1,21 +1,17 @@
 ---
 en:
   aljam3: Aljam3
+  bottom_controls:
+    first_page: First Page
+    last_page: Last Page
+    next_page: Next Page
+    previous_page: Previous Page
   close: Close
   navbar:
     home: Home
   pages:
     show:
-      copy_content: Copy Content
-      copy_image: Copy Image
-      first_page: First Page
-      last_page: Last Page
-      next_page: Next Page
-      previous_page: Previous Page
-      text_size_decrease: Decrease Text Size
-      text_size_increase: Increase Text Size
       title: "%{title} Book"
-      download_image: Download Image
   pages_text: Pages
   search_book_card:
     book_page: Book Page
@@ -47,4 +43,10 @@ en:
     home:
       discover_books: Discover Books
       title: Home
+  top_controls:
+    copy_content: Copy Content
+    copy_image: Copy Image
+    download_image: Download Image
+    text_size_decrease: Decrease Text Size
+    text_size_increase: Increase Text Size
   volumes: Volumes
