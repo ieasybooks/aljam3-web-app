@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Components::Base < Phlex::HTML
+class Components::Base < RubyUI::Base
   include Components
   include RubyUI
   include PhlexIcons
