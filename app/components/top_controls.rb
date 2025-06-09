@@ -3,11 +3,7 @@
 class Components::TopControls < Components::Base
   def view_template
     ControlsBar do |bar|
-      div(class: "flex items-center gap-x-2") do
-        copy_text_button(bar)
-        text_size_increase_button(bar)
-        text_size_decrease_button(bar)
-      end
+      right_side_controls(bar)
 
       div(class: "flex items-center gap-x-2") do
         txt_content_only_button(bar)
@@ -15,15 +11,87 @@ class Components::TopControls < Components::Base
         pdf_content_only_button(bar)
       end
 
-      div(class: "flex items-center gap-x-2") do
-        bar.dummy_button
-        download_image_button(bar)
-        copy_image_button(bar)
-      end
+      left_side_controls(bar)
     end
   end
 
   private
+
+  def right_side_controls(bar)
+    div(class: "max-sm:hidden flex items-center gap-x-2") do
+      copy_text_button(bar)
+      text_size_increase_button(bar)
+      text_size_decrease_button(bar)
+    end
+
+    div(class: "sm:hidden") do
+      DropdownMenu(options: { placement: rtl? ? "bottom-end" : "bottom-start" }) do
+        DropdownMenuTrigger(class: "w-full") do
+          bar.button { Lucide::Menu(class: "size-5") }
+        end
+
+        DropdownMenuContent(class: "w-40") do
+          DropdownMenuItem(as: :button, data_action: "click->top-controls#copyText") do
+            div(class: "flex items-center gap-x-2") do
+              Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
+
+              plain t(".copy_content")
+            end
+          end
+
+          DropdownMenuItem(as: :button, data_action: "click->top-controls#textSizeIncrease") do
+            div(class: "flex items-center gap-x-2") do
+              Tabler::TextIncrease(variant: :outline, class: "size-5")
+
+              plain t(".text_size_increase")
+            end
+          end
+
+          DropdownMenuItem(as: :button, data_action: "click->top-controls#textSizeDecrease") do
+            div(class: "flex items-center gap-x-2") do
+              Tabler::TextDecrease(variant: :outline, class: "size-5")
+
+              plain t(".text_size_decrease")
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def left_side_controls(bar)
+    div(class: "max-sm:hidden flex items-center gap-x-2") do
+      bar.dummy_button
+      download_image_button(bar)
+      copy_image_button(bar)
+    end
+
+    div(class: "sm:hidden") do
+      DropdownMenu(options: { placement: rtl? ? "bottom-start" : "bottom-end" }) do
+        DropdownMenuTrigger(class: "w-full") do
+          bar.button { Lucide::Menu(class: "size-5") }
+        end
+
+        DropdownMenuContent(class: "w-40") do
+          DropdownMenuItem(as: :button, data_action: "click->top-controls#downloadImage") do
+            div(class: "flex items-center gap-x-2") do
+              Lucide::ImageDown(class: "size-5 ltr:transform ltr:-scale-x-100")
+
+              plain t(".download_image")
+            end
+          end
+
+          DropdownMenuItem(as: :button, data_action: "click->top-controls#copyImage") do
+            div(class: "flex items-center gap-x-2") do
+              Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
+
+              plain t(".copy_image")
+            end
+          end
+        end
+      end
+    end
+  end
 
   def copy_text_button(bar)
     bar.tooltip(text: t(".copy_content")) do
