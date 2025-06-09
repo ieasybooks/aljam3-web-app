@@ -7,6 +7,9 @@ import { application } from "./application"
 import BottomControlsController from "./bottom_controls_controller"
 application.register("bottom-controls", BottomControlsController)
 
+import DownloadFileController from "./download_file_controller"
+application.register("download-file", DownloadFileController)
+
 import PdfReaderController from "./pdf_reader_controller"
 application.register("pdf-reader", PdfReaderController)
 

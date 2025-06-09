@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Components::TopControls < Components::Base
+  def initialize(files:)
+    @files = files
+  end
+
   def view_template
     ControlsBar do |bar|
       right_side_controls(bar)
@@ -61,9 +65,9 @@ class Components::TopControls < Components::Base
 
   def left_side_controls(bar)
     div(class: "max-sm:hidden flex items-center gap-x-2") do
-      bar.dummy_button
       download_image_button(bar)
       copy_image_button(bar)
+      download_files_button(bar)
     end
 
     div(class: "sm:hidden") do
@@ -86,6 +90,16 @@ class Components::TopControls < Components::Base
               Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
 
               plain t(".copy_image")
+            end
+          end
+
+          download_files_dialog do
+            DropdownMenuItem(as: :button) do
+              div(class: "flex items-center gap-x-2") do
+                Lucide::Download(class: "size-5")
+
+                plain t(".download_files")
+              end
             end
           end
         end
@@ -155,6 +169,74 @@ class Components::TopControls < Components::Base
     bar.tooltip(text: t(".copy_image")) do
       bar.button(data: { action: "click->top-controls#copyImage", top_controls_target: "copyImageButton" }) do
         Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
+      end
+    end
+  end
+
+  def download_files_button(bar)
+    download_files_dialog do
+      bar.tooltip(text: t(".download_files")) do
+        bar.button do
+          Lucide::Download(class: "size-5")
+        end
+      end
+    end
+  end
+
+  def download_files_dialog(&)
+    Dialog do
+      DialogTrigger do
+        yield
+      end
+
+      DialogContent(class: "p-4") do
+        DialogHeader do
+          DialogTitle { t(".download_files") }
+        end
+
+        DialogMiddle do
+          Table do
+            TableHeader do
+              TableRow do
+                TableHead { "#" }
+                TableHead { t(".file_name") }
+                TableHead(class: "text-center") { "PDF" }
+                TableHead(class: "text-center") { "TXT" }
+                TableHead(class: "text-center") { "DOCX" }
+              end
+            end
+
+            TableBody do
+              @files.each_with_index do |file, index|
+                TableRow do
+                  TableCell { index + 1 }
+                  TableCell { file.name }
+
+                  [ file.pdf_url, file.txt_url, file.docx_url ].each do |url|
+                    TableCell(class: "text-center") do
+                      Button(
+                        variant: :outline,
+                        size: :sm,
+                        icon: true,
+                        data: {
+                          controller: "download-file",
+                          action: "click->download-file#download",
+                          download_file_url_value: url
+                        }
+                      ) do
+                        Lucide::Download(variant: :solid, class: "size-3.5")
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        DialogFooter do
+          Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { t("close") }
+        end
       end
     end
   end

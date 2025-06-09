@@ -26,4 +26,6 @@ class BookFile < ApplicationRecord
   has_many :pages, -> { order(:number) }, dependent: :destroy
 
   validates :pdf_url, :txt_url, :docx_url, :pdf_size, :txt_size, :docx_size, presence: true
+
+  def name = File.basename(pdf_url, File.extname(pdf_url))
 end

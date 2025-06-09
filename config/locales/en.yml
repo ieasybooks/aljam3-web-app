@@ -46,7 +46,9 @@ en:
   top_controls:
     copy_content: Copy Content
     copy_image: Copy Image
+    download_files: Download Files
     download_image: Download Image
+    file_name: File Name
     text_size_decrease: Decrease Text Size
     text_size_increase: Increase Text Size
   volumes: Volumes

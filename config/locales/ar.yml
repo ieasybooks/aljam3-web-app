@@ -46,7 +46,9 @@ ar:
   top_controls:
     copy_content: نسخ المحتوى
     copy_image: نسخ الصورة
+    download_files: تحميل الملفات
     download_image: تحميل الصورة
+    file_name: اسم الملف
     text_size_decrease: تصغير حجم الخط
     text_size_increase: تكبير حجم الخط
   volumes: المجلدات

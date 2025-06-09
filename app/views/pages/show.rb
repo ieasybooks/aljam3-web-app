@@ -4,6 +4,8 @@ class Views::Pages::Show < Views::Base
     @file = @page.file
     @book = @file.book
     @library = @book.library
+
+    @files = @book.files
   end
 
   def page_title = t(".title", title: @page.file.book.title)
@@ -67,7 +69,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def content
-    TopControls()
+    TopControls(files: @files)
 
     div(class: "flex-1 flex justify-center gap-2 sm:gap-4 min-h-0") do
       txt_content
