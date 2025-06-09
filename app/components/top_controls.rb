@@ -194,7 +194,7 @@ class Components::TopControls < Components::Base
           DialogTitle { t(".download_files") }
         end
 
-        DialogMiddle do
+        DialogMiddle(class: "max-h-96 overflow-y-auto") do
           Table do
             TableHeader do
               TableRow do
