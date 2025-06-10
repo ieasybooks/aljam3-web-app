@@ -58,25 +58,7 @@ class Components::TopControls < Components::Base
               plain t(".text_size_decrease")
             end
           end
-        end
-      end
-    end
-  end
 
-  def left_side_controls(bar)
-    div(class: "max-sm:hidden flex items-center gap-x-2") do
-      download_image_button(bar)
-      copy_image_button(bar)
-      download_files_button(bar)
-    end
-
-    div(class: "sm:hidden") do
-      DropdownMenu(options: { placement: rtl? ? "bottom-start" : "bottom-end" }) do
-        DropdownMenuTrigger(class: "w-full") do
-          bar.button { Lucide::Menu(class: "size-5") }
-        end
-
-        DropdownMenuContent(class: "w-40") do
           DropdownMenuItem(as: :button, data_action: "click->top-controls#downloadImage") do
             div(class: "flex items-center gap-x-2") do
               Lucide::ImageDown(class: "size-5 ltr:transform ltr:-scale-x-100")
@@ -104,6 +86,14 @@ class Components::TopControls < Components::Base
           end
         end
       end
+    end
+  end
+
+  def left_side_controls(bar)
+    div(class: "max-sm:hidden flex items-center gap-x-2") do
+      download_image_button(bar)
+      copy_image_button(bar)
+      download_files_button(bar)
     end
   end
 
