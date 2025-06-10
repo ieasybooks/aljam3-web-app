@@ -46,10 +46,10 @@ class Views::Pages::Show < Views::Base
 
   def share_button
     Dialog do
-      DialogTrigger(class: "absolute max-sm:-top-2 max-sm:-end-2 sm:-top-2 sm:end-0") do
+      DialogTrigger(class: "absolute max-sm:-top-2 max-sm:-end-2 sm:-top-4 sm:end-0") do
         Tooltip(placement: "bottom") do
           TooltipTrigger do
-            Button(variant: :outline, icon: true, class: "max-sm:rounded-none max-sm:rounded-es-md") do
+            Button(variant: :outline, icon: true, class: "border-t-0 max-sm:border-e-0 sm:rounded-t-none max-sm:rounded-none max-sm:rounded-es-md") do
               Lucide::Share(class: "size-5")
             end
           end
@@ -104,11 +104,11 @@ class Views::Pages::Show < Views::Base
   end
 
   def breadcrumb
-    Breadcrumb do
+    Breadcrumb(class: "pe-9") do
       BreadcrumbList do
-        BreadcrumbLink(href: root_path, class: "font-[lalezar]") { t("aljam3") }
+        BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { t("aljam3") }
 
-        BreadcrumbSeparator { Radix::Slash() }
+        BreadcrumbSeparator(class: "max-sm:hidden") { Radix::Slash() }
 
         # TODO: Add a link to the library page IF implemented.
         BreadcrumbLink(href: "#") { @library.name }
