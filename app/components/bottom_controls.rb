@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class Components::BottomControls < Components::Base
+  def initialize(book:, files:, current_file:)
+    @book = book
+    @files = files
+    @current_file = current_file
+  end
+
   def view_template
     ControlsBar(class: "justify-center") do |bar|
       div(class: "max-sm:w-full flex items-center max-sm:justify-between gap-x-2") do
@@ -8,6 +14,8 @@ class Components::BottomControls < Components::Base
           first_page_button(bar)
           previous_page_button(bar)
         end
+
+        book_files_dropdown
 
         div(class: "flex items-center gap-x-2") do
           next_page_button(bar)
@@ -37,6 +45,30 @@ class Components::BottomControls < Components::Base
         disabled: "true",
       ) do
         Hero::ChevronLeft(variant: :solid, class: "size-5 rtl:transform rtl:-scale-x-100")
+      end
+    end
+  end
+
+  def book_files_dropdown
+    DropdownMenu do
+      DropdownMenuTrigger(class: "w-full") do
+        Button(variant: :outline) { t(".book_files") }
+      end
+
+      DropdownMenuContent do
+        @files.each do |file|
+          DropdownMenuItem(
+            href: book_page_path(@book, file.pages.first),
+            class: [
+              "truncate w-full flex items-center justify-between",
+              ("bg-accent text-accent-foreground" if file.id == @current_file.id)
+            ]
+          ) do
+            div(class: "truncate") { file.name }
+
+            Hero::Check(variant: :solid, class: "size-4 min-w-4 min-h-4") if file.id == @current_file.id
+          end
+        end
       end
     end
   end

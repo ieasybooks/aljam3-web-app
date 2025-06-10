@@ -76,7 +76,7 @@ class Views::Pages::Show < Views::Base
       pdf_content
     end
 
-    BottomControls()
+    BottomControls(book: @book, files: @files, current_file: @file)
   end
 
   def txt_content
