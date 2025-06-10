@@ -43,7 +43,7 @@ class Views::Pages::Show < Views::Base
   def breadcrumb
     Breadcrumb do
       BreadcrumbList do
-        BreadcrumbLink(href: root_path) { t("aljam3") }
+        BreadcrumbLink(href: root_path, class: "font-[lalezar]") { t("aljam3") }
 
         BreadcrumbSeparator { Radix::Slash() }
 
