@@ -31,11 +31,74 @@ class Views::Pages::Show < Views::Base
   private
 
   def header
-    div(class: "flex items-center justify-between") do
-      div(class: "flex flex-col items-start gap-y-1") do
-        breadcrumb
-        title
-        author
+    div(class: "relative") do
+      share_button
+
+      div(class: "flex items-center justify-between") do
+        div(class: "flex flex-col items-start gap-y-1") do
+          breadcrumb
+          title
+          author
+        end
+      end
+    end
+  end
+
+  def share_button
+    Dialog do
+      DialogTrigger(class: "absolute max-sm:-top-2 max-sm:-end-2 sm:-top-2 sm:end-0") do
+        Tooltip(placement: "bottom") do
+          TooltipTrigger do
+            Button(variant: :outline, icon: true, class: "max-sm:rounded-none max-sm:rounded-es-md") do
+              Lucide::Share(class: "size-5")
+            end
+          end
+
+          TooltipContent(class: "delay-100 max-sm:hidden") do
+            Text { t(".share_page") }
+          end
+        end
+      end
+
+      DialogContent(class: "p-4") do
+        DialogHeader do
+          DialogTitle { t(".share_page_dialog_title") }
+        end
+
+        DialogMiddle(class: "py-0") do
+          div(
+            class: "flex items-center",
+            data: {
+              controller: "clipboard",
+              clipboard_success_content_value: capture { render Lucide::Check(class: "size-5") }
+            }
+          ) do
+            Button(
+              variant: :outline,
+              size: :md,
+              icon: true,
+              class: "rounded-e-none border-e-0",
+              data: {
+                action: "click->clipboard#copy",
+                clipboard_target: "button"
+              }
+            ) do
+              Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
+            end
+
+            Input(
+              type: :text,
+              value: book_page_url(@page),
+              class: "ltr:rounded-s-none rtl:rounded-s-none text-end",
+              data: { clipboard_target: "source" },
+              readonly: true
+            )
+          end
+        end
+
+        DialogFooter do
+          Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { t("close") }
+        end
       end
     end
   end

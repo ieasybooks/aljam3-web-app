@@ -12,6 +12,8 @@ en:
     home: Home
   pages:
     show:
+      share_page: Share Page
+      share_page_dialog_title: Share the page link with your friends!
       title: "%{title} Book"
   pages_text: Pages
   search_book_card:

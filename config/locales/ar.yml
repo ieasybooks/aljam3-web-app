@@ -12,6 +12,8 @@ ar:
     home: الرئيسية
   pages:
     show:
+      share_page: مشاركة الصفحة
+      share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
       title: كتاب %{title}
   pages_text: الصفحات
   search_book_card:
