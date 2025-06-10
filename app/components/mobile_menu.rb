@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class Components::MobileMenu < Components::Base
-  def view_template
-    Sheet(class: "md:hidden") do
+  def initialize(**attrs)
+    super(**attrs)
+  end
+
+  def view_template(&)
+    Sheet(**attrs) do
       SheetTrigger(class: "me-2") { Button(variant: :ghost, icon: true) { Lucide::Menu(class: "size-5") } }
 
       SheetContent(class: "w-[300px]", side: sheet_side) do

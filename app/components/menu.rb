@@ -3,9 +3,7 @@
 class Components::Menu < Components::Base
   def view_template
     div(class: "pb-4") do
-      div(class: "md:hidden") do
-        menu_link(text: t("navbar.home"), path: root_path)
-      end
+      menu_link(text: t("navbar.home"), path: root_path)
     end
   end
 

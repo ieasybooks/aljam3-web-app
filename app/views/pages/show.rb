@@ -104,19 +104,23 @@ class Views::Pages::Show < Views::Base
   end
 
   def breadcrumb
-    Breadcrumb(class: "pe-9") do
-      BreadcrumbList do
-        BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { t("aljam3") }
+    div(class: "flex items-center") do
+      MobileMenu()
 
-        BreadcrumbSeparator(class: "max-sm:hidden") { Radix::Slash() }
+      Breadcrumb(class: "pe-9") do
+        BreadcrumbList do
+          BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { t("aljam3") }
 
-        # TODO: Add a link to the library page IF implemented.
-        BreadcrumbLink(href: "#") { @library.name }
+          BreadcrumbSeparator(class: "max-sm:hidden") { Radix::Slash() }
 
-        BreadcrumbSeparator { Radix::Slash() }
+          # TODO: Add a link to the library page IF implemented.
+          BreadcrumbLink(href: "#") { @library.name }
 
-        # TODO: Add a link to the category page IF implemented.
-        BreadcrumbLink(href: "#") { @book.category }
+          BreadcrumbSeparator { Radix::Slash() }
+
+          # TODO: Add a link to the category page IF implemented.
+          BreadcrumbLink(href: "#") { @book.category }
+        end
       end
     end
   end
