@@ -66,7 +66,7 @@ class Components::BottomControls < Components::Base
           ) do
             div(class: "truncate") { file.name }
 
-            Hero::Check(variant: :solid, class: "size-4 min-w-4 min-h-4") if file.id == @current_file.id
+            Lucide::Check(variant: :solid, class: "size-4 min-w-4 min-h-4") if file.id == @current_file.id
           end
         end
       end
