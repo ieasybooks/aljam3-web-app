@@ -17,6 +17,7 @@
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.16",
     "@rails/request.js": "^0.0.12",
+    "@stimulus-components/clipboard": "^5.0.0",
     "@stimulus-components/read-more": "^5.0.0",
     "embla-carousel": "^8.6.0",
     "tw-animate-css": "^1.3.4"
