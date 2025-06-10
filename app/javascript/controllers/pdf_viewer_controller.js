@@ -41,10 +41,12 @@ export default class extends Controller {
     this.currentAbortController = new AbortController()
 
     try {
-      await get(this.#newPagePath(pageNumber), { 
+      await get(this.#newPagePath(pageNumber), {
         responseKind: "turbo-stream",
         signal: this.currentAbortController.signal
       })
+
+      history.replaceState(null, "", this.#newPagePath(pageNumber))
     } catch (error) {
       // Ignore AbortError - it means we cancelled the request intentionally
       if (error.name !== 'AbortError') {
