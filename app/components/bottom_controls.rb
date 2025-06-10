@@ -55,7 +55,7 @@ class Components::BottomControls < Components::Base
         Button(variant: :outline) { t(".book_files") }
       end
 
-      DropdownMenuContent do
+      DropdownMenuContent(class: "max-h-54 overflow-y-auto") do
         @files.each do |file|
           DropdownMenuItem(
             href: book_page_path(@book, file.pages.first),
