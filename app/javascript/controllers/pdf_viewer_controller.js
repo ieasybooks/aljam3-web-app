@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { get } from "@rails/request.js"
 
-// Connects to data-controller="pdf-reader"
+// Connects to data-controller="pdf-viewer"
 export default class extends Controller {
   static targets = [ "iframe" ]
   static values = {

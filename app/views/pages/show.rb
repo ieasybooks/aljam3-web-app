@@ -15,8 +15,8 @@ class Views::Pages::Show < Views::Base
     div(
       class: "flex flex-col h-screen sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
       data: {
-        controller: "pdf-reader top-controls bottom-controls",
-        pdf_reader_book_id_value: @book.id,
+        controller: "pdf-viewer top-controls bottom-controls",
+        pdf_viewer_book_id_value: @book.id,
         top_controls_book_title_value: @book.title,
         top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
@@ -99,7 +99,7 @@ class Views::Pages::Show < Views::Base
         src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
         class: "w-full h-full",
         data: {
-          pdf_reader_target: "iframe",
+          pdf_viewer_target: "iframe",
           top_controls_target: "iframe",
           bottom_controls_target: "iframe"
         }

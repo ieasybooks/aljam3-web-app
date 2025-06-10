@@ -10,8 +10,8 @@ application.register("bottom-controls", BottomControlsController)
 import DownloadFileController from "./download_file_controller"
 application.register("download-file", DownloadFileController)
 
-import PdfReaderController from "./pdf_reader_controller"
-application.register("pdf-reader", PdfReaderController)
+import PdfViewerController from "./pdf_viewer_controller"
+application.register("pdf-viewer", PdfViewerController)
 
 import RubyUi__CarouselController from "./ruby_ui/carousel_controller"
 application.register("ruby-ui--carousel", RubyUi__CarouselController)
