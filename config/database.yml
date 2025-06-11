@@ -21,26 +21,35 @@ default: &default
 
 
 development:
-  <<: *default
-  database: aljam3_development
+  primary: &primary_development
+    <<: *default
+    database: aljam3_development
 
-  # The specified database role being used to connect to PostgreSQL.
-  # To create additional roles in PostgreSQL see `$ createuser --help`.
-  # When left blank, PostgreSQL will use the default role. This is
-  # the same name as the operating system user running Rails.
-  username: aljam3
+    # The specified database role being used to connect to PostgreSQL.
+    # To create additional roles in PostgreSQL see `$ createuser --help`.
+    # When left blank, PostgreSQL will use the default role. This is
+    # the same name as the operating system user running Rails.
+    username: aljam3
 
-  # The password associated with the PostgreSQL role (username).
-  password: aljam3
+    # The password associated with the PostgreSQL role (username).
+    password: aljam3
 
-  # Connect on a TCP socket. Omitted by default since the client uses a
-  # domain socket that doesn't need configuration. Windows does not have
-  # domain sockets, so uncomment these lines.
-  host: localhost
+    # Connect on a TCP socket. Omitted by default since the client uses a
+    # domain socket that doesn't need configuration. Windows does not have
+    # domain sockets, so uncomment these lines.
+    host: localhost
 
-  # The TCP port the server listens on. Defaults to 5432.
-  # If your server runs on a different port number, change accordingly.
-  port: 5433
+    # The TCP port the server listens on. Defaults to 5432.
+    # If your server runs on a different port number, change accordingly.
+    port: 5433
+  cache:
+    <<: *primary_development
+    database: aljam3_development_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_development
+    database: aljam3_development_queue
+    migrations_paths: db/queue_migrate
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
