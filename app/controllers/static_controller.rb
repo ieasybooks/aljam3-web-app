@@ -8,7 +8,9 @@ class StaticController < ApplicationController
         Components::SearchResultsList.new(results:, pagy:)
       )
     else
-      carousel_books_ids = Rails.cache.read("carousel_books_ids") || Book.order("RANDOM()").limit(10).pluck(:id)
+      carousel_books_ids = Rails.cache.fetch("carousel_books_ids", expires_in: 1.minute) do
+        Book.order("RANDOM()").limit(10).pluck(:id)
+      end
 
       render Views::Static::Home.new(results:, pagy:, carousel_books_ids:)
     end

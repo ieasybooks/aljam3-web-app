@@ -1,9 +1,0 @@
-development:
-  sample_carousel_books:
-    class: SampleCarouselBooksJob
-    schedule: every 1 minute
-
-production:
-  sample_carousel_books:
-    class: SampleCarouselBooksJob
-    schedule: every 1 minute
