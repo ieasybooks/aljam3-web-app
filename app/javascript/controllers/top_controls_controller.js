@@ -139,24 +139,24 @@ export default class extends Controller {
   }
 
   #applyLayout() {
-    this.txtContentOnlyButtonTarget.classList.remove("bg-neutral-200!")
-    this.txtAndPdfContentButtonTarget.classList.remove("bg-neutral-200!")
-    this.pdfContentOnlyButtonTarget.classList.remove("bg-neutral-200!")
+    this.txtContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
+    this.txtAndPdfContentButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
+    this.pdfContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
 
     switch (this.currentLayout) {
       case "txt-only":
-        this.txtContentOnlyButtonTarget.classList.add("bg-neutral-200!")
+        this.txtContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
         this.txtContentTarget.classList.remove("hidden")
         this.pdfContentTarget.classList.add("hidden")
         break
       case "pdf-only":
-        this.pdfContentOnlyButtonTarget.classList.add("bg-neutral-200!")
+        this.pdfContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
         this.txtContentTarget.classList.add("hidden")
         this.pdfContentTarget.classList.remove("hidden")
         break
       case "txt-and-pdf":
       default:
-        this.txtAndPdfContentButtonTarget.classList.add("bg-neutral-200!")
+        this.txtAndPdfContentButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
         this.txtContentTarget.classList.remove("hidden")
         this.pdfContentTarget.classList.remove("hidden")
         break
