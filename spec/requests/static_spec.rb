@@ -7,11 +7,13 @@ RSpec.describe "Static" do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
-  let(:mock_categories_list) { ["Fiction", "Non-Fiction", "Science"] }
+  let(:mock_categories) { ["Fiction", "Non-Fiction", "Science"] }
+  let(:mock_libraries) { [[1, "Main Library"], [2, "Branch Library"], [3, "Digital Library"]] }
 
   before do
     allow(Rails.cache).to receive(:fetch).with("carousel_books_ids", expires_in: 1.minute).and_return([ mock_book.id ])
-    allow(Rails.cache).to receive(:fetch).with("categories_list", expires_in: 1.minute).and_return(mock_categories_list)
+    allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.day).and_return(mock_categories)
+    allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.day).and_return(mock_libraries)
     allow(Book).to receive(:where).with(id: [ mock_book.id ]).and_return([ mock_book ])
   end
 
@@ -24,7 +26,7 @@ RSpec.describe "Static" do
           expect(response).to have_http_status(:success)
         end
 
-        it "renders home view with cached carousel books" do
+        it "renders home view" do
           allow(Views::Static::Home).to receive(:new).and_call_original
 
           get "/"
@@ -33,7 +35,8 @@ RSpec.describe "Static" do
             results: nil,
             pagy: nil,
             carousel_books_ids: [ mock_book.id ],
-            categories_list: mock_categories_list
+            categories: mock_categories,
+            libraries: mock_libraries
           )
         end
       end
@@ -60,15 +63,16 @@ RSpec.describe "Static" do
             results: nil,
             pagy: nil,
             carousel_books_ids: [ mock_book.id ],
-            categories_list: mock_categories_list
+            categories: mock_categories,
+            libraries: mock_libraries
           )
         end
       end
 
       context "with no categories in cache" do
         before do
-          allow(Rails.cache).to receive(:fetch).with("categories_list", expires_in: 1.minute).and_yield.and_return(mock_categories_list)
-          allow(Book).to receive_message_chain(:all, :pluck, :uniq, :sort).and_return(mock_categories_list)
+          allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.day).and_yield.and_return(mock_categories)
+          allow(Book).to receive_message_chain(:all, :pluck, :uniq, :sort).and_return(mock_categories)
         end
 
         it "renders home view with fresh categories list" do
@@ -80,7 +84,29 @@ RSpec.describe "Static" do
             results: nil,
             pagy: nil,
             carousel_books_ids: [ mock_book.id ],
-            categories_list: mock_categories_list
+            categories: mock_categories,
+            libraries: mock_libraries
+          )
+        end
+      end
+
+      context "with no libraries in cache" do
+        before do
+          allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.day).and_yield.and_return(mock_libraries)
+          allow(Library).to receive_message_chain(:all, :pluck).and_return(mock_libraries)
+        end
+
+        it "renders home view with fresh libraries list" do
+          allow(Views::Static::Home).to receive(:new).and_call_original
+
+          get "/"
+
+          expect(Views::Static::Home).to have_received(:new).with(
+            results: nil,
+            pagy: nil,
+            carousel_books_ids: [ mock_book.id ],
+            categories: mock_categories,
+            libraries: mock_libraries
           )
         end
       end
@@ -138,14 +164,15 @@ RSpec.describe "Static" do
         )
       end
 
-      it "renders home view with federated results and carousel books" do
+      it "renders home view with federated results" do
         get "/", params: params
 
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_federated_results,
           pagy: nil,
           carousel_books_ids: [ mock_book.id ],
-          categories_list: mock_categories_list
+          categories: mock_categories,
+          libraries: mock_libraries
         )
       end
 
@@ -319,7 +346,8 @@ RSpec.describe "Static" do
           results: mock_search_results,
           pagy: mock_pagy,
           carousel_books_ids: [ mock_book.id ],
-          categories_list: mock_categories_list
+          categories: mock_categories,
+          libraries: mock_libraries
         )
       end
 
@@ -388,7 +416,8 @@ RSpec.describe "Static" do
           results: mock_search_results,
           pagy: mock_pagy,
           carousel_books_ids: [ mock_book.id ],
-          categories_list: mock_categories_list
+          categories: mock_categories,
+          libraries: mock_libraries
         )
       end
 
@@ -448,7 +477,8 @@ RSpec.describe "Static" do
             results: mock_search_results,
             pagy: mock_pagy,
             carousel_books_ids: [ mock_book.id ],
-            categories_list: mock_categories_list
+            categories: mock_categories,
+            libraries: mock_libraries
           )
         end
 
@@ -461,7 +491,8 @@ RSpec.describe "Static" do
             results: mock_search_results,
             pagy: mock_pagy,
             carousel_books_ids: [ mock_book.id ],
-            categories_list: mock_categories_list
+            categories: mock_categories,
+            libraries: mock_libraries
           )
         end
       end
@@ -478,7 +509,8 @@ RSpec.describe "Static" do
           )
 
           expect(Rails.cache).not_to have_received(:fetch).with("carousel_books_ids", expires_in: 1.minute)
-          expect(Rails.cache).not_to have_received(:fetch).with("categories_list", expires_in: 1.minute)
+          expect(Rails.cache).not_to have_received(:fetch).with("categories", expires_in: 1.day)
+          expect(Rails.cache).not_to have_received(:fetch).with("libraries", expires_in: 1.day)
         end
       end
     end
@@ -522,7 +554,8 @@ RSpec.describe "Static" do
           results: nil,
           pagy: nil,
           carousel_books_ids: [ mock_book.id ],
-          categories_list: mock_categories_list
+          categories: mock_categories,
+          libraries: mock_libraries
         )
       end
 
@@ -585,7 +618,8 @@ RSpec.describe "Static" do
           results: nil,
           pagy: nil,
           carousel_books_ids: [ mock_book.id ],
-          categories_list: mock_categories_list
+          categories: mock_categories,
+          libraries: mock_libraries
         )
       end
 
@@ -596,7 +630,8 @@ RSpec.describe "Static" do
           results: nil,
           pagy: nil,
           carousel_books_ids: [ mock_book.id ],
-          categories_list: mock_categories_list
+          categories: mock_categories,
+          libraries: mock_libraries
         )
       end
     end

@@ -1,16 +1,17 @@
 class Views::Static::Home < Views::Base
-  def initialize(results:, pagy:, carousel_books_ids:, categories_list:)
+  def initialize(results:, pagy:, carousel_books_ids:, categories:, libraries:)
     @results = results
     @pagy = pagy
     @carousel_books_ids = carousel_books_ids
-    @categories_list = categories_list
+    @categories = categories
+    @libraries = libraries
   end
 
   def page_title = t(".title")
 
   def view_template
     div(class: "px-2 sm:px-4 py-4 sm:container") do
-      SearchForm(categories_list: @categories_list)
+      SearchForm(libraries: @libraries, categories: @categories)
 
       if @results.nil?
         carousel

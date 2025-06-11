@@ -126,8 +126,8 @@ class Components::SearchRefinementsSheet < Components::Base
           SelectGroup do
             SelectItem(value: "all-libraries", aria_selected!: "true") { t(".all_libraries") }
 
-            @libraries.each do |library|
-              SelectItem(value: library.id) { t(".#{library.name}") }
+            @libraries.each do |id, name|
+              SelectItem(value: id) { t(".#{name}") }
             end
           end
         end
