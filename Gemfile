@@ -13,15 +13,15 @@ gem "omniauth", "~> 2.1", ">= 2.1.3"
 gem "omniauth-google-oauth2", "~> 1.2", ">= 1.2.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.3", ">= 9.3.4"
-gem "phlex-icons", "~> 2.24"
-gem "phlex-rails", "~> 2.3"
+gem "phlex-icons", "~> 2.25"
+gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.1"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
-gem "solid_errors", "~> 0.6.1"
+gem "solid_errors", "~> 0.7.0"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
-gem "tailwind_merge", "~> 1.2"
+gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
   gem "annotaterb", "~> 4.15"
@@ -113,4 +113,4 @@ end
 
 # Added gems ↓
 
-gem "rack-mini-profiler", "~> 3.3", ">= 3.3.1" # Needs to be added after `pg` gem for auto-detection.
+gem "rack-mini-profiler", "~> 4.0" # Needs to be added after `pg` gem for auto-detection.

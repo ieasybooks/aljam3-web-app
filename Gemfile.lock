@@ -309,9 +309,9 @@ GEM
     pg (1.5.9)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.24.0)
+    phlex-icons (2.25.0)
       phlex (>= 1.11)
-    phlex-rails (2.3.0)
+    phlex-rails (2.3.1)
       phlex (~> 2.3.0)
       railties (>= 7.1, < 9)
       zeitwerk (~> 2.7)
@@ -334,7 +334,7 @@ GEM
     rack (3.1.16)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
-    rack-mini-profiler (3.3.1)
+    rack-mini-profiler (4.0.0)
       rack (>= 1.2.0)
     rack-protection (4.1.1)
       base64 (>= 0.1.0)
@@ -415,7 +415,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.4)
-    rubocop (1.76.0)
+    rubocop (1.76.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -426,7 +426,7 @@ GEM
       rubocop-ast (>= 1.45.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.45.0)
+    rubocop-ast (1.45.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-performance (1.25.0)
@@ -480,8 +480,7 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_errors (0.6.1)
-      actionmailer (>= 7.0)
+    solid_errors (0.7.0)
       actionpack (>= 7.0)
       actionview (>= 7.0)
       activerecord (>= 7.0)
@@ -508,7 +507,7 @@ GEM
       prism
       require-hooks (~> 0.2)
     stringio (3.1.7)
-    tailwind_merge (1.2.0)
+    tailwind_merge (1.3.1)
       sin_lru_redux (~> 2.5)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
@@ -581,12 +580,12 @@ DEPENDENCIES
   omniauth-rails_csrf_protection (~> 1.0, >= 1.0.2)
   pagy (~> 9.3, >= 9.3.4)
   pg (~> 1.1)
-  phlex-icons (~> 2.24)
-  phlex-rails (~> 2.3)
+  phlex-icons (~> 2.25)
+  phlex-rails (~> 2.3, >= 2.3.1)
   propshaft
   puma (>= 5.0)
   rack-attack (~> 6.7)
-  rack-mini-profiler (~> 3.3, >= 3.3.1)
+  rack-mini-profiler (~> 4.0)
   rails (~> 8.0.2)
   rails-i18n (~> 8.0, >= 8.0.1)
   rails_cloudflare_turnstile (~> 0.4.1)
@@ -601,12 +600,12 @@ DEPENDENCIES
   simplecov-json (~> 0.2.3)
   solid_cable
   solid_cache
-  solid_errors (~> 0.6.1)
+  solid_errors (~> 0.7.0)
   solid_queue
   stackprof (~> 0.2.27)
   stimulus-rails
   strict_ivars (~> 1.0, >= 1.0.2)
-  tailwind_merge (~> 1.2)
+  tailwind_merge (~> 1.3, >= 1.3.1)
   thruster
   turbo-rails
   tzinfo-data
