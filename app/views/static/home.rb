@@ -1,8 +1,8 @@
 class Views::Static::Home < Views::Base
-  def initialize(results:, pagy:, carousel_books:)
+  def initialize(results:, pagy:, carousel_books_ids:)
     @results = results
     @pagy = pagy
-    @carousel_books = carousel_books
+    @carousel_books_ids = carousel_books_ids
   end
 
   def page_title = t(".title")
@@ -22,19 +22,21 @@ class Views::Static::Home < Views::Base
   private
 
   def carousel
-    Heading(level: 2, class: "my-4 mb-5") { t(".discover_books") }
+    low_level_cache("books_carousel", expires_in: 1.minute) do
+      Heading(level: 2, class: "my-4 mb-5") { t(".discover_books") }
 
-    Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: html_dir }) do
-      CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
-        @carousel_books.each do |book|
-          CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
-            div(class: "pb-0.5") { CarouselBookCard(book:) }
+      Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: html_dir }) do
+        CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
+          Book.where(id: @carousel_books_ids).each do |book|
+            CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
+              div(class: "pb-0.5") { CarouselBookCard(book:) }
+            end
           end
         end
-      end
 
-      CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
-      CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+        CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
+        CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+      end
     end
   end
 end

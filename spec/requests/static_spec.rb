@@ -26,7 +26,7 @@ RSpec.describe "Static" do
 
           get "/"
 
-          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
+          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
         end
       end
 
@@ -48,7 +48,7 @@ RSpec.describe "Static" do
 
           get "/"
 
-          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
+          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
         end
       end
     end
@@ -108,7 +108,7 @@ RSpec.describe "Static" do
       it "renders home view with federated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_federated_results, pagy: nil, carousel_books: [ mock_book ])
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_federated_results, pagy: nil, carousel_books_ids: [ mock_book.id ])
       end
 
       context "with library filter" do
@@ -277,7 +277,7 @@ RSpec.describe "Static" do
       it "renders home view with paginated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
       end
 
       context "with filters" do
@@ -341,7 +341,7 @@ RSpec.describe "Static" do
       it "renders home view with paginated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
       end
 
       context "with filters" do
@@ -396,7 +396,7 @@ RSpec.describe "Static" do
 
           get "/", params: base_params
 
-          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
+          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
         end
 
         it "renders home view for page 1" do
@@ -404,7 +404,7 @@ RSpec.describe "Static" do
 
           get "/", params: base_params.merge(page: "1")
 
-          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
+          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
         end
       end
 
@@ -459,7 +459,7 @@ RSpec.describe "Static" do
 
         get "/", params: { query: "test query" }
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
       end
 
       it "handles empty library filter" do
@@ -517,13 +517,13 @@ RSpec.describe "Static" do
       it "handles missing search_scope (defaults to nil case)" do
         get "/", params: base_params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
       end
 
       it "handles unknown search_scope value" do
         get "/", params: base_params.merge(refinements: { search_scope: "unknown" })
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
       end
     end
   end
