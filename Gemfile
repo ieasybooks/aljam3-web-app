@@ -21,7 +21,7 @@ gem "rails-i18n", "~> 8.0", ">= 8.0.1"
 gem "solid_errors", "~> 0.6.1"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
-gem "tailwind_merge", "~> 1.2"
+gem "tailwind_merge", "~> 1.3"
 
 group :development do
   gem "annotaterb", "~> 4.15"

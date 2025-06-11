@@ -508,7 +508,7 @@ GEM
       prism
       require-hooks (~> 0.2)
     stringio (3.1.7)
-    tailwind_merge (1.2.0)
+    tailwind_merge (1.3.1)
       sin_lru_redux (~> 2.5)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
@@ -606,7 +606,7 @@ DEPENDENCIES
   stackprof (~> 0.2.27)
   stimulus-rails
   strict_ivars (~> 1.0, >= 1.0.2)
-  tailwind_merge (~> 1.2)
+  tailwind_merge (~> 1.3)
   thruster
   turbo-rails
   tzinfo-data
