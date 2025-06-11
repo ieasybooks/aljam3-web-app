@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Components::Base < RubyUI::Base
+  def cache_store = Rails.cache
+
   include Components
   include RubyUI
   include PhlexIcons
