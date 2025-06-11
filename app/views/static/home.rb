@@ -1,7 +1,8 @@
 class Views::Static::Home < Views::Base
-  def initialize(results:, pagy:)
+  def initialize(results:, pagy:, carousel_books:)
     @results = results
     @pagy = pagy
+    @carousel_books = carousel_books
   end
 
   def page_title = t(".title")
@@ -25,8 +26,7 @@ class Views::Static::Home < Views::Base
 
     Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: html_dir }) do
       CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
-        # TODO: Update the sampling logic later.
-        Book.all.sample(10).each do |book|
+        @carousel_books.each do |book|
           CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
             div(class: "pb-0.5") { CarouselBookCard(book:) }
           end

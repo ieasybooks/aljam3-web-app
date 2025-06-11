@@ -1,26 +1,55 @@
 require "rails_helper"
 
 RSpec.describe "Static" do
-  let(:library_one) { create(:library, :with_books, name: "Library One") }
+  let(:library) { create(:library, :with_books, name: "Library") }
 
   let(:mock_book) do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
+  before do
+    allow(Rails.cache).to receive(:read).with("carousel_books_ids").and_return([ mock_book.id ])
+    allow(Book).to receive(:where).with(id: [ mock_book.id ]).and_return([ mock_book ])
+  end
+
   describe "GET /" do
     context "when no params are provided" do
-      it "returns http success" do
-        get "/"
+      context "with carousel books in cache" do
+        it "returns http success" do
+          get "/"
 
-        expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:success)
+        end
+
+        it "renders home view with cached carousel books" do
+          allow(Views::Static::Home).to receive(:new).and_call_original
+
+          get "/"
+
+          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
+        end
       end
 
-      it "renders home view with nil results and pagy" do
-        allow(Views::Static::Home).to receive(:new).and_call_original
+      context "with no carousel books in cache" do
+        before do
+          allow(Rails.cache).to receive(:read).with("carousel_books_ids").and_return(nil)
+          allow(Book).to receive(:where).with(id: nil).and_return(Book.none)
+          allow(Book).to receive(:order).with("RANDOM()").and_return(double(limit: [ mock_book ])) # rubocop:disable RSpec/VerifiedDoubles
+        end
 
-        get "/"
+        it "returns http success" do
+          get "/"
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
+          expect(response).to have_http_status(:success)
+        end
+
+        it "renders home view with random carousel books" do
+          allow(Views::Static::Home).to receive(:new).and_call_original
+
+          get "/"
+
+          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
+        end
       end
     end
 
@@ -76,15 +105,15 @@ RSpec.describe "Static" do
         )
       end
 
-      it "renders home view with federated results" do
+      it "renders home view with federated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_federated_results, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_federated_results, pagy: nil, carousel_books: [ mock_book ])
       end
 
       context "with library filter" do
         let(:params_with_library) do
-          params.merge(refinements: params[:refinements].merge(library: library_one.id.to_s))
+          params.merge(refinements: params[:refinements].merge(library: library.id.to_s))
         end
 
         it "includes library filter in search" do
@@ -94,14 +123,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "library = \"#{library_one.id}\"",
+                filter: "library = \"#{library.id}\"",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: "library = \"#{library_one.id}\"",
+                filter: "library = \"#{library.id}\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -144,10 +173,7 @@ RSpec.describe "Static" do
 
       context "with both library and category filters" do
         let(:params_with_filters) do
-          params.merge(refinements: params[:refinements].merge(
-            library: library_one.id.to_s,
-            category: "Fiction"
-          ))
+          params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
         end
 
         it "includes both filters in search" do
@@ -157,14 +183,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "library = \"#{library_one.id}\" AND category = \"Fiction\"",
+                filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: "library = \"#{library_one.id}\" AND category = \"Fiction\"",
+                filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -248,22 +274,19 @@ RSpec.describe "Static" do
         )
       end
 
-      it "renders home view with paginated results" do
+      it "renders home view with paginated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
       end
 
       context "with filters" do
         it "includes filters in book search" do
-          get "/", params: params.merge(refinements: params[:refinements].merge(
-            library: library_one.id.to_s,
-            category: "Fiction"
-          ))
+          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
 
           expect(Book).to have_received(:pagy_search).with(
             "test query",
-            filter: "library = \"#{library_one.id}\" AND category = \"Fiction\"",
+            filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )
@@ -315,22 +338,19 @@ RSpec.describe "Static" do
         )
       end
 
-      it "renders home view with paginated results" do
+      it "renders home view with paginated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
       end
 
       context "with filters" do
         it "includes filters in page search" do
-          get "/", params: params.merge(refinements: params[:refinements].merge(
-            library: library_one.id.to_s,
-            category: "Fiction"
-          ))
+          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
 
           expect(Page).to have_received(:pagy_search).with(
             "test query",
-            filter: "library = \"#{library_one.id}\" AND category = \"Fiction\"",
+            filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )
@@ -376,7 +396,7 @@ RSpec.describe "Static" do
 
           get "/", params: base_params
 
-          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
         end
 
         it "renders home view for page 1" do
@@ -384,12 +404,12 @@ RSpec.describe "Static" do
 
           get "/", params: base_params.merge(page: "1")
 
-          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy)
+          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books: [ mock_book ])
         end
       end
 
       context "when page is greater than 1" do
-        it "renders turbo stream for page 2" do
+        it "renders turbo stream for page 2 (no carousel books needed)" do # rubocop:disable RSpec/MultipleExpectations
           allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
 
           get "/", params: base_params.merge(page: "2")
@@ -398,6 +418,8 @@ RSpec.describe "Static" do
             results: mock_search_results,
             pagy: mock_pagy
           )
+
+          expect(Rails.cache).not_to have_received(:read).with("carousel_books_ids")
         end
       end
     end
@@ -437,7 +459,7 @@ RSpec.describe "Static" do
 
         get "/", params: { query: "test query" }
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
       end
 
       it "handles empty library filter" do
@@ -495,13 +517,13 @@ RSpec.describe "Static" do
       it "handles missing search_scope (defaults to nil case)" do
         get "/", params: base_params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
       end
 
       it "handles unknown search_scope value" do
         get "/", params: base_params.merge(refinements: { search_scope: "unknown" })
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil)
+        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books: [ mock_book ])
       end
     end
   end
