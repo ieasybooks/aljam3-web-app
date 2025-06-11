@@ -113,4 +113,4 @@ end
 
 # Added gems ↓
 
-gem "rack-mini-profiler", "~> 3.3", ">= 3.3.1" # Needs to be added after `pg` gem for auto-detection.
+gem "rack-mini-profiler", "~> 4.0" # Needs to be added after `pg` gem for auto-detection.
