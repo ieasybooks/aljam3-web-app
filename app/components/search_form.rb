@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class Components::SearchForm < Components::Base
+  def initialize(categories_list:)
+    @categories_list = categories_list
+  end
+
   def view_template
     Form(action: root_path, method: :get, accept_charset: "UTF-8") do
       div(class: "flex items-top gap-x-4") do
-        # TODO: Move the categories extraction logic to a background job.
-        SearchRefinementsSheet(
-          libraries: Library.all.select(:id, :name),
-          categories: Book.all.pluck(:category).uniq.sort
-        )
+        SearchRefinementsSheet(libraries: Library.all.select(:id, :name), categories: @categories_list)
 
         FormField(class: "flex-grow") do
           Hero::MagnifyingGlass(class: "size-6 absolute translate-x-[-50%] translate-y-[50%] ltr:translate-x-[50%] ltr:transform ltr:-scale-x-100")

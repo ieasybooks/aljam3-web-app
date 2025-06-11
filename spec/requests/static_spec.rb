@@ -7,8 +7,11 @@ RSpec.describe "Static" do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
+  let(:mock_categories_list) { ["Fiction", "Non-Fiction", "Science"] }
+
   before do
-    allow(Rails.cache).to receive(:read).with("carousel_books_ids").and_return([ mock_book.id ])
+    allow(Rails.cache).to receive(:fetch).with("carousel_books_ids", expires_in: 1.minute).and_return([ mock_book.id ])
+    allow(Rails.cache).to receive(:fetch).with("categories_list", expires_in: 1.minute).and_return(mock_categories_list)
     allow(Book).to receive(:where).with(id: [ mock_book.id ]).and_return([ mock_book ])
   end
 
@@ -26,15 +29,20 @@ RSpec.describe "Static" do
 
           get "/"
 
-          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
+          expect(Views::Static::Home).to have_received(:new).with(
+            results: nil,
+            pagy: nil,
+            carousel_books_ids: [ mock_book.id ],
+            categories_list: mock_categories_list
+          )
         end
       end
 
       context "with no carousel books in cache" do
         before do
-          allow(Rails.cache).to receive(:read).with("carousel_books_ids").and_return(nil)
+          allow(Rails.cache).to receive(:fetch).with("carousel_books_ids", expires_in: 1.minute).and_yield.and_return([ mock_book.id ])
           allow(Book).to receive(:where).with(id: nil).and_return(Book.none)
-          allow(Book).to receive(:order).with("RANDOM()").and_return(double(limit: [ mock_book ])) # rubocop:disable RSpec/VerifiedDoubles
+          allow(Book).to receive(:order).with("RANDOM()").and_return(double(limit: double(pluck: [ mock_book.id ]))) # rubocop:disable RSpec/VerifiedDoubles
         end
 
         it "returns http success" do
@@ -48,7 +56,32 @@ RSpec.describe "Static" do
 
           get "/"
 
-          expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
+          expect(Views::Static::Home).to have_received(:new).with(
+            results: nil,
+            pagy: nil,
+            carousel_books_ids: [ mock_book.id ],
+            categories_list: mock_categories_list
+          )
+        end
+      end
+
+      context "with no categories in cache" do
+        before do
+          allow(Rails.cache).to receive(:fetch).with("categories_list", expires_in: 1.minute).and_yield.and_return(mock_categories_list)
+          allow(Book).to receive_message_chain(:all, :pluck, :uniq, :sort).and_return(mock_categories_list)
+        end
+
+        it "renders home view with fresh categories list" do
+          allow(Views::Static::Home).to receive(:new).and_call_original
+
+          get "/"
+
+          expect(Views::Static::Home).to have_received(:new).with(
+            results: nil,
+            pagy: nil,
+            carousel_books_ids: [ mock_book.id ],
+            categories_list: mock_categories_list
+          )
         end
       end
     end
@@ -108,7 +141,12 @@ RSpec.describe "Static" do
       it "renders home view with federated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_federated_results, pagy: nil, carousel_books_ids: [ mock_book.id ])
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: mock_federated_results,
+          pagy: nil,
+          carousel_books_ids: [ mock_book.id ],
+          categories_list: mock_categories_list
+        )
       end
 
       context "with library filter" do
@@ -277,7 +315,12 @@ RSpec.describe "Static" do
       it "renders home view with paginated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: mock_search_results,
+          pagy: mock_pagy,
+          carousel_books_ids: [ mock_book.id ],
+          categories_list: mock_categories_list
+        )
       end
 
       context "with filters" do
@@ -341,7 +384,12 @@ RSpec.describe "Static" do
       it "renders home view with paginated results and carousel books" do
         get "/", params: params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: mock_search_results,
+          pagy: mock_pagy,
+          carousel_books_ids: [ mock_book.id ],
+          categories_list: mock_categories_list
+        )
       end
 
       context "with filters" do
@@ -396,7 +444,12 @@ RSpec.describe "Static" do
 
           get "/", params: base_params
 
-          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
+          expect(Views::Static::Home).to have_received(:new).with(
+            results: mock_search_results,
+            pagy: mock_pagy,
+            carousel_books_ids: [ mock_book.id ],
+            categories_list: mock_categories_list
+          )
         end
 
         it "renders home view for page 1" do
@@ -404,7 +457,12 @@ RSpec.describe "Static" do
 
           get "/", params: base_params.merge(page: "1")
 
-          expect(Views::Static::Home).to have_received(:new).with(results: mock_search_results, pagy: mock_pagy, carousel_books_ids: [ mock_book.id ])
+          expect(Views::Static::Home).to have_received(:new).with(
+            results: mock_search_results,
+            pagy: mock_pagy,
+            carousel_books_ids: [ mock_book.id ],
+            categories_list: mock_categories_list
+          )
         end
       end
 
@@ -419,7 +477,8 @@ RSpec.describe "Static" do
             pagy: mock_pagy
           )
 
-          expect(Rails.cache).not_to have_received(:read).with("carousel_books_ids")
+          expect(Rails.cache).not_to have_received(:fetch).with("carousel_books_ids", expires_in: 1.minute)
+          expect(Rails.cache).not_to have_received(:fetch).with("categories_list", expires_in: 1.minute)
         end
       end
     end
@@ -459,7 +518,12 @@ RSpec.describe "Static" do
 
         get "/", params: { query: "test query" }
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: nil,
+          pagy: nil,
+          carousel_books_ids: [ mock_book.id ],
+          categories_list: mock_categories_list
+        )
       end
 
       it "handles empty library filter" do
@@ -517,13 +581,23 @@ RSpec.describe "Static" do
       it "handles missing search_scope (defaults to nil case)" do
         get "/", params: base_params
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: nil,
+          pagy: nil,
+          carousel_books_ids: [ mock_book.id ],
+          categories_list: mock_categories_list
+        )
       end
 
       it "handles unknown search_scope value" do
         get "/", params: base_params.merge(refinements: { search_scope: "unknown" })
 
-        expect(Views::Static::Home).to have_received(:new).with(results: nil, pagy: nil, carousel_books_ids: [ mock_book.id ])
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: nil,
+          pagy: nil,
+          carousel_books_ids: [ mock_book.id ],
+          categories_list: mock_categories_list
+        )
       end
     end
   end
