@@ -7,8 +7,8 @@ RSpec.describe "Static" do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
-  let(:mock_categories) { ["Fiction", "Non-Fiction", "Science"] }
-  let(:mock_libraries) { [[1, "Main Library"], [2, "Branch Library"], [3, "Digital Library"]] }
+  let(:mock_categories) { [ "Fiction", "Non-Fiction", "Science" ] }
+  let(:mock_libraries) { [ [ 1, "Main Library" ], [ 2, "Branch Library" ], [ 3, "Digital Library" ] ] }
 
   before do
     allow(Rails.cache).to receive(:fetch).with("carousel_books_ids", expires_in: 1.minute).and_return([ mock_book.id ])
@@ -72,7 +72,7 @@ RSpec.describe "Static" do
       context "with no categories in cache" do
         before do
           allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.day).and_yield.and_return(mock_categories)
-          allow(Book).to receive_message_chain(:all, :pluck, :uniq, :sort).and_return(mock_categories)
+          allow(Book).to receive_message_chain(:all, :pluck, :uniq, :sort).and_return(mock_categories) # rubocop:disable RSpec/MessageChain
         end
 
         it "renders home view with fresh categories list" do
@@ -93,7 +93,7 @@ RSpec.describe "Static" do
       context "with no libraries in cache" do
         before do
           allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.day).and_yield.and_return(mock_libraries)
-          allow(Library).to receive_message_chain(:all, :pluck).and_return(mock_libraries)
+          allow(Library).to receive_message_chain(:all, :pluck).and_return(mock_libraries) # rubocop:disable RSpec/MessageChain
         end
 
         it "renders home view with fresh libraries list" do
@@ -112,7 +112,7 @@ RSpec.describe "Static" do
       end
     end
 
-    context "when search_scope is title-and-content" do
+    context "when search_scope is title-and-content" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_federated_results) do
         double("federated_results").tap do # rubocop:disable RSpec/VerifiedDoubles
           allow(it).to receive_messages(
@@ -176,13 +176,9 @@ RSpec.describe "Static" do
         )
       end
 
-      context "with library filter" do
-        let(:params_with_library) do
-          params.merge(refinements: params[:refinements].merge(library: library.id.to_s))
-        end
-
+      context "with library filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes library filter in search" do
-          get "/", params: params_with_library
+          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s))
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -206,13 +202,9 @@ RSpec.describe "Static" do
         end
       end
 
-      context "with category filter" do
-        let(:params_with_category) do
-          params.merge(refinements: params[:refinements].merge(category: "Fiction"))
-        end
-
+      context "with category filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes category filter in search" do
-          get "/", params: params_with_category
+          get "/", params: params.merge(refinements: params[:refinements].merge(category: "Fiction"))
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -236,13 +228,9 @@ RSpec.describe "Static" do
         end
       end
 
-      context "with both library and category filters" do
-        let(:params_with_filters) do
-          params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
-        end
-
+      context "with both library and category filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes both filters in search" do
-          get "/", params: params_with_filters
+          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -266,11 +254,9 @@ RSpec.describe "Static" do
         end
       end
 
-      context "with pagination" do
-        let(:params_with_page) { params.merge(page: "3") }
-
+      context "with pagination" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "calculates correct offset for federated search" do
-          get "/", params: params_with_page
+          get "/", params: params.merge(page: "3")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -295,7 +281,7 @@ RSpec.describe "Static" do
       end
     end
 
-    context "when search_scope is title" do
+    context "when search_scope is title" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
         double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
       end
@@ -351,7 +337,7 @@ RSpec.describe "Static" do
         )
       end
 
-      context "with filters" do
+      context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes filters in book search" do
           get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
 
@@ -365,7 +351,7 @@ RSpec.describe "Static" do
       end
     end
 
-    context "when search_scope is content" do
+    context "when search_scope is content" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
         double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
       end
@@ -421,7 +407,7 @@ RSpec.describe "Static" do
         )
       end
 
-      context "with filters" do
+      context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes filters in page search" do
           get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
 
@@ -435,7 +421,7 @@ RSpec.describe "Static" do
       end
     end
 
-    context "with pagination" do
+    context "with pagination" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
         double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
       end
@@ -467,7 +453,7 @@ RSpec.describe "Static" do
         allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
       end
 
-      context "when page is 1 or not provided" do
+      context "when page is 1 or not provided" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "renders home view when page not provided" do
           allow(Views::Static::Home).to receive(:new).and_call_original
 
@@ -497,8 +483,8 @@ RSpec.describe "Static" do
         end
       end
 
-      context "when page is greater than 1" do
-        it "renders turbo stream for page 2 (no carousel books needed)" do # rubocop:disable RSpec/MultipleExpectations
+      context "when page is greater than 1" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        it "renders turbo stream for page 2" do # rubocop:disable RSpec/MultipleExpectations,RSpec/ExampleLength
           allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
 
           get "/", params: base_params.merge(page: "2")
@@ -515,7 +501,7 @@ RSpec.describe "Static" do
       end
     end
 
-    context "with filter edge cases" do
+    context "with filter edge cases" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
         double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
       end
@@ -604,7 +590,7 @@ RSpec.describe "Static" do
       end
     end
 
-    context "with search scope edge cases" do
+    context "with search scope edge cases" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:base_params) { { query: "test query" } }
 
       before do
