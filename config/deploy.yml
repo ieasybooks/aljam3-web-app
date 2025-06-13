@@ -59,7 +59,7 @@ env:
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
 
-    MEILISEARCH_URL: http://aljam3-meilisearch:7700
+    MEILISEARCH_HOST: http://aljam3-meilisearch:7700
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
