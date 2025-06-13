@@ -10,7 +10,7 @@ class Views::Static::Home < Views::Base
   def page_title = t(".title")
 
   def view_template
-    div(class: "p-4 sm:container") do
+    div(class: "px-4 sm:px-4 py-4 sm:container") do
       SearchForm(libraries: @libraries, categories: @categories)
 
       if @results.nil?

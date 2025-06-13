@@ -13,7 +13,7 @@ class Views::Pages::Show < Views::Base
 
   def view_template
     div(
-      class: "flex flex-col h-screen sm:container p-4 space-y-2 sm:space-y-4",
+      class: "flex flex-col h-screen sm:container px-4 sm:px-4 py-4 space-y-4",
       data: {
         controller: "pdf-viewer top-controls bottom-controls",
         pdf_viewer_book_id_value: @book.id,
@@ -46,7 +46,7 @@ class Views::Pages::Show < Views::Base
 
   def share_button
     Dialog do
-      DialogTrigger(class: "absolute max-sm:-top-2 max-sm:-end-2 sm:-top-4 sm:end-0") do
+      DialogTrigger(class: "absolute max-sm:-top-4 max-sm:-end-4 sm:-top-4 sm:end-0") do
         Tooltip(placement: "bottom") do
           TooltipTrigger do
             Button(variant: :outline, icon: true, class: "border-t-0 max-sm:border-e-0 sm:rounded-t-none max-sm:rounded-none max-sm:rounded-es-md") do
@@ -107,7 +107,7 @@ class Views::Pages::Show < Views::Base
     div(class: "flex items-center") do
       MobileMenu()
 
-      Breadcrumb(class: "pe-9") do
+      Breadcrumb do
         BreadcrumbList do
           BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { t("aljam3") }
 
