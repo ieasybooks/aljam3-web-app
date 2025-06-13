@@ -14,7 +14,7 @@ class Components::CarouselBookCard < Components::Base
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
 
-          plain @book.author
+          span(class: "line-clamp-1") { @book.author }
         end
       end
 
