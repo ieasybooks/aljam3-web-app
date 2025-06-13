@@ -520,6 +520,7 @@ GEM
     thruster (0.1.13-arm64-darwin)
     thruster (0.1.13-x86_64-linux)
     timeout (0.4.3)
+    tqdm (0.4.1)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
@@ -612,6 +613,7 @@ DEPENDENCIES
   strict_ivars (~> 1.0, >= 1.0.2)
   tailwind_merge (~> 1.3, >= 1.3.1)
   thruster
+  tqdm (~> 0.4.1)
   turbo-rails
   tzinfo-data
   web-console

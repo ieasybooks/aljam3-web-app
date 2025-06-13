@@ -36,6 +36,7 @@ group :development do
   gem "rubocop-rspec", "~> 3.6"
   gem "rubocop-rspec_rails", "~> 2.31"
   gem "ruby_ui", "~> 1.0", ">= 1.0.1"
+  gem "tqdm", "~> 0.4.1"
 end
 
 group :test do
