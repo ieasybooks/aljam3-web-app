@@ -26,16 +26,10 @@ RSpec.describe "rake db:import_book", type: :task do
     new_argv << library_id
     new_argv << "--pdf-urls"
     new_argv << "https://example.com/file with spaces.pdf;https://example.com/another file.pdf"
-    new_argv << "--pdf-sizes"
-    new_argv << "15.4;10.1"
     new_argv << "--txt-urls"
     new_argv << txt_urls
-    new_argv << "--txt-sizes"
-    new_argv << "0.3;0.1"
     new_argv << "--docx-urls"
     new_argv << "https://example.com/file with spaces.docx;https://example.com/another file.docx"
-    new_argv << "--docx-sizes"
-    new_argv << "1.3;0.9"
 
     new_argv
   end
@@ -51,7 +45,6 @@ RSpec.describe "rake db:import_book", type: :task do
                             .and change(BookFile, :count).by(2)
                             .and change(Page, :count).by(2)
 
-      expect(BookFile.pluck(:pdf_size, :txt_size, :docx_size)).to eq([ [ 15.4, 0.3, 1.3 ], [ 10.1, 0.1, 0.9 ] ])
       expect(Page.pluck(:content)).to eq([ "First page.", "Second page." ])
       expect(Page.pluck(:number)).to eq([ 1, 2 ])
     ensure
@@ -75,7 +68,7 @@ RSpec.describe "rake db:import_book", type: :task do
       original_argv = ARGV.dup
       ARGV.replace(valid_argv[0..-3])
 
-      expect { task.invoke }.to raise_error(SystemExit).and output(/Error: Missing required arguments: docx_sizes/).to_stdout
+      expect { task.invoke }.to raise_error(SystemExit).and output(/Error: Missing required arguments: docx_urls/).to_stdout
     ensure
       ARGV.replace(original_argv)
     end
@@ -92,13 +85,13 @@ RSpec.describe "rake db:import_book", type: :task do
     end
   end
 
-  context "with un-equal number of URLs, sizes, and paths" do
+  context "with un-equal number of URLs" do
     it "shows the error and exits" do # rubocop:disable RSpec/ExampleLength
       original_argv = ARGV.dup
       ARGV.replace(build_argv(txt_urls: "https://example.com/file with spaces.txt"))
 
       expect { task.invoke }.to raise_error(SystemExit)
-                            .and output(/Error: The number of URLs and sizes must be the same for all file types/).to_stdout
+                            .and output(/Error: The number of URLs must be the same for all file types/).to_stdout
     ensure
       ARGV.replace(original_argv)
     end

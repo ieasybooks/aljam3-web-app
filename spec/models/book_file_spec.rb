@@ -3,11 +3,8 @@
 # Table name: book_files
 #
 #  id         :bigint           not null, primary key
-#  docx_size  :float            default(0.0), not null
 #  docx_url   :text             default("")
-#  pdf_size   :float            default(0.0), not null
 #  pdf_url    :text             default("")
-#  txt_size   :float            default(0.0), not null
 #  txt_url    :text             default("")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -32,9 +29,6 @@ RSpec.describe BookFile do
     it { is_expected.to validate_presence_of(:pdf_url) }
     it { is_expected.to validate_presence_of(:txt_url) }
     it { is_expected.to validate_presence_of(:docx_url) }
-    it { is_expected.to validate_presence_of(:pdf_size) }
-    it { is_expected.to validate_presence_of(:txt_size) }
-    it { is_expected.to validate_presence_of(:docx_size) }
   end
 
   describe "factory" do

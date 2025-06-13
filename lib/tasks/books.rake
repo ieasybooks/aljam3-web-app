@@ -22,11 +22,8 @@ namespace :db do
       puts "    --volumes=1 \\"
       puts "    --library-id=1 \\"
       puts '    --pdf-urls="https://example.com/file with spaces.pdf;https://example.com/another file.pdf" \\'
-      puts '    --pdf-sizes="15.4;10.1" \\'
       puts '    --txt-urls="https://example.com/file with spaces.txt;https://example.com/another file.txt" \\'
-      puts '    --txt-sizes="0.3;0.1" \\'
-      puts '    --docx-urls="https://example.com/file with spaces.docx;https://example.com/another file.docx" \\'
-      puts '    --docx-sizes="1.3;0.9"'
+      puts '    --docx-urls="https://example.com/file with spaces.docx;https://example.com/another file.docx"'
     end
 
     split_list = lambda { it.split(";").map(&:strip).reject(&:empty?) }
@@ -43,11 +40,8 @@ namespace :db do
       opts.on("--volumes VOLUMES", Integer, "Number of volumes (defaults to -1)") { options[:volumes] = it }
       opts.on("--library-id LIBRARY_ID", Integer, "Library ID (required)") { options[:library_id] = it }
       opts.on("--pdf-urls PDF_URLS", "Semicolon-separated list of PDF file URLs (use semicolons to separate files)") { options[:pdf_urls] = split_list.call(it) }
-      opts.on("--pdf-sizes PDF_SIZES", "Semicolon-separated list of PDF file sizes in MB (use semicolons to separate files)") { options[:pdf_sizes] = split_list.call(it) }
       opts.on("--txt-urls TXT_URLS", "Semicolon-separated list of TXT file URLs (use semicolons to separate files)") { options[:txt_urls] = split_list.call(it) }
-      opts.on("--txt-sizes TXT_SIZES", "Semicolon-separated list of TXT file sizes in MB (use semicolons to separate files)") { options[:txt_sizes] = split_list.call(it) }
       opts.on("--docx-urls DOCX_URLS", "Semicolon-separated list of DOCX file URLs (use semicolons to separate files)") { options[:docx_urls] = split_list.call(it) }
-      opts.on("--docx-sizes DOCX_SIZES", "Semicolon-separated list of DOCX file sizes in MB (use semicolons to separate files)") { options[:docx_sizes] = split_list.call(it) }
 
       opts.on("-h", "--help", "Show this help message")
     end
@@ -64,21 +58,14 @@ namespace :db do
 
     options[:volumes] ||= -1
 
-    required_args = [ :title, :author, :category, :pages, :library_id, :pdf_urls, :pdf_sizes, :txt_urls, :txt_sizes, :docx_urls, :docx_sizes ]
+    required_args = [ :title, :author, :category, :pages, :library_id, :pdf_urls, :txt_urls, :docx_urls ]
     missing_args = required_args.select { options[it].nil? }
     if missing_args.any?
       show_help.call(option_parser, "Missing required arguments: #{missing_args.join(', ')}"); exit 1
     end
 
-    if [
-      options[:pdf_urls].size,
-      options[:pdf_sizes].size,
-      options[:txt_urls].size,
-      options[:txt_sizes].size,
-      options[:docx_urls].size,
-      options[:docx_sizes].size
-    ].uniq.size != 1
-      puts "Error: The number of URLs and sizes must be the same for all file types"; exit 1
+    if [ options[:pdf_urls].size, options[:txt_urls].size, options[:docx_urls].size ].uniq.size != 1
+      puts "Error: The number of URLs must be the same for all file types"; exit 1
     end
 
     unless Library.exists?(options[:library_id].to_i)
@@ -97,23 +84,9 @@ namespace :db do
 
       book_files = []
 
-      [
-        options[:pdf_urls],
-        options[:pdf_sizes],
-        options[:txt_urls],
-        options[:txt_sizes],
-        options[:docx_urls],
-        options[:docx_sizes]
-      ].transpose.each do |pdf_url, pdf_size, txt_url, txt_size, docx_url, docx_size|
+      [ options[:pdf_urls], options[:txt_urls], options[:docx_urls] ].transpose.each do |pdf_url, txt_url, docx_url|
         begin
-          book_files << book.files.create!(
-            pdf_url:,
-            pdf_size:,
-            txt_url:,
-            txt_size:,
-            docx_url:,
-            docx_size:
-          )
+          book_files << book.files.create!(pdf_url:, txt_url:, docx_url:)
         rescue => e
           puts "An error occurred while creating BookFile for '#{pdf_url}': #{e.message}"; exit 1
         end

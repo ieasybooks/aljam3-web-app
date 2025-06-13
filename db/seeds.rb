@@ -26,9 +26,6 @@ if Rails.env.development? && Book.count == 0
         pdf_url: "https://example.com/book-#{book.id}-file-#{index + 1}.pdf",
         txt_url: "https://example.com/book-#{book.id}-file-#{index + 1}.txt",
         docx_url: "https://example.com/book-#{book.id}-file-#{index + 1}.docx",
-        pdf_size: Random.rand(10.0..50.0),
-        txt_size: Random.rand(0.1..3.0),
-        docx_size: Random.rand(1.5..5.0)
       )
 
       book_file.pages.insert_all(

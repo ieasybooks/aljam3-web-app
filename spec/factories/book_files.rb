@@ -3,11 +3,8 @@
 # Table name: book_files
 #
 #  id         :bigint           not null, primary key
-#  docx_size  :float            default(0.0), not null
 #  docx_url   :text             default("")
-#  pdf_size   :float            default(0.0), not null
 #  pdf_url    :text             default("")
-#  txt_size   :float            default(0.0), not null
 #  txt_url    :text             default("")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -26,9 +23,6 @@ FactoryBot.define do
     pdf_url { "https://example.com/files/file_1.pdf" }
     txt_url { "https://example.com/files/file_1.txt" }
     docx_url { "https://example.com/files/file_1.docx" }
-    pdf_size { rand(10.0..50.0).round(2) }
-    txt_size { rand(0.1..3.0).round(2) }
-    docx_size { rand(1.5..5.0).round(2) }
 
     association :book
 
