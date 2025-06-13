@@ -31,9 +31,6 @@ jobs:
           ruby-version: 3.4.4
           bundler-cache: true
 
-      - name: Install Kamal v2.6.1
-        run: gem install kamal -v 2.6.1
-
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.1
         with:
@@ -45,7 +42,7 @@ jobs:
       - name: Expose GitHub Runtime for cache
         uses: crazy-max/ghaction-github-runtime@v3.1.0
 
-      - name: Run kamal ${{ github.event.inputs.command }}
+      - name: Run bundle exec kamal ${{ github.event.inputs.command }}
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -55,4 +52,4 @@ jobs:
           SHIPYRD_HOST: ${{ secrets.SHIPYRD_HOST }}
           SHIPYRD_API_KEY: ${{ secrets.SHIPYRD_API_KEY }}
         run: |
-          kamal ${{ github.event.inputs.command }}
+          bundle exec kamal ${{ github.event.inputs.command }}
