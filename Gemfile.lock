@@ -72,6 +72,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     annotaterb (4.15.0)
     ast (2.4.3)
     base64 (0.3.0)
@@ -327,6 +329,7 @@ GEM
     psych (5.2.6)
       date
       stringio
+    public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
@@ -553,6 +556,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  addressable (~> 2.8, >= 2.8.7)
   annotaterb (~> 4.15)
   better_errors (~> 2.10, >= 2.10.1)
   binding_of_caller (~> 1.0, >= 1.0.1)
