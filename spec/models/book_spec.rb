@@ -2,15 +2,16 @@
 #
 # Table name: books
 #
-#  id         :bigint           not null, primary key
-#  author     :string           not null
-#  category   :string           not null
-#  pages      :integer          not null
-#  title      :string           not null
-#  volumes    :integer          not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  library_id :bigint           not null
+#  id          :bigint           not null, primary key
+#  author      :string           not null
+#  category    :string           not null
+#  files_count :integer          default(0), not null
+#  pages       :integer          not null
+#  title       :string           not null
+#  volumes     :integer          not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  library_id  :bigint           not null
 #
 # Indexes
 #
@@ -24,7 +25,7 @@ require "rails_helper"
 
 RSpec.describe Book do
   describe "associations" do
-    it { is_expected.to belong_to(:library) }
+    it { is_expected.to belong_to(:library).counter_cache(true) }
     it { is_expected.to have_many(:files).class_name("BookFile").dependent(:destroy) }
   end
 

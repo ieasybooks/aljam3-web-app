@@ -2,13 +2,14 @@
 #
 # Table name: book_files
 #
-#  id         :bigint           not null, primary key
-#  docx_url   :text             default("")
-#  pdf_url    :text             default("")
-#  txt_url    :text             default("")
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  book_id    :bigint           not null
+#  id          :bigint           not null, primary key
+#  docx_url    :text             default("")
+#  pages_count :integer          default(0), not null
+#  pdf_url     :text             default("")
+#  txt_url     :text             default("")
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  book_id     :bigint           not null
 #
 # Indexes
 #

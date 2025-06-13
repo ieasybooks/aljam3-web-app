@@ -24,7 +24,7 @@ class Page < ApplicationRecord
   extend Pagy::Meilisearch
   ActiveRecord_Relation.include Pagy::Meilisearch
 
-  belongs_to :file, class_name: "BookFile", foreign_key: "book_file_id"
+  belongs_to :file, class_name: "BookFile", foreign_key: "book_file_id", counter_cache: true
 
   validates :content, :number, presence: true
 

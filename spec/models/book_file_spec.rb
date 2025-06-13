@@ -2,13 +2,14 @@
 #
 # Table name: book_files
 #
-#  id         :bigint           not null, primary key
-#  docx_url   :text             default("")
-#  pdf_url    :text             default("")
-#  txt_url    :text             default("")
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  book_id    :bigint           not null
+#  id          :bigint           not null, primary key
+#  docx_url    :text             default("")
+#  pages_count :integer          default(0), not null
+#  pdf_url     :text             default("")
+#  txt_url     :text             default("")
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  book_id     :bigint           not null
 #
 # Indexes
 #
@@ -22,7 +23,7 @@ require 'rails_helper'
 
 RSpec.describe BookFile do
   describe "associations" do
-    it { is_expected.to belong_to(:book) }
+    it { is_expected.to belong_to(:book).counter_cache(:files_count) }
   end
 
   describe "validations" do

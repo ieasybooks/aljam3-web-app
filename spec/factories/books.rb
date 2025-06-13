@@ -2,15 +2,16 @@
 #
 # Table name: books
 #
-#  id         :bigint           not null, primary key
-#  author     :string           not null
-#  category   :string           not null
-#  pages      :integer          not null
-#  title      :string           not null
-#  volumes    :integer          not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  library_id :bigint           not null
+#  id          :bigint           not null, primary key
+#  author      :string           not null
+#  category    :string           not null
+#  files_count :integer          default(0), not null
+#  pages       :integer          not null
+#  title       :string           not null
+#  volumes     :integer          not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  library_id  :bigint           not null
 #
 # Indexes
 #

@@ -24,7 +24,7 @@ RSpec.describe Page do
   include Meilisearch::Rails
 
   describe "associations" do
-    it { is_expected.to belong_to(:file).class_name("BookFile") }
+    it { is_expected.to belong_to(:file).class_name("BookFile").counter_cache(true) }
   end
 
   describe "validations" do

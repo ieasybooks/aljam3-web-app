@@ -110,6 +110,8 @@ namespace :db do
               }
             end
           )
+
+          BookFile.reset_counters(book_file.id, :pages)
         rescue => e
           puts "An error occurred while downloading or processing TXT file from '#{txt_url}': #{e.message}"; exit 1
         ensure

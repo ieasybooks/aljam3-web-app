@@ -37,6 +37,8 @@ if Rails.env.development? && Book.count == 0
           }
         end
       )
+
+      BookFile.reset_counters(book_file.id, :pages)
     end
   end
 

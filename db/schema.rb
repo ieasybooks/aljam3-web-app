@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_13_134224) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_13_191554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_134224) do
     t.text "pdf_url", default: ""
     t.text "txt_url", default: ""
     t.text "docx_url", default: ""
+    t.integer "pages_count", default: 0, null: false
     t.index ["book_id"], name: "index_book_files_on_book_id"
   end
 
@@ -33,6 +34,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_134224) do
     t.bigint "library_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "files_count", default: 0, null: false
     t.index ["library_id"], name: "index_books_on_library_id"
   end
 
@@ -40,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_134224) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "books_count", default: 0, null: false
   end
 
   create_table "pages", force: :cascade do |t|
