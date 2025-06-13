@@ -127,6 +127,7 @@
   <li><strong><a href="https://github.com/faker-ruby/faker">faker</a></strong> - توليد بيانات وهمية لأغراض التطوير والاختبار</li>
   <li><strong><a href="https://github.com/hotwired/spark">hotwire-spark</a></strong> - إعادة تحميل تلقائي للصفحات أثناء التطوير</li>
   <li><strong><a href="https://github.com/glebm/i18n-tasks">i18n-tasks</a></strong> - إدارة وتنظيم ملفات الترجمة</li>
+  <li><strong><a href="https://github.com/net-ssh/net-ssh">net-ssh</a></strong> - مكتبة Ruby خالصة لبروتوكول SSH2 للاتصال والتفاعل مع الخوادم (تُستخدم في <code dir="ltr">lib/tools/import_books.rb</code> فقط)</li>
   <li><strong><a href="https://github.com/rubocop/rubocop-rake">rubocop-rake</a></strong> - قواعد RuboCop لملفات Rake</li>
   <li><strong><a href="https://github.com/rubocop/rubocop-rspec">rubocop-rspec</a></strong> - قواعد RuboCop لاختبارات RSpec</li>
   <li><strong><a href="https://github.com/rubocop/rubocop-rspec_rails">rubocop-rspec_rails</a></strong> - قواعد RuboCop المخصصة لـ RSpec مع Rails</li>
