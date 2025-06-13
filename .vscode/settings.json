@@ -49,7 +49,7 @@
       "password": "aljam3"
     }
   ],
-  "debug.javascript.defaultRuntimeExecutable": {
-    "pwa-node": "/Users/aliosm/.local/share/mise/shims/node"
+  "search.exclude": {
+    "app/views/pdfjs/index.html": true
   }
 }
