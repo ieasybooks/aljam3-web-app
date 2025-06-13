@@ -23,6 +23,7 @@ proxy:
     - aljam3.com
     - aljam3.ieasybooks.com
   forward_headers: true
+  app_port: 3000
 
 # Credentials for your image host.
 registry:
