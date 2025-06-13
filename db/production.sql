@@ -1,0 +1,4 @@
+CREATE DATABASE aljam3_production;
+CREATE DATABASE aljam3_production_cache;
+CREATE DATABASE aljam3_production_queue;
+CREATE DATABASE aljam3_production_cable;

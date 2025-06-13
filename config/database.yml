@@ -94,9 +94,11 @@ test:
 production:
   primary: &primary_production
     <<: *default
+    host: <%= ENV["DB_HOST"] %>
+    port: 5432
     database: aljam3_production
     username: aljam3
-    password: <%= ENV["ALJAM3_DATABASE_PASSWORD"] %>
+    password: <%= ENV["POSTGRES_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: aljam3_production_cache

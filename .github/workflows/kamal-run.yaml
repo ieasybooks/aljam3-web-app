@@ -1,0 +1,58 @@
+name: Kamal Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Command to run'
+        required: true
+        type: string
+        default: 'deploy'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  kamal-run:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: kamal-run
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Ruby v3.4.4
+        uses: ruby/setup-ruby@v1.245.0
+        with:
+          ruby-version: 3.4.4
+          bundler-cache: true
+
+      - name: Install Kamal v2.6.1
+        run: gem install kamal -v 2.6.1
+
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3.10.0
+
+      - name: Expose GitHub Runtime for cache
+        uses: crazy-max/ghaction-github-runtime@v3.1.0
+
+      - name: Run kamal ${{ github.event.inputs.command }}
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          MEILI_MASTER_KEY: ${{ secrets.MEILI_MASTER_KEY }}
+          SHIPYRD_HOST: ${{ secrets.SHIPYRD_HOST }}
+          SHIPYRD_API_KEY: ${{ secrets.SHIPYRD_API_KEY }}
+        run: |
+          kamal ${{ github.event.inputs.command }}

@@ -7,7 +7,6 @@ PROJECT_NAME = "{{ config_root | basename }}"
 ruby = "{{ get_env(name='RUBY_VERSION', default='3.4.4') }}"
 node = "{{ get_env(name='NODE_VERSION', default='24.1.0') }}"
 yarn = "4.9.1"
-bitwarden-secrets-manager = "latest"
 
 [tasks."docker:start"]
 description = "Start Docker services using docker-compose"
