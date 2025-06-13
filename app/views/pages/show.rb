@@ -13,7 +13,7 @@ class Views::Pages::Show < Views::Base
 
   def view_template
     div(
-      class: "flex flex-col h-screen sm:container px-2 sm:px-4 py-2 sm:py-4 space-y-2 sm:space-y-4",
+      class: "flex flex-col h-screen sm:container p-4 space-y-2 sm:space-y-4",
       data: {
         controller: "pdf-viewer top-controls bottom-controls",
         pdf_viewer_book_id_value: @book.id,
