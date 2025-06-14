@@ -25,31 +25,19 @@ class Components::SearchBookCard < Components::Base
       CardContent(class: "flex justify-between items-center p-4 border-t") do
         div(class: "flex") do
           if @book.volumes != -1
-            Tooltip do
-              TooltipTrigger do
-                Text(size: "1", weight: "muted", class: "flex gap-x-0.5 cursor-default") do
-                  Tabler::Books(class: "size-4")
-
-                  plain @book.volumes
-                end
-              end
-
-              TooltipContent(class: "delay-100") { Text(size: "1") { t("volumes") } }
+            Text(size: "1", weight: "muted") do
+              plain t("volumes")
+              plain ": "
+              plain @book.volumes
             end
 
-            Separator(orientation: :vertical, class: "h-4 ms-2 me-1.5")
+            Separator(orientation: :vertical, class: "h-4 ms-1.5 me-1.5")
           end
 
-          Tooltip do
-            TooltipTrigger do
-              Text(size: "1", weight: "muted", class: "flex gap-x-0.5 cursor-default") do
-                Lucide::FileText(class: "size-4 p-px ps-0")
-
-                plain @book.pages_count
-              end
-            end
-
-            TooltipContent(class: "delay-100") { Text(size: "1") { t("pages_text") } }
+          Text(size: "1", weight: "muted") do
+            plain t("pages_text")
+            plain ": "
+            plain @book.pages_count
           end
         end
 

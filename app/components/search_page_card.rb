@@ -41,32 +41,20 @@ class Components::SearchPageCard < Components::Base
 
       CardFooter(class: "flex justify-between items-center p-4 border-t") do
         div(class: "flex") do
-          if @page.file.book.volumes != -1
-            Tooltip do
-              TooltipTrigger do
-                Text(size: "1", weight: "muted", class: "flex gap-x-0.5 cursor-default") do
-                  Tabler::Books(class: "size-4")
-
-                  plain @page.file.book.volumes
-                end
-              end
-
-              TooltipContent(class: "delay-100") { Text(size: "1") { t("volumes") } }
+          if @page.file.book.files_count > 1
+            Text(size: "1", weight: "muted") do
+              plain t(".file_name")
+              plain ": "
+              plain @page.file.name
             end
 
-            Separator(orientation: :vertical, class: "h-4 ms-2 me-1.5")
+            Separator(orientation: :vertical, class: "h-4 ms-1.5 me-1.5")
           end
 
-          Tooltip do
-            TooltipTrigger do
-              Text(size: "1", weight: "muted", class: "flex gap-x-0.5 cursor-default") do
-                Lucide::FileText(class: "size-4 p-px ps-0")
-
-                plain @page.file.book.pages_count
-              end
-            end
-
-            TooltipContent(class: "delay-100") { Text(size: "1") { t("pages_text") } }
+          Text(size: "1", weight: "muted") do
+            plain t("page")
+            plain ": "
+            plain @page.file.book.pages_count
           end
         end
 

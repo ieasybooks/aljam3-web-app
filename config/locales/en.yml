@@ -10,6 +10,7 @@ en:
   close: Close
   navbar:
     home: Home
+  page: Page
   pages:
     show:
       share_page: Share Page
@@ -23,6 +24,7 @@ en:
   search_no_results_found:
     no_results_found: No results found
   search_page_card:
+    file_name: File Name
     hide: Hide
     read_more: Read more
     show_page: Show Page

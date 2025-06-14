@@ -10,6 +10,7 @@ ar:
   close: إغلاق
   navbar:
     home: الرئيسية
+  page: الصفحة
   pages:
     show:
       share_page: مشاركة الصفحة
@@ -23,6 +24,7 @@ ar:
   search_no_results_found:
     no_results_found: لم نعثر على نتائج
   search_page_card:
+    file_name: اسم الملف
     hide: إخفاء
     read_more: عرض المزيد
     show_page: عرض الصفحة
