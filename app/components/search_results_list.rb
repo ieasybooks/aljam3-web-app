@@ -34,6 +34,8 @@ class Components::SearchResultsList < Components::Base
             ), loading: :lazy
           end
         end
+
+        turbo_frame_tag :results_list, next_page if next_page
       end
     end
   end
