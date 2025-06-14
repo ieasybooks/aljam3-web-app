@@ -7,12 +7,14 @@ export default class extends Controller {
   static values = {
     bookId: Number,
     fileId: Number,
+    currentPage: Number,
     skeleton: String,
   }
 
   connect() {
     this.currentAbortController = null
     this.debounceTimeout = null
+    this.currentPage = this.currentPageValue
 
     this.#registerPageChangingEvent()
   }
@@ -40,6 +42,10 @@ export default class extends Controller {
   }
 
   async #fetchPageContent(pageNumber) {
+    if (pageNumber === this.currentPage) {
+      return
+    }
+
     this.currentAbortController = new AbortController()
 
     try {
@@ -49,6 +55,8 @@ export default class extends Controller {
         responseKind: "turbo-stream",
         signal: this.currentAbortController.signal
       })
+
+      this.currentPage = pageNumber
 
       history.replaceState(null, "", this.#newPagePath(pageNumber))
     } catch (error) {
