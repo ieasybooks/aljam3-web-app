@@ -9,7 +9,7 @@ class Components::Navbar < Components::Base
 
           Logo()
 
-          Link(href: "", variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
+          Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
         end
 
         div(class: "flex items-center gap-x-2 md:divide-x") do
