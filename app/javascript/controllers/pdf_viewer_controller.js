@@ -3,10 +3,11 @@ import { get } from "@rails/request.js"
 
 // Connects to data-controller="pdf-viewer"
 export default class extends Controller {
-  static targets = [ "iframe" ]
+  static targets = [ "iframe", "content" ]
   static values = {
     bookId: Number,
     fileId: Number,
+    skeleton: String,
   }
 
   connect() {
@@ -42,6 +43,8 @@ export default class extends Controller {
     this.currentAbortController = new AbortController()
 
     try {
+      this.contentTarget.innerHTML = this.skeletonValue
+
       await get(this.#newPagePath(pageNumber), {
         responseKind: "turbo-stream",
         signal: this.currentAbortController.signal

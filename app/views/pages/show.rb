@@ -18,6 +18,7 @@ class Views::Pages::Show < Views::Base
         controller: "pdf-viewer top-controls bottom-controls",
         pdf_viewer_book_id_value: @book.id,
         pdf_viewer_file_id_value: @file.id,
+        pdf_viewer_skeleton_value: capture { render TxtContentSkeleton() },
         top_controls_book_title_value: @book.title,
         top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
@@ -155,7 +156,14 @@ class Views::Pages::Show < Views::Base
         top_controls_target: "txtContent"
       }
     ) do
-      div(id: "txt-content", class: "flex-1 p-4 overflow-y-auto", data: { top_controls_target: "content" }) do
+      div(
+        id: "txt-content",
+        class: "flex-1 p-4 overflow-y-auto",
+        data: {
+          pdf_viewer_target: "content",
+          top_controls_target: "content"
+        }
+      ) do
         simple_format @page.content
       end
     end
