@@ -18,7 +18,7 @@ if Rails.env.development? && Book.count == 0
       author: Faker::Book.author,
       category: Faker::Book.genre,
       volumes:,
-      pages:
+      pages_count: pages
     )
 
     volumes.times do |index|
