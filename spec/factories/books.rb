@@ -6,7 +6,7 @@
 #  author      :string           not null
 #  category    :string           not null
 #  files_count :integer          default(0), not null
-#  pages       :integer          not null
+#  pages_count :integer          not null
 #  title       :string           not null
 #  volumes     :integer          not null
 #  created_at  :datetime         not null
@@ -27,7 +27,7 @@ FactoryBot.define do
     sequence(:author) { |n| "Author #{n}" }
     category { [ "Fiction", "Non-Fiction", "Science", "History", "Biography" ].sample }
     volumes { rand(1..5) }
-    pages { rand(1..10) }
+    pages_count { rand(1..10) }
 
     association :library
 
@@ -41,8 +41,8 @@ FactoryBot.define do
 
         book.update(volumes: final_files_count) if evaluator.files_count.present?
 
-        pages_per_file = book.pages / final_files_count
-        remaining_pages = book.pages % final_files_count
+        pages_per_file = book.pages_count / final_files_count
+        remaining_pages = book.pages_count % final_files_count
 
         final_files_count.times do |index|
           create(:book_file, :with_pages, pages_count: pages_per_file + (index < remaining_pages ? 1 : 0), book:)

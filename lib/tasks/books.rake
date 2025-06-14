@@ -77,7 +77,7 @@ namespace :db do
         title: options[:title],
         author: options[:author],
         category: options[:category],
-        pages: options[:pages],
+        pages_count: options[:pages],
         volumes: options[:volumes],
         library_id: options[:library_id]
       )

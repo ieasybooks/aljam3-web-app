@@ -45,7 +45,7 @@ class Components::SearchBookCard < Components::Base
               Text(size: "1", weight: "muted", class: "flex gap-x-0.5 cursor-default") do
                 Lucide::FileText(class: "size-4 p-px ps-0")
 
-                plain @book.pages
+                plain @book.pages_count
               end
             end
 

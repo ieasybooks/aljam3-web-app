@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_13_191554) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_14_000419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -30,7 +30,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_191554) do
     t.string "author", null: false
     t.string "category", null: false
     t.integer "volumes", null: false
-    t.integer "pages", null: false
+    t.integer "pages_count", null: false
     t.bigint "library_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

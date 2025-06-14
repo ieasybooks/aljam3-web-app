@@ -6,7 +6,7 @@
 #  author      :string           not null
 #  category    :string           not null
 #  files_count :integer          default(0), not null
-#  pages       :integer          not null
+#  pages_count :integer          not null
 #  title       :string           not null
 #  volumes     :integer          not null
 #  created_at  :datetime         not null
@@ -30,7 +30,7 @@ class Book < ApplicationRecord
   belongs_to :library, counter_cache: true
   has_many :files, -> { order(:id) }, class_name: "BookFile", dependent: :destroy
 
-  validates :title, :author, :category, :volumes, :pages, presence: true
+  validates :title, :author, :category, :volumes, :pages_count, presence: true
 
   meilisearch enqueue: true do
     attribute :title, :category, :author
@@ -45,6 +45,4 @@ class Book < ApplicationRecord
     searchable_attributes %i[title]
     filterable_attributes %i[category author library]
   end
-
-  def first_page = files.first.pages.first
 end

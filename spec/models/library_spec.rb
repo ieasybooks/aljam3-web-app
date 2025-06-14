@@ -29,7 +29,7 @@ RSpec.describe Library do
 
       expect(library.books.count).to eq(3)
       expect(BookFile.count).to eq(library.books.pluck(:volumes).sum)
-      expect(Page.count).to eq(library.books.pluck(:pages).sum)
+      expect(Page.count).to eq(library.books.pluck(:pages_count).sum)
     end
   end
 end

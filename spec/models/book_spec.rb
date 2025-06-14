@@ -6,7 +6,7 @@
 #  author      :string           not null
 #  category    :string           not null
 #  files_count :integer          default(0), not null
-#  pages       :integer          not null
+#  pages_count :integer          not null
 #  title       :string           not null
 #  volumes     :integer          not null
 #  created_at  :datetime         not null
@@ -34,15 +34,7 @@ RSpec.describe Book do
     it { is_expected.to validate_presence_of(:author) }
     it { is_expected.to validate_presence_of(:category) }
     it { is_expected.to validate_presence_of(:volumes) }
-    it { is_expected.to validate_presence_of(:pages) }
-  end
-
-  describe "#first_page" do
-    it "returns the first page of the first file" do
-      book = create(:book, :with_files, files_count: 3)
-
-      expect(book.first_page).to eq(book.files.first.pages.first) # rubocop:disable RSpec/MultipleExpectations
-    end
+    it { is_expected.to validate_presence_of(:pages_count) }
   end
 
   describe "Meilisearch configuration" do
