@@ -27,6 +27,7 @@ RSpec.describe Book do
   describe "associations" do
     it { is_expected.to belong_to(:library).counter_cache(true) }
     it { is_expected.to have_many(:files).class_name("BookFile").dependent(:destroy) }
+    it { is_expected.to have_many(:pages).through(:files) }
   end
 
   describe "validations" do
@@ -65,7 +66,7 @@ RSpec.describe Book do
 
       expect(book.library).to eq(Library.first)
       expect(book.files.count).to eq(book.volumes)
-      expect(book.files.map { it.pages.count }.sum).to eq(book.pages)
+      expect(book.files.map { it.pages.count }.sum).to eq(book.pages_count)
     end
   end
 end

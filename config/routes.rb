@@ -6,7 +6,8 @@
 #                             pwa_manifest GET      /manifest(.:format)                                                                               rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
 #                                     root GET      /                                                                                                 static#home
-#                                book_page GET      /books/:book_id/pages/:id(.:format)                                                               pages#show
+#                           book_file_page GET      /books/:book_id/files/:file_id/pages/:id(.:format)                                                pages#show
+#                                book_file GET      /books/:book_id/files/:id(.:format)                                                               files#show
 #                                     book GET      /books/:id(.:format)                                                                              books#show
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
 #                         new_user_session GET      /users/sign_in(.:format)                                                                          devise/sessions#new
@@ -108,7 +109,9 @@ Rails.application.routes.draw do
   root "static#home"
 
   resources :books, only: :show do
-    resources :pages, only: :show
+    resources :files, only: :show do
+      resources :pages, only: :show
+    end
   end
 
   get "pdfjs", to: "pdfjs#index"

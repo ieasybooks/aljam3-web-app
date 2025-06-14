@@ -29,6 +29,7 @@ class Book < ApplicationRecord
 
   belongs_to :library, counter_cache: true
   has_many :files, -> { order(:id) }, class_name: "BookFile", dependent: :destroy
+  has_many :pages, -> { order(:id, :number) }, through: :files
 
   validates :title, :author, :category, :volumes, :pages_count, presence: true
 

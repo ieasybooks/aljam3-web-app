@@ -5,7 +5,7 @@ RSpec.describe "Pages" do
     let(:page) { create(:page) }
 
     it "returns http success" do
-      get "/books/#{page.file.book.id}/pages/#{page.id}"
+      get "/books/#{page.file.book.id}/files/#{page.file.id}/pages/#{page.number}"
 
       expect(response).to have_http_status(:success)
     end

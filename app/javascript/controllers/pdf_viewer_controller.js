@@ -5,7 +5,8 @@ import { get } from "@rails/request.js"
 export default class extends Controller {
   static targets = [ "iframe" ]
   static values = {
-    bookId: Number
+    bookId: Number,
+    fileId: Number,
   }
 
   connect() {
@@ -56,7 +57,7 @@ export default class extends Controller {
   }
 
   #newPagePath(pageNumber) {
-    return `/books/${this.bookIdValue}/pages/${pageNumber}`
+    return `/books/${this.bookIdValue}/files/${this.fileIdValue}/pages/${pageNumber}`
   }
 
   #cleanup() {

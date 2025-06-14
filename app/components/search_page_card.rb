@@ -70,7 +70,7 @@ class Components::SearchPageCard < Components::Base
           end
         end
 
-        Link(href: book_page_path(@page.file.book, @page), variant: :outline, size: :sm, target: "_top") { t(".show_page") }
+        Link(href: book_file_page_path(@page.file.book, @page.file, @page), variant: :outline, size: :sm, target: "_top") { t(".show_page") }
       end
     end
   end

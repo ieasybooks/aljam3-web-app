@@ -7,7 +7,7 @@ RSpec.describe "Books" do
     it "redirects to the first page" do
       get "/books/#{book.id}"
 
-      expect(response).to redirect_to(book_page_path(book, book.first_page))
+      expect(response).to redirect_to(book_file_page_path(book, book.pages.first.file, book.pages.first))
     end
   end
 end

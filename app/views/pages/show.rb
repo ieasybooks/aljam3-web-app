@@ -17,6 +17,7 @@ class Views::Pages::Show < Views::Base
       data: {
         controller: "pdf-viewer top-controls bottom-controls",
         pdf_viewer_book_id_value: @book.id,
+        pdf_viewer_file_id_value: @file.id,
         top_controls_book_title_value: @book.title,
         top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
@@ -88,7 +89,7 @@ class Views::Pages::Show < Views::Base
 
             Input(
               type: :text,
-              value: book_page_url(@page),
+              value: book_file_page_url(@book, @file, @page),
               class: "ltr:rounded-s-none rtl:rounded-s-none text-end",
               data: { clipboard_target: "source" },
               readonly: true
