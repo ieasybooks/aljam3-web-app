@@ -3,7 +3,7 @@ require "simplecov-json"
 
 SimpleCov.start "rails" do
   enable_coverage :branch
-  minimum_coverage line: 100, branch: 92.5
+  minimum_coverage line: 100, branch: 100
 
   SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::SimpleFormatter,
