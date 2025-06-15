@@ -16,6 +16,8 @@ class Components::Base < RubyUI::Base
   include Phlex::Rails::Layout
 
   register_value_helper :params
+  register_value_helper :controller_name
+  register_value_helper :action_name
 
   def self.translation_path
     @translation_path ||= name&.dup.tap do |n|
