@@ -6,9 +6,6 @@ export default class extends Controller {
   }
 
   setTheme() {
-    // Disable transitions during theme change
-    document.documentElement.classList.add('transition-none')
-
     // On page load or when changing themes, best to add inline in `head` to avoid FOUC
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark')
@@ -17,9 +14,6 @@ export default class extends Controller {
       document.documentElement.classList.remove('dark')
       document.documentElement.classList.add('light')
     }
-
-    // Re-enable transitions after a brief delay
-    setTimeout(() => { document.documentElement.classList.remove('transition-none') }, 10)
   }
 
   setLightTheme() {
