@@ -28,7 +28,7 @@ class Components::TopControls < Components::Base
       text_size_decrease_button(bar)
     end
 
-    div(class: "sm:hidden") do
+    div(class: "sm:hidden flex items-center gap-x-2") do
       DropdownMenu(options: { placement: rtl? ? "bottom-end" : "bottom-start" }) do
         DropdownMenuTrigger(class: "w-full") do
           bar.button { Lucide::Menu(class: "size-5") }
@@ -74,18 +74,10 @@ class Components::TopControls < Components::Base
               plain t(".copy_image")
             end
           end
-
-          download_files_dialog do
-            DropdownMenuItem(as: :button) do
-              div(class: "flex items-center gap-x-2") do
-                Lucide::Download(class: "size-5")
-
-                plain t(".download_files")
-              end
-            end
-          end
         end
       end
+
+      download_files_button(bar)
     end
   end
 
