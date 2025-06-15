@@ -205,6 +205,8 @@
 <h4 dir="rtl">مكتبات واجهة المستخدم والتفاعل</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/floating-ui/floating-ui" dir="ltr">@floating-ui/dom</a></strong> - مكتبة لعرض العناصر العائمة (كالنوافذ المنبثقة والقوائم المنسدلة والتلميحات) مع المزيد من المميزات</li>
+  <li><strong><a href="https://github.com/rails/request.js" dir="ltr">@rails/request.js</a></strong> - مكتبة JavaScript لإرسال طلبات HTTP مع إضافة الترويسات المطلوبة لتطبيقات Rails تلقائيًا</li>
+  <li><strong><a href="https://github.com/stimulus-components/stimulus-components" dir="ltr">@stimulus-components/clipboard</a></strong> - مُتحكّم Stimulus لنسخ النصوص إلى الحافظة</li>
   <li><strong><a href="https://github.com/stimulus-components/stimulus-components" dir="ltr">@stimulus-components/read-more</a></strong> - مُتحكّم Stimulus لإظهار وإخفاء النص (اقرأ المزيد/اقرأ أقل) باستخدام CSS line-clamp</li>
   <li><strong><a href="https://github.com/davidjerleke/embla-carousel">embla-carousel</a></strong> - مكتبة عرض شرائح خفيفة ومستقلة عن المكتبات الأخرى مع حركة سلسة ودقة في التمرير ونظام إضافات قابل للتوسع</li>
 </ul>
