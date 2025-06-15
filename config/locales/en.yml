@@ -11,6 +11,9 @@ en:
   navbar:
     home: Home
   page: Page
+  menu:
+    dark_mode: Dark Mode
+    light_mode: Light Mode
   pages:
     show:
       share_page: Share Page

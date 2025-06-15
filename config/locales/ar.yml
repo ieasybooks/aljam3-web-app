@@ -11,6 +11,9 @@ ar:
   navbar:
     home: الرئيسية
   page: الصفحة
+  menu:
+    dark_mode: الوضع الداكن
+    light_mode: الوضع الفاتح
   pages:
     show:
       share_page: مشاركة الصفحة
