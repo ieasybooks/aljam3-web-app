@@ -107,6 +107,7 @@
   <li><strong><a href="https://github.com/salsify/goldiloader">goldiloader</a></strong> - تحسين استعلامات قاعدة البيانات وتقليل مشكلة N+1</li>
   <li><strong><a href="https://github.com/ddnexus/pagy">pagy</a></strong> - مكتبة ترقيم صفحات سريعة وخفيفة</li>
   <li><strong><a href="https://github.com/ohler55/oj">oj</a></strong> - معالج JSON سريع وفعال</li>
+  <li><strong><a href="https://github.com/kjvarga/sitemap_generator">sitemap_generator</a></strong> - مولد خرائط الموقع XML مع تكامل Rails تلقائي</li>
 </ul>
 
 <h4 dir="rtl">مكتبات واجهة المستخدم</h4>

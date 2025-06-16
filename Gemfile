@@ -18,6 +18,7 @@ gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.1"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
+gem "sitemap_generator", "~> 6.3"
 gem "solid_errors", "~> 0.7.0"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
