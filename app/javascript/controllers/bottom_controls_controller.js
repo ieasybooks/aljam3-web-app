@@ -14,52 +14,55 @@ export default class extends Controller {
     "lastPageButtonTooltip"
   ]
 
+  static values = {
+    currentPage: Number,
+    totalPages: Number
+  }
+
   connect() {
-    this.#registerPageChangingEvent()
+    this.#updateButtonStates()
   }
 
   firstPage() {
-    this.iframeTarget.contentWindow.PDFViewerApplication.page = 1
-
+    this.currentPageValue = 1
     this.#updateButtonStates()
+
+    // Update PDF.js page number at the end as it could be undefined/null and cause issues.
+    this.iframeTarget.contentWindow.PDFViewerApplication.page = 1
   }
 
   previousPage() {
-    this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.previousPage()
+    if (this.currentPageValue > 1) {
+      this.currentPageValue = this.currentPageValue - 1
+    }
 
     this.#updateButtonStates()
+
+    // Update PDF.js page number at the end as it could be undefined/null and cause issues.
+    this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.previousPage()
   }
 
   nextPage() {
-    this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.nextPage()
+    if (this.currentPageValue < this.totalPagesValue) {
+      this.currentPageValue = this.currentPageValue + 1
+    }
 
     this.#updateButtonStates()
+
+    // Update PDF.js page number at the end as it could be undefined/null and cause issues.
+    this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.nextPage()
   }
 
   lastPage() {
-    this.iframeTarget.contentWindow.PDFViewerApplication.page = this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.pagesCount
-
+    this.currentPageValue = this.totalPagesValue
     this.#updateButtonStates()
-  }
 
-  #registerPageChangingEvent() {
-    if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus &&
-        this.iframeTarget.contentWindow?.PDFViewerApplication?.pdfViewer?.pagesCount > 0) {
-      this.#updateButtonStates()
-
-      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
-        this.#updateButtonStates()
-      })
-    } else {
-      setTimeout(() => this.#registerPageChangingEvent(), 100)
-    }
+    // Update PDF.js page number at the end as it could be undefined/null and cause issues.
+    this.iframeTarget.contentWindow.PDFViewerApplication.page = this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.pagesCount
   }
 
   #updateButtonStates() {
-    const currentPage = this.iframeTarget.contentWindow.PDFViewerApplication.page
-    const totalPages = this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.pagesCount
-
-    const isFirstPage = currentPage === 1
+    const isFirstPage = this.currentPageValue === 1
     this.firstPageButtonTarget.disabled = isFirstPage
     this.previousPageButtonTarget.disabled = isFirstPage
 
@@ -71,7 +74,7 @@ export default class extends Controller {
       this.previousPageButtonTooltipTarget.classList.remove("hidden")
     }
 
-    const isLastPage = currentPage === totalPages
+    const isLastPage = this.currentPageValue === this.totalPagesValue
     this.nextPageButtonTarget.disabled = isLastPage
     this.lastPageButtonTarget.disabled = isLastPage
 
