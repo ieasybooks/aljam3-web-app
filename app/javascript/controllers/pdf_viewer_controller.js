@@ -14,7 +14,6 @@ export default class extends Controller {
   connect() {
     this.currentAbortController = null
     this.debounceTimeout = null
-    this.currentPage = this.currentPageValue
 
     this.#registerPageChangingEvent()
   }
@@ -23,42 +22,36 @@ export default class extends Controller {
     this.#cleanup()
   }
 
+  currentPageValueChanged() {
+    this.#cleanup()
+
+    this.debounceTimeout = setTimeout(() => {
+      this.#fetchPageContent()
+    }, 100)
+  }
+
   #registerPageChangingEvent() {
     if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus) {
       this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
-        this.#handlePageChange(event.pageNumber)
+        this.currentPageValue = event.pageNumber
       })
     } else {
       setTimeout(() => this.#registerPageChangingEvent(), 100)
     }
   }
 
-  #handlePageChange(pageNumber) {
-    this.#cleanup()
-
-    this.debounceTimeout = setTimeout(() => {
-      this.#fetchPageContent(pageNumber)
-    }, 100)
-  }
-
-  async #fetchPageContent(pageNumber) {
-    if (pageNumber === this.currentPage) {
-      return
-    }
-
+  async #fetchPageContent() {
     this.currentAbortController = new AbortController()
 
     try {
       this.contentTarget.innerHTML = this.skeletonValue
 
-      await get(this.#newPagePath(pageNumber), {
+      await get(this.#newPagePath(), {
         responseKind: "turbo-stream",
         signal: this.currentAbortController.signal
       })
 
-      this.currentPage = pageNumber
-
-      history.replaceState(null, "", this.#newPagePath(pageNumber))
+      history.replaceState(null, "", this.#newPagePath())
     } catch (error) {
       // Ignore AbortError - it means we cancelled the request intentionally
       if (error.name !== 'AbortError') {
@@ -67,8 +60,8 @@ export default class extends Controller {
     }
   }
 
-  #newPagePath(pageNumber) {
-    return `/books/${this.bookIdValue}/files/${this.fileIdValue}/pages/${pageNumber}`
+  #newPagePath() {
+    return `/books/${this.bookIdValue}/files/${this.fileIdValue}/pages/${this.currentPageValue}`
   }
 
   #cleanup() {

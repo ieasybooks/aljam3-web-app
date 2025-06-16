@@ -62,6 +62,8 @@ export default class extends Controller {
   }
 
   #updateButtonStates() {
+    this.element.dataset.pdfViewerCurrentPageValue = this.currentPageValue
+
     const isFirstPage = this.currentPageValue === 1
     this.firstPageButtonTarget.disabled = isFirstPage
     this.previousPageButtonTarget.disabled = isFirstPage
