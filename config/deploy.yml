@@ -141,3 +141,8 @@ accessories:
 #     port: 6379
 #     directories:
 #       - data:/data
+
+# This is because we are generating the sitemap in the deploy step.
+# It takes too long to generate the sitemap, so we need to increase the timeout.
+# We should find a better way to do this, like a background job works after the deployment.
+deploy_timeout: 300
