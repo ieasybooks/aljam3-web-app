@@ -203,7 +203,8 @@ class Components::TopControls < Components::Base
                         data: {
                           controller: "download-file",
                           action: "click->download-file#download",
-                          download_file_url_value: url
+                          download_file_url_value: url,
+                          download_file_loading_status_value: capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") }
                         }
                       ) do
                         Lucide::Download(variant: :solid, class: "size-3.5")
