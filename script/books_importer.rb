@@ -116,7 +116,11 @@ class BooksImporter
     }
   end
 
-  def parse_json_paths(paths_string) = JSON.parse(paths_string.gsub("'", '"'))
+  def parse_json_paths(paths_string)
+    paths_string = paths_string.gsub("'", '"') if paths_string[..1] == "['"
+
+    JSON.parse(paths_string)
+  end
 
   def valid_book_data?(book_data)
     [ book_data[:pdf_paths].size, book_data[:txt_paths].size, book_data[:docx_paths].size ].uniq.size == 1
