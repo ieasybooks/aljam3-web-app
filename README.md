@@ -247,7 +247,7 @@
   <li><a href="https://huggingface.co/datasets/ieasybooks-org/shamela-waqfeya-library"><strong>المكتبة الشاملة الوقفية</strong></a></li>
 </ul>
 
-<h3 dir="rtl">خطوات إضافة كتاب</h3>
+<h3 dir="rtl">خطوات إضافة كتاب في بيئة التطوير</h3>
 
 <ol dir="rtl">
   <li>اختر إحدى المكتبات واستعرض الكتب المتاحة</li>
@@ -266,6 +266,40 @@ rake db:import_book -- \
   --pdf-urls="https://huggingface.co/datasets/ieasybooks-org/prophet-mosque-library/resolve/main/pdf/1%D9%80%20211.0%20%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86/00016%D9%80%20%D8%A7%D9%84%D9%82%D9%88%D9%84%20%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%A8%20%D9%81%D9%8A%20%D8%AD%D9%83%D9%85%20%D8%A7%D9%84%D9%86%D8%B3%D8%AE%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8%20---%20%D9%80.PDF/KTB.pdf" \
   --txt-urls="https://huggingface.co/datasets/ieasybooks-org/prophet-mosque-library/resolve/main/txt/1%D9%80%20211.0%20%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86/00016%D9%80%20%D8%A7%D9%84%D9%82%D9%88%D9%84%20%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%A8%20%D9%81%D9%8A%20%D8%AD%D9%83%D9%85%20%D8%A7%D9%84%D9%86%D8%B3%D8%AE%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8%20---%20%D9%80.PDF/KTB.txt" \
   --docx-urls="https://huggingface.co/datasets/ieasybooks-org/prophet-mosque-library/resolve/main/docx/1%D9%80%20211.0%20%D8%B9%D9%84%D9%88%D9%85%20%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86/00016%D9%80%20%D8%A7%D9%84%D9%82%D9%88%D9%84%20%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%A8%20%D9%81%D9%8A%20%D8%AD%D9%83%D9%85%20%D8%A7%D9%84%D9%86%D8%B3%D8%AE%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8%20---%20%D9%80.PDF/KTB.docx"
+</pre>
+
+<h3 dir="rtl">خطوات إضافة مكتبة كاملة إلى قاعدة بيانات الجامع بعد نشره</h3>
+
+<p dir="rtl"><em>ملاحظة: هذه الخطوات مخصصة لإضافة المكتبات الكاملة إلى الجامع بعد نشره، وليس في بيئة التطوير.</em></p>
+
+<ol dir="rtl">
+  <li>
+    حمّل ملف <code dir="ltr">index.tsv</code> الخاص بالمكتبة المطلوبة من مستودعها على <a href="https://huggingface.co">HuggingFace</a>. على سبيل المثال، يمكنك تحميل ملف فهرس المكتبة الوقفية من <a href="https://huggingface.co/datasets/ieasybooks-org/waqfeya-library/blob/main/index.tsv">هذا</a> الرابط.
+  </li>
+
+  <li>
+    نفّذ الأمر التالي مع تعديل المتغيرات حسب المكتبة المطلوبة:
+  </li>
+</ol>
+
+<pre dir="ltr">
+ruby script/import_books.rb \
+  --index-path=path/to/index.tsv \
+  --huggingface-library-id=ieasybooks-org/library-dataset-id \
+  --aljam3-library-id=0 \
+  --server-ip=$SERVER_IP \
+  --server-username=$SERVER_USERNAME
+</pre>
+
+<p dir="rtl">على سبيل المثال، الأمر التالي يُضيف المكتبة الوقفية إلى الجامع</p>
+
+<pre dir="ltr">
+ruby script/import_books.rb \
+  --index-path=/path/to/index.tsv \
+  --huggingface-library-id=ieasybooks-org/waqfeya-library \
+  --aljam3-library-id=2 \
+  --server-ip=$SERVER_IP \
+  --server-username=$SERVER_USERNAME
 </pre>
 
 <h2 dir="rtl">تشغيل حالات الاختبار</h2>
