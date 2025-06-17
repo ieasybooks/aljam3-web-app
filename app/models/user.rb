@@ -39,5 +39,7 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: %i[google]
 
+  validates :role, :encrypted_password, :sign_in_count, :failed_attempts, presence: true
+
   enum :role, { user: 0, admin: 1 }
 end

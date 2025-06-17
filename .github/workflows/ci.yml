@@ -37,6 +37,42 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  active_record_doctor:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17.5
+        ports:
+          - "5433:5432"
+        env:
+          POSTGRES_USER: aljam3
+          POSTGRES_PASSWORD: aljam3
+          POSTGRES_DB: aljam3_development
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install libpq-dev
+        run: sudo apt-get -yqq install libpq-dev
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.4
+          bundler-cache: true
+
+      - name: Create database
+        run: bin/rails db:create
+
+      - name: Run database migrations
+        run: bin/rails db:migrate
+
+      - name: Run Active Record Doctor
+        run: bundle exec rake active_record_doctor
+
   test:
     runs-on: ubuntu-latest
 

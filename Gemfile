@@ -50,6 +50,7 @@ group :test do
 end
 
 group :development, :test do
+  gem "active_record_doctor", github: "gregnavis/active_record_doctor"
   gem "rspec-rails", "~> 8.0"
 end
 

@@ -122,6 +122,7 @@
 <h4 dir="rtl">مكتبات التطوير والاختبار</h4>
 <ul dir="rtl">
   <li><strong><a href="https://github.com/sporkmonger/addressable">addressable</a></strong> - مكتبة بديلة ومرنة لمعالجة وتحليل عناوين URI (تُستخدم في <code dir="ltr">lib/tools/import_books.rb</code> فقط)</li>
+  <li><strong><a href="https://github.com/gregnavis/active_record_doctor">active_record_doctor</a></strong> - أداة لاكتشاف مشاكل قاعدة البيانات قبل وصولها إلى بيئة الإنتاج</li>
   <li><strong><a href="https://github.com/drwl/annotaterb">annotaterb</a></strong> - إضافة تعليقات توضيحية تلقائية لنماذج Rails</li>
   <li><strong><a href="https://github.com/BetterErrors/better_errors">better_errors</a></strong> - صفحات أخطاء محسنة أثناء التطوير</li>
   <li><strong><a href="https://github.com/banister/binding_of_caller">binding_of_caller</a></strong> - تحسين تجربة مكتبة <strong>better_errors</strong></li>

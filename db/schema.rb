@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_17_104149) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_174316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "book_files", force: :cascade do |t|
     t.bigint "book_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "pdf_url", default: ""
-    t.text "txt_url", default: ""
-    t.text "docx_url", default: ""
+    t.text "pdf_url", default: "", null: false
+    t.text "txt_url", default: "", null: false
+    t.text "docx_url", default: "", null: false
     t.integer "pages_count", default: 0, null: false
     t.index ["book_id"], name: "index_book_files_on_book_id"
   end
@@ -52,7 +53,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_104149) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_file_id", "number"], name: "index_pages_on_book_file_id_and_number", unique: true
-    t.index ["book_file_id"], name: "index_pages_on_book_file_id"
   end
 
   create_table "pghero_query_stats", force: :cascade do |t|
