@@ -143,7 +143,7 @@ class BooksImporter
   end
 
   def build_import_command(row, urls, aljam3_library_id)
-    [
+    command = [
       "bundle exec rake db:import_book --",
       "--title=\"#{row["title"]}\"",
       "--author=\"#{row["author"]}\"",
@@ -153,7 +153,11 @@ class BooksImporter
       "--pdf-urls=\"#{urls[:pdf_urls].join(";")}\"",
       "--txt-urls=\"#{urls[:txt_urls].join(";")}\"",
       "--docx-urls=\"#{urls[:docx_urls].join(";")}\""
-    ].join(" ")
+    ]
+
+    command << "--volumes=\"#{row["volumes"]}\"" if row["volumes"].present?
+
+    command.join(" ")
   end
 
   def build_docker_command(command) = "docker exec $(docker ps -aqf \"name=aljam3-web\" | head -n 1) #{command}"

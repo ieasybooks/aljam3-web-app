@@ -170,6 +170,86 @@ RSpec.describe BooksImporter do
         expect(expected_commands[1]).to include('--pdf-urls="https://huggingface.co/datasets/test/library/resolve/main/book2/file1.pdf;https://huggingface.co/datasets/test/library/resolve/main/book2/file2.pdf"')
       end
 
+      context "when book has volumes" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:csv_data) do
+          [
+            {
+              "title" => "Book with Volumes",
+              "author" => "Test Author",
+              "category" => "Test Category",
+              "pages" => "100",
+              "volumes" => "3",
+              "pdf_paths" => '["./book1/file1.pdf"]',
+              "txt_paths" => '["./book1/file1.txt"]',
+              "docx_paths" => '["./book1/file1.docx"]'
+            }
+          ]
+        end
+
+        it "includes volumes parameter in the command" do # rubocop:disable RSpec/MultipleExpectations
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).to have_received(:execute_with_output) do |_server_ip, _username, command, &block|
+            expect(command).to include('--volumes="3"')
+          end
+        end
+      end
+
+      context "when book has no volumes" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:csv_data) do
+          [
+            {
+              "title" => "Book without Volumes",
+              "author" => "Test Author",
+              "category" => "Test Category",
+              "pages" => "100",
+              "pdf_paths" => '["./book1/file1.pdf"]',
+              "txt_paths" => '["./book1/file1.txt"]',
+              "docx_paths" => '["./book1/file1.docx"]'
+            }
+          ]
+        end
+
+        it "does not include volumes parameter in the command" do # rubocop:disable RSpec/MultipleExpectations
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).to have_received(:execute_with_output) do |_server_ip, _username, command, &block|
+            expect(command).not_to include('--volumes=')
+          end
+        end
+      end
+
+      context "when book has empty volumes" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:csv_data) do
+          [
+            {
+              "title" => "Book with Empty Volumes",
+              "author" => "Test Author",
+              "category" => "Test Category",
+              "pages" => "100",
+              "volumes" => "",
+              "pdf_paths" => '["./book1/file1.pdf"]',
+              "txt_paths" => '["./book1/file1.txt"]',
+              "docx_paths" => '["./book1/file1.docx"]'
+            }
+          ]
+        end
+
+        it "does not include volumes parameter in the command" do # rubocop:disable RSpec/MultipleExpectations
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).to have_received(:execute_with_output) do |_server_ip, _username, command, &block|
+            expect(command).not_to include('--volumes=')
+          end
+        end
+      end
+
       context "when dry-run is enabled" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:argv) do
           [
