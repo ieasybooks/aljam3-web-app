@@ -40,7 +40,7 @@ env:
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
-    - MEILISEARCH_API_KEY
+    - MEILI_MASTER_KEY
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
@@ -129,7 +129,7 @@ accessories:
         MEILI_ENV: production
         MEILI_NO_ANALYTICS: true
       secret:
-        - MEILISEARCH_API_KEY
+        - MEILI_MASTER_KEY
     directories:
       - data.ms:/meili_data/data.ms
       - dumps:/meili_data/dumps
