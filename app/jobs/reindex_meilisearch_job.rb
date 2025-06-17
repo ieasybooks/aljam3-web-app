@@ -1,3 +1,7 @@
+# Use it like this:
+# Page.in_batches(of: 1000).each do |batch|
+#   ReindexMeilisearchJob.perform_later("Page", batch.first.id, batch.last.id)
+# end
 class ReindexMeilisearchJob < ApplicationJob
   queue_as :default
 
