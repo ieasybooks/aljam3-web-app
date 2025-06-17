@@ -34,6 +34,7 @@
 #                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
 #                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
+#                                  pg_hero          /pghero                                                                                           PgHero::Engine
 #                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
 #         turbo_recede_historical_location GET      /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET      /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
@@ -86,6 +87,33 @@
 #                        jobs GET    /:status/jobs(.:format)                                        mission_control/jobs/jobs#index
 #                        root GET    /                                                              mission_control/jobs/queues#index
 #
+# Routes for PgHero::Engine:
+#                     space GET  (/:database)/space(.:format)                     pg_hero/home#space
+#            relation_space GET  (/:database)/space/:relation(.:format)           pg_hero/home#relation_space
+#               index_bloat GET  (/:database)/index_bloat(.:format)               pg_hero/home#index_bloat
+#              live_queries GET  (/:database)/live_queries(.:format)              pg_hero/home#live_queries
+#                   queries GET  (/:database)/queries(.:format)                   pg_hero/home#queries
+#                show_query GET  (/:database)/queries/:query_hash(.:format)       pg_hero/home#show_query
+#                    system GET  (/:database)/system(.:format)                    pg_hero/home#system
+#                 cpu_usage GET  (/:database)/cpu_usage(.:format)                 pg_hero/home#cpu_usage
+#          connection_stats GET  (/:database)/connection_stats(.:format)          pg_hero/home#connection_stats
+#     replication_lag_stats GET  (/:database)/replication_lag_stats(.:format)     pg_hero/home#replication_lag_stats
+#                load_stats GET  (/:database)/load_stats(.:format)                pg_hero/home#load_stats
+#          free_space_stats GET  (/:database)/free_space_stats(.:format)          pg_hero/home#free_space_stats
+#                   explain GET  (/:database)/explain(.:format)                   pg_hero/home#explain
+#                      tune GET  (/:database)/tune(.:format)                      pg_hero/home#tune
+#               connections GET  (/:database)/connections(.:format)               pg_hero/home#connections
+#               maintenance GET  (/:database)/maintenance(.:format)               pg_hero/home#maintenance
+#                      kill POST (/:database)/kill(.:format)                      pg_hero/home#kill
+# kill_long_running_queries POST (/:database)/kill_long_running_queries(.:format) pg_hero/home#kill_long_running_queries
+#                  kill_all POST (/:database)/kill_all(.:format)                  pg_hero/home#kill_all
+#        enable_query_stats POST (/:database)/enable_query_stats(.:format)        pg_hero/home#enable_query_stats
+#                           POST (/:database)/explain(.:format)                   pg_hero/home#explain
+#         reset_query_stats POST (/:database)/reset_query_stats(.:format)         pg_hero/home#reset_query_stats
+#              system_stats GET  (/:database)/system_stats(.:format)              redirect(301, system)
+#               query_stats GET  (/:database)/query_stats(.:format)               redirect(301, queries)
+#                      root GET  /(:database)(.:format)                           pg_hero/home#index
+#
 # Routes for SolidErrors::Engine:
 #   root GET    /              solid_errors/errors#index
 # errors GET    /              solid_errors/errors#index
@@ -120,6 +148,7 @@ Rails.application.routes.draw do
 
   authenticate :user, ->(user) { user.admin? } do
     mount MissionControl::Jobs::Engine, at: "/jobs"
+    mount PgHero::Engine, at: "/pghero"
     mount SolidErrors::Engine, at: "/solid_errors"
   end
 end

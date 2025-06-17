@@ -144,6 +144,8 @@
 <ul dir="rtl">
   <li><strong><a href="https://github.com/rails/mission_control-jobs">mission_control-jobs</a></strong> - لوحة تحكم لمراقبة وإدارة المهام</li>
   <li><strong><a href="https://github.com/modosc/cloudflare-rails">cloudflare-rails</a></strong> - تهيئة Rails للعمل مع Cloudflare والحصول على عناوين IP الحقيقية للعملاء</li>
+  <li><strong><a href="https://github.com/ankane/pghero">pghero</a></strong> - لوحة تحكم لمراقبة أداء قاعدة بيانات PostgreSQL</li>
+  <li><strong><a href="https://github.com/pganalyze/pg_query">pg_query</a></strong> - محلل استعلامات PostgreSQL لـ Ruby</li>
   <li><strong><a href="https://github.com/fractaledmind/solid_errors">solid_errors</a></strong> - نظام تتبع وإدارة الأخطاء</li>
   <li><strong><a href="https://github.com/MiniProfiler/rack-mini-profiler">rack-mini-profiler</a></strong> - أداة مراقبة أداء التطبيق</li>
   <li><strong><a href="https://github.com/SamSaffron/memory_profiler">memory_profiler</a></strong> - تحليل استخدام الذاكرة</li>
