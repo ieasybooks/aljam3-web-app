@@ -15,7 +15,6 @@ export default class extends Controller {
   ]
 
   static values = {
-    currentPage: Number,
     totalPages: Number
   }
 
@@ -24,7 +23,7 @@ export default class extends Controller {
   }
 
   firstPage() {
-    this.currentPageValue = 1
+    this.currentPage = 1
     this.#updateButtonStates()
 
     // Update PDF.js page number at the end as it could be undefined/null and cause issues.
@@ -32,39 +31,37 @@ export default class extends Controller {
   }
 
   previousPage() {
-    if (this.currentPageValue > 1) {
-      this.currentPageValue = this.currentPageValue - 1
+    if (this.currentPage > 1) {
+      this.currentPage = this.currentPage - 1
     }
 
     this.#updateButtonStates()
 
     // Update PDF.js page number at the end as it could be undefined/null and cause issues.
-    this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.previousPage()
+    this.iframeTarget.contentWindow.PDFViewerApplication.page = this.currentPage
   }
 
   nextPage() {
-    if (this.currentPageValue < this.totalPagesValue) {
-      this.currentPageValue = this.currentPageValue + 1
+    if (this.currentPage < this.totalPagesValue) {
+      this.currentPage = this.currentPage + 1
     }
 
     this.#updateButtonStates()
 
     // Update PDF.js page number at the end as it could be undefined/null and cause issues.
-    this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.nextPage()
+    this.iframeTarget.contentWindow.PDFViewerApplication.page = this.currentPage
   }
 
   lastPage() {
-    this.currentPageValue = this.totalPagesValue
+    this.currentPage = this.totalPagesValue
     this.#updateButtonStates()
 
     // Update PDF.js page number at the end as it could be undefined/null and cause issues.
-    this.iframeTarget.contentWindow.PDFViewerApplication.page = this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.pagesCount
+    this.iframeTarget.contentWindow.PDFViewerApplication.page = this.totalPagesValue
   }
 
   #updateButtonStates() {
-    this.element.dataset.pdfViewerCurrentPageValue = this.currentPageValue
-
-    const isFirstPage = this.currentPageValue === 1
+    const isFirstPage = this.currentPage === 1
     this.firstPageButtonTarget.disabled = isFirstPage
     this.previousPageButtonTarget.disabled = isFirstPage
 
@@ -76,7 +73,7 @@ export default class extends Controller {
       this.previousPageButtonTooltipTarget.classList.remove("hidden")
     }
 
-    const isLastPage = this.currentPageValue === this.totalPagesValue
+    const isLastPage = this.currentPage === this.totalPagesValue
     this.nextPageButtonTarget.disabled = isLastPage
     this.lastPageButtonTarget.disabled = isLastPage
 
@@ -87,5 +84,13 @@ export default class extends Controller {
       this.nextPageButtonTooltipTarget.classList.remove("hidden")
       this.lastPageButtonTooltipTarget.classList.remove("hidden")
     }
+  }
+
+  get currentPage() {
+    return parseInt(this.element.dataset.pdfViewerCurrentPageValue)
+  }
+
+  set currentPage(value) {
+    this.element.dataset.pdfViewerCurrentPageValue = value.toString()
   }
 }

@@ -24,7 +24,6 @@ class Views::Pages::Show < Views::Base
         top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
-        bottom_controls_current_page_value: @page.number,
         bottom_controls_total_pages_value: @file.pages_count
       }
     ) do
