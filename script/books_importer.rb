@@ -159,7 +159,7 @@ class BooksImporter
       "--docx-urls=\"#{urls[:docx_urls].join(";")}\""
     ]
 
-    command << "--volumes=\"#{row["volumes"]}\"" if row["volumes"].present?
+    command << "--volumes=\"#{row["volumes"]}\"" unless row["volumes"].nil? || row["volumes"].empty?
 
     command.join(" ")
   end
