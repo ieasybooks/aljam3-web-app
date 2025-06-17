@@ -13,7 +13,7 @@ gem "omniauth", "~> 2.1", ">= 2.1.3"
 gem "omniauth-google-oauth2", "~> 1.2", ">= 1.2.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.3", ">= 9.3.4"
-gem "phlex-icons", "~> 2.25"
+gem "phlex-icons", "~> 2.26"
 gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.1"
@@ -41,7 +41,7 @@ group :development do
 end
 
 group :test do
-  gem "factory_bot_rails", "~> 6.4", ">= 6.4.4"
+  gem "factory_bot_rails", "~> 6.5"
   gem "shoulda-matchers", "~> 6.5"
   gem "simplecov", "~> 0.22.0", require: false
   gem "simplecov-json", "~> 0.2.3"

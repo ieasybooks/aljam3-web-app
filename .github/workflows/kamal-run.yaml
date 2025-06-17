@@ -37,7 +37,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v3.10.0
+        uses: docker/setup-buildx-action@v3.11.0
 
       - name: Expose GitHub Runtime for cache
         uses: crazy-max/ghaction-github-runtime@v3.1.0
