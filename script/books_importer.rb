@@ -24,6 +24,8 @@ class BooksImporter
     index_data = read_index_file(options[:index_path])
 
     index_data.tqdm.each_with_index do |row, index|
+      next if (index + 1) <= options[:skip_first]
+
       process_book_row(row, index, options)
     end
   end
@@ -52,6 +54,7 @@ class BooksImporter
       opts.on("--aljam3-library-id=ALJAM3_LIBRARY_ID", Integer, "[REQUIRED] Aljam3 library ID.") { options[:aljam3_library_id] = it }
       opts.on("--server-ip=SERVER_IP", "[REQUIRED] Server IP.") { options[:server_ip] = it }
       opts.on("--server-username=SERVER_USERNAME", "[REQUIRED] Server username.") { options[:server_username] = it }
+      opts.on("--skip-first=SKIP_FIRST", Integer, "Skip the first N books.") { options[:skip_first] = it.to_i }
       opts.on("--dry-run", "Run the script without actually importing the books.") { options[:dry_run] = true }
       opts.on("-h", "--help", "Show this help message")
     end
@@ -69,7 +72,8 @@ class BooksImporter
     @output.puts "    --huggingface-library-id=ieasybooks-org/shamela-waqfeya-library \\"
     @output.puts "    --aljam3-library-id=3 \\"
     @output.puts "    --server-ip=127.0.0.1 \\"
-    @output.puts "    --server-username=root"
+    @output.puts "    --server-username=root \\"
+    @output.puts "    --skip-first=100"
   end
 
   def validate_and_process_options(options, option_parser)
@@ -86,6 +90,8 @@ class BooksImporter
     unless @file_system.file_exists?(options[:index_path])
       raise ValidationError, "Index file does not exist: #{options[:index_path]}"
     end
+
+    options[:skip_first] = options[:skip_first] || -1
 
     options
   end

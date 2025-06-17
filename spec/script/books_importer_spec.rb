@@ -271,6 +271,103 @@ RSpec.describe BooksImporter do
         end
       end
 
+      context "when skip-first is not provided" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        it "processes all books (default behavior)" do # rubocop:disable RSpec/MultipleExpectations
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).to have_received(:execute_with_output).twice
+        end
+      end
+
+      context "when skip-first is 0" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:argv) do
+          [
+            "--index-path=#{index_path}",
+            "--huggingface-library-id=test/library",
+            "--aljam3-library-id=1",
+            "--server-ip=127.0.0.1",
+            "--server-username=root",
+            "--skip-first=0"
+          ]
+        end
+
+        it "processes all books" do # rubocop:disable RSpec/MultipleExpectations
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).to have_received(:execute_with_output).twice
+        end
+      end
+
+      context "when skip-first is 1" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:argv) do
+          [
+            "--index-path=#{index_path}",
+            "--huggingface-library-id=test/library",
+            "--aljam3-library-id=1",
+            "--server-ip=127.0.0.1",
+            "--server-username=root",
+            "--skip-first=1"
+          ]
+        end
+
+        it "skips the first book and processes the rest" do # rubocop:disable RSpec/MultipleExpectations,RSpec/ExampleLength
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).to have_received(:execute_with_output).once do |_server_ip, _username, command, &block|
+            expect(command).to include('--title="Test Book 2"')
+            expect(command).not_to include('--title="Test Book 1"')
+          end
+        end
+      end
+
+      context "when skip-first is 2" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:argv) do
+          [
+            "--index-path=#{index_path}",
+            "--huggingface-library-id=test/library",
+            "--aljam3-library-id=1",
+            "--server-ip=127.0.0.1",
+            "--server-username=root",
+            "--skip-first=2"
+          ]
+        end
+
+        it "skips both books" do # rubocop:disable RSpec/MultipleExpectations
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).not_to have_received(:execute_with_output)
+        end
+      end
+
+      context "when skip-first is greater than total books" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        let(:argv) do
+          [
+            "--index-path=#{index_path}",
+            "--huggingface-library-id=test/library",
+            "--aljam3-library-id=1",
+            "--server-ip=127.0.0.1",
+            "--server-username=root",
+            "--skip-first=10"
+          ]
+        end
+
+        it "skips all books" do # rubocop:disable RSpec/MultipleExpectations
+          allow(ssh_client).to receive(:execute_with_output)
+
+          importer.run
+
+          expect(ssh_client).not_to have_received(:execute_with_output)
+        end
+      end
+
       context "when book has invalid data" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:csv_data) do
           [
