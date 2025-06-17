@@ -67,7 +67,7 @@ class Components::TopControls < Components::Base
             end
           end
 
-          DropdownMenuItem(as: :button, data_action: "click->top-controls#copyImage") do
+          DropdownMenuItem(as: :button, class: "max-sm:hidden", data_action: "click->top-controls#copyImage") do
             div(class: "flex items-center gap-x-2") do
               Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
 
