@@ -25,5 +25,5 @@ class BookFile < ApplicationRecord
 
   validates :pdf_url, :txt_url, :docx_url, presence: true
 
-  def name = File.basename(pdf_url, File.extname(pdf_url))
+  def name = URI.decode_www_form_component(File.basename(pdf_url, File.extname(pdf_url)))
 end

@@ -32,6 +32,20 @@ RSpec.describe BookFile do
     it { is_expected.to validate_presence_of(:docx_url) }
   end
 
+  describe "name" do
+    it "returns the name of the file" do
+      book_file = create(:book_file, pdf_url: "https://example.com/file.pdf")
+
+      expect(book_file.name).to eq("file")
+    end
+
+    it "returns the name of the file with the correct encoding" do
+      book_file = create(:book_file, pdf_url: "https://example.com/%D8%A7%D9%84%D9%83%D8%AA%D8%A7%D8%A8.pdf")
+
+      expect(book_file.name).to eq("الكتاب")
+    end
+  end
+
   describe "factory" do
     it "has a valid factory" do # rubocop:disable RSpec/MultipleExpectations
       book_file = create(:book_file)
