@@ -192,7 +192,7 @@ RSpec.describe BooksImporter do
           importer.run
 
           expect(ssh_client).to have_received(:execute_with_output) do |_server_ip, _username, command, &block|
-            expect(command).to include('--volumes="3"')
+            expect(command).to include('--volumes=3')
           end
         end
       end
