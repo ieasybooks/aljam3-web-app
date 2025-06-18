@@ -8,12 +8,13 @@ ar:
     next_page: الصفحة التالية
     previous_page: الصفحة السابقة
   close: إغلاق
-  navbar:
-    home: الرئيسية
-  page: الصفحة
+  files: الملفات
   menu:
     dark_mode: الوضع الداكن
     light_mode: الوضع الفاتح
+  navbar:
+    home: الرئيسية
+  page: الصفحة
   pages:
     show:
       share_page: مشاركة الصفحة

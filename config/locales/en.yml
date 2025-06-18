@@ -8,12 +8,13 @@ en:
     next_page: Next Page
     previous_page: Previous Page
   close: Close
-  navbar:
-    home: Home
-  page: Page
+  files: Files
   menu:
     dark_mode: Dark Mode
     light_mode: Light Mode
+  navbar:
+    home: Home
+  page: Page
   pages:
     show:
       share_page: Share Page

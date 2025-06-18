@@ -30,9 +30,15 @@ class Components::SearchBookCard < Components::Base
               plain ": "
               plain @book.volumes
             end
-
-            Separator(orientation: :vertical, class: "h-4 ms-1.5 me-1.5")
+          else
+            Text(size: "1", weight: "muted") do
+              plain t("files")
+              plain ": "
+              plain @book.files_count
+            end
           end
+
+          Separator(orientation: :vertical, class: "h-4 ms-1.5 me-1.5")
 
           Text(size: "1", weight: "muted") do
             plain t("pages_text")

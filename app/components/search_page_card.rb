@@ -41,15 +41,13 @@ class Components::SearchPageCard < Components::Base
 
       CardFooter(class: "flex justify-between items-center p-4 border-t") do
         div(class: "flex") do
-          if @page.file.book.files_count > 1
-            Text(size: "1", weight: "muted") do
-              plain t(".file_name")
-              plain ": "
-              plain @page.file.name
-            end
-
-            Separator(orientation: :vertical, class: "h-4 ms-1.5 me-1.5")
+          Text(size: "1", weight: "muted") do
+            plain t(".file_name")
+            plain ": "
+            plain @page.file.name
           end
+
+          Separator(orientation: :vertical, class: "h-4 ms-1.5 me-1.5")
 
           Text(size: "1", weight: "muted") do
             plain t("page")
