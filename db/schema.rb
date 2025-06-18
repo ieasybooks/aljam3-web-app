@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_17_174316) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_18_190607) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -37,6 +37,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_174316) do
     t.datetime "updated_at", null: false
     t.integer "files_count", default: 0, null: false
     t.index ["library_id"], name: "index_books_on_library_id"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+    t.string "email", limit: 255, null: false
+    t.string "topic", limit: 255, null: false
+    t.text "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "libraries", force: :cascade do |t|

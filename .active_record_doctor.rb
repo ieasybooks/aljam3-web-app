@@ -42,4 +42,7 @@ ActiveRecordDoctor.configure do
     # Ignore SolidErrors models.
     /^SolidErrors::/
   ]
+
+  detector :incorrect_length_validation,
+    ignore_attributes: %w[Contact.message]
 end
