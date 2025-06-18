@@ -102,7 +102,7 @@ namespace :db do
           temp_file.rewind
 
           book_file.pages.insert_all(
-            temp_file.read.split(/\r?\nPAGE_SEPARATOR\r?\n/).map.with_index(1) do |page, jndex|
+            temp_file.read.split(/\r?\nPAGE_SEPARATOR\r?\n/, -1).map.with_index(1) do |page, jndex|
               {
                 content: page.strip,
                 number: jndex,
