@@ -4,4 +4,6 @@ if ENV["DEPLOY"].blank? && !(Rails.env.local? && Rails.application.credentials.c
     c.secret_key = Rails.application.credentials.cloudflare.turnstile.secret_key
     c.fail_open = true
   end
+
+  RailsCloudflareTurnstile.configuration.size = :flexible
 end
