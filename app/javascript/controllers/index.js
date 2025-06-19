@@ -7,6 +7,9 @@ import { application } from "./application"
 import BottomControlsController from "./bottom_controls_controller"
 application.register("bottom-controls", BottomControlsController)
 
+import CloudflareTurnstileController from "./cloudflare_turnstile_controller"
+application.register("cloudflare-turnstile", CloudflareTurnstileController)
+
 import DownloadFileController from "./download_file_controller"
 application.register("download-file", DownloadFileController)
 
