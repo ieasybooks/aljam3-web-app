@@ -12,8 +12,26 @@ class Components::Navbar < Components::Base
           Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
         end
 
-        div(class: "flex items-center gap-x-2 md:divide-x") do
-          dark_mode_toggle
+        div(class: "flex items-center gap-x-1") do
+          Tooltip(placement: :bottom) do
+            TooltipTrigger do
+              ContactDialog()
+            end
+
+            TooltipContent(class: "delay-100 max-sm:hidden") do
+              Text { t(".contact_us") }
+            end
+          end
+
+          Tooltip(placement: :bottom) do
+            TooltipTrigger do
+              dark_mode_toggle
+            end
+
+            TooltipContent(class: "delay-100 max-sm:hidden") do
+              Text { t(".theme") }
+            end
+          end
         end
       end
     end

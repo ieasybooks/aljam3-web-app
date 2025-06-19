@@ -1,5 +1,12 @@
 ---
 ar:
+  activerecord:
+    attributes:
+      contact:
+        email: البريد الإلكتروني
+        message: الرسالة
+        name: الاسم
+        topic: الموضوع
   aljam3: الجامع
   bottom_controls:
     book_files: ملفات الكتاب
@@ -8,12 +15,20 @@ ar:
     next_page: الصفحة التالية
     previous_page: الصفحة السابقة
   close: إغلاق
+  contact_dialog:
+    contact_us_description: هل تواجه أي مشاكل؟ ترغب في اقتراح بعض المميزات؟ أو لديك أي استفسارات أخرى؟ راسلنا الآن!
+    contact_us_title: تواصل معنا!
+    send: إرسال
+  contact_form:
+    contact_received_successfully: تلّقينا رسالتك وسنتواصل معك بخصوصها حسب الحاجة.
   files: الملفات
   menu:
     dark_mode: الوضع الداكن
     light_mode: الوضع الفاتح
   navbar:
+    contact_us: راسلنا
     home: الرئيسية
+    theme: المظهر
   page: الصفحة
   pages:
     show:

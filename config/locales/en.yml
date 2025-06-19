@@ -1,5 +1,12 @@
 ---
 en:
+  activerecord:
+    attributes:
+      contact:
+        email: Email
+        message: Message
+        name: Name
+        topic: Topic
   aljam3: Aljam3
   bottom_controls:
     book_files: Book Files
@@ -8,12 +15,20 @@ en:
     next_page: Next Page
     previous_page: Previous Page
   close: Close
+  contact_dialog:
+    contact_us_description: Have any faced any problems? Want to suggest some features? Or do you have any other questions? Contact us now!
+    contact_us_title: Contact Us!
+    send: Send
+  contact_form:
+    contact_received_successfully: We received your message and we will contact you regarding it.
   files: Files
   menu:
     dark_mode: Dark Mode
     light_mode: Light Mode
   navbar:
+    contact_us: Contact Us
     home: Home
+    theme: Theme
   page: Page
   pages:
     show:

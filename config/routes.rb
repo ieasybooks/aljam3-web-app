@@ -6,10 +6,8 @@
 #                             pwa_manifest GET      /manifest(.:format)                                                                               rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
 #                                     root GET      /                                                                                                 static#home
-#                           book_file_page GET      /books/:book_id/files/:file_id/pages/:id(.:format)                                                pages#show
-#                                book_file GET      /books/:book_id/files/:id(.:format)                                                               files#show
-#                                     book GET      /books/:id(.:format)                                                                              books#show
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
+#                                 contacts POST     /contacts(.:format)                                                                               contacts#create
 #                         new_user_session GET      /users/sign_in(.:format)                                                                          devise/sessions#new
 #                             user_session POST     /users/sign_in(.:format)                                                                          devise/sessions#create
 #                     destroy_user_session DELETE   /users/sign_out(.:format)                                                                         devise/sessions#destroy
@@ -33,6 +31,9 @@
 #                          new_user_unlock GET      /users/unlock/new(.:format)                                                                       devise/unlocks#new
 #                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
 #                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
+#                           book_file_page GET      /books/:book_id/files/:file_id/pages/:id(.:format)                                                pages#show
+#                                book_file GET      /books/:book_id/files/:id(.:format)                                                               files#show
+#                                     book GET      /books/:id(.:format)                                                                              books#show
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
 #                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
@@ -136,15 +137,17 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "static#home"
 
+  get "pdfjs", to: "pdfjs#index"
+
+  resources :contacts, only: %i[create]
+
+  devise_for :users
+
   resources :books, only: :show do
     resources :files, only: :show do
       resources :pages, only: :show
     end
   end
-
-  get "pdfjs", to: "pdfjs#index"
-
-  devise_for :users
 
   authenticate :user, ->(user) { user.admin? } do
     mount MissionControl::Jobs::Engine, at: "/jobs"
