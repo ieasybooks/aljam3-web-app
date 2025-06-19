@@ -20,6 +20,7 @@ en:
     contact_us_title: Contact Us!
     send: Send
   contact_form:
+    captcha_error: We couldn't verify that you're human.
     contact_received_successfully: We received your message and we will contact you regarding it.
   files: Files
   menu:

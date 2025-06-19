@@ -20,6 +20,7 @@ ar:
     contact_us_title: تواصل معنا!
     send: إرسال
   contact_form:
+    captcha_error: لم يتم التحقق من أنك إنسان.
     contact_received_successfully: تلّقينا رسالتك وسنتواصل معك بخصوصها حسب الحاجة.
   files: الملفات
   menu:

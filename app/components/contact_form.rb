@@ -1,19 +1,23 @@
 # frozen_string_literal: true
 
 class Components::ContactForm < Components::Base
-  def initialize(contact:, created: false)
+  def initialize(contact:, status: nil)
     @contact = contact
-    @created = created
+    @status = status
   end
 
   def view_template
-    if @created
-      Alert(variant: :success, class: "mb-2") do
-        AlertTitle(class: "mb-0") { t(".contact_received_successfully") }
-      end
-    end
-
     Form(id: :new_contact, action: contacts_path, method: :post, accept_charset: "UTF-8") do
+      if @status == :created
+        Alert(variant: :success, class: "mb-2") do
+          AlertTitle(class: "mb-0") { t(".contact_received_successfully") }
+        end
+      elsif @status == :captcha_error
+        Alert(variant: :destructive, class: "mb-2") do
+          AlertTitle(class: "mb-0") { t(".captcha_error") }
+        end
+      end
+
       FormField do
         FormFieldLabel { Contact.human_attribute_name(:name) }
         Input(name: "contact[name]", value: @contact.name, required: true, minlength: 5, maxlength: 255)
@@ -41,6 +45,8 @@ class Components::ContactForm < Components::Base
 
         FormFieldError() { @contact.errors.full_messages_for(:message).first }
       end
+
+      CloudflareTurnstile(class: "mt-4")
     end
   end
 end
