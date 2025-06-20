@@ -139,6 +139,7 @@
   <li><strong><a href="https://github.com/simplecov-ruby/simplecov">simplecov</a></strong> - قياس تغطية الشيفرة المصدرية بالاختبارات</li>
   <li><strong><a href="https://github.com/vicentllongo/simplecov-json">simplecov-json</a></strong> - تصدير تقارير تغطية الشيفرة المصدرية بصيغة JSON</li>
   <li><strong><a href="https://github.com/powerpak/tqdm-ruby">tqdm</a></strong> - مكتبة لإضافة مؤشر التقدم للحلقات</li>
+  <li><strong><a href="https://github.com/bblimke/webmock">webmock</a></strong> - مكتبة لمحاكاة طلبات HTTP وتحديد توقعات الاختبار عليها</li>
 </ul>
 
 <h4 dir="rtl">مكتبات الإنتاج والمراقبة</h4>
