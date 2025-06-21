@@ -15,7 +15,11 @@ class Components::Navbar < Components::Base
         div(class: "flex items-center gap-x-1") do
           Tooltip(placement: :bottom) do
             TooltipTrigger do
-              ContactDialog()
+              ContactDialog do
+                Button(variant: :ghost, icon: true) do
+                  Bootstrap::Mailbox(class: "size-5 rtl:transform rtl:-scale-x-100")
+                end
+              end
             end
 
             TooltipContent(class: "delay-100 max-sm:hidden") do
@@ -25,7 +29,7 @@ class Components::Navbar < Components::Base
 
           Tooltip(placement: :bottom) do
             TooltipTrigger do
-              dark_mode_toggle
+              theme_toggle
             end
 
             TooltipContent(class: "delay-100 max-sm:hidden") do
@@ -39,7 +43,7 @@ class Components::Navbar < Components::Base
 
   private
 
-  def dark_mode_toggle
+  def theme_toggle
     ThemeToggle do
       SetLightMode { Button(variant: :ghost, icon: true) { Lucide::Sun(class: "size-5") } }
       SetDarkMode { Button(variant: :ghost, icon: true) { Remix::MoonFill(class: "size-4.5") } }

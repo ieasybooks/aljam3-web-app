@@ -4,7 +4,18 @@ class Components::Menu < Components::Base
   def view_template
     div(class: "pb-4") do
       menu_link(path: root_path, text: t("navbar.home"), icon: Hero::Home.new(variant: :outline, class: "size-5"))
-      dark_mode_toggle if controller_name == "pages" && action_name == "show"
+
+      if controller_name == "pages" && action_name == "show"
+        ContactDialog do
+          Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground") do
+            Bootstrap::Mailbox(class: "size-5 ltr:transform ltr:-scale-x-100")
+
+            plain t("navbar.contact_us")
+          end
+        end
+
+        theme_toggle
+      end
     end
   end
 
@@ -25,7 +36,7 @@ class Components::Menu < Components::Base
     end
   end
 
-  def dark_mode_toggle
+  def theme_toggle
     ThemeToggle do
       SetLightMode do
         Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground") do

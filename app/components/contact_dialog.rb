@@ -4,9 +4,7 @@ class Components::ContactDialog < Components::Base
   def view_template
     Dialog do
       DialogTrigger do
-        Button(variant: :ghost, icon: true) do
-          Bootstrap::Mailbox(class: "size-5 rtl:transform rtl:-scale-x-100")
-        end
+        yield
       end
 
       DialogContent(class: "p-4") do
