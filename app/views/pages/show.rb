@@ -113,7 +113,7 @@ class Views::Pages::Show < Views::Base
 
       Breadcrumb do
         BreadcrumbList do
-          BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { t("aljam3") }
+          BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { Aljam3Logo(class: "h-6") }
 
           BreadcrumbSeparator(class: "max-sm:hidden") { Radix::Slash() }
 

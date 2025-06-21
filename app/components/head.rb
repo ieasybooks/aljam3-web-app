@@ -35,13 +35,8 @@ class Components::Head < Components::Base
       link rel: "icon", href: "/icon.svg", type: "image/svg+xml"
       link rel: "apple-touch-icon", href: "/icon.png"
 
-      link rel: "preconnect", href: "https://fonts.googleapis.com"
-      link rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: true
-
       stylesheet_link_tag "application", "data-turbo-track": "reload"
       javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
-
-      link rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Lalezar&display=swap&text=#{t("aljam3")}"
 
       raw cloudflare_turnstile_script_tag
     end
