@@ -145,7 +145,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-i18n (1.13.0)
+    devise-i18n (1.14.0)
       devise (>= 4.9.0)
       rails-i18n
     diff-lcs (1.6.2)
@@ -451,7 +451,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
-    rdoc (6.14.0)
+    rdoc (6.14.1)
       erb
       psych (>= 4.0.0)
     regexp_parser (2.10.0)
@@ -643,7 +643,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise (~> 4.9, >= 4.9.4)
-  devise-i18n (~> 1.13)
+  devise-i18n (~> 1.14)
   factory_bot_rails (~> 6.5)
   faker (~> 3.5, >= 3.5.1)
   goldiloader (~> 5.4)
