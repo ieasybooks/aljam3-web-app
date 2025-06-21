@@ -32,7 +32,7 @@ if Rails.env.development? && Book.count == 0
         ([ 0 ] * volumes_pages[index]).map.with_index do |_value, jndex|
           {
             content: Faker::Lorem.paragraph,
-            number: jndex,
+            number: jndex + 1,
             book_file_id: book_file.id
           }
         end
