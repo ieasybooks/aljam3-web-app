@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 gem "avo", ">= 3.2.1"
 gem "devise", "~> 4.9", ">= 4.9.4"
-gem "devise-i18n", "~> 1.13"
+gem "devise-i18n", "~> 1.14"
 gem "goldiloader", "~> 5.4"
 gem "meilisearch-rails", "~> 0.16.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
@@ -29,7 +29,7 @@ gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
   gem "addressable", "~> 2.8", ">= 2.8.7"
-  gem "annotaterb", "~> 4.15"
+  gem "annotaterb", "~> 4.16"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
   gem "faker", "~> 3.5", ">= 3.5.1", require: false
@@ -53,7 +53,7 @@ end
 
 group :development, :test do
   gem "active_record_doctor", github: "gregnavis/active_record_doctor"
-  gem "rspec-rails", "~> 8.0"
+  gem "rspec-rails", "~> 8.0", ">= 8.0.1"
 end
 
 group :production do
