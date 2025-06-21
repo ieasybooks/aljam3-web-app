@@ -40,7 +40,7 @@ Avo.configure do |config|
   config.explicit_authorization = true
 
   ## == Localization ==
-  # config.locale = 'en-US'
+  config.locale = "en"
 
   ## == Resource options ==
   # config.resource_row_controls_config = {

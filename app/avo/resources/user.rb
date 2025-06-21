@@ -5,21 +5,24 @@ class Avo::Resources::User < Avo::BaseResource
   #   query: -> { query.ransack(id_eq: params[:q], m: "or").result(distinct: false) }
   # }
 
+  self.devise_password_optional = true
+
   def fields
     field :id, as: :id
     field :email, as: :text
-    field :sign_in_count, as: :number
-    field :current_sign_in_at, as: :date_time
-    field :last_sign_in_at, as: :date_time
-    field :current_sign_in_ip, as: :text
-    field :last_sign_in_ip, as: :text
+    field :password, as: :password
+    field :sign_in_count, as: :number, readonly: true
+    field :current_sign_in_at, as: :date_time, readonly: true
+    field :last_sign_in_at, as: :date_time, readonly: true
+    field :current_sign_in_ip, as: :text, readonly: true
+    field :last_sign_in_ip, as: :text, readonly: true
     field :confirmation_token, as: :text
-    field :confirmed_at, as: :date_time
-    field :confirmation_sent_at, as: :date_time
-    field :unconfirmed_email, as: :text
-    field :failed_attempts, as: :number
+    field :confirmed_at, as: :date_time, readonly: true
+    field :confirmation_sent_at, as: :date_time, readonly: true
+    field :unconfirmed_email, as: :text, readonly: true
+    field :failed_attempts, as: :number, readonly: true
     field :unlock_token, as: :text
-    field :locked_at, as: :date_time
+    field :locked_at, as: :date_time, readonly: true
     field :role, as: :select, enum: ::User.roles
   end
 end
