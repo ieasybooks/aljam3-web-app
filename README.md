@@ -144,6 +144,7 @@
 
 <h4 dir="rtl">مكتبات الإنتاج والمراقبة</h4>
 <ul dir="rtl">
+  <li><strong><a href="https://github.com/avo-hq/avo">avo</a></strong> - إطار عمل لوحة إدارة وإدارة محتوى لتطبيقات Rails</li>
   <li><strong><a href="https://github.com/rails/mission_control-jobs">mission_control-jobs</a></strong> - لوحة تحكم لمراقبة وإدارة المهام</li>
   <li><strong><a href="https://github.com/modosc/cloudflare-rails">cloudflare-rails</a></strong> - تهيئة Rails للعمل مع Cloudflare والحصول على عناوين IP الحقيقية للعملاء</li>
   <li><strong><a href="https://github.com/ankane/pghero">pghero</a></strong> - لوحة تحكم لمراقبة أداء قاعدة بيانات PostgreSQL</li>

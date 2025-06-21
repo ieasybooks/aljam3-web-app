@@ -34,6 +34,7 @@
 #                           book_file_page GET      /books/:book_id/files/:file_id/pages/:id(.:format)                                                pages#show
 #                                book_file GET      /books/:book_id/files/:id(.:format)                                                               files#show
 #                                     book GET      /books/:id(.:format)                                                                              books#show
+#                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
 #                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
@@ -63,6 +64,45 @@
 #                       rails_disk_service GET      /rails/active_storage/disk/:encoded_key/*filename(.:format)                                       active_storage/disk#show
 #                update_rails_disk_service PUT      /rails/active_storage/disk/:encoded_token(.:format)                                               active_storage/disk#update
 #                     rails_direct_uploads POST     /rails/active_storage/direct_uploads(.:format)                                                    active_storage/direct_uploads#create
+#
+# Routes for Avo::Engine:
+#                                root GET    /                                                                                                  avo/home#index
+#              avo_resources_redirect GET    /resources(.:format)                                                                               redirect(301, /avo)
+#             avo_dashboards_redirect GET    /dashboards(.:format)                                                                              redirect(301, /avo)
+#                 media_library_index GET    /media-library(.:format)                                                                           avo/media_library#index
+#                       media_library GET    /media-library/:id(.:format)                                                                       avo/media_library#show
+#                                     PATCH  /media-library/:id(.:format)                                                                       avo/media_library#update
+#                                     PUT    /media-library/:id(.:format)                                                                       avo/media_library#update
+#                                     DELETE /media-library/:id(.:format)                                                                       avo/media_library#destroy
+#                        attach_media GET    /attach-media(.:format)                                                                            avo/media_library#attach
+# rails_active_storage_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                                     active_storage/direct_uploads#create
+#                      avo_api_search GET    /avo_api/search(.:format)                                                                          avo/search#index
+#                             avo_api GET    /avo_api/:resource_name/search(.:format)                                                           avo/search#show
+#                                     POST   /avo_api/resources/:resource_name/:id/attachments(.:format)                                        avo/attachments#create
+#                  distribution_chart GET    /:resource_name/:field_id/distribution_chart(.:format)                                             avo/charts#distribution_chart
+#                      failed_to_load GET    /failed_to_load(.:format)                                                                          avo/home#failed_to_load
+#                           resources DELETE /resources/:resource_name/:id/active_storage_attachments/:attachment_name/:attachment_id(.:format) avo/attachments#destroy
+#                                     GET    /resources/:resource_name(/:id)/actions(/:action_id)(.:format)                                     avo/actions#show
+#                                     POST   /resources/:resource_name(/:id)/actions(/:action_id)(.:format)                                     avo/actions#handle
+#              preview_resources_user GET    /resources/users/:id/preview(.:format)                                                             avo/users#preview
+#                     resources_users GET    /resources/users(.:format)                                                                         avo/users#index
+#                                     POST   /resources/users(.:format)                                                                         avo/users#create
+#                  new_resources_user GET    /resources/users/new(.:format)                                                                     avo/users#new
+#                 edit_resources_user GET    /resources/users/:id/edit(.:format)                                                                avo/users#edit
+#                      resources_user GET    /resources/users/:id(.:format)                                                                     avo/users#show
+#                                     PATCH  /resources/users/:id(.:format)                                                                     avo/users#update
+#                                     PUT    /resources/users/:id(.:format)                                                                     avo/users#update
+#                                     DELETE /resources/users/:id(.:format)                                                                     avo/users#destroy
+#          resources_associations_new GET    /resources/:resource_name/:id/:related_name/new(.:format)                                          avo/associations#new
+#        resources_associations_index GET    /resources/:resource_name/:id/:related_name(.:format)                                              avo/associations#index
+#         resources_associations_show GET    /resources/:resource_name/:id/:related_name/:related_id(.:format)                                  avo/associations#show
+#       resources_associations_create POST   /resources/:resource_name/:id/:related_name(.:format)                                              avo/associations#create
+#      resources_associations_destroy DELETE /resources/:resource_name/:id/:related_name/:related_id(.:format)                                  avo/associations#destroy
+#                  avo_private_status GET    /avo_private/status(.:format)                                                                      avo/debug#status
+#              avo_private_send_to_hq POST   /avo_private/status/send_to_hq(.:format)                                                           avo/debug#send_to_hq
+#            avo_private_debug_report GET    /avo_private/debug/report(.:format)                                                                avo/debug#report
+#   avo_private_debug_refresh_license POST   /avo_private/debug/refresh_license(.:format)                                                       avo/debug#refresh_license
+#                  avo_private_design GET    /avo_private/design(.:format)                                                                      avo/private#design
 #
 # Routes for MissionControl::Jobs::Engine:
 #     application_queue_pause DELETE /applications/:application_id/queues/:queue_id/pause(.:format) mission_control/jobs/queues/pauses#destroy
@@ -150,6 +190,7 @@ Rails.application.routes.draw do
   end
 
   authenticate :user, ->(user) { user.admin? } do
+    mount_avo
     mount MissionControl::Jobs::Engine, at: "/jobs"
     mount PgHero::Engine, at: "/pghero"
     mount SolidErrors::Engine, at: "/solid_errors"
