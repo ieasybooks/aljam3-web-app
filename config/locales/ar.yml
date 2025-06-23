@@ -22,14 +22,20 @@ ar:
   contact_form:
     captcha_error: لم يتم التحقق من أنك إنسان.
     contact_received_successfully: تلّقينا رسالتك وسنتواصل معك بخصوصها حسب الحاجة.
+  devise:
+    sessions:
+      new:
+        dont_have_an_account_yet: ليس لديك حساب بعد؟
+        forgot_your_password: نسيت كلمة مرورك؟
+        sign_up_now: سجّل الآن
   files: الملفات
   menu:
     dark_mode: الوضع الداكن
     light_mode: الوضع الفاتح
   navbar:
     contact_us: راسلنا
-    sign_out: تسجيل الخروج
     home: الرئيسية
+    sign_out: تسجيل الخروج
     theme: المظهر
   page: الصفحة
   pages:

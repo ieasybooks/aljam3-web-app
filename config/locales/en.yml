@@ -22,14 +22,20 @@ en:
   contact_form:
     captcha_error: We couldn't verify that you're human.
     contact_received_successfully: We received your message and we will contact you regarding it.
+  devise:
+    sessions:
+      new:
+        dont_have_an_account_yet: Don't have an account yet?
+        forgot_your_password: Forgot your password?
+        sign_up_now: Sign up now
   files: Files
   menu:
     dark_mode: Dark Mode
     light_mode: Light Mode
   navbar:
     contact_us: Contact Us
-    sign_out: Sign Out
     home: Home
+    sign_out: Sign Out
     theme: Theme
   page: Page
   pages:
