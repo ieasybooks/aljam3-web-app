@@ -13,6 +13,20 @@ class Components::Navbar < Components::Base
         end
 
         div(class: "flex items-center gap-x-1") do
+          if user_signed_in?
+            Tooltip(placement: :bottom) do
+              TooltipTrigger do
+                Link(href: destroy_user_session_path, variant: :ghost, icon: true, data: { turbo_method: :delete }) do
+                  Hero::ArrowLeftStartOnRectangle(class: "size-5 ltr:transform ltr:-scale-x-100")
+                end
+              end
+
+              TooltipContent(class: "delay-100 max-sm:hidden") do
+                Text { t(".sign_out") }
+              end
+            end
+          end
+
           Tooltip(placement: :bottom) do
             TooltipTrigger do
               ContactDialog do

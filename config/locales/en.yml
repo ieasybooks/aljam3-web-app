@@ -28,6 +28,7 @@ en:
     light_mode: Light Mode
   navbar:
     contact_us: Contact Us
+    sign_out: Sign Out
     home: Home
     theme: Theme
   page: Page
