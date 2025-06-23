@@ -10,7 +10,7 @@ ar:
         current_password: كلمة المرور الحالية
         current_sign_in_at: تسجيل الدخول الحالي في
         current_sign_in_ip: عنوان IP لتسجيل الدخول الحالي
-        email: بريد إلكتروني
+        email: البريد الإلكتروني
         encrypted_password: كلمة المرور المشفرة
         failed_attempts: محاولات فاشلة
         last_sign_in_at: آخر تسجيل دخول في
@@ -100,13 +100,14 @@ ar:
       destroyed: وداعاً! تم إلغاء حسابك بنجاح. نأمل أن نراك مرة أخرى في القريب العاجل.
       edit:
         are_you_sure: هل أنت متأكد؟
+        cancel_account: إلغاء الحساب
         cancel_my_account: إلغاء حسابي
         currently_waiting_confirmation_for_email: 'قيد انتظار التأكيد حالياً لـ: %{email}'
-        leave_blank_if_you_don_t_want_to_change_it: اتركه فارغاً إذا كنت لا ترغب في تغييره
-        title: تحرير %{resource}
-        unhappy: غير سعيد؟
+        leave_blank_if_you_don_t_want_to_change_it: اتركه فارغاً إذا كنت لا ترغب في تغيير كلمة المرور
+        title: إعدادات الحساب
+        unhappy: سيُحذف حسابك بشكل نهائي ولن تستطيع الوصول إلى أي بيانات مُتعلّقة به.
         update: تحديث
-        we_need_your_current_password_to_confirm_your_changes: نحتاج إلى كلمة مرورك الحالية لتأكيد التغيرات التي قمت بها
+        we_need_your_current_password_to_confirm_your_changes: نحتاج إلى كلمة مرورك الحالية لتأكيد التغييرات التي قمت بها
       new:
         sign_up: التسجيل
       signed_up: مرحباً! لقد قمت بالتسجيل بنجاح.
@@ -119,7 +120,10 @@ ar:
     sessions:
       already_signed_out: تم تسجيل الخروج بنجاح.
       new:
+        dont_have_an_account_yet: ليس لديك حساب بعد؟
+        forgot_your_password: نسيت كلمة مرورك؟
         sign_in: تسجيل الدخول
+        sign_up_now: سجّل الآن
       signed_in: تم تسجيل الدخول بنجاح.
       signed_out: تم تسجيل الخروج بنجاح.
     shared:

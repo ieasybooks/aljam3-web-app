@@ -1,5 +1,5 @@
 class Views::Devise::Sessions::New < Views::Base
-  def page_title = t("devise.sessions.new.sign_in")
+  def page_title = t(".sign_in")
 
   def view_template
     div(class: "flex justify-center items-center p-4") do
@@ -39,7 +39,6 @@ class Views::Devise::Sessions::New < Views::Base
                 id: "user_password",
                 type: :password,
                 name: "user[password]",
-                value: params.dig(:user, :password),
                 required: true,
                 autocomplete: "current-password"
               )

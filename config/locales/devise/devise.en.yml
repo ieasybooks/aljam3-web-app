@@ -96,11 +96,12 @@ en:
       destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
       edit:
         are_you_sure: Are you sure?
+        cancel_account: Cancel account
         cancel_my_account: Cancel my account
         currently_waiting_confirmation_for_email: 'Currently waiting confirmation for: %{email}'
-        leave_blank_if_you_don_t_want_to_change_it: leave blank if you don't want to change it
-        title: Edit %{resource}
-        unhappy: Unhappy?
+        leave_blank_if_you_don_t_want_to_change_it: leave blank if you don't want to change the password
+        title: Account settings
+        unhappy: Your account will be permanently deleted and you will not be able to access any data associated with it.
         update: Update
         we_need_your_current_password_to_confirm_your_changes: we need your current password to confirm your changes
       new:
@@ -115,7 +116,10 @@ en:
     sessions:
       already_signed_out: Signed out successfully.
       new:
-        sign_in: Log in
+        dont_have_an_account_yet: Don't have an account yet?
+        forgot_your_password: Forgot your password?
+        sign_in: Sign in
+        sign_up_now: Sign up now
       signed_in: Signed in successfully.
       signed_out: Signed out successfully.
     shared:
@@ -124,7 +128,7 @@ en:
         didn_t_receive_confirmation_instructions: Didn't receive confirmation instructions?
         didn_t_receive_unlock_instructions: Didn't receive unlock instructions?
         forgot_your_password: Forgot your password?
-        sign_in: Log in
+        sign_in: Sign in
         sign_in_with_provider: Sign in with %{provider}
         sign_up: Sign up
       minimum_password_length:
