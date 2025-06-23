@@ -22,7 +22,7 @@ class Views::Base < Components::Base
   end
 
   def layout = Components::Layout
-  def page_title = t("aljam3")
+  def page_title = nil
   def no_navbar = false
 
   def page_info
