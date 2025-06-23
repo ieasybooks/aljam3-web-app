@@ -7,7 +7,11 @@ class Components::Base < RubyUI::Base
   include RubyUI
   include PhlexIcons
 
+  include ::Devise::Controllers::UrlHelpers
+  include ::Devise::OmniAuth::UrlHelpers
+
   # Include any helpers you want to be available across all components
+  include Phlex::Rails::Helpers::Flash
   include Phlex::Rails::Helpers::Request
   include Phlex::Rails::Helpers::Routes
   include Phlex::Rails::Helpers::SimpleFormat
@@ -20,7 +24,12 @@ class Components::Base < RubyUI::Base
   register_value_helper :action_name
   register_value_helper :cloudflare_turnstile
   register_value_helper :controller_name
+  register_value_helper :devise_mapping
   register_value_helper :params
+  register_value_helper :resource
+  register_value_helper :resource_class
+  register_value_helper :resource_name
+  register_value_helper :user_signed_in?
 
   def self.translation_path
     @translation_path ||= name&.dup.tap do |n|
