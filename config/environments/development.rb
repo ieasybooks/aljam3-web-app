@@ -75,4 +75,16 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   config.hotwire.spark.html_paths += %w[ app/components ]
+
+  if Rails.application.credentials.google.present?
+    ActionMailer::Base.smtp_settings = {
+      user_name: "ieasybooks.notification@gmail.com",
+      password: Rails.application.credentials.google.gmail_application_password,
+      domain: "gmail.com",
+      address: "smtp.gmail.com",
+      port: 587,
+      authentication: :plain,
+      enable_starttls_auto: true
+    }
+  end
 end
