@@ -13,8 +13,7 @@ class Views::Devise::Passwords::Edit < Views::Base
         end
 
         CardContent do
-          Form(id: "edit_#{resource_name}", class: "edit_#{resource_name}", action: password_path(resource_name), method: :post, accept_charset: "UTF-8") do
-            input(type: :hidden, name: "_method", value: :put)
+          Form(id: "edit_#{resource_name}", class: "edit_#{resource_name}", action: password_path(resource_name), method: :put, accept_charset: "UTF-8") do
             input(id: "user_reset_password_token", type: :hidden, name: "user[reset_password_token]", value: params[:reset_password_token])
 
             FormField do

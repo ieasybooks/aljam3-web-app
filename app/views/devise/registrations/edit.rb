@@ -7,15 +7,13 @@ class Views::Devise::Registrations::Edit < Views::Base
 
   def view_template
     div(class: "flex flex-col gap-4 justify-center items-center p-4") do
-      Card(class: "w-md") do
+      Card(class: "max-w-md w-full") do
         CardHeader do
           CardTitle(class: "text-center") { page_title }
         end
 
         CardContent do
-          Form(id: "edit_#{resource_name}", class: "edit_#{resource_name}", action: registration_path(resource_name), method: :post, accept_charset: "UTF-8") do
-            input(type: :hidden, name: "_method", value: :put)
-
+          Form(id: "edit_#{resource_name}", class: "edit_#{resource_name}", action: registration_path(resource_name), method: :put, accept_charset: "UTF-8") do
             FormField do
               FormFieldLabel(for: "user_email") { User.human_attribute_name(:email) }
 
@@ -88,7 +86,7 @@ class Views::Devise::Registrations::Edit < Views::Base
         end
       end
 
-      Card(class: "w-md") do
+      Card(class: "max-w-md w-full") do
         CardHeader do
           CardTitle(class: "text-center") { t(".cancel_account") }
         end
