@@ -25,6 +25,9 @@ application.register("ruby-ui--checkbox-group", RubyUi__CheckboxGroupController)
 import RubyUi__DialogController from "./ruby_ui/dialog_controller"
 application.register("ruby-ui--dialog", RubyUi__DialogController)
 
+import RubyUi__DismissAlertController from "./ruby_ui/dismiss_alert_controller"
+application.register("ruby-ui--dismiss-alert", RubyUi__DismissAlertController)
+
 import RubyUi__DropdownMenuController from "./ruby_ui/dropdown_menu_controller"
 application.register("ruby-ui--dropdown-menu", RubyUi__DropdownMenuController)
 
