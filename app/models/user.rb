@@ -19,6 +19,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user"), not null
 #  sign_in_count          :integer          default(0), not null
+#  suspended_at           :datetime
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -32,6 +33,8 @@
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 class User < ApplicationRecord
+  include DeviseOverrides
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

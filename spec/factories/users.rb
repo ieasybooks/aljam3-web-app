@@ -19,6 +19,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user"), not null
 #  sign_in_count          :integer          default(0), not null
+#  suspended_at           :datetime
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null

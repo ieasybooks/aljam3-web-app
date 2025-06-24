@@ -24,5 +24,6 @@ class Avo::Resources::User < Avo::BaseResource
     field :unlock_token, as: :text
     field :locked_at, as: :date_time, readonly: true
     field :role, as: :select, enum: ::User.roles
+    field :suspended_at, as: :date_time
   end
 end

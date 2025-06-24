@@ -46,11 +46,11 @@ ar:
       inactive: لم يتم تفعيل حسابك بعد.
       invalid: خطأ في البريد الإلكتروني او كلمة المرور
       last_attempt: لديك محاولة أو أكثر قبل غلق حسابك.
-      locked: تم غلق حسابك.
+      locked_html: تم غلق حسابك، قم بطلب تعليمات إلغاء قفل الحساب من <a class="hover:underline" href="/users/unlock/new">هنا</a>.
       not_found_in_database: خطأ في البريد الإلكتروني او كلمة المرور
       timeout: انتهى الوقت المخصص للجلسة. الرجاء تسجيل الدخول مرة أخرى للمتابعة.
       unauthenticated: تحتاج إلى تسجيل الدخول أو التسجيل قبل المتابعة.
-      unconfirmed: تحتاج إلى تأكيد عنوان بريدك الإلكتروني قبل المتابعة.
+      unconfirmed_html: تحتاج إلى تأكيد عنوان بريدك الإلكتروني قبل المتابعة، قم بطلب تعليمات تأكيد الحساب من <a class="hover:underline" href="/users/confirmation/new">هنا</a>.
     mailer:
       confirmation_instructions:
         action: تأكيد حسابي

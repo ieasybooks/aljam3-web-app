@@ -93,6 +93,51 @@
 #                                     PATCH  /resources/users/:id(.:format)                                                                     avo/users#update
 #                                     PUT    /resources/users/:id(.:format)                                                                     avo/users#update
 #                                     DELETE /resources/users/:id(.:format)                                                                     avo/users#destroy
+#              preview_resources_page GET    /resources/pages/:id/preview(.:format)                                                             avo/pages#preview
+#                     resources_pages GET    /resources/pages(.:format)                                                                         avo/pages#index
+#                                     POST   /resources/pages(.:format)                                                                         avo/pages#create
+#                  new_resources_page GET    /resources/pages/new(.:format)                                                                     avo/pages#new
+#                 edit_resources_page GET    /resources/pages/:id/edit(.:format)                                                                avo/pages#edit
+#                      resources_page GET    /resources/pages/:id(.:format)                                                                     avo/pages#show
+#                                     PATCH  /resources/pages/:id(.:format)                                                                     avo/pages#update
+#                                     PUT    /resources/pages/:id(.:format)                                                                     avo/pages#update
+#                                     DELETE /resources/pages/:id(.:format)                                                                     avo/pages#destroy
+#           preview_resources_library GET    /resources/libraries/:id/preview(.:format)                                                         avo/libraries#preview
+#                 resources_libraries GET    /resources/libraries(.:format)                                                                     avo/libraries#index
+#                                     POST   /resources/libraries(.:format)                                                                     avo/libraries#create
+#               new_resources_library GET    /resources/libraries/new(.:format)                                                                 avo/libraries#new
+#              edit_resources_library GET    /resources/libraries/:id/edit(.:format)                                                            avo/libraries#edit
+#                   resources_library GET    /resources/libraries/:id(.:format)                                                                 avo/libraries#show
+#                                     PATCH  /resources/libraries/:id(.:format)                                                                 avo/libraries#update
+#                                     PUT    /resources/libraries/:id(.:format)                                                                 avo/libraries#update
+#                                     DELETE /resources/libraries/:id(.:format)                                                                 avo/libraries#destroy
+#           preview_resources_contact GET    /resources/contacts/:id/preview(.:format)                                                          avo/contacts#preview
+#                  resources_contacts GET    /resources/contacts(.:format)                                                                      avo/contacts#index
+#                                     POST   /resources/contacts(.:format)                                                                      avo/contacts#create
+#               new_resources_contact GET    /resources/contacts/new(.:format)                                                                  avo/contacts#new
+#              edit_resources_contact GET    /resources/contacts/:id/edit(.:format)                                                             avo/contacts#edit
+#                   resources_contact GET    /resources/contacts/:id(.:format)                                                                  avo/contacts#show
+#                                     PATCH  /resources/contacts/:id(.:format)                                                                  avo/contacts#update
+#                                     PUT    /resources/contacts/:id(.:format)                                                                  avo/contacts#update
+#                                     DELETE /resources/contacts/:id(.:format)                                                                  avo/contacts#destroy
+#         preview_resources_book_file GET    /resources/book_files/:id/preview(.:format)                                                        avo/book_files#preview
+#                resources_book_files GET    /resources/book_files(.:format)                                                                    avo/book_files#index
+#                                     POST   /resources/book_files(.:format)                                                                    avo/book_files#create
+#             new_resources_book_file GET    /resources/book_files/new(.:format)                                                                avo/book_files#new
+#            edit_resources_book_file GET    /resources/book_files/:id/edit(.:format)                                                           avo/book_files#edit
+#                 resources_book_file GET    /resources/book_files/:id(.:format)                                                                avo/book_files#show
+#                                     PATCH  /resources/book_files/:id(.:format)                                                                avo/book_files#update
+#                                     PUT    /resources/book_files/:id(.:format)                                                                avo/book_files#update
+#                                     DELETE /resources/book_files/:id(.:format)                                                                avo/book_files#destroy
+#              preview_resources_book GET    /resources/books/:id/preview(.:format)                                                             avo/books#preview
+#                     resources_books GET    /resources/books(.:format)                                                                         avo/books#index
+#                                     POST   /resources/books(.:format)                                                                         avo/books#create
+#                  new_resources_book GET    /resources/books/new(.:format)                                                                     avo/books#new
+#                 edit_resources_book GET    /resources/books/:id/edit(.:format)                                                                avo/books#edit
+#                      resources_book GET    /resources/books/:id(.:format)                                                                     avo/books#show
+#                                     PATCH  /resources/books/:id(.:format)                                                                     avo/books#update
+#                                     PUT    /resources/books/:id(.:format)                                                                     avo/books#update
+#                                     DELETE /resources/books/:id(.:format)                                                                     avo/books#destroy
 #          resources_associations_new GET    /resources/:resource_name/:id/:related_name/new(.:format)                                          avo/associations#new
 #        resources_associations_index GET    /resources/:resource_name/:id/:related_name(.:format)                                              avo/associations#index
 #         resources_associations_show GET    /resources/:resource_name/:id/:related_name/:related_id(.:format)                                  avo/associations#show

@@ -42,11 +42,11 @@ en:
       inactive: Your account is not activated yet.
       invalid: Invalid email or password.
       last_attempt: You have one more attempt before your account is locked.
-      locked: Your account is locked.
+      locked_html: Your account is locked, request unlock instructions from <a class="hover:underline" href="/users/unlock/new">here</a>.
       not_found_in_database: Invalid email or password.
       timeout: Your session expired. Please sign in again to continue.
       unauthenticated: You need to sign in or sign up before continuing.
-      unconfirmed: You have to confirm your email address before continuing.
+      unconfirmed_html: You have to confirm your email address before continuing, request confirmation instructions from <a class="hover:underline" href="/users/confirmation/new">here</a>.
     mailer:
       confirmation_instructions:
         action: Confirm my account
