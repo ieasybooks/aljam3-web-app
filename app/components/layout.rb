@@ -13,6 +13,7 @@ class Components::Layout < Components::Base
 
       body(data: { controller: "sync-value" }) do
         Navbar() unless @page_info.no_navbar
+        Flash()
 
         yield
       end

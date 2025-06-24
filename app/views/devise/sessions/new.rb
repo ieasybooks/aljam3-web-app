@@ -9,12 +9,6 @@ class Views::Devise::Sessions::New < Views::Base
         end
 
         CardContent do
-          if flash[:alert]
-            Alert(variant: :destructive, class: "mb-2") do
-              AlertTitle(class: "mb-0") { flash[:alert] }
-            end
-          end
-
           Form(id: "new_#{resource_name}", class: "new_#{resource_name}", action: session_path(resource_name), method: :post, accept_charset: "UTF-8") do
             FormField do
               FormFieldLabel(for: "user_email") { User.human_attribute_name(:email) }
