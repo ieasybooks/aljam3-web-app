@@ -99,8 +99,8 @@ builder:
     image: kamal-app-build-cache
 
 # Use a different ssh user than root
-ssh:
-  user: ubuntu
+# ssh:
+#   user: ubuntu
 
 # Use accessory services (secrets come from .kamal/secrets).
 accessories:
