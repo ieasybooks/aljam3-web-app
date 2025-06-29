@@ -4,8 +4,8 @@ min_version = "2025.5.11"
 PROJECT_NAME = "{{ config_root | basename }}"
 
 [tools]
-ruby = "{{ get_env(name='RUBY_VERSION', default='3.4.4') }}"
-node = "{{ get_env(name='NODE_VERSION', default='24.1.0') }}"
+ruby = "3.4.4"
+node = "24.1.0"
 yarn = "4.9.1"
 gh = "latest"
 
@@ -29,14 +29,6 @@ run = "bundle install"
 description = "Prepare database (create and migrate)"
 run = "bundle exec rails db:create db:migrate"
 
-[tasks.test]
-description = "Run tests using RSpec"
-run = "CI=1 bundle exec rspec"
-
-[tasks.lint]
-description = "Run lint using Rubocop"
-run = "bundle exec rubocop"
-
 [tasks.dev]
 description = "Start development environment"
 run = '''
@@ -56,12 +48,6 @@ cleanup() {
 
 # Set up trap to call cleanup on SIGINT (Ctrl+C) and SIGTERM
 trap cleanup SIGINT SIGTERM
-
-echo
-echo -e "\033[0;36m╔══════════════════════════════════════════════════════════╗\033[0m"
-echo -e "\033[0;36m║                🚀 Development Environment 🚀             ║\033[0m"
-echo -e "\033[0;36m╚══════════════════════════════════════════════════════════╝\033[0m"
-echo
 
 ./bin/dev
 
