@@ -37,6 +37,21 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  i18n-tasks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.4
+          bundler-cache: true
+
+      - name: Run i18n-tasks check
+        run: bin/i18n-tasks health
+
   active_record_doctor:
     runs-on: ubuntu-latest
 
