@@ -41,8 +41,8 @@ class Components::Base < RubyUI::Base
     end
   end
 
-  def html_dir = rtl? ? :rtl : :ltr
-  def sheet_side = rtl? ? :right : :left
+  def direction = rtl? ? :rtl : :ltr
+  def side = rtl? ? :right : :left
   def rtl? = I18n.locale == :ar
 
   if Rails.env.development?

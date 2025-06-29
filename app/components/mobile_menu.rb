@@ -9,7 +9,7 @@ class Components::MobileMenu < Components::Base
     Sheet(**attrs) do
       SheetTrigger(class: "me-2") { Button(variant: :ghost, icon: true) { Lucide::Menu(class: "size-5") } }
 
-      SheetContent(class: "w-[300px]", side: sheet_side) do
+      SheetContent(class: "w-[300px]", side:) do
         div(class: "flex flex-col h-full") do
           SheetHeader { Logo() }
 

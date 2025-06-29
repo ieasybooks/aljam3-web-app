@@ -27,7 +27,7 @@ class Views::Static::Home < Views::Base
     low_level_cache("books_carousel", expires_in: 1.minute) do
       Heading(level: 2, class: "my-4 mb-5") { t(".discover_books") }
 
-      Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: html_dir }) do
+      Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: }) do
         CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
           Book.where(id: @carousel_books_ids).each do |book|
             CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
