@@ -1,9 +1,16 @@
 # Use it like this:
-# Page.in_batches(of: 1000).each do |batch|
-#   ReindexMeilisearchJob.perform_later("Page", batch.first.id, batch.last.id)
-# end
+# ReindexMeilisearchJob.perform_later("Page", 1, 1000000)
 class ReindexMeilisearchJob < ApplicationJob
   queue_as :default
 
-  def perform(model, start_id, end_id) = model.constantize.where(id: start_id..end_id).reindex!
+  def perform(model, start_id, end_id, step = 10000)
+    model_class = model.constantize
+
+    start_id.step(end_id, step) do |range_start_id|
+      range_end_id = [ range_start_id + step - 1, end_id ].min
+      model_class.where(id: range_start_id..range_end_id).reindex!
+
+      sleep 1 while model_class.index.stats["isIndexing"]
+    end
+  end
 end
