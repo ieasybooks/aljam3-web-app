@@ -51,5 +51,8 @@
   ],
   "search.exclude": {
     "app/views/pdfjs/index.html": true
-  }
+  },
+  "mise.configureExtensionsAutomaticallyIgnoreList": [
+    "ms-vscode.js-debug"
+  ]
 }
