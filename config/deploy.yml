@@ -128,6 +128,7 @@ accessories:
       clear:
         MEILI_ENV: production
         MEILI_NO_ANALYTICS: true
+        MEILI_MAX_INDEXING_MEMORY: '10Gb'
       secret:
         - MEILI_MASTER_KEY
     directories:
