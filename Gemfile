@@ -32,7 +32,7 @@ group :development do
   gem "annotaterb", "~> 4.16"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
-  gem "faker", "~> 3.5", ">= 3.5.1", require: false
+  gem "faker", "~> 3.5", require: false
   gem "hotwire-spark", "~> 0.1.13"
   gem "i18n-tasks", "~> 1.0", ">= 1.0.15"
   gem "net-ssh", "~> 7.3"
