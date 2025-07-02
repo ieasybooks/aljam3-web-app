@@ -52,7 +52,7 @@ class Components::SearchPageCard < Components::Base
           Text(size: "1", weight: "muted") do
             plain t("page")
             plain ": "
-            plain @page.file.book.pages_count
+            plain @page.number
           end
         end
 
