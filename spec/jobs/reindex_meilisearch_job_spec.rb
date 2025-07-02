@@ -6,14 +6,12 @@ RSpec.describe ReindexMeilisearchJob do
     let(:model) { "SomeModel" }
     let(:constantized_model) { double }
     let(:records) { double }
-    let(:index) { double }
 
     before do
       allow(job).to receive(:sleep)
       allow(model).to receive(:constantize).and_return(constantized_model)
-      allow(constantized_model).to receive_messages(where: records, index: index)
+      allow(constantized_model).to receive(:where).and_return(records)
       allow(records).to receive(:reindex!)
-      allow(index).to receive(:stats).and_return({ "isIndexing" => false })
     end
 
     it "constantizes the model string" do
@@ -56,34 +54,6 @@ RSpec.describe ReindexMeilisearchJob do
 
         expect(constantized_model).to have_received(:where).with(id: 1..10000)
         expect(constantized_model).to have_received(:where).with(id: 10001..15500)
-      end
-    end
-
-    context "when checking indexing status" do
-      it "checks the index stats after each reindex" do
-        job.perform(model, 1, 25000, 10000)
-
-        expect(index).to have_received(:stats).at_least(3).times
-      end
-
-      it "sleeps while isIndexing is true" do
-        allow(index).to receive(:stats).and_return(
-          { "isIndexing" => true },
-          { "isIndexing" => true },
-          { "isIndexing" => false }
-        )
-
-        job.perform(model, 1, 10000, 10000)
-
-        expect(job).to have_received(:sleep).with(1).twice
-      end
-
-      it "does not sleep when isIndexing is false" do
-        allow(index).to receive(:stats).and_return({ "isIndexing" => false })
-
-        job.perform(model, 1, 10000, 10000)
-
-        expect(job).not_to have_received(:sleep)
       end
     end
 

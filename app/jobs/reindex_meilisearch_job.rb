@@ -10,7 +10,7 @@ class ReindexMeilisearchJob < ApplicationJob
       range_end_id = [ range_start_id + step - 1, end_id ].min
       model_class.where(id: range_start_id..range_end_id).reindex!
 
-      sleep 1 while model_class.index.stats["isIndexing"]
+      sleep 600
     end
   end
 end
