@@ -4,9 +4,6 @@ class ReindexMeilisearchJob < ApplicationJob
   queue_as :default
 
   def perform(model, start_id, end_id, step = 10000)
-    # TODO: Remove this after reindexing is complete, and use ActiveJob::Continuable when it's released.
-    start_id = 1130000
-
     model_class = model.constantize
 
     start_id.step(end_id, step) do |range_start_id|
