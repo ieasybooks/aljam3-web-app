@@ -99,6 +99,7 @@ production:
     database: aljam3_production
     username: aljam3
     password: <%= ENV["POSTGRES_PASSWORD"] %>
+    pool: 50
   cache:
     <<: *primary_production
     database: aljam3_production_cache
