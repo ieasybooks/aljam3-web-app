@@ -7,13 +7,13 @@ RSpec.describe "Static" do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
-  let(:mock_categories) { [ "Fiction", "Non-Fiction", "Science" ] }
+  let(:mock_categories) { [ [ "Fiction", 1 ], [ "Non-Fiction", 2 ], [ "Science", 3 ] ] }
   let(:mock_libraries) { [ [ 1, "Main Library" ], [ 2, "Branch Library" ], [ 3, "Digital Library" ] ] }
 
   before do
     allow(Rails.cache).to receive(:fetch).with("carousel_books_ids", expires_in: 1.minute).and_return([ mock_book.id ])
-    allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.day).and_return(mock_categories)
-    allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.day).and_return(mock_libraries)
+    allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.week).and_return(mock_categories)
+    allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.week).and_return(mock_libraries)
     allow(Book).to receive(:where).with(id: [ mock_book.id ]).and_return([ mock_book ])
   end
 
@@ -71,8 +71,8 @@ RSpec.describe "Static" do
 
       context "with no categories in cache" do
         before do
-          allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.day).and_yield.and_return(mock_categories)
-          allow(Book).to receive_message_chain(:all, :pluck, :uniq, :sort).and_return(mock_categories) # rubocop:disable RSpec/MessageChain
+          allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.week).and_yield.and_return(mock_categories)
+          allow(Book).to receive_message_chain(:group, :count, :to_a, :sort_by).and_return(mock_categories) # rubocop:disable RSpec/MessageChain
         end
 
         it "renders home view with fresh categories list" do
@@ -92,8 +92,8 @@ RSpec.describe "Static" do
 
       context "with no libraries in cache" do
         before do
-          allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.day).and_yield.and_return(mock_libraries)
-          allow(Library).to receive_message_chain(:all, :pluck).and_return(mock_libraries) # rubocop:disable RSpec/MessageChain
+          allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.week).and_yield.and_return(mock_libraries)
+          allow(Library).to receive_message_chain(:all, :order, :pluck).and_return(mock_libraries) # rubocop:disable RSpec/MessageChain
         end
 
         it "renders home view with fresh libraries list" do
@@ -495,8 +495,8 @@ RSpec.describe "Static" do
           )
 
           expect(Rails.cache).not_to have_received(:fetch).with("carousel_books_ids", expires_in: 1.minute)
-          expect(Rails.cache).not_to have_received(:fetch).with("categories", expires_in: 1.day)
-          expect(Rails.cache).not_to have_received(:fetch).with("libraries", expires_in: 1.day)
+          expect(Rails.cache).not_to have_received(:fetch).with("categories", expires_in: 1.week)
+          expect(Rails.cache).not_to have_received(:fetch).with("libraries", expires_in: 1.week)
         end
       end
     end
