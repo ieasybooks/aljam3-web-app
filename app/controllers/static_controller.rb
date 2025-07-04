@@ -13,7 +13,7 @@ class StaticController < ApplicationController
       end
 
       libraries = Rails.cache.fetch("libraries", expires_in: 1.week) do
-        Library.all.pluck(:id, :name)
+        Library.all.order(:id).pluck(:id, :name)
       end
 
       categories = Rails.cache.fetch("categories", expires_in: 1.week) do
