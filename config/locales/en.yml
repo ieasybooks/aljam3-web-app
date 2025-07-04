@@ -52,6 +52,7 @@ en:
   search_refinements_sheet:
     all_categories: All Categories
     all_libraries: All Libraries (63.5K books)
+    books: books
     category: Category
     category_placeholder: Select a category
     library: Library

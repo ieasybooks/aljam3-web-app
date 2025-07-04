@@ -52,6 +52,7 @@ ar:
   search_refinements_sheet:
     all_categories: جميع التصنيفات
     all_libraries: جميع المكتبات (63,500 كتاب)
+    books: كتاب
     category: التصنيف
     category_placeholder: اختر التصنيف
     library: المكتبة

@@ -12,12 +12,12 @@ class StaticController < ApplicationController
         Book.order("RANDOM()").limit(10).pluck(:id)
       end
 
-      libraries = Rails.cache.fetch("libraries", expires_in: 1.day) do
+      libraries = Rails.cache.fetch("libraries", expires_in: 1.week) do
         Library.all.pluck(:id, :name)
       end
 
-      categories = Rails.cache.fetch("categories", expires_in: 1.day) do
-        Book.all.pluck(:category).uniq.sort
+      categories = Rails.cache.fetch("categories", expires_in: 1.week) do
+        Book.group(:category).count.to_a.sort_by { |category, _count| category }
       end
 
       render Views::Static::Home.new(results:, pagy:, carousel_books_ids:, categories:, libraries:)

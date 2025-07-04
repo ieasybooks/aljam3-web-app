@@ -158,8 +158,8 @@ class Components::SearchRefinementsSheet < Components::Base
           SelectGroup do
             SelectItem(value: "all-categories", aria_selected!: "true") { t(".all_categories") }
 
-            @categories.each do |category|
-              SelectItem(value: category) { category }
+            @categories.each do |category, count|
+              SelectItem(value: category) { "#{category} (#{number_with_delimiter(count)} #{t(".books")})" }
             end
           end
         end
