@@ -8,10 +8,10 @@ image: ieasybooks/aljam3
 servers:
   web:
     - <%= ENV["SERVER_IP"] %>
-  job:
-    hosts:
-      - <%= ENV["SERVER_IP"] %>
-    cmd: bin/jobs
+  # job:
+  #   hosts:
+  #     - <%= ENV["SERVER_IP"] %>
+  #   cmd: bin/jobs
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
