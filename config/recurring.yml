@@ -5,3 +5,9 @@ production:
   capture_space_stats:
     command: "PgHero.capture_space_stats"
     schedule: every 5 minutes
+  clean_query_stats:
+    command: "PgHero.clean_query_stats"
+    schedule: every Friday midnight
+  clean_space_stats:
+    command: "PgHero.clean_space_stats"
+    schedule: every Friday midnight
