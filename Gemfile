@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "avo", ">= 3.2.1"
+gem "avo", "~> 3.22"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.14"
 gem "goldiloader", "~> 5.4"
@@ -16,7 +16,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.3", ">= 9.3.4"
 gem "pghero", "~> 3.7"
 gem "pg_query", "~> 6.1"
-gem "phlex-icons", "~> 2.26"
+gem "phlex-icons", "~> 2.29"
 gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.1"
@@ -32,7 +32,7 @@ group :development do
   gem "annotaterb", "~> 4.16"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
-  gem "faker", "~> 3.5", ">= 3.5.1", require: false
+  gem "faker", "~> 3.5", ">= 3.5.2", require: false
   gem "hotwire-spark", "~> 0.1.13"
   gem "i18n-tasks", "~> 1.0", ">= 1.0.15"
   gem "net-ssh", "~> 7.3"

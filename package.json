@@ -2,24 +2,24 @@
   "name": "app",
   "private": true,
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.10",
+    "@tailwindcss/cli": "^4.1.11",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "esbuild": "^0.25.5",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.11"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
     "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.7.1",
+    "@floating-ui/dom": "^1.7.2",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.16",
     "@rails/request.js": "^0.0.12",
     "@stimulus-components/clipboard": "^5.0.0",
     "@stimulus-components/read-more": "^5.0.0",
     "embla-carousel": "^8.6.0",
-    "tw-animate-css": "^1.3.4"
+    "tw-animate-css": "^1.3.5"
   }
 }
