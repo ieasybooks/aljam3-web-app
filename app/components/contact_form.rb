@@ -19,27 +19,27 @@ class Components::ContactForm < Components::Base
       end
 
       FormField do
-        FormFieldLabel { Contact.human_attribute_name(:name) }
-        Input(name: "contact[name]", value: @contact.name, required: true, minlength: 5, maxlength: 255)
+        FormFieldLabel(for: :contact_name) { Contact.human_attribute_name(:name) }
+        Input(id: :contact_name, name: "contact[name]", value: @contact.name, required: true, minlength: 5, maxlength: 255)
         FormFieldError() { @contact.errors.full_messages_for(:name).first }
       end
 
       FormField do
-        FormFieldLabel { Contact.human_attribute_name(:email) }
-        Input(type: :email, name: "contact[email]", value: @contact.email, required: true, minlength: 5, maxlength: 255)
+        FormFieldLabel(for: :contact_email) { Contact.human_attribute_name(:email) }
+        Input(id: :contact_email, type: :email, name: "contact[email]", value: @contact.email, required: true, minlength: 5, maxlength: 255)
         FormFieldError() { @contact.errors.full_messages_for(:email).first }
       end
 
       FormField do
-        FormFieldLabel { Contact.human_attribute_name(:topic) }
-        Input(name: "contact[topic]", value: @contact.topic, required: true, minlength: 5, maxlength: 255)
+        FormFieldLabel(for: :contact_topic) { Contact.human_attribute_name(:topic) }
+        Input(id: :contact_topic, name: "contact[topic]", value: @contact.topic, required: true, minlength: 5, maxlength: 255)
         FormFieldError() { @contact.errors.full_messages_for(:topic).first }
       end
 
       FormField do
-        FormFieldLabel { Contact.human_attribute_name(:message) }
+        FormFieldLabel(for: :contact_message) { Contact.human_attribute_name(:message) }
 
-        Textarea(name: "contact[message]", required: true, minlength: 15, maxlength: 5000) do
+        Textarea(id: :contact_message, name: "contact[message]", required: true, minlength: 15, maxlength: 5000) do
           @contact.message
         end
 
