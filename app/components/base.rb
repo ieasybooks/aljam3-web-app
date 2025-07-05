@@ -23,6 +23,7 @@ class Components::Base < RubyUI::Base
   register_output_helper :cloudflare_turnstile_script_tag
 
   register_value_helper :action_name
+  register_value_helper :browser
   register_value_helper :cloudflare_turnstile
   register_value_helper :controller_name
   register_value_helper :devise_mapping

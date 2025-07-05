@@ -121,6 +121,7 @@ GEM
       msgpack (~> 1.2)
     brakeman (7.0.2)
       racc
+    browser (6.2.0)
     builder (3.3.0)
     cloudflare-rails (6.2.0)
       actionpack (>= 7.1.0, < 8.1.0)
@@ -641,6 +642,7 @@ DEPENDENCIES
   binding_of_caller (~> 1.0, >= 1.0.1)
   bootsnap
   brakeman
+  browser (~> 6.2)
   cloudflare-rails (~> 6.2)
   cssbundling-rails
   debug

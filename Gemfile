@@ -3,6 +3,7 @@ source "https://rubygems.org"
 # Added gems ↓
 
 gem "avo", "~> 3.22"
+gem "browser", "~> 6.2"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.14"
 gem "goldiloader", "~> 5.4"
