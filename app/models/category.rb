@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: authors
+# Table name: categories
 #
 #  id          :bigint           not null, primary key
 #  books_count :integer          default(0), not null
@@ -8,7 +8,7 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-class Author < ApplicationRecord
+class Category < ApplicationRecord
   include Meilisearch::Rails
 
   extend Pagy::Meilisearch

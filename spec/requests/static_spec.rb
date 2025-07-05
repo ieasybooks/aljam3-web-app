@@ -72,7 +72,7 @@ RSpec.describe "Static" do
       context "with no categories in cache" do
         before do
           allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.week).and_yield.and_return(mock_categories)
-          allow(Book).to receive_message_chain(:group, :count, :to_a, :sort_by).and_return(mock_categories) # rubocop:disable RSpec/MessageChain
+          allow(Category).to receive_message_chain(:order, :pluck).and_return(mock_categories) # rubocop:disable RSpec/MessageChain
         end
 
         it "renders home view with fresh categories list" do

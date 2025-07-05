@@ -30,15 +30,9 @@ class Page < ApplicationRecord
   meilisearch enqueue: true do
     attribute :content
 
-    attribute :category do
+    attribute :library do
       # :nocov:
-      file.book.category
-      # :nocov:
-    end
-
-    attribute :author do
-      # :nocov:
-      file.book.author_id
+      file.book.library_id
       # :nocov:
     end
 
@@ -48,14 +42,20 @@ class Page < ApplicationRecord
       # :nocov:
     end
 
-    attribute :library do
+    attribute :author do
       # :nocov:
-      file.book.library_id
+      file.book.author_id
+      # :nocov:
+    end
+
+    attribute :category do
+      # :nocov:
+      file.book.category_id
       # :nocov:
     end
 
     attributes_to_highlight %i[content]
     searchable_attributes %i[content]
-    filterable_attributes %i[category author book library]
+    filterable_attributes %i[library book author category]
   end
 end

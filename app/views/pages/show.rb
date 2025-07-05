@@ -123,7 +123,7 @@ class Views::Pages::Show < Views::Base
           BreadcrumbSeparator { Radix::Slash() }
 
           # TODO: Add a link to the category page IF implemented.
-          BreadcrumbLink(href: "#") { @book.category }
+          BreadcrumbLink(href: "#") { @book.category.name }
         end
       end
     end

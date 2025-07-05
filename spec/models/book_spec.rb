@@ -3,7 +3,6 @@
 # Table name: books
 #
 #  id          :bigint           not null, primary key
-#  category    :string           not null
 #  files_count :integer          default(0), not null
 #  pages_count :integer          not null
 #  title       :string           not null
@@ -11,16 +10,19 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  author_id   :bigint           not null
+#  category_id :bigint           not null
 #  library_id  :bigint           not null
 #
 # Indexes
 #
-#  index_books_on_author_id   (author_id)
-#  index_books_on_library_id  (library_id)
+#  index_books_on_author_id    (author_id)
+#  index_books_on_category_id  (category_id)
+#  index_books_on_library_id   (library_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (author_id => authors.id)
+#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (library_id => libraries.id)
 #
 require "rails_helper"
@@ -29,13 +31,13 @@ RSpec.describe Book do
   describe "associations" do
     it { is_expected.to belong_to(:library).counter_cache(true) }
     it { is_expected.to belong_to(:author).counter_cache(true) }
+    it { is_expected.to belong_to(:category).counter_cache(true) }
     it { is_expected.to have_many(:files).class_name("BookFile").dependent(:destroy) }
     it { is_expected.to have_many(:pages).through(:files) }
   end
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:category) }
     it { is_expected.to validate_presence_of(:volumes) }
     it { is_expected.to validate_presence_of(:pages_count) }
   end
@@ -54,7 +56,7 @@ RSpec.describe Book do
     end
 
     it 'has the correct filterable attributes' do
-      expect(described_class.index.filterable_attributes).to match_array(%w[category author library])
+      expect(described_class.index.filterable_attributes).to match_array(%w[library author category])
     end
   end
 

@@ -120,6 +120,15 @@
 #                                     PATCH  /resources/contacts/:id(.:format)                                                                  avo/contacts#update
 #                                     PUT    /resources/contacts/:id(.:format)                                                                  avo/contacts#update
 #                                     DELETE /resources/contacts/:id(.:format)                                                                  avo/contacts#destroy
+#          preview_resources_category GET    /resources/categories/:id/preview(.:format)                                                        avo/categories#preview
+#                resources_categories GET    /resources/categories(.:format)                                                                    avo/categories#index
+#                                     POST   /resources/categories(.:format)                                                                    avo/categories#create
+#              new_resources_category GET    /resources/categories/new(.:format)                                                                avo/categories#new
+#             edit_resources_category GET    /resources/categories/:id/edit(.:format)                                                           avo/categories#edit
+#                  resources_category GET    /resources/categories/:id(.:format)                                                                avo/categories#show
+#                                     PATCH  /resources/categories/:id(.:format)                                                                avo/categories#update
+#                                     PUT    /resources/categories/:id(.:format)                                                                avo/categories#update
+#                                     DELETE /resources/categories/:id(.:format)                                                                avo/categories#destroy
 #         preview_resources_book_file GET    /resources/book_files/:id/preview(.:format)                                                        avo/book_files#preview
 #                resources_book_files GET    /resources/book_files(.:format)                                                                    avo/book_files#index
 #                                     POST   /resources/book_files(.:format)                                                                    avo/book_files#create

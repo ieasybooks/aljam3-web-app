@@ -17,7 +17,7 @@ class StaticController < ApplicationController
       end
 
       categories = Rails.cache.fetch("categories", expires_in: 1.week) do
-        Book.group(:category).count.to_a.sort_by { |category, _count| category }
+        Category.order(:name).pluck(:name, :books_count)
       end
 
       render Views::Static::Home.new(results:, pagy:, carousel_books_ids:, categories:, libraries:)

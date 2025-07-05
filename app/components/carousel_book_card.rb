@@ -8,7 +8,7 @@ class Components::CarouselBookCard < Components::Base
   def view_template
     Card() do
       CardHeader(class: "p-4") do
-        Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category }
+        Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
         CardTitle(class: "line-clamp-1") { @book.title }
 
         CardDescription(class: "flex items-center gap-x-1") do

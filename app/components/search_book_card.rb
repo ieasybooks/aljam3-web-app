@@ -12,7 +12,7 @@ class Components::SearchBookCard < Components::Base
       end
 
       CardHeader(class: "p-4") do
-        Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category }
+        Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
         CardTitle { safe (@book.formatted["title"] || @book.title) }
 
         CardDescription(class: "flex items-center gap-x-1") do

@@ -4,8 +4,4 @@ class CreateAuthorRecords < ActiveRecord::Migration[8.0]
       Author.create(name: author_name)
     end
   end
-
-  def down
-    Author.destroy_all
-  end
 end
