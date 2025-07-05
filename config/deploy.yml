@@ -60,6 +60,7 @@ env:
     # RAILS_LOG_LEVEL: debug
 
     MEILISEARCH_HOST: http://aljam3-meilisearch:7700
+    REDIS_URL: redis://aljam3-redis:6379
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
@@ -136,9 +137,9 @@ accessories:
       - dumps:/meili_data/dumps
       - snapshots:/meili_data/snapshots
 
-#   redis:
-#     image: redis:7.0
-#     host: 192.168.0.2
-#     port: 6379
-#     directories:
-#       - data:/data
+  redis:
+    image: valkey/valkey:8.1
+    roles:
+      - web
+    directories:
+      - data:/data

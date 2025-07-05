@@ -6,6 +6,7 @@ gem "avo", "~> 3.22"
 gem "browser", "~> 6.2"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.14"
+gem "get_process_mem", "~> 1.0"
 gem "goldiloader", "~> 5.4"
 gem "meilisearch-rails", "~> 0.16.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
@@ -22,10 +23,13 @@ gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.1"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
+gem "rails_performance", "~> 1.4", ">= 1.4.2"
 gem "sitemap_generator", "~> 6.3"
 gem "solid_errors", "~> 0.7.0"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
+gem "sys-cpu", "~> 1.1"
+gem "sys-filesystem", "~> 1.5", ">= 1.5.3"
 gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do

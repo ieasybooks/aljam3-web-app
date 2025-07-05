@@ -20,6 +20,15 @@ services:
     volumes:
       - meilisearch-data:/meili_data
 
+  redis:
+    image: valkey/valkey:8.1
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-data:/data
+
 volumes:
   postgres-data:
   meilisearch-data:
+  redis-data:

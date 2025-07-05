@@ -38,6 +38,7 @@
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
 #                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
+#                        rails_performance          /performance                                                                                      RailsPerformance::Engine
 #         turbo_recede_historical_location GET      /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET      /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET      /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -225,6 +226,21 @@
 #        PATCH  /:id(.:format) solid_errors/errors#update
 #        PUT    /:id(.:format) solid_errors/errors#update
 #        DELETE /:id(.:format) solid_errors/errors#destroy
+#
+# Routes for RailsPerformance::Engine:
+#             rails_performance GET  /                      rails_performance/rails_performance#index
+#    rails_performance_requests GET  /requests(.:format)    rails_performance/rails_performance#requests
+#     rails_performance_crashes GET  /crashes(.:format)     rails_performance/rails_performance#crashes
+#      rails_performance_recent GET  /recent(.:format)      rails_performance/rails_performance#recent
+#        rails_performance_slow GET  /slow(.:format)        rails_performance/rails_performance#slow
+#       rails_performance_trace GET  /trace/:id(.:format)   rails_performance/rails_performance#trace
+#     rails_performance_summary GET  /summary(.:format)     rails_performance/rails_performance#summary
+#     rails_performance_sidekiq GET  /sidekiq(.:format)     rails_performance/rails_performance#sidekiq
+# rails_performance_delayed_job GET  /delayed_job(.:format) rails_performance/rails_performance#delayed_job
+#       rails_performance_grape GET  /grape(.:format)       rails_performance/rails_performance#grape
+#        rails_performance_rake GET  /rake(.:format)        rails_performance/rails_performance#rake
+#      rails_performance_custom GET  /custom(.:format)      rails_performance/rails_performance#custom
+#   rails_performance_resources GET  /resources(.:format)   rails_performance/rails_performance#resources
 
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -257,5 +273,6 @@ Rails.application.routes.draw do
     mount MissionControl::Jobs::Engine, at: "/jobs"
     mount PgHero::Engine, at: "/pghero"
     mount SolidErrors::Engine, at: "/solid_errors"
+    mount RailsPerformance::Engine, at: "/performance"
   end
 end

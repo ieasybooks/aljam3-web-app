@@ -154,6 +154,10 @@
   <li><strong><a href="https://github.com/MiniProfiler/rack-mini-profiler">rack-mini-profiler</a></strong> - أداة مراقبة أداء التطبيق</li>
   <li><strong><a href="https://github.com/SamSaffron/memory_profiler">memory_profiler</a></strong> - تحليل استخدام الذاكرة</li>
   <li><strong><a href="https://github.com/tmm1/stackprof">stackprof</a></strong> - إنشاء مخططات الأداء (flamegraphs)</li>
+  <li><strong><a href="https://github.com/igorkasyanchuk/rails_performance">rails_performance</a></strong> - أداة لمراقبة أداء تطبيقات Rails مع لوحة تحكم محلية</li>
+  <li><strong><a href="https://github.com/djberg96/sys-filesystem">sys-filesystem</a></strong> - مكتبة لمراقبة استخدام القرص الصلب</li>
+  <li><strong><a href="https://github.com/djberg96/sys-cpu">sys-cpu</a></strong> - مكتبة لمراقبة استخدام المعالج</li>
+  <li><strong><a href="https://github.com/schneems/get_process_mem">get_process_mem</a></strong> - مكتبة لمراقبة استخدام الذاكرة</li>
   <li><strong><a href="https://github.com/yippee-fun/strict_ivars">strict_ivars</a></strong> - فرض قواعد صارمة على متغيرات الكائن</li>
 </ul>
 
