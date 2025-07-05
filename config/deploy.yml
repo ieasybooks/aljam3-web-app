@@ -142,5 +142,3 @@ accessories:
 #     port: 6379
 #     directories:
 #       - data:/data
-
-deploy_timeout: 1200
