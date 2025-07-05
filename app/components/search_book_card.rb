@@ -18,7 +18,7 @@ class Components::SearchBookCard < Components::Base
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
 
-          plain @book.author
+          plain @book.author.name
         end
       end
 

@@ -8,7 +8,6 @@ class Avo::Resources::Book < Avo::BaseResource
   def fields
     field :id, as: :id
     field :title, as: :text
-    field :author, as: :text
     field :category, as: :text
     field :volumes, as: :number
     field :pages_count, as: :number
@@ -16,5 +15,6 @@ class Avo::Resources::Book < Avo::BaseResource
     field :library, as: :belongs_to
     field :files, as: :has_many
     field :pages, as: :has_many, through: :files
+    field :author, as: :belongs_to
   end
 end

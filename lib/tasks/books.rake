@@ -75,7 +75,7 @@ namespace :db do
     begin
       book = Book.create!(
         title: options[:title],
-        author: options[:author],
+        author: Author.find_or_create_by(name: options[:author]),
         category: options[:category],
         pages_count: options[:pages],
         volumes: options[:volumes],

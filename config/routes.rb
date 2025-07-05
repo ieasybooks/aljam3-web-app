@@ -138,6 +138,15 @@
 #                                     PATCH  /resources/books/:id(.:format)                                                                     avo/books#update
 #                                     PUT    /resources/books/:id(.:format)                                                                     avo/books#update
 #                                     DELETE /resources/books/:id(.:format)                                                                     avo/books#destroy
+#            preview_resources_author GET    /resources/authors/:id/preview(.:format)                                                           avo/authors#preview
+#                   resources_authors GET    /resources/authors(.:format)                                                                       avo/authors#index
+#                                     POST   /resources/authors(.:format)                                                                       avo/authors#create
+#                new_resources_author GET    /resources/authors/new(.:format)                                                                   avo/authors#new
+#               edit_resources_author GET    /resources/authors/:id/edit(.:format)                                                              avo/authors#edit
+#                    resources_author GET    /resources/authors/:id(.:format)                                                                   avo/authors#show
+#                                     PATCH  /resources/authors/:id(.:format)                                                                   avo/authors#update
+#                                     PUT    /resources/authors/:id(.:format)                                                                   avo/authors#update
+#                                     DELETE /resources/authors/:id(.:format)                                                                   avo/authors#destroy
 #          resources_associations_new GET    /resources/:resource_name/:id/:related_name/new(.:format)                                          avo/associations#new
 #        resources_associations_index GET    /resources/:resource_name/:id/:related_name(.:format)                                              avo/associations#index
 #         resources_associations_show GET    /resources/:resource_name/:id/:related_name/:related_id(.:format)                                  avo/associations#show

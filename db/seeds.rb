@@ -15,7 +15,7 @@ if Rails.env.development? && Book.count == 0
 
     book = library.books.create(
       title: Faker::Book.title,
-      author: Faker::Book.author,
+      author: Author.find_or_create_by(name: Faker::Book.author),
       category: Faker::Book.genre,
       volumes:,
       pages_count: pages

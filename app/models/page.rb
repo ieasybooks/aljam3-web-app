@@ -38,7 +38,7 @@ class Page < ApplicationRecord
 
     attribute :author do
       # :nocov:
-      file.book.author
+      file.book.author_id
       # :nocov:
     end
 

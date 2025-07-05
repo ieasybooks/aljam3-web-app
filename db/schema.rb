@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_24_194903) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_04_202636) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "books_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "book_files", force: :cascade do |t|
     t.bigint "book_id", null: false
@@ -28,7 +35,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_194903) do
 
   create_table "books", force: :cascade do |t|
     t.string "title", null: false
-    t.string "author", null: false
     t.string "category", null: false
     t.integer "volumes", null: false
     t.integer "pages_count", null: false
@@ -36,6 +42,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_194903) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "files_count", default: 0, null: false
+    t.bigint "author_id", null: false
+    t.index ["author_id"], name: "index_books_on_author_id"
     t.index ["library_id"], name: "index_books_on_library_id"
   end
 
@@ -135,6 +143,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_194903) do
   end
 
   add_foreign_key "book_files", "books"
+  add_foreign_key "books", "authors"
   add_foreign_key "books", "libraries"
   add_foreign_key "pages", "book_files"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"

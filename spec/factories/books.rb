@@ -3,7 +3,6 @@
 # Table name: books
 #
 #  id          :bigint           not null, primary key
-#  author      :string           not null
 #  category    :string           not null
 #  files_count :integer          default(0), not null
 #  pages_count :integer          not null
@@ -11,20 +10,23 @@
 #  volumes     :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  author_id   :bigint           not null
 #  library_id  :bigint           not null
 #
 # Indexes
 #
+#  index_books_on_author_id   (author_id)
 #  index_books_on_library_id  (library_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (author_id => authors.id)
 #  fk_rails_...  (library_id => libraries.id)
 #
 FactoryBot.define do
   factory :book do
     sequence(:title) { |n| "Title #{n}" }
-    sequence(:author) { |n| "Author #{n}" }
+    author { create(:author) }
     category { [ "Fiction", "Non-Fiction", "Science", "History", "Biography" ].sample }
     volumes { rand(1..5) }
     pages_count { rand(1..10) }
