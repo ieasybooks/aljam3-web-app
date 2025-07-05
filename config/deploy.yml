@@ -143,4 +143,4 @@ accessories:
 #     directories:
 #       - data:/data
 
-deploy_timeout: 600
+deploy_timeout: 1200
