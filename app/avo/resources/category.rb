@@ -8,7 +8,7 @@ class Avo::Resources::Category < Avo::BaseResource
   def fields
     field :id, as: :id
     field :name, as: :text
-    field :book_count, as: :number
+    field :books_count, as: :number
     field :books, as: :has_many
   end
 end
