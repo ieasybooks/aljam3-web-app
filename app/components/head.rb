@@ -35,6 +35,12 @@ class Components::Head < Components::Base
       link rel: "icon", href: "/icon.svg?v=2", type: "image/svg+xml"
       link rel: "apple-touch-icon", href: "/icon.png?v=2"
 
+      link rel: "preconnect", href: "https://www.googletagmanager.com"
+
+      script async: true,
+               src: "https://www.googletagmanager.com/gtag/js?id=G-VBEGPJJEHW",
+               data_turbo_track: "reload"
+
       stylesheet_link_tag "application", "data-turbo-track": "reload"
       javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
 

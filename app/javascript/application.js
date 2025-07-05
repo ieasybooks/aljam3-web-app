@@ -2,3 +2,5 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 import "./controllers/third_party"
+
+import gtag from "./google_analytics"
