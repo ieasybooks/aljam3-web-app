@@ -13,7 +13,7 @@ class Components::SearchBookCard < Components::Base
 
       CardHeader(class: "p-4") do
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
-        CardTitle { safe (@book.formatted["title"] || @book.title) }
+        CardTitle { safe (process_meilisearch_highlights(@book.formatted["title"]) || @book.title) }
 
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
