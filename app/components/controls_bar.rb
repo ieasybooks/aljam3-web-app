@@ -6,8 +6,10 @@ class Components::ControlsBar < Components::Base
   end
 
   def view_template
-    div(**attrs) do
-      yield
+    Card do
+      CardContent(**attrs) do
+        yield
+      end
     end
   end
 
@@ -37,5 +39,5 @@ class Components::ControlsBar < Components::Base
 
   private
 
-  def default_attrs = { class: "flex items-center justify-between p-2 gap-x-2 rounded-lg bg-card border border-border" }
+  def default_attrs = { class: "flex items-center justify-between p-2 gap-x-2" }
 end

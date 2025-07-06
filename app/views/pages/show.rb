@@ -113,7 +113,7 @@ class Views::Pages::Show < Views::Base
 
       Breadcrumb do
         BreadcrumbList do
-          BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { Aljam3Logo(class: "h-6") }
+          BreadcrumbLink(href: root_path, class: "max-sm:hidden font-[lalezar]") { Aljam3Logo(class: "h-6 text-primary") }
 
           BreadcrumbSeparator(class: "max-sm:hidden") { Radix::Slash() }
 
@@ -151,27 +151,31 @@ class Views::Pages::Show < Views::Base
   end
 
   def txt_content
-    div(
-      class: "sm:max-w-1/2 flex-1 flex flex-col bg-card border border-border rounded-lg",
+    Card(
+      class: "sm:max-w-1/2 flex-1 flex flex-col",
       data: {
         top_controls_target: "txtContent"
       }
     ) do
-      div(
+      CardContent(
         id: "txt-content",
         class: "flex-1 p-4 overflow-y-auto",
         data: {
           pdf_viewer_target: "content",
           top_controls_target: "content"
-        }
-      ) do
+        }) do
         simple_format @page.content
       end
     end
   end
 
   def pdf_content
-    div(class: "sm:max-w-1/2 flex-1 rounded-lg overflow-y-auto bg-card border border-border", data: { top_controls_target: "pdfContent" }) do
+    Card(
+      class: "sm:max-w-1/2 flex-1 flex flex-col overflow-hidden",
+      data: {
+        top_controls_target: "pdfContent"
+      }
+    ) do
       iframe(
         src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
         class: "w-full h-full",

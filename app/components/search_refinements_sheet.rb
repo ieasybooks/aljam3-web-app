@@ -48,8 +48,8 @@ class Components::SearchRefinementsSheet < Components::Base
   def sheet
     Sheet do
       SheetTrigger do
-        Button(variant: :secondary, size: :xl, icon: true) do
-          Hero::Cog8Tooth(variant: :outline, class: "size-6")
+        Button(variant: :outline, size: :xl, icon: true) do
+          Bootstrap::Sliders(class: "size-5.5")
         end
       end
 
