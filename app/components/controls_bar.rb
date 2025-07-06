@@ -37,5 +37,5 @@ class Components::ControlsBar < Components::Base
 
   private
 
-  def default_attrs = { class: "flex items-center justify-between p-2 gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2a2a2e]" }
+  def default_attrs = { class: "flex items-center justify-between p-2 gap-x-2 rounded-lg bg-card border border-border" }
 end

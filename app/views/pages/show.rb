@@ -151,9 +151,8 @@ class Views::Pages::Show < Views::Base
   end
 
   def txt_content
-    # Dark background color is similar to the PDF's viewer background color.
     div(
-      class: "sm:max-w-1/2 flex-1 bg-gray-100 dark:bg-[#2a2a2e] rounded-lg flex flex-col",
+      class: "sm:max-w-1/2 flex-1 flex flex-col bg-card border border-border rounded-lg",
       data: {
         top_controls_target: "txtContent"
       }
@@ -172,7 +171,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def pdf_content
-    div(class: "sm:max-w-1/2 flex-1 rounded-lg overflow-y-auto", data: { top_controls_target: "pdfContent" }) do
+    div(class: "sm:max-w-1/2 flex-1 rounded-lg overflow-y-auto bg-card border border-border", data: { top_controls_target: "pdfContent" }) do
       iframe(
         src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
         class: "w-full h-full",

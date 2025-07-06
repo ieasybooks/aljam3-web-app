@@ -22,7 +22,7 @@ module RubyUI
         ],
         disabled: true,
         data: {
-          action: "click->ruby-ui--carousel#scrollPrev",
+          action: "click->ruby-ui--carousel#scrollNext",
           ruby_ui__carousel_target: "prevButton"
         }
       }
