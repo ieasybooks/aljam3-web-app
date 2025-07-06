@@ -9,7 +9,7 @@ class Components::CarouselBookCard < Components::Base
     Card() do
       CardHeader(class: "p-4") do
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
-        CardTitle(class: "line-clamp-1") { @book.title }
+        CardTitle(class: "line-clamp-1") { a(href: book_path(@book)) { @book.title } }
 
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
