@@ -42,7 +42,7 @@ ar:
   search_book_card:
     book_page: صفحة الكتاب
   search_form:
-    search_input_placeholder: ابحث في أكثر من 63 ألف كتاب!
+    search_input_placeholder: ابحث في 63 ألف كتاب!
   search_no_results_found:
     no_results_found: لم نعثر على نتائج
   search_page_card:
@@ -69,6 +69,12 @@ ar:
     مكتبة المسجد النبوي: مكتبة المسجد النبوي (48,700 كتاب)
   static:
     home:
+      one_site: موقع واحد
+      three_libraries: 3 مكتبات
+      hundred_categories: 100 تصنيف
+      thirty_four_authors: 34 ألف مؤلِّف
+      sixty_three_books: 63 ألف كتاب
+      thirty_seven_million_pages: 37 مليون صفحة
       discover_books: استكشف الكتب
       title: الرئيسية
   top_controls:

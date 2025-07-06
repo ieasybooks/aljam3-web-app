@@ -6,3 +6,19 @@
     U+660-66C, U+670-671, U+6CC, U+6D4, U+6D6-6DD, U+6DF-6E8, U+6EA-6ED,
     U+8F0-8F3, U+FD3E-FD3F, U+FDF2;
 }
+
+@font-face {
+  font-family: Cairo;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(Cairo.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: Cairo;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(Cairo.woff2) format("woff2");
+}

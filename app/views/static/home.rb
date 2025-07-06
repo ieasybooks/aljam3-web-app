@@ -11,6 +11,8 @@ class Views::Static::Home < Views::Base
 
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
+      header if @results.nil?
+
       SearchForm(libraries: @libraries, categories: @categories)
 
       if @results.nil?
@@ -22,6 +24,32 @@ class Views::Static::Home < Views::Base
   end
 
   private
+
+  def header
+    div(class: "flex justify-center pb-6 sm:pb-4") do
+      div(class: "flex max-sm:flex-col items-center gap-4 sm:gap-8") do
+        Aljam3Logo(class: "size-50 text-primary flex-shrink-0")
+
+        div(class: "font-[Cairo] w-full max-sm:text-center sm:w-96") do
+          p(class: "text-4xl sm:text-5xl pb-4 sm:pb-6") { t(".one_site") }
+
+          p(
+            class: "text-4xl sm:text-5xl font-bold",
+            data: {
+              controller: "text-rotation",
+              text_rotation_strings_value: [
+                t(".three_libraries"),
+                t(".hundred_categories"),
+                t(".thirty_four_authors"),
+                t(".sixty_three_books"),
+                t(".thirty_seven_million_pages")
+              ].to_json
+            }
+          ) { t(".three_libraries") }
+        end
+      end
+    end
+  end
 
   def carousel
     low_level_cache("books_carousel", expires_in: 1.minute) do

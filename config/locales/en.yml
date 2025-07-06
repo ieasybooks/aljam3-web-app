@@ -42,7 +42,7 @@ en:
   search_book_card:
     book_page: Book Page
   search_form:
-    search_input_placeholder: Search in more than 63K books!
+    search_input_placeholder: Search in 63K books!
   search_no_results_found:
     no_results_found: No results found
   search_page_card:
@@ -69,6 +69,12 @@ en:
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
   static:
     home:
+      one_site: One Site
+      three_libraries: 3 Libraries
+      hundred_categories: 100 Categories
+      thirty_four_authors: 34K Authors
+      sixty_three_books: 63K Books
+      thirty_seven_million_pages: 37M Pages
       discover_books: Discover Books
       title: Home
   top_controls:
