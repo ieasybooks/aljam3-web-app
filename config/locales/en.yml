@@ -1,6 +1,5 @@
 ---
 en:
-  apply: Apply
   activerecord:
     attributes:
       contact:
@@ -9,6 +8,7 @@ en:
         name: Name
         topic: Topic
   aljam3: Aljam3
+  apply: Apply
   bottom_controls:
     book_files: Book Files
     first_page: First Page
@@ -69,13 +69,29 @@ en:
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
   static:
     home:
-      one_site: One Site
-      three_libraries: 3 Libraries
-      hundred_categories: 100 Categories
-      thirty_four_authors: 34K Authors
-      sixty_three_books: 63K Books
-      thirty_seven_million_pages: 37M Pages
       discover_books: Discover Books
+      examples:
+      - ذلك الكتاب لا ريب فيه
+      - إنما الأعمال بالنيات
+      - إن في الدنيا جنة من لم يدخلها لم يدخل جنة الآخرة
+      - هذا التقيُّ النقيُّ الطاهر العلم
+      - نحن قوم أعزّنا الله بالإسلام
+      - العلم يرفع بيتا لا عماد له
+      - المشقة تجلب التيسير
+      - شروط الصلاة
+      - متن الآجرومية
+      - تفسير آية الكرسي
+      - أحكام البيوع
+      - تعلم كتاب اليهود
+      - تاريخ الأندلس
+      - لا إله إلا الله
+      - أعلام السنة المنشورة
+      hundred_categories: 100 Categories
+      one_site: One Site
+      sixty_three_books: 63K Books
+      thirty_four_authors: 34K Authors
+      thirty_seven_million_pages: 37M Pages
+      three_libraries: 3 Libraries
       title: Home
   top_controls:
     copy_content: Copy Content

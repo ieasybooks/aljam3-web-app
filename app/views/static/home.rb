@@ -16,6 +16,7 @@ class Views::Static::Home < Views::Base
       SearchForm(libraries: @libraries, categories: @categories)
 
       if @results.nil?
+        search_examples
         carousel
       else
         @results.any? ? SearchResultsList(results: @results, pagy: @pagy) : SearchNoResultsFound()
@@ -46,6 +47,18 @@ class Views::Static::Home < Views::Base
               ].to_json
             }
           ) { t(".three_libraries") }
+        end
+      end
+    end
+  end
+
+  def search_examples
+    div(class: "mt-2 horizontal-scroll-indicators") do
+      div(class: "flex gap-2 overflow-x-auto no-scrollbar") do
+        t(".examples").each do |example|
+          a(href: root_path(query: example, refinements: { search_scope: "title-and-content" })) do
+            Badge(variant: :primary, class: "cursor-pointer whitespace-nowrap") { example }
+          end
         end
       end
     end

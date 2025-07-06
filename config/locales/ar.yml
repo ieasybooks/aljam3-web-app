@@ -1,6 +1,5 @@
 ---
 ar:
-  apply: تطبيق
   activerecord:
     attributes:
       contact:
@@ -9,6 +8,7 @@ ar:
         name: الاسم
         topic: الموضوع
   aljam3: الجامع
+  apply: تطبيق
   bottom_controls:
     book_files: ملفات الكتاب
     first_page: الصفحة الأولى
@@ -69,13 +69,29 @@ ar:
     مكتبة المسجد النبوي: مكتبة المسجد النبوي (48,700 كتاب)
   static:
     home:
-      one_site: موقع واحد
-      three_libraries: 3 مكتبات
-      hundred_categories: 100 تصنيف
-      thirty_four_authors: 34 ألف مؤلِّف
-      sixty_three_books: 63 ألف كتاب
-      thirty_seven_million_pages: 37 مليون صفحة
       discover_books: استكشف الكتب
+      examples:
+      - ذلك الكتاب لا ريب فيه
+      - إنما الأعمال بالنيات
+      - إن في الدنيا جنة من لم يدخلها لم يدخل جنة الآخرة
+      - هذا التقيُّ النقيُّ الطاهر العلم
+      - نحن قوم أعزّنا الله بالإسلام
+      - العلم يرفع بيتا لا عماد له
+      - المشقة تجلب التيسير
+      - شروط الصلاة
+      - متن الآجرومية
+      - تفسير آية الكرسي
+      - أحكام البيوع
+      - تعلم كتاب اليهود
+      - تاريخ الأندلس
+      - لا إله إلا الله
+      - أعلام السنة المنشورة
+      hundred_categories: 100 تصنيف
+      one_site: موقع واحد
+      sixty_three_books: 63 ألف كتاب
+      thirty_four_authors: 34 ألف مؤلِّف
+      thirty_seven_million_pages: 37 مليون صفحة
+      three_libraries: 3 مكتبات
       title: الرئيسية
   top_controls:
     copy_content: نسخ المحتوى
