@@ -1,5 +1,6 @@
 ---
 ar:
+  apply: تطبيق
   activerecord:
     attributes:
       contact:

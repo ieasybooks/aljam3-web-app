@@ -53,19 +53,19 @@ class Components::SearchRefinementsSheet < Components::Base
         end
       end
 
-      SheetContent(side: browser.device.mobile? ? :bottom : side, class: "w-[350px] max-sm:w-full") do
+      SheetContent(side: browser.device.mobile? ? :bottom : side, with_close_button: false, class: "w-[350px] max-sm:w-full") do
         SheetHeader do
           SheetTitle { t(".title") }
         end
 
         SheetMiddle(class: "space-y-2") do
           search_scopes_select
-          libraries_select
           categories_select
+          libraries_select
         end
 
         SheetFooter do
-          Button(variant: :outline, data: { action: "click->ruby-ui--sheet-content#close" }) { t("close") }
+          Button(variant: :outline, data: { action: "click->ruby-ui--sheet-content#close" }) { t("apply") }
         end
       end
     end

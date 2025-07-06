@@ -9,9 +9,10 @@ module RubyUI
       left: "inset-y-0 left-0 h-full border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left"
     }
 
-    def initialize(side: :right, **attrs)
+    def initialize(side: :right, with_close_button: true, **attrs)
       @side = side
       @side_classes = SIDE_CLASS[side]
+      @with_close_button = with_close_button
       super(**attrs)
     end
 
@@ -21,7 +22,7 @@ module RubyUI
           backdrop
           div(**attrs) do
             block&.call
-            close_button
+            close_button if @with_close_button
           end
         end
       end
