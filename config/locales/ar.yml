@@ -35,6 +35,7 @@ ar:
   page: الصفحة
   pages:
     show:
+      description: صفحة من كتاب %{title} من تأليف %{author}
       share_page: مشاركة الصفحة
       share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
       title: كتاب %{title}
@@ -69,6 +70,7 @@ ar:
     مكتبة المسجد النبوي: مكتبة المسجد النبوي (48,700 كتاب)
   static:
     home:
+      description: مكتبة المكتبات الإسلامية تضم أكثر من 63 ألف كتاب و 37 مليون صفحة
       discover_books: استكشف الكتب
       examples:
       - ذلك الكتاب لا ريب فيه
@@ -86,14 +88,31 @@ ar:
       - تاريخ الأندلس
       - لا إله إلا الله
       - أعلام السنة المنشورة
+      faith: التوحيد والعقيدة
+      fiqh: الفقه وأصوله وقواعده
+      hadith: الحديث وعلومه
+      history: السيرة والتاريخ
       hundred_categories: 100 تصنيف
-      one_site: موقع واحد
+      keywords:
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF إلى نص
+      language: اللغة والأدب
+      one_place: مكان واحد
+      other: أخرى
+      quran: القرآن وعلومه
       sixty_three_books: 63 ألف كتاب
       thirty_four_authors: 34 ألف مؤلِّف
       thirty_seven_million_pages: 37 مليون صفحة
       three_libraries: 3 مكتبات
       title: الرئيسية
   top_controls:
+    book_pdf: الكتاب المُصوّر
+    book_txt: نص الكتاب
     copy_content: نسخ المحتوى
     copy_image: نسخ الصورة
     download_files: تحميل الملفات

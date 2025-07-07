@@ -1,4 +1,5 @@
 @import "./fonts.css";
+@import "./turbo.css";
 
 @import "tailwindcss";
 
@@ -228,9 +229,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+mark {
+  @apply bg-accent text-accent-foreground;
 }
 
 .read-more-content {

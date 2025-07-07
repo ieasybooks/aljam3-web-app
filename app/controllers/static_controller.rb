@@ -1,4 +1,14 @@
 class StaticController < ApplicationController
+  CATEGORY_IDS = {
+    faith: [ 24, 34, 35, 36, 37, 38, 39, 40, 54 ],
+    quran: [ 1, 17, 20, 21, 22, 88, 101 ],
+    hadith: [ 3, 26, 47, 62, 67, 74, 81, 87, 91, 100, 102, 104, 105 ],
+    fiqh: [ 2, 4, 43, 52, 53, 55, 56, 57, 58, 59, 90 ],
+    history: [ 9, 14, 15, 16, 18, 44, 76, 77, 78, 79, 80 ],
+    language: [ 5, 31, 46, 51, 63, 68, 69, 73 ],
+    other: [ 6, 7, 8, 10, 11, 12, 13, 19, 23, 25, 27, 28, 29, 30, 32, 33, 41, 42, 45, 48, 49, 50, 60, 61, 64, 65, 66, 70, 71, 72, 75, 82, 83, 84, 85, 86, 89, 92, 93, 94, 95, 96, 97, 98, 99, 103 ]
+  }
+
   def home
     pagy, results = search
 
@@ -8,19 +18,7 @@ class StaticController < ApplicationController
         Components::SearchResultsList.new(results:, pagy:)
       )
     else
-      carousel_books_ids = Rails.cache.fetch("carousel_books_ids", expires_in: 1.minute) do
-        Book.order("RANDOM()").limit(10).pluck(:id)
-      end
-
-      libraries = Rails.cache.fetch("libraries", expires_in: 1.week) do
-        Library.all.order(:id).pluck(:id, :name)
-      end
-
-      categories = Rails.cache.fetch("categories", expires_in: 1.week) do
-        Category.order(:name).pluck(:id, :name, :books_count)
-      end
-
-      render Views::Static::Home.new(results:, pagy:, carousel_books_ids:, categories:, libraries:)
+      render Views::Static::Home.new(results:, pagy:, carousels_books_ids:, categories:, libraries:)
     end
   end
 
@@ -68,5 +66,31 @@ class StaticController < ApplicationController
     expression << "category = \"#{category}\"" if category.present? && category != "all-categories"
 
     expression.any? ? expression.join(" AND ") : nil
+  end
+
+  def carousels_books_ids
+    Rails.cache.fetch("carousels_books_ids", expires_in: 1.hour) do
+      {
+        faith:    Book.where(category_id: CATEGORY_IDS[:faith]).order("RANDOM()").limit(10).pluck(:id),
+        quran:    Book.where(category_id: CATEGORY_IDS[:quran]).order("RANDOM()").limit(10).pluck(:id),
+        hadith:   Book.where(category_id: CATEGORY_IDS[:hadith]).order("RANDOM()").limit(10).pluck(:id),
+        fiqh:     Book.where(category_id: CATEGORY_IDS[:fiqh]).order("RANDOM()").limit(10).pluck(:id),
+        history:  Book.where(category_id: CATEGORY_IDS[:history]).order("RANDOM()").limit(10).pluck(:id),
+        language: Book.where(category_id: CATEGORY_IDS[:language]).order("RANDOM()").limit(10).pluck(:id),
+        other:    Book.where(category_id: CATEGORY_IDS[:other]).order("RANDOM()").limit(10).pluck(:id)
+      }
+    end
+  end
+
+  def categories
+    Rails.cache.fetch("categories", expires_in: 1.week) do
+      Category.order(:name).pluck(:id, :name, :books_count)
+    end
+  end
+
+  def libraries
+    Rails.cache.fetch("libraries", expires_in: 1.week) do
+      Library.all.order(:id).pluck(:id, :name)
+    end
   end
 end

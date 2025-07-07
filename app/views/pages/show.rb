@@ -8,7 +8,9 @@ class Views::Pages::Show < Views::Base
     @files = @book.files
   end
 
-  def page_title = t(".title", title: @page.file.book.title)
+  def page_title = t(".title", title: @book.title)
+  def description = t(".description", title: @book.title, author: @book.author.name)
+  def keywords = [ @book.author.name, @book.category.name ]
   def no_navbar = true
 
   def view_template

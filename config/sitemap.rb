@@ -26,9 +26,15 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
-  Book.includes(:pages).find_each do |book|
-    first_page = book.pages.first
-
-    add book_file_page_path(book, first_page.file, first_page.number), lastmod: book.updated_at
-  end
+  Book.joins(files: :pages)
+      .select("books.*, pages.id as first_page_id, pages.number as first_page_number, pages.book_file_id as first_page_file_id")
+      .where('pages.number = (
+        SELECT MIN(p2.number)
+        FROM pages p2
+        INNER JOIN book_files bf2 ON p2.book_file_id = bf2.id
+        WHERE bf2.book_id = books.id
+      )')
+      .find_each do |book|
+        add book_file_page_path(book, book.first_page_file_id, book.first_page_number), lastmod: book.updated_at
+      end
 end

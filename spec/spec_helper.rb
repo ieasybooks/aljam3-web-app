@@ -13,6 +13,9 @@ SimpleCov.start "rails" do
 
   add_group "Scripts", "script"
 
+  # Ignore PWA controller, as it's almost auto-generated.
+  add_filter "app/controllers/rails/pwa_controller.rb"
+
   # Ignore components and views for now, will be handled later.
   add_filter "app/components"
   add_filter "app/views"

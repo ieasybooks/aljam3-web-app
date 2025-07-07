@@ -47,9 +47,9 @@ class Components::Base < RubyUI::Base
   def side = rtl? ? :right : :left
   def rtl? = I18n.locale == :ar
 
-  def process_meilisearch_highlights(content) = remove_definite_articles_marks(merge_consecutive_marks(content))
+  def process_meilisearch_highlights(content) = merge_consecutive_marks(remove_definite_articles_marks(content))
+  def remove_definite_articles_marks(content) = content&.gsub(/<mark>(ال|أل|إل|آل)<\/mark>(?!<mark>)/, '\1')
   def merge_consecutive_marks(content) = content&.gsub(/<\/mark>(\s*)<mark>/) { Regexp.last_match(1).empty? ? "" : "&nbsp;" }
-  def remove_definite_articles_marks(content) = content&.gsub(/<mark>(ال|أل|إل|آل)<\/mark>/, '\1')
 
   if Rails.env.development?
     def before_template

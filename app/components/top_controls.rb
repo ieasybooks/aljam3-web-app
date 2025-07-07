@@ -8,6 +8,7 @@ class Components::TopControls < Components::Base
   def view_template
     ControlsBar do |bar|
       right_side_controls(bar)
+      txt_indicator
 
       div(class: "flex items-center gap-x-2") do
         txt_content_only_button(bar)
@@ -15,6 +16,7 @@ class Components::TopControls < Components::Base
         pdf_content_only_button(bar)
       end
 
+      pdf_indicator
       left_side_controls(bar)
     end
   end
@@ -78,6 +80,22 @@ class Components::TopControls < Components::Base
       end
 
       download_files_button(bar)
+    end
+  end
+
+  def txt_indicator
+    div(class: "w-30 flex justify-center items-end gap-x-2 max-sm:hidden", data: { top_controls_target: "txtIndicator" }) do
+      Bootstrap::ArrowReturnLeft(class: "size-4 rotate-270")
+
+      Text(weight: "bold") { t(".book_txt") }
+    end
+  end
+
+  def pdf_indicator
+    div(class: "w-30 flex justify-center items-end gap-x-2 max-sm:hidden", data: { top_controls_target: "pdfIndicator" }) do
+      Text(weight: "bold") { t(".book_pdf") }
+
+      Bootstrap::ArrowReturnRight(class: "size-4 rotate-90")
     end
   end
 

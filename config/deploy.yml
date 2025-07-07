@@ -21,6 +21,7 @@ proxy:
   ssl: true
   hosts:
     - aljam3.com
+    - www.aljam3.com
     - aljam3.ieasybooks.com
   forward_headers: true
   app_port: 3000

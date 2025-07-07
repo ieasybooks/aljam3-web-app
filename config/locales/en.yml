@@ -35,6 +35,7 @@ en:
   page: Page
   pages:
     show:
+      description: Page from %{title} book by %{author}
       share_page: Share Page
       share_page_dialog_title: Share the page link with your friends!
       title: "%{title} Book"
@@ -69,6 +70,7 @@ en:
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
   static:
     home:
+      description: The library of Islamic libraries containing more than 63K books and 37M pages
       discover_books: Discover Books
       examples:
       - ذلك الكتاب لا ريب فيه
@@ -86,14 +88,33 @@ en:
       - تاريخ الأندلس
       - لا إله إلا الله
       - أعلام السنة المنشورة
+      faith: Faith
+      fiqh: Fiqh
+      hadith: Hadith
+      history: History
       hundred_categories: 100 Categories
-      one_site: One Site
+      keywords:
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
+      language: Language
+      one_place: One Place
+      other: Other
+      quran: Quran
       sixty_three_books: 63K Books
       thirty_four_authors: 34K Authors
       thirty_seven_million_pages: 37M Pages
       three_libraries: 3 Libraries
       title: Home
   top_controls:
+    book_pdf: PDF
+    book_txt: Text
     copy_content: Copy Content
     copy_image: Copy Image
     download_files: Download Files

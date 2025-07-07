@@ -13,7 +13,12 @@ class Components::SearchPageCard < Components::Base
 
       CardHeader(class: "p-4") do
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @page.file.book.category.name }
-        CardTitle { @page.file.book.title }
+
+        CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do
+          a(href: book_file_page_path(@page.file.book, @page.file, @page.number), target: "_blank") do
+            @page.file.book.title
+          end
+        end
 
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
@@ -35,7 +40,7 @@ class Components::SearchPageCard < Components::Base
             raw safe process_meilisearch_highlights(@page.formatted["content"]) || @page.content
           end
 
-          button(class: "text-blue-500 text-sm cursor-pointer", data: { action: "read-more#toggle" }) { t(".read_more") }
+          button(class: "text-primary text-sm cursor-pointer", data: { action: "read-more#toggle" }) { t(".read_more") }
         end
       end
 
@@ -60,7 +65,7 @@ class Components::SearchPageCard < Components::Base
           href: book_file_page_path(@page.file.book, @page.file, @page.number),
           variant: :outline,
           size: :sm,
-          target: "_top"
+          target: "_blank"
         ) { t(".show_page") }
       end
     end

@@ -15,6 +15,7 @@ const SIZE_TO_CLASS = {
 // Connects to data-controller="top-controls"
 export default class extends Controller {
   static targets = [
+    "txtIndicator",
     "txtContent",
     "content",
     "copyTextButton",
@@ -23,6 +24,7 @@ export default class extends Controller {
     "txtAndPdfContentButton",
     "pdfContentOnlyButton",
 
+    "pdfIndicator",
     "pdfContent",
     "iframe",
     "downloadImageButton",
@@ -37,6 +39,9 @@ export default class extends Controller {
   }
 
   connect() {
+    this.txtIndicatorTargetHTMLContent = this.txtIndicatorTarget.innerHTML
+    this.pdfIndicatorTargetHTMLContent = this.pdfIndicatorTarget.innerHTML
+
     this.currentContentSize = parseInt(localStorage.getItem("txt-content-size")) || 3
     
     const defaultLayout = this.#isMobile() ? "pdf-only" : "txt-and-pdf"
@@ -139,26 +144,44 @@ export default class extends Controller {
   }
 
   #applyLayout() {
+    this.txtIndicatorTarget.innerHTML = this.txtIndicatorTargetHTMLContent
+
     this.txtContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
     this.txtAndPdfContentButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
     this.pdfContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
 
+    this.pdfIndicatorTarget.innerHTML = this.pdfIndicatorTargetHTMLContent
+
     switch (this.currentLayout) {
       case "txt-only":
+        this.txtIndicatorTarget.classList.add("flex-row-reverse")
+        this.txtIndicatorTarget.querySelector("svg").classList.add("transform", "-scale-y-100")
+
         this.txtContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
         this.txtContentTarget.classList.remove("hidden")
         this.pdfContentTarget.classList.add("hidden")
+
+        this.pdfIndicatorTarget.innerHTML = ""
         break
       case "pdf-only":
+        this.txtIndicatorTarget.innerHTML = ""
+
         this.pdfContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
         this.txtContentTarget.classList.add("hidden")
         this.pdfContentTarget.classList.remove("hidden")
+
+        this.pdfIndicatorTarget.classList.add("flex-row-reverse")
+        this.pdfIndicatorTarget.querySelector("svg").classList.add("transform", "-scale-y-100")
         break
       case "txt-and-pdf":
       default:
+        this.txtIndicatorTarget.classList.remove("flex-row-reverse")
+
         this.txtAndPdfContentButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
         this.txtContentTarget.classList.remove("hidden")
         this.pdfContentTarget.classList.remove("hidden")
+
+        this.pdfIndicatorTarget.classList.remove("flex-row-reverse")
         break
     }
   }

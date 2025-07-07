@@ -5,11 +5,11 @@ class Components::Navbar < Components::Base
     header(class: "supports-backdrop-blur:bg-background/80 sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-2xl backdrop-saturate-200") do
       div(class: "px-2 sm:px-4 sm:container flex h-14 items-center justify-between") do
         div(class: "flex items-center") do
-          MobileMenu(class: "md:hidden")
+          # MobileMenu(class: "md:hidden")
 
-          Logo()
+          Logo(class: "max-sm:ps-1")
 
-          Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
+          # Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
         end
 
         div(class: "flex items-center gap-x-1") do
