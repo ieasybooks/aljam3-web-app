@@ -43,6 +43,17 @@ class Components::SearchRefinementsSheet < Components::Base
         sync_id: "refinements[category]"
       }
     )
+
+    Input(
+      id: "selected-author",
+      type: :hidden,
+      name: "refinements[author]",
+      value: params.dig(:refinements, :author) || "all-authors",
+      data: {
+        sync_value_target: "target",
+        sync_id: "refinements[author]"
+      }
+    )
   end
 
   def sheet
@@ -60,8 +71,9 @@ class Components::SearchRefinementsSheet < Components::Base
 
         SheetMiddle(class: "space-y-2") do
           search_scopes_select
-          categories_select
           libraries_select
+          categories_select
+          authors_select
         end
 
         SheetFooter do
@@ -162,6 +174,49 @@ class Components::SearchRefinementsSheet < Components::Base
               SelectItem(value: id) { "#{name} (#{number_with_delimiter(count)} #{t(".books")})" }
             end
           end
+        end
+      end
+    end
+  end
+
+  def authors_select
+    FormField do
+      FormFieldLabel { t(".author") }
+
+      div(class: "relative") do
+        Input(
+          class: "flex items-center mt-1 p-0 border-none",
+          autocomplete: :off,
+          data: {
+            controller: "tom-select",
+            tom_select_url_value: authors_path,
+            tom_select_plugins_value: [ "dropdown_input", "no_backspace_delete" ].to_json,
+            tom_select_value_field_value: "id",
+            tom_select_label_field_value: "name",
+            tom_select_options_value: [ { id: "all-authors", name: t(".all_authors") } ].to_json,
+            tom_select_items_value: [ "all-authors" ].to_json,
+            tom_select_search_field_value: [ "name" ].to_json,
+            tom_select_max_items_value: 1,
+            tom_select_preload_value: true,
+            tom_select_no_results_value: t(".no_results"),
+            tom_select_default_value_source_value: "#selected-author",
+            sync_value_target: "source",
+            sync_id: "refinements[author]",
+            sync_event: "change"
+          }
+        )
+
+        svg(
+          viewbox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          class: "absolute top-1/2 -translate-y-1/2 end-3 ms-2 h-4 w-4 shrink-0 opacity-50",
+          stroke_width: "2",
+          stroke_linecap: "round",
+          stroke_linejoin: "round"
+        ) do |s|
+          s.path(d: "m7 15 5 5 5-5")
+          s.path(d: "m7 9 5-5 5 5")
         end
       end
     end

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+
 import { get } from "@rails/request.js"
 
 // Connects to data-controller="pdf-viewer"

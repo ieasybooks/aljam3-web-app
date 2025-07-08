@@ -20,6 +20,7 @@
     "@stimulus-components/clipboard": "^5.0.0",
     "@stimulus-components/read-more": "^5.0.0",
     "embla-carousel": "^8.6.0",
+    "tom-select": "^2.4.3",
     "tw-animate-css": "^1.3.5"
   }
 }

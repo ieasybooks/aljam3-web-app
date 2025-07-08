@@ -18,7 +18,7 @@ class StaticController < ApplicationController
         Components::SearchResultsList.new(results:, pagy:)
       )
     else
-      render Views::Static::Home.new(results:, pagy:, carousels_books_ids:, categories:, libraries:)
+      render Views::Static::Home.new(results:, pagy:, carousels_books_ids:, libraries:, categories:)
     end
   end
 
@@ -60,10 +60,12 @@ class StaticController < ApplicationController
   def filter
     library = params.dig(:refinements, :library)
     category = params.dig(:refinements, :category)
+    author = params.dig(:refinements, :author)
 
     expression = []
     expression << "library = \"#{library}\"" if library.present? && library != "all-libraries"
     expression << "category = \"#{category}\"" if category.present? && category != "all-categories"
+    expression << "author = \"#{author}\"" if author.present? && author != "all-authors"
 
     expression.any? ? expression.join(" AND ") : nil
   end
@@ -82,15 +84,15 @@ class StaticController < ApplicationController
     end
   end
 
-  def categories
-    Rails.cache.fetch("categories", expires_in: 1.week) do
-      Category.order(:name).pluck(:id, :name, :books_count)
-    end
-  end
-
   def libraries
     Rails.cache.fetch("libraries", expires_in: 1.week) do
       Library.all.order(:id).pluck(:id, :name)
+    end
+  end
+
+  def categories
+    Rails.cache.fetch("categories", expires_in: 1.week) do
+      Category.order(:name).pluck(:id, :name, :books_count)
     end
   end
 end

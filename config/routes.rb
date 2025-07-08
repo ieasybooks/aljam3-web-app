@@ -34,6 +34,7 @@
 #                           book_file_page GET      /books/:book_id/files/:file_id/pages/:id(.:format)                                                pages#show
 #                                book_file GET      /books/:book_id/files/:id(.:format)                                                               files#show
 #                                     book GET      /books/:id(.:format)                                                                              books#show
+#                                  authors GET      /authors(.:format)                                                                                authors#index
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
@@ -267,6 +268,8 @@ Rails.application.routes.draw do
       resources :pages, only: :show
     end
   end
+
+  resources :authors, only: :index
 
   authenticate :user, ->(user) { user.admin? } do
     mount_avo

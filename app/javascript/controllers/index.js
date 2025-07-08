@@ -55,8 +55,11 @@ application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 import SyncValueController from "./sync_value_controller"
 application.register("sync-value", SyncValueController)
 
-import TopControlsController from "./top_controls_controller"
-application.register("top-controls", TopControlsController)
-
 import TextRotationController from "./text_rotation_controller"
 application.register("text-rotation", TextRotationController)
+
+import TomSelectController from "./tom_select_controller"
+application.register("tom-select", TomSelectController)
+
+import TopControlsController from "./top_controls_controller"
+application.register("top-controls", TopControlsController)

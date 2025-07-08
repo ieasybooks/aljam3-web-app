@@ -8,6 +8,9 @@
 
 @import "tw-animate-css";
 
+@import "tom-select/dist/css/tom-select.css";
+@import "./tom_select.css";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

@@ -52,13 +52,16 @@ en:
     read_more: Read more
     show_page: Show Page
   search_refinements_sheet:
+    all_authors: All Authors
     all_categories: All Categories
     all_libraries: All Libraries (63.5K books)
+    author: Author
     books: books
     category: Category
     category_placeholder: Select a category
     library: Library
     library_placeholder: Select a library
+    no_results: No results found
     search_scope: Search Scope
     search_scope_content: Content Only
     search_scope_placeholder: Select a scope

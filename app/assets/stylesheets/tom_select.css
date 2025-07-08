@@ -1,0 +1,15 @@
+.ts-control {
+  @apply flex! items-center! h-full! px-3! py-1! text-sm! bg-transparent! text-foreground! border! border-input! outline-none! cursor-default! focus:outline-none! focus:ring-1! focus:ring-ring!;
+}
+
+.ts-dropdown {
+  @apply rounded-md! w-full! p-1! overflow-auto! text-wrap! bg-background! text-foreground! border! border-border! shadow-md!;
+}
+
+.dropdown-input {
+  @apply mb-1.5! h-9! w-full! px-3! py-1! text-base! rounded-sm! bg-background! text-foreground! border! border-border! shadow-sm! transition-colors! focus-visible:outline-none! focus-visible:ring-1! focus-visible:ring-ring!;
+}
+
+.ts-wrapper.dropdown-top .ts-dropdown {
+  @apply bottom-full! top-auto!;
+}

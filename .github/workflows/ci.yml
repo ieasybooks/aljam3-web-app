@@ -107,6 +107,11 @@ jobs:
         ports:
           - "7701:7700"
 
+      redis:
+        image: valkey/valkey:8.1
+        ports:
+          - "6380:6379"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

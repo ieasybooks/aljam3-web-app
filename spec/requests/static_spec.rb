@@ -7,11 +7,23 @@ RSpec.describe "Static" do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
-  let(:mock_categories) { [ [ "Fiction", 1 ], [ "Non-Fiction", 2 ], [ "Science", 3 ] ] }
+  let(:mock_carousels_books_ids) do
+    {
+      faith:    [ mock_book.id ],
+      quran:    [ mock_book.id ],
+      hadith:   [ mock_book.id ],
+      fiqh:     [ mock_book.id ],
+      history:  [ mock_book.id ],
+      language: [ mock_book.id ],
+      other:    [ mock_book.id ]
+    }
+  end
+
   let(:mock_libraries) { [ [ 1, "Main Library" ], [ 2, "Branch Library" ], [ 3, "Digital Library" ] ] }
+  let(:mock_categories) { [ [ 1, "Fiction", 1 ], [ 2, "Non-Fiction", 2 ], [ 3, "Science", 3 ] ] }
 
   before do
-    allow(Rails.cache).to receive(:fetch).with("carousel_books_ids", expires_in: 1.minute).and_return([ mock_book.id ])
+    allow(Rails.cache).to receive(:fetch).with("carousels_books_ids", expires_in: 1.hour).and_return(mock_carousels_books_ids)
     allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.week).and_return(mock_categories)
     allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.week).and_return(mock_libraries)
     allow(Book).to receive(:where).with(id: [ mock_book.id ]).and_return([ mock_book ])
@@ -34,17 +46,17 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: nil,
             pagy: nil,
-            carousel_books_ids: [ mock_book.id ],
-            categories: mock_categories,
-            libraries: mock_libraries
+            carousels_books_ids: mock_carousels_books_ids,
+            libraries: mock_libraries,
+            categories: mock_categories
           )
         end
       end
 
       context "with no carousel books in cache" do
         before do
-          allow(Rails.cache).to receive(:fetch).with("carousel_books_ids", expires_in: 1.minute).and_yield.and_return([ mock_book.id ])
-          allow(Book).to receive(:where).with(id: nil).and_return(Book.none)
+          allow(Rails.cache).to receive(:fetch).with("carousels_books_ids", expires_in: 1.hour).and_yield.and_return(mock_carousels_books_ids)
+          allow(Book).to receive(:where).and_return(Book.none)
           allow(Book).to receive(:order).with("RANDOM()").and_return(double(limit: double(pluck: [ mock_book.id ]))) # rubocop:disable RSpec/VerifiedDoubles
         end
 
@@ -62,9 +74,9 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: nil,
             pagy: nil,
-            carousel_books_ids: [ mock_book.id ],
-            categories: mock_categories,
-            libraries: mock_libraries
+            carousels_books_ids: mock_carousels_books_ids,
+            libraries: mock_libraries,
+            categories: mock_categories
           )
         end
       end
@@ -83,9 +95,9 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: nil,
             pagy: nil,
-            carousel_books_ids: [ mock_book.id ],
-            categories: mock_categories,
-            libraries: mock_libraries
+            carousels_books_ids: mock_carousels_books_ids,
+            libraries: mock_libraries,
+            categories: mock_categories
           )
         end
       end
@@ -104,9 +116,9 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: nil,
             pagy: nil,
-            carousel_books_ids: [ mock_book.id ],
-            categories: mock_categories,
-            libraries: mock_libraries
+            carousels_books_ids: mock_carousels_books_ids,
+            libraries: mock_libraries,
+            categories: mock_categories
           )
         end
       end
@@ -170,9 +182,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_federated_results,
           pagy: nil,
-          carousel_books_ids: [ mock_book.id ],
-          categories: mock_categories,
-          libraries: mock_libraries
+          carousels_books_ids: mock_carousels_books_ids,
+          libraries: mock_libraries,
+          categories: mock_categories
         )
       end
 
@@ -228,6 +240,32 @@ RSpec.describe "Static" do
         end
       end
 
+      context "with author filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        it "includes author filter in search" do
+          get "/", params: params.merge(refinements: params[:refinements].merge(author: "John Doe"))
+
+          expect(Meilisearch::Rails).to have_received(:federated_search).with(
+            queries: {
+              Book => {
+                q: "test query",
+                filter: "author = \"John Doe\"",
+                attributes_to_highlight: %i[title],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
+              Page => {
+                q: "test query",
+                filter: "author = \"John Doe\"",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              }
+            },
+            federation: { offset: 0 }
+          )
+        end
+      end
+
       context "with both library and category filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes both filters in search" do
           get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
@@ -244,6 +282,32 @@ RSpec.describe "Static" do
               Page => {
                 q: "test query",
                 filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              }
+            },
+            federation: { offset: 0 }
+          )
+        end
+      end
+
+      context "with library, category, and author filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        it "includes all filters in search" do
+          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction", author: "John Doe"))
+
+          expect(Meilisearch::Rails).to have_received(:federated_search).with(
+            queries: {
+              Book => {
+                q: "test query",
+                filter: "library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+                attributes_to_highlight: %i[title],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
+              Page => {
+                q: "test query",
+                filter: "library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -331,19 +395,19 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_search_results,
           pagy: mock_pagy,
-          carousel_books_ids: [ mock_book.id ],
-          categories: mock_categories,
-          libraries: mock_libraries
+          carousels_books_ids: mock_carousels_books_ids,
+          libraries: mock_libraries,
+          categories: mock_categories
         )
       end
 
       context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes filters in book search" do
-          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
+          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction", author: "John Doe"))
 
           expect(Book).to have_received(:pagy_search).with(
             "test query",
-            filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
+            filter: "library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )
@@ -401,19 +465,19 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_search_results,
           pagy: mock_pagy,
-          carousel_books_ids: [ mock_book.id ],
-          categories: mock_categories,
-          libraries: mock_libraries
+          carousels_books_ids: mock_carousels_books_ids,
+          libraries: mock_libraries,
+          categories: mock_categories
         )
       end
 
       context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes filters in page search" do
-          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
+          get "/", params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction", author: "John Doe"))
 
           expect(Page).to have_received(:pagy_search).with(
             "test query",
-            filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
+            filter: "library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )
@@ -462,9 +526,9 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: mock_search_results,
             pagy: mock_pagy,
-            carousel_books_ids: [ mock_book.id ],
-            categories: mock_categories,
-            libraries: mock_libraries
+            carousels_books_ids: mock_carousels_books_ids,
+            libraries: mock_libraries,
+            categories: mock_categories
           )
         end
 
@@ -476,9 +540,9 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: mock_search_results,
             pagy: mock_pagy,
-            carousel_books_ids: [ mock_book.id ],
-            categories: mock_categories,
-            libraries: mock_libraries
+            carousels_books_ids: mock_carousels_books_ids,
+            libraries: mock_libraries,
+            categories: mock_categories
           )
         end
       end
@@ -494,7 +558,7 @@ RSpec.describe "Static" do
             pagy: mock_pagy
           )
 
-          expect(Rails.cache).not_to have_received(:fetch).with("carousel_books_ids", expires_in: 1.minute)
+          expect(Rails.cache).not_to have_received(:fetch).with("carousels_books_ids", expires_in: 1.hour)
           expect(Rails.cache).not_to have_received(:fetch).with("categories", expires_in: 1.week)
           expect(Rails.cache).not_to have_received(:fetch).with("libraries", expires_in: 1.week)
         end
@@ -539,9 +603,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
-          carousel_books_ids: [ mock_book.id ],
-          categories: mock_categories,
-          libraries: mock_libraries
+          carousels_books_ids: mock_carousels_books_ids,
+          libraries: mock_libraries,
+          categories: mock_categories
         )
       end
 
@@ -558,6 +622,17 @@ RSpec.describe "Static" do
 
       it "handles empty category filter" do
         get "/", params: params.merge(refinements: { search_scope: "title", category: "" })
+
+        expect(Book).to have_received(:pagy_search).with(
+          "test query",
+          filter: nil,
+          highlight_pre_tag: "<mark>",
+          highlight_post_tag: "</mark>"
+        )
+      end
+
+      it "handles empty author filter" do
+        get "/", params: params.merge(refinements: { search_scope: "title", author: "" })
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -588,6 +663,17 @@ RSpec.describe "Static" do
           highlight_post_tag: "</mark>"
         )
       end
+
+      it "ignores all-authors value" do
+        get "/", params: params.merge(refinements: { search_scope: "title", author: "all-authors" })
+
+        expect(Book).to have_received(:pagy_search).with(
+          "test query",
+          filter: nil,
+          highlight_pre_tag: "<mark>",
+          highlight_post_tag: "</mark>"
+        )
+      end
     end
 
     context "with search scope edge cases" do # rubocop:disable RSpec/MultipleMemoizedHelpers
@@ -603,9 +689,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
-          carousel_books_ids: [ mock_book.id ],
-          categories: mock_categories,
-          libraries: mock_libraries
+          carousels_books_ids: mock_carousels_books_ids,
+          libraries: mock_libraries,
+          categories: mock_categories
         )
       end
 
@@ -615,9 +701,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
-          carousel_books_ids: [ mock_book.id ],
-          categories: mock_categories,
-          libraries: mock_libraries
+          carousels_books_ids: mock_carousels_books_ids,
+          libraries: mock_libraries,
+          categories: mock_categories
         )
       end
     end
