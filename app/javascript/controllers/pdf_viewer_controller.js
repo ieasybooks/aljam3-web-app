@@ -32,12 +32,32 @@ export default class extends Controller {
 
   #registerPageChangingEvent() {
     if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus) {
+      this.hideNonFunctionalButtons()
+
       this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
         this.currentPageValue = event.pageNumber
       })
     } else {
       setTimeout(() => this.#registerPageChangingEvent(), 100)
     }
+  }
+
+  hideNonFunctionalButtons() {
+    this.iframeTarget.contentWindow.document.querySelector("#viewFind").classList.add("hidden")
+
+    this.iframeTarget.contentWindow.document.querySelector("#viewAttachments").classList.add("hidden")
+    this.iframeTarget.contentWindow.document.querySelector("#viewLayers").classList.add("hidden")
+
+    this.iframeTarget.contentWindow.document.querySelector("#secondaryOpenFile").classList.add("hidden")
+    this.iframeTarget.contentWindow.document.querySelector("#secondaryPrint").classList.add("hidden")
+
+    this.iframeTarget.contentWindow.document.querySelector("#viewBookmark").classList.add("hidden")
+
+    this.iframeTarget.contentWindow.document.querySelector("#cursorToolButtons").classList.add("hidden")
+    this.iframeTarget.contentWindow.document.querySelector("#cursorToolButtons + .horizontalToolbarSeparator").classList.add("hidden")
+
+    this.iframeTarget.contentWindow.document.querySelector("#scrollModeButtons").classList.add("hidden")
+    this.iframeTarget.contentWindow.document.querySelector("#scrollModeButtons + .horizontalToolbarSeparator").classList.add("hidden")
   }
 
   async #fetchPageContent() {
