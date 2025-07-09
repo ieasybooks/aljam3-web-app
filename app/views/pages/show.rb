@@ -94,7 +94,7 @@ class Views::Pages::Show < Views::Base
 
             Input(
               type: :text,
-              value: book_file_page_url(@book, @file, @page),
+              value: book_file_page_url(@book.id, @file.id, @page.number),
               class: "ltr:rounded-s-none rtl:rounded-s-none text-end",
               data: { clipboard_target: "source" },
               readonly: true

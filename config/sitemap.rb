@@ -35,6 +35,6 @@ SitemapGenerator::Sitemap.create do
         WHERE bf2.book_id = books.id
       )')
       .find_each do |book|
-        add book_file_page_path(book, book.first_page_file_id, book.first_page_number), lastmod: book.updated_at
+        add book_file_page_path(book.id, book.first_page_file_id, book.first_page_number), lastmod: book.updated_at
       end
 end

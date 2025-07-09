@@ -4,10 +4,10 @@ class BooksController < ApplicationController
   def show
     first_page = @book.pages.first
 
-    redirect_to book_file_page_path(@book, first_page.file, first_page.number)
+    redirect_to book_file_page_path(@book.id, first_page.file.id, first_page.number)
   end
 
   private
 
-  def set_book = @book = Book.find(params[:id])
+  def set_book = @book = Book.find(params[:book_id])
 end

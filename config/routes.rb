@@ -31,15 +31,15 @@
 #                          new_user_unlock GET      /users/unlock/new(.:format)                                                                       devise/unlocks#new
 #                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
 #                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
-#                           book_file_page GET      /books/:book_id/files/:file_id/pages/:id(.:format)                                                pages#show
-#                                book_file GET      /books/:book_id/files/:id(.:format)                                                               files#show
-#                                     book GET      /books/:id(.:format)                                                                              books#show
 #                                  authors GET      /authors(.:format)                                                                                authors#index
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
 #                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
 #                        rails_performance          /performance                                                                                      RailsPerformance::Engine
+#                           book_file_page GET      /:book_id/:file_id/:page_number(.:format)                                                         pages#show
+#                                book_file GET      /:book_id/:file_id(.:format)                                                                      files#show
+#                                     book GET      /:book_id(.:format)                                                                               books#show
 #         turbo_recede_historical_location GET      /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET      /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET      /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -263,12 +263,6 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :books, only: :show do
-    resources :files, only: :show do
-      resources :pages, only: :show
-    end
-  end
-
   resources :authors, only: :index
 
   authenticate :user, ->(user) { user.admin? } do
@@ -278,4 +272,8 @@ Rails.application.routes.draw do
     mount SolidErrors::Engine, at: "/solid_errors"
     mount RailsPerformance::Engine, at: "/performance"
   end
+
+  get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page
+  get "/:book_id/:file_id", to: "files#show", as: :book_file
+  get "/:book_id", to: "books#show", as: :book
 end

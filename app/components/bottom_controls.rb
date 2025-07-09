@@ -58,7 +58,7 @@ class Components::BottomControls < Components::Base
       DropdownMenuContent(class: "max-h-54 overflow-y-auto") do
         @files.each do |file|
           DropdownMenuItem(
-            href: book_file_path(@book, file),
+            href: book_file_path(@book.id, file.id),
             class: [
               "truncate w-full flex items-center justify-between",
               ("bg-accent text-accent-foreground" if file.id == @current_file.id)

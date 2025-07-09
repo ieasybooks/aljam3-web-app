@@ -5,9 +5,9 @@ RSpec.describe "Books" do
     let(:book) { create(:book, :with_files) }
 
     it "redirects to the first page" do
-      get book_path(book)
+      get book_path(book.id)
 
-      expect(response).to redirect_to(book_file_page_path(book, book.pages.first.file, book.pages.first.number))
+      expect(response).to redirect_to(book_file_page_path(book.id, book.pages.first.file.id, book.pages.first.number))
     end
   end
 end

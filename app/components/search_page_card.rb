@@ -15,7 +15,7 @@ class Components::SearchPageCard < Components::Base
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @page.file.book.category.name }
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do
-          a(href: book_file_page_path(@page.file.book, @page.file, @page.number), target: "_blank") do
+          a(href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number), target: "_blank") do
             @page.file.book.title
           end
         end
@@ -62,7 +62,7 @@ class Components::SearchPageCard < Components::Base
         end
 
         Link(
-          href: book_file_page_path(@page.file.book, @page.file, @page.number),
+          href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number),
           variant: :outline,
           size: :sm,
           target: "_blank"

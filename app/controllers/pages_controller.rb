@@ -10,5 +10,5 @@ class PagesController < ApplicationController
 
   private
 
-  def set_page = @page = Page.find_by(book_file_id: params[:file_id], number: params[:id])
+  def set_page = @page = Page.find_by(book_file_id: params[:file_id], number: params[:page_number])
 end

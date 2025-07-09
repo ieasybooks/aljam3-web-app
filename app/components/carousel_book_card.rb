@@ -9,7 +9,7 @@ class Components::CarouselBookCard < Components::Base
     Card() do
       CardHeader(class: "p-4") do
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
-        CardTitle(class: "line-clamp-1") { a(href: book_path(@book)) { @book.title } }
+        CardTitle(class: "line-clamp-1") { a(href: book_path(@book.id)) { @book.title } }
 
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
@@ -43,7 +43,7 @@ class Components::CarouselBookCard < Components::Base
           end
         end
 
-        Link(href: book_path(@book), variant: :outline, size: :sm, icon: true) do
+        Link(href: book_path(@book.id), variant: :outline, size: :sm, icon: true) do
           Hero::ArrowSmallRight(variant: :solid, class: "size-3.5 rtl:transform rtl:-scale-x-100")
         end
       end

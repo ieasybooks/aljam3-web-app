@@ -82,7 +82,7 @@ export default class extends Controller {
   }
 
   #newPagePath() {
-    return `/books/${this.bookIdValue}/files/${this.fileIdValue}/pages/${this.currentPageValue}`
+    return `/${this.bookIdValue}/${this.fileIdValue}/${this.currentPageValue}`
   }
 
   #cleanup() {
