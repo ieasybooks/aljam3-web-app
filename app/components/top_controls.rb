@@ -7,29 +7,121 @@ class Components::TopControls < Components::Base
 
   def view_template
     ControlsBar do |bar|
-      right_side_controls(bar)
       txt_indicator
 
-      div(class: "flex items-center gap-x-2") do
-        txt_content_only_button(bar)
-        txt_and_pdf_content_button(bar)
-        pdf_content_only_button(bar)
+      div(class: "w-full flex justify-between sm:justify-center items-center gap-x-2") do
+        right_side_controls(bar)
+
+        Separator(orientation: :vertical, class: "h-6 max-sm:hidden")
+
+        layout_controls(bar)
+
+        Separator(orientation: :vertical, class: "h-6 max-sm:hidden")
+
+        left_side_controls(bar)
       end
 
       pdf_indicator
-      left_side_controls(bar)
     end
   end
 
   private
 
+  def txt_indicator
+    div(class: "w-30 flex justify-start items-center ps-2 max-sm:hidden", data: { top_controls_target: "txtIndicator" }) do
+      Text(weight: "bold") { t(".book_txt") }
+    end
+  end
+
   def right_side_controls(bar)
     div(class: "max-sm:hidden flex items-center gap-x-2") do
+      search_button(bar)
       copy_text_button(bar)
-      text_size_increase_button(bar)
-      text_size_decrease_button(bar)
+      text_size_dropdown(bar)
     end
 
+    right_side_mobile_controls(bar)
+  end
+
+  def layout_controls(bar)
+    div(class: "flex items-center gap-x-2") do
+      txt_content_only_button(bar)
+      txt_and_pdf_content_button(bar)
+      pdf_content_only_button(bar)
+    end
+  end
+
+  def left_side_controls(bar)
+    div(class: "max-sm:hidden flex items-center gap-x-2") do
+      download_image_button(bar)
+      copy_image_button(bar)
+      download_files_button(bar)
+    end
+  end
+
+  def pdf_indicator
+    div(class: "w-30 flex justify-end items-center pe-2 max-sm:hidden", data: { top_controls_target: "pdfIndicator" }) do
+      Text(weight: "bold") { t(".book_pdf") }
+    end
+  end
+
+  def search_button(bar)
+    bar.tooltip(text: t(".search")) do
+      bar.button do
+        Hero::MagnifyingGlass(class: "size-5.5 ltr:transform ltr:-scale-x-100")
+      end
+    end
+  end
+
+  def copy_text_button(bar)
+    bar.tooltip(text: t(".copy_content")) do
+      bar.button(data: { action: "click->top-controls#copyText", top_controls_target: "copyTextButton" }) do
+        Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
+      end
+    end
+  end
+
+  def text_size_dropdown(bar)
+    DropdownMenu(options: { placement: rtl? ? "bottom-start" : "bottom-end" }) do
+      DropdownMenuTrigger do
+        bar.tooltip(text: t(".text_size")) do
+          bar.button do
+            Tabler::TextSize(variant: :outline, class: "size-5 rtl:transform rtl:-scale-x-100")
+          end
+        end
+      end
+
+      DropdownMenuContent(class: "w-40") do
+        DropdownMenuItem(
+          as: :button,
+          class: "w-full",
+          data_action!: "click->top-controls#textSizeIncrease",
+          data_top_controls_target: "textSizeIncreaseButton"
+        ) do
+          div(class: "flex items-center gap-x-2") do
+            Tabler::TextIncrease(variant: :outline, class: "size-5")
+
+            plain t(".text_size_increase")
+          end
+        end
+
+        DropdownMenuItem(
+          as: :button,
+          class: "w-full",
+          data_action!: "click->top-controls#textSizeDecrease",
+          data_top_controls_target: "textSizeDecreaseButton"
+        ) do
+          div(class: "flex items-center gap-x-2") do
+            Tabler::TextDecrease(variant: :outline, class: "size-5")
+
+            plain t(".text_size_decrease")
+          end
+        end
+      end
+    end
+  end
+
+  def right_side_mobile_controls(bar)
     div(class: "sm:hidden flex items-center gap-x-2") do
       DropdownMenu(options: { placement: rtl? ? "bottom-end" : "bottom-start" }) do
         DropdownMenuTrigger(class: "w-full") do
@@ -83,77 +175,35 @@ class Components::TopControls < Components::Base
     end
   end
 
-  def txt_indicator
-    div(class: "w-30 flex justify-center items-end gap-x-2 max-sm:hidden", data: { top_controls_target: "txtIndicator" }) do
-      Bootstrap::ArrowReturnLeft(class: "size-4 rotate-270")
-
-      Text(weight: "bold") { t(".book_txt") }
-    end
-  end
-
-  def pdf_indicator
-    div(class: "w-30 flex justify-center items-end gap-x-2 max-sm:hidden", data: { top_controls_target: "pdfIndicator" }) do
-      Text(weight: "bold") { t(".book_pdf") }
-
-      Bootstrap::ArrowReturnRight(class: "size-4 rotate-90")
-    end
-  end
-
-  def left_side_controls(bar)
-    div(class: "max-sm:hidden flex items-center gap-x-2") do
-      download_image_button(bar)
-      copy_image_button(bar)
-      download_files_button(bar)
-    end
-  end
-
-  def copy_text_button(bar)
-    bar.tooltip(text: t(".copy_content")) do
-      bar.button(data: { action: "click->top-controls#copyText", top_controls_target: "copyTextButton" }) do
-        Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
-      end
-    end
-  end
-
-  def text_size_increase_button(bar)
-    bar.tooltip(text: t(".text_size_increase")) do
-      bar.button(data: { action: "click->top-controls#textSizeIncrease", top_controls_target: "textSizeIncreaseButton" }) do
-        Tabler::TextIncrease(variant: :outline, class: "size-5")
-      end
-    end
-  end
-
-  def text_size_decrease_button(bar)
-    bar.tooltip(text: t(".text_size_decrease")) do
-      bar.button(data: { action: "click->top-controls#textSizeDecrease", top_controls_target: "textSizeDecreaseButton" }) do
-        Tabler::TextDecrease(variant: :outline, class: "size-5")
-      end
-    end
-  end
-
   def txt_content_only_button(bar)
-    bar.button(data: { action: "click->top-controls#txtContentOnly", top_controls_target: "txtContentOnlyButton" }) do
-      Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-6 ltr:transform ltr:-scale-x-100")
-      Bootstrap::FiletypeTxt(class: "max-sm:block sm:hidden size-5")
+    bar.tooltip(text: t(".txt_content_only")) do
+      bar.button(data: { action: "click->top-controls#txtContentOnly", top_controls_target: "txtContentOnlyButton" }) do
+        Tabler::LayoutSidebarRightExpand(variant: :outline, class: "max-sm:hidden sm:block size-6 ltr:transform ltr:-scale-x-100")
+        Bootstrap::FiletypeTxt(class: "max-sm:block sm:hidden size-5")
+      end
     end
   end
 
   def txt_and_pdf_content_button(bar)
-    bar.button(
-      class: "max-sm:hidden",
-      data: {
-        action: "click->top-controls#txtAndPdfContent",
-        top_controls_target: "txtAndPdfContentButton"
-      }
-    ) do
-      Tabler::LayoutColumns(variant: :outline, class: "size-6")
+    bar.tooltip(text: t(".txt_and_pdf_content")) do
+      bar.button(
+        class: "max-sm:hidden",
+        data: {
+          action: "click->top-controls#txtAndPdfContent",
+          top_controls_target: "txtAndPdfContentButton"
+        }
+      ) do
+        Tabler::LayoutColumns(variant: :outline, class: "size-6")
+      end
     end
   end
 
   def pdf_content_only_button(bar)
-    bar.button(data: { action: "click->top-controls#pdfContentOnly", top_controls_target: "pdfContentOnlyButton" }) do
-      Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-6 ltr:transform ltr:-scale-x-100")
-      Bootstrap::FiletypePdf(class: "max-sm:block sm:hidden size-5")
+    bar.tooltip(text: t(".pdf_content_only")) do
+      bar.button(data: { action: "click->top-controls#pdfContentOnly", top_controls_target: "pdfContentOnlyButton" }) do
+        Tabler::LayoutSidebarRightCollapse(variant: :outline, class: "max-sm:hidden sm:block size-6 ltr:transform ltr:-scale-x-100")
+        Bootstrap::FiletypePdf(class: "max-sm:block sm:hidden size-5")
+      end
     end
   end
 

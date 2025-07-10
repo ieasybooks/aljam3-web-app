@@ -123,6 +123,11 @@ en:
     download_files: Download Files
     download_image: Download Image
     file_name: File Name
+    pdf_content_only: PDF Content Only
+    search: Search
+    text_size: Text Size
     text_size_decrease: Decrease Text Size
     text_size_increase: Increase Text Size
+    txt_and_pdf_content: Text and PDF Content
+    txt_content_only: Text Content Only
   volumes: Volumes

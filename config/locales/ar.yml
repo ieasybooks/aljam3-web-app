@@ -121,6 +121,11 @@ ar:
     download_files: تحميل الملفات
     download_image: تحميل الصورة
     file_name: اسم الملف
+    pdf_content_only: الكتاب المُصوّر فقط
+    search: البحث
+    text_size: حجم الخط
     text_size_decrease: تصغير حجم الخط
     text_size_increase: تكبير حجم الخط
+    txt_and_pdf_content: نص الكتاب والكتاب المُصوّر
+    txt_content_only: نص الكتاب فقط
   volumes: المجلدات
