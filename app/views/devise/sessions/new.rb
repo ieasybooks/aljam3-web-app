@@ -42,7 +42,7 @@ class Views::Devise::Sessions::New < Views::Base
 
             div(class: "flex items-center justify-between mt-3") do
               div(class: "flex items-center space-x-2") do
-                Checkbox(id: "user_remember_me", name: "user[remember_me]", checked: params.dig(:user, :remember_me) == "on")
+                Checkbox(id: "user_remember_me", name: "user[remember_me]", value: "1", checked: params.dig(:user, :remember_me) == "1")
 
                 label(
                   for: "user_remember_me",
