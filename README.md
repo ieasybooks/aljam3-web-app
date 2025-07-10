@@ -7,8 +7,11 @@
 <ol dir="rtl">
   <li>ثبّت <code>Docker</code> حسب نظام تشغيلك من خلال <a href="https://docs.docker.com/engine/install/">هذا</a> الرابط.</li>
   <li>ثبّت <code>Mise</code> حسب نظام تشغيلك من خلال <a href="https://mise.jdx.dev/installing-mise.html">هذا</a> الرابط.</li>
-  <li>ثبّت مكتبة <code>libpq</code> حسب نظام تشغيلك. على سبيل المثال، نفّذ هذا الأمر إذا كنت تستخدم نظام MacOS:</li>
 
+  <li>ثبّت مكتبة <code>gpg</code> حسب نظام تشغيلك. على سبيل المثال، نفّذ هذا الأمر إذا كنت تستخدم نظام MacOS:</li>
+  <pre dir="ltr">brew install gnupg</pre>
+
+  <li>ثبّت مكتبة <code>libpq</code> حسب نظام تشغيلك. على سبيل المثال، نفّذ هذا الأمر إذا كنت تستخدم نظام MacOS:</li>
   <pre dir="ltr">brew install libpq</pre>
 
   <li>أضِف مكتبة <code>libpq</code> إلى متغير <code>PATH</code> حسب نظام تشغيلك باتباع التعليمات الموضّحة بعد تثبيت المكتبة. على سبيل المثال، نفّذ هذا الأمر إذا كنت تستخدم نظام MacOS مع <code>Zsh</code>:</li>
@@ -35,6 +38,7 @@
 <ul>
   <li><a href="https://docker.com">Docker</a></li>
   <li><a href="https://mise.jdx.dev">Mise</a></li>
+  <li><a href="https://www.gnupg.org">gnupg</a></li>
   <li><a href="https://postgresql.org/docs/current/libpq.html">libpq</a></li>
   <li><a href="https://ruby-lang.org">Ruby</a> (3.4.4)</li>
   <li><a href="https://rubyonrails.org">Rails</a> (8.0.2)</li>
