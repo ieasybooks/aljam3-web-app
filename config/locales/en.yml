@@ -9,6 +9,8 @@ en:
         topic: Topic
   aljam3: Aljam3
   apply: Apply
+  book_search_form:
+    search_input_placeholder: Search in the book content
   bottom_controls:
     book_files: Book Files
     first_page: First Page

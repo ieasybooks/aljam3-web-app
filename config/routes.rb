@@ -7,7 +7,6 @@
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
 #                                     root GET      /                                                                                                 static#home
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
-#                                 contacts POST     /contacts(.:format)                                                                               contacts#create
 #                         new_user_session GET      /users/sign_in(.:format)                                                                          devise/sessions#new
 #                             user_session POST     /users/sign_in(.:format)                                                                          devise/sessions#create
 #                     destroy_user_session DELETE   /users/sign_out(.:format)                                                                         devise/sessions#destroy
@@ -31,7 +30,9 @@
 #                          new_user_unlock GET      /users/unlock/new(.:format)                                                                       devise/unlocks#new
 #                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
 #                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
+#                                 contacts POST     /contacts(.:format)                                                                               contacts#create
 #                                  authors GET      /authors(.:format)                                                                                authors#index
+#                              book_search GET      /books/:book_id/search(.:format)                                                                  books#search
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
@@ -259,11 +260,14 @@ Rails.application.routes.draw do
 
   get "pdfjs", to: "pdfjs#index"
 
-  resources :contacts, only: %i[create]
-
   devise_for :users
 
+  resources :contacts, only: %i[create]
   resources :authors, only: :index
+
+  resources :books, only: [] do
+    get :search
+  end
 
   authenticate :user, ->(user) { user.admin? } do
     mount_avo

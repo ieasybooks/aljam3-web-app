@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Components::TopControls < Components::Base
-  def initialize(files:)
+  def initialize(book:, files:)
+    @book = book
     @files = files
   end
 
@@ -66,9 +67,11 @@ class Components::TopControls < Components::Base
   end
 
   def search_button(bar)
-    bar.tooltip(text: t(".search")) do
-      bar.button do
-        Hero::MagnifyingGlass(class: "size-5.5 ltr:transform ltr:-scale-x-100")
+    search_dialog do
+      bar.tooltip(text: t(".search")) do
+        bar.button do
+          Hero::MagnifyingGlass(class: "size-5.5 ltr:transform ltr:-scale-x-100")
+        end
       end
     end
   end
@@ -228,6 +231,26 @@ class Components::TopControls < Components::Base
       bar.tooltip(text: t(".download_files")) do
         bar.button do
           Lucide::Download(class: "size-5")
+        end
+      end
+    end
+  end
+
+  def search_dialog(&)
+    Dialog do
+      DialogTrigger do
+        yield
+      end
+
+      DialogContent(size: :xl, class: "p-4") do
+        DialogHeader do
+          DialogTitle { t(".search") }
+        end
+
+        DialogMiddle(class: "py-0") do
+          BookSearchForm(book: @book)
+
+          turbo_frame_tag :results_list
         end
       end
     end

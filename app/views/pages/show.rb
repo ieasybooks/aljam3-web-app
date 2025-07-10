@@ -142,7 +142,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def content
-    TopControls(files: @files)
+    TopControls(book: @book, files: @files)
 
     div(class: "flex-1 flex justify-center gap-2 sm:gap-4 min-h-0") do
       txt_content

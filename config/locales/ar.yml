@@ -9,6 +9,8 @@ ar:
         topic: الموضوع
   aljam3: الجامع
   apply: تطبيق
+  book_search_form:
+    search_input_placeholder: ابحث في محتوى الكتاب
   bottom_controls:
     book_files: ملفات الكتاب
     first_page: الصفحة الأولى
