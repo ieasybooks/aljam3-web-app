@@ -57,27 +57,29 @@ class Components::SearchRefinementsSheet < Components::Base
   end
 
   def sheet
-    Sheet do
-      SheetTrigger do
-        Button(variant: :outline, size: :xl, icon: true) do
-          Bootstrap::Sliders(class: "size-5.5")
-        end
-      end
-
-      SheetContent(side: browser.device.mobile? ? :bottom : side, with_close_button: false, class: "w-[350px] max-sm:w-full") do
-        SheetHeader do
-          SheetTitle { t(".title") }
+    cache expires_in: 1.week do
+      Sheet do
+        SheetTrigger do
+          Button(variant: :outline, size: :xl, icon: true) do
+            Bootstrap::Sliders(class: "size-5.5")
+          end
         end
 
-        SheetMiddle(class: "space-y-2") do
-          search_scopes_select
-          libraries_select
-          categories_select
-          authors_select
-        end
+        SheetContent(side: browser.device.mobile? ? :bottom : side, with_close_button: false, class: "w-[350px] max-sm:w-full") do
+          SheetHeader do
+            SheetTitle { t(".title") }
+          end
 
-        SheetFooter do
-          Button(variant: :outline, data: { action: "click->ruby-ui--sheet-content#close" }) { t("apply") }
+          SheetMiddle(class: "space-y-2") do
+            search_scopes_select
+            libraries_select
+            categories_select
+            authors_select
+          end
+
+          SheetFooter do
+            Button(variant: :outline, data: { action: "click->ruby-ui--sheet-content#close" }) { t("apply") }
+          end
         end
       end
     end
@@ -138,7 +140,7 @@ class Components::SearchRefinementsSheet < Components::Base
           SelectGroup do
             SelectItem(value: "all-libraries", aria_selected!: "true") { t(".all_libraries") }
 
-            @libraries.each do |id, name|
+            @libraries.call.each do |id, name|
               SelectItem(value: id) { t(".#{name}") }
             end
           end
@@ -170,7 +172,7 @@ class Components::SearchRefinementsSheet < Components::Base
           SelectGroup do
             SelectItem(value: "all-categories", aria_selected!: "true") { t(".all_categories") }
 
-            @categories.each do |id, name, count|
+            @categories.call.each do |id, name, count|
               SelectItem(value: id) { "#{name} (#{number_with_delimiter(count)} #{t(".books")})" }
             end
           end

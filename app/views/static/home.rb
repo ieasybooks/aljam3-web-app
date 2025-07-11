@@ -67,14 +67,14 @@ class Views::Static::Home < Views::Base
   end
 
   def carousels
-    div(class: "py-16 sm:py-20 flex items-center") do
-      div(class: "flex-1 border-t border-border")
-      Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".discover_books") }
-      div(class: "flex-1 border-t border-border")
-    end
+    cache expires_in: 1.hour do
+      div(class: "py-16 sm:py-20 flex items-center") do
+        div(class: "flex-1 border-t border-border")
+        Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".discover_books") }
+        div(class: "flex-1 border-t border-border")
+      end
 
-    low_level_cache("books_carousels", expires_in: 1.hour) do
-      @carousels_books_ids.each do |carousel_name, books_ids|
+      @carousels_books_ids.call.each do |carousel_name, books_ids|
         Heading(level: 2, class: "my-4 mb-5") { t(".#{carousel_name}") }
 
         Carousel(class: "sm:border-r sm:border-l max-sm:mx-10 mb-10", options: { direction: }) do

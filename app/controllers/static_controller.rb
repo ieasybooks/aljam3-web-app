@@ -71,7 +71,7 @@ class StaticController < ApplicationController
   end
 
   def carousels_books_ids
-    Rails.cache.fetch("carousels_books_ids", expires_in: 1.hour) do
+    proc do
       {
         faith:    Book.where(category_id: CATEGORY_IDS[:faith]).order("RANDOM()").limit(10).pluck(:id),
         quran:    Book.where(category_id: CATEGORY_IDS[:quran]).order("RANDOM()").limit(10).pluck(:id),
@@ -84,15 +84,6 @@ class StaticController < ApplicationController
     end
   end
 
-  def libraries
-    Rails.cache.fetch("libraries", expires_in: 1.week) do
-      Library.all.order(:id).pluck(:id, :name)
-    end
-  end
-
-  def categories
-    Rails.cache.fetch("categories", expires_in: 1.week) do
-      Category.order(:name).pluck(:id, :name, :books_count)
-    end
-  end
+  def libraries = proc { Library.all.order(:id).pluck(:id, :name) }
+  def categories = proc { Category.order(:name).pluck(:id, :name, :books_count) }
 end
