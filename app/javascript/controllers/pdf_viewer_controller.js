@@ -4,12 +4,13 @@ import { get } from "@rails/request.js"
 
 // Connects to data-controller="pdf-viewer"
 export default class extends Controller {
-  static targets = [ "iframe", "content" ]
+  static targets = [ "iframe", "content", "progress" ]
   static values = {
     bookId: Number,
     fileId: Number,
     currentPage: Number,
     skeleton: String,
+    totalPages: Number,
   }
 
   connect() {
@@ -27,13 +28,15 @@ export default class extends Controller {
     this.#cleanup()
 
     this.debounceTimeout = setTimeout(() => {
+      this.progressTarget.style.width = `${(this.currentPageValue / this.totalPagesValue) * 100}%`
+
       this.#fetchPageContent()
     }, 100)
   }
 
   #registerPageChangingEvent() {
     if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus) {
-      this.hideNonFunctionalButtons()
+      this.#hideNonFunctionalButtons()
 
       this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
         this.currentPageValue = event.pageNumber
@@ -43,7 +46,7 @@ export default class extends Controller {
     }
   }
 
-  hideNonFunctionalButtons() {
+  #hideNonFunctionalButtons() {
     this.iframeTarget.contentWindow.document.querySelector("#viewFind").classList.add("hidden")
 
     this.iframeTarget.contentWindow.document.querySelector("#viewAttachments").classList.add("hidden")
