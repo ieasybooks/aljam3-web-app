@@ -18,7 +18,8 @@ class Components::SearchBookResultsList < Components::Base
             turbo_frame_tag :next_page, src: book_search_path(
               @book,
               query: params[:query],
-              page: @pagy.next
+              page: @pagy.next,
+              search_query: @search_query.id
             ), loading: :lazy
           end
         end

@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book
-  before_action :set_search_query, only: :show
+  before_action :set_search_query
 
   def show
     if @search_query.present? && request.headers["X-Sec-Purpose"] != "prefetch"
@@ -20,13 +20,17 @@ class BooksController < ApplicationController
       highlight_post_tag: "</mark>"
     ))
 
+    if results.present? && @search_query.blank? && request.headers["X-Sec-Purpose"] != "prefetch"
+      @search_query = SearchQuery.create(query: params[:query], refinements: { book: @book.id }, user: current_user)
+    end
+
     render turbo_stream: turbo_stream.replace(
       params[:page].blank? ? "results_list" : "results_list_#{params[:page]}",
       Components::SearchBookResultsList.new(
         book: @book,
         results:,
         pagy:,
-        search_query: SearchQuery.create(query: params[:query], refinements: { book: @book.id }, user: current_user)
+        search_query: @search_query
       )
     )
   end

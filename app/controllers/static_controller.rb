@@ -9,26 +9,34 @@ class StaticController < ApplicationController
     other: [ 6, 7, 8, 10, 11, 12, 13, 19, 23, 25, 27, 28, 29, 30, 32, 33, 41, 42, 45, 48, 49, 50, 60, 61, 64, 65, 66, 70, 71, 72, 75, 82, 83, 84, 85, 86, 89, 92, 93, 94, 95, 96, 97, 98, 99, 103 ]
   }
 
+  before_action :set_search_query
+
   def home
     pagy, results = search
 
-    search_query = nil
-
-    if results.present? && request.headers["X-Sec-Purpose"] != "prefetch"
-      search_query = SearchQuery.create(query: params[:query], refinements: params.dig(:refinements), user: current_user)
+    if results.present? && @search_query.blank? && request.headers["X-Sec-Purpose"] != "prefetch"
+      @search_query = SearchQuery.create(query: params[:query], refinements: params.dig(:refinements), user: current_user)
     end
 
     if params[:page].presence.to_i > 1
       render turbo_stream: turbo_stream.replace(
         "results_list_#{params[:page]}",
-        Components::SearchResultsList.new(results:, pagy:, search_query:)
+        Components::SearchResultsList.new(results:, pagy:, search_query: @search_query)
       )
     else
-      render Views::Static::Home.new(results:, pagy:, search_query:, carousels_books_ids:, libraries:, categories:)
+      render Views::Static::Home.new(results:, pagy:, search_query: @search_query, carousels_books_ids:, libraries:, categories:)
     end
   end
 
   private
+
+  def set_search_query
+    @search_query = nil
+
+    if params[:search_query].present? && request.headers["X-Sec-Purpose"] != "prefetch"
+      @search_query = SearchQuery.find(params[:search_query])
+    end
+  end
 
   def search
     query = params[:query]

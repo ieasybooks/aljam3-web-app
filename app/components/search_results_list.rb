@@ -31,7 +31,8 @@ class Components::SearchResultsList < Components::Base
                 library: params.dig(:refinements, :library),
                 category: params.dig(:refinements, :category)
               },
-              page: next_page
+              page: next_page,
+              search_query: @search_query.id
             ), loading: :lazy
           end
         end
