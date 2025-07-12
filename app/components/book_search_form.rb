@@ -15,7 +15,9 @@ class Components::BookSearchForm < Components::Base
             value: params[:query],
             class: "h-12 px-4 ps-11 text-base",
             placeholder: t(".search_input_placeholder"),
-            required: true
+            required: true,
+            minlength: 3,
+            maxlength: 255
           )
 
           FormFieldError(class: "mt-2") { }
