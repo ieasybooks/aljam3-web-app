@@ -45,7 +45,7 @@ class Components::TopControls < Components::Base
   end
 
   def layout_controls(bar)
-    div(class: "flex items-center gap-x-2") do
+    div(class: "flex items-center gap-x-1 sm:gap-x-2") do
       txt_content_only_button(bar)
       txt_and_pdf_content_button(bar)
       pdf_content_only_button(bar)
@@ -132,40 +132,50 @@ class Components::TopControls < Components::Base
         end
 
         DropdownMenuContent(class: "w-40") do
-          DropdownMenuItem(as: :button, data_action: "click->top-controls#copyText") do
-            div(class: "flex items-center gap-x-2") do
+          search_dialog do
+            DropdownMenuItem(as: :button, class: "w-full") do
+              div(class: "w-full flex items-center gap-x-2") do
+                Hero::MagnifyingGlass(class: "size-5 ltr:transform ltr:-scale-x-100")
+
+                plain t(".search")
+              end
+            end
+          end
+
+          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#copyText") do
+            div(class: "w-full flex items-center gap-x-2") do
               Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
 
               plain t(".copy_content")
             end
           end
 
-          DropdownMenuItem(as: :button, data_action: "click->top-controls#textSizeIncrease") do
-            div(class: "flex items-center gap-x-2") do
+          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#textSizeIncrease") do
+            div(class: "w-full flex items-center gap-x-2") do
               Tabler::TextIncrease(variant: :outline, class: "size-5")
 
               plain t(".text_size_increase")
             end
           end
 
-          DropdownMenuItem(as: :button, data_action: "click->top-controls#textSizeDecrease") do
-            div(class: "flex items-center gap-x-2") do
+          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#textSizeDecrease") do
+            div(class: "w-full flex items-center gap-x-2") do
               Tabler::TextDecrease(variant: :outline, class: "size-5")
 
               plain t(".text_size_decrease")
             end
           end
 
-          DropdownMenuItem(as: :button, data_action: "click->top-controls#downloadImage") do
-            div(class: "flex items-center gap-x-2") do
+          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#downloadImage") do
+            div(class: "w-full flex items-center gap-x-2") do
               Lucide::ImageDown(class: "size-5 ltr:transform ltr:-scale-x-100")
 
               plain t(".download_image")
             end
           end
 
-          DropdownMenuItem(as: :button, class: "max-sm:hidden", data_action: "click->top-controls#copyImage") do
-            div(class: "flex items-center gap-x-2") do
+          DropdownMenuItem(as: :button, class: "w-full max-sm:hidden", data_action: "click->top-controls#copyImage") do
+            div(class: "w-full flex items-center gap-x-2") do
               Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
 
               plain t(".copy_image")
@@ -238,7 +248,7 @@ class Components::TopControls < Components::Base
 
   def search_dialog(&)
     Dialog do
-      DialogTrigger do
+      DialogTrigger(class: "w-full") do
         yield
       end
 
