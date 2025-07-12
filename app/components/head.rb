@@ -58,7 +58,12 @@ class Components::Head < Components::Base
         ))
       end
 
-      raw cloudflare_turnstile_script_tag
+      # raw cloudflare_turnstile_script_tag
+      # ^ Renders the below script tag with `data_turbo_temporary: true`, which causes full page reloads.
+      script src: "https://challenges.cloudflare.com/turnstile/v0/api.js",
+             async: true,
+             defer: true,
+             data_turbo_track: "reload"
     end
   end
 
