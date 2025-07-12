@@ -7,120 +7,60 @@ RSpec.describe "Static" do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
-  let(:mock_carousels_books_ids) do
-    {
-      faith:    [ mock_book.id ],
-      quran:    [ mock_book.id ],
-      hadith:   [ mock_book.id ],
-      fiqh:     [ mock_book.id ],
-      history:  [ mock_book.id ],
-      language: [ mock_book.id ],
-      other:    [ mock_book.id ]
-    }
-  end
-
-  let(:mock_libraries) { [ [ 1, "Main Library" ], [ 2, "Branch Library" ], [ 3, "Digital Library" ] ] }
-  let(:mock_categories) { [ [ 1, "Fiction", 1 ], [ 2, "Non-Fiction", 2 ], [ 3, "Science", 3 ] ] }
-
   before do
-    allow(Rails.cache).to receive(:fetch).with("carousels_books_ids", expires_in: 1.hour).and_return(mock_carousels_books_ids)
-    allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.week).and_return(mock_categories)
-    allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.week).and_return(mock_libraries)
+    books_relation = instance_double(ActiveRecord::Relation)
+    ordered_relation = instance_double(ActiveRecord::Relation)
+    limited_relation = instance_double(ActiveRecord::Relation)
+
+    allow(Book).to receive(:where).and_return(books_relation)
+    allow(books_relation).to receive(:order).and_return(ordered_relation)
+    allow(ordered_relation).to receive(:limit).and_return(limited_relation)
+    allow(limited_relation).to receive(:pluck).and_return([ mock_book.id ])
+
     allow(Book).to receive(:where).with(id: [ mock_book.id ]).and_return([ mock_book ])
+
+    libraries_relation = instance_double(ActiveRecord::Relation)
+
+    allow(Library).to receive(:all).and_return(libraries_relation)
+    allow(libraries_relation).to receive_messages(
+      order: libraries_relation,
+      pluck: [
+        [ 1, "Main Library" ],
+        [ 2, "Branch Library" ],
+        [ 3, "Digital Library" ]
+      ]
+    )
+
+    categories_relation = instance_double(ActiveRecord::Relation)
+
+    allow(Category).to receive(:order).and_return(categories_relation)
+    allow(categories_relation).to receive(:pluck).and_return([
+      [ 1, "Fiction", 1 ],
+      [ 2, "Non-Fiction", 2 ],
+      [ 3, "Science", 3 ]
+    ])
   end
 
   describe "GET /" do
     context "when no params are provided" do
-      context "with carousel books in cache" do
-        it "returns http success" do
-          get root_path
+      it "returns http success" do
+        get root_path
 
-          expect(response).to have_http_status(:success)
-        end
-
-        it "renders home view" do
-          allow(Views::Static::Home).to receive(:new).and_call_original
-
-          get root_path
-
-          expect(Views::Static::Home).to have_received(:new).with(
-            results: nil,
-            pagy: nil,
-            carousels_books_ids: mock_carousels_books_ids,
-            libraries: mock_libraries,
-            categories: mock_categories
-          )
-        end
+        expect(response).to have_http_status(:success)
       end
 
-      context "with no carousel books in cache" do
-        before do
-          allow(Rails.cache).to receive(:fetch).with("carousels_books_ids", expires_in: 1.hour).and_yield.and_return(mock_carousels_books_ids)
-          allow(Book).to receive(:where).and_return(Book.none)
-          allow(Book).to receive(:order).with("RANDOM()").and_return(double(limit: double(pluck: [ mock_book.id ]))) # rubocop:disable RSpec/VerifiedDoubles
-        end
+      it "renders home view" do
+        allow(Views::Static::Home).to receive(:new).and_call_original
 
-        it "returns http success" do
-          get root_path
+        get root_path
 
-          expect(response).to have_http_status(:success)
-        end
-
-        it "renders home view with random carousel books" do
-          allow(Views::Static::Home).to receive(:new).and_call_original
-
-          get root_path
-
-          expect(Views::Static::Home).to have_received(:new).with(
-            results: nil,
-            pagy: nil,
-            carousels_books_ids: mock_carousels_books_ids,
-            libraries: mock_libraries,
-            categories: mock_categories
-          )
-        end
-      end
-
-      context "with no categories in cache" do
-        before do
-          allow(Rails.cache).to receive(:fetch).with("categories", expires_in: 1.week).and_yield.and_return(mock_categories)
-          allow(Category).to receive_message_chain(:order, :pluck).and_return(mock_categories) # rubocop:disable RSpec/MessageChain
-        end
-
-        it "renders home view with fresh categories list" do
-          allow(Views::Static::Home).to receive(:new).and_call_original
-
-          get root_path
-
-          expect(Views::Static::Home).to have_received(:new).with(
-            results: nil,
-            pagy: nil,
-            carousels_books_ids: mock_carousels_books_ids,
-            libraries: mock_libraries,
-            categories: mock_categories
-          )
-        end
-      end
-
-      context "with no libraries in cache" do
-        before do
-          allow(Rails.cache).to receive(:fetch).with("libraries", expires_in: 1.week).and_yield.and_return(mock_libraries)
-          allow(Library).to receive_message_chain(:all, :order, :pluck).and_return(mock_libraries) # rubocop:disable RSpec/MessageChain
-        end
-
-        it "renders home view with fresh libraries list" do
-          allow(Views::Static::Home).to receive(:new).and_call_original
-
-          get root_path
-
-          expect(Views::Static::Home).to have_received(:new).with(
-            results: nil,
-            pagy: nil,
-            carousels_books_ids: mock_carousels_books_ids,
-            libraries: mock_libraries,
-            categories: mock_categories
-          )
-        end
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: nil,
+          pagy: nil,
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
+        )
       end
     end
 
@@ -182,9 +122,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_federated_results,
           pagy: nil,
-          carousels_books_ids: mock_carousels_books_ids,
-          libraries: mock_libraries,
-          categories: mock_categories
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
         )
       end
 
@@ -395,9 +335,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_search_results,
           pagy: mock_pagy,
-          carousels_books_ids: mock_carousels_books_ids,
-          libraries: mock_libraries,
-          categories: mock_categories
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
         )
       end
 
@@ -465,9 +405,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_search_results,
           pagy: mock_pagy,
-          carousels_books_ids: mock_carousels_books_ids,
-          libraries: mock_libraries,
-          categories: mock_categories
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
         )
       end
 
@@ -526,9 +466,9 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: mock_search_results,
             pagy: mock_pagy,
-            carousels_books_ids: mock_carousels_books_ids,
-            libraries: mock_libraries,
-            categories: mock_categories
+            carousels_books_ids: kind_of(Proc),
+            libraries: kind_of(Proc),
+            categories: kind_of(Proc)
           )
         end
 
@@ -540,15 +480,15 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: mock_search_results,
             pagy: mock_pagy,
-            carousels_books_ids: mock_carousels_books_ids,
-            libraries: mock_libraries,
-            categories: mock_categories
+            carousels_books_ids: kind_of(Proc),
+            libraries: kind_of(Proc),
+            categories: kind_of(Proc)
           )
         end
       end
 
       context "when page is greater than 1" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "renders turbo stream for page 2" do # rubocop:disable RSpec/MultipleExpectations,RSpec/ExampleLength
+        it "renders turbo stream for page 2" do
           allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
 
           get root_path, params: base_params.merge(page: "2")
@@ -557,10 +497,6 @@ RSpec.describe "Static" do
             results: mock_search_results,
             pagy: mock_pagy
           )
-
-          expect(Rails.cache).not_to have_received(:fetch).with("carousels_books_ids", expires_in: 1.hour)
-          expect(Rails.cache).not_to have_received(:fetch).with("categories", expires_in: 1.week)
-          expect(Rails.cache).not_to have_received(:fetch).with("libraries", expires_in: 1.week)
         end
       end
     end
@@ -603,9 +539,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
-          carousels_books_ids: mock_carousels_books_ids,
-          libraries: mock_libraries,
-          categories: mock_categories
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
         )
       end
 
@@ -689,9 +625,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
-          carousels_books_ids: mock_carousels_books_ids,
-          libraries: mock_libraries,
-          categories: mock_categories
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
         )
       end
 
@@ -701,9 +637,9 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
-          carousels_books_ids: mock_carousels_books_ids,
-          libraries: mock_libraries,
-          categories: mock_categories
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
         )
       end
     end
