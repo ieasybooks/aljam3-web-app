@@ -96,6 +96,24 @@
 #                                     PATCH  /resources/users/:id(.:format)                                                                     avo/users#update
 #                                     PUT    /resources/users/:id(.:format)                                                                     avo/users#update
 #                                     DELETE /resources/users/:id(.:format)                                                                     avo/users#destroy
+#      preview_resources_search_query GET    /resources/search_queries/:id/preview(.:format)                                                    avo/search_queries#preview
+#            resources_search_queries GET    /resources/search_queries(.:format)                                                                avo/search_queries#index
+#                                     POST   /resources/search_queries(.:format)                                                                avo/search_queries#create
+#          new_resources_search_query GET    /resources/search_queries/new(.:format)                                                            avo/search_queries#new
+#         edit_resources_search_query GET    /resources/search_queries/:id/edit(.:format)                                                       avo/search_queries#edit
+#              resources_search_query GET    /resources/search_queries/:id(.:format)                                                            avo/search_queries#show
+#                                     PATCH  /resources/search_queries/:id(.:format)                                                            avo/search_queries#update
+#                                     PUT    /resources/search_queries/:id(.:format)                                                            avo/search_queries#update
+#                                     DELETE /resources/search_queries/:id(.:format)                                                            avo/search_queries#destroy
+#      preview_resources_search_click GET    /resources/search_clicks/:id/preview(.:format)                                                     avo/search_clicks#preview
+#             resources_search_clicks GET    /resources/search_clicks(.:format)                                                                 avo/search_clicks#index
+#                                     POST   /resources/search_clicks(.:format)                                                                 avo/search_clicks#create
+#          new_resources_search_click GET    /resources/search_clicks/new(.:format)                                                             avo/search_clicks#new
+#         edit_resources_search_click GET    /resources/search_clicks/:id/edit(.:format)                                                        avo/search_clicks#edit
+#              resources_search_click GET    /resources/search_clicks/:id(.:format)                                                             avo/search_clicks#show
+#                                     PATCH  /resources/search_clicks/:id(.:format)                                                             avo/search_clicks#update
+#                                     PUT    /resources/search_clicks/:id(.:format)                                                             avo/search_clicks#update
+#                                     DELETE /resources/search_clicks/:id(.:format)                                                             avo/search_clicks#destroy
 #              preview_resources_page GET    /resources/pages/:id/preview(.:format)                                                             avo/pages#preview
 #                     resources_pages GET    /resources/pages(.:format)                                                                         avo/pages#index
 #                                     POST   /resources/pages(.:format)                                                                         avo/pages#create

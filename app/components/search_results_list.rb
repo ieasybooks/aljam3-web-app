@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Components::SearchResultsList < Components::Base
-  def initialize(results:, pagy:)
+  def initialize(results:, pagy:, search_query:)
     @results = results
     @pagy = pagy
+    @search_query = search_query
   end
 
   def view_template
@@ -17,9 +18,9 @@ class Components::SearchResultsList < Components::Base
         @results.each_with_index do |result, index|
           case result
           when Book
-            SearchBookCard(book: result)
+            SearchBookCard(book: result, search_query: @search_query)
           when Page
-            SearchPageCard(page: result)
+            SearchPageCard(page: result, search_query: @search_query)
           end
 
           if (index + 1) == (results_count - 5) && next_page

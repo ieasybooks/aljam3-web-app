@@ -34,6 +34,7 @@ RSpec.describe Book do
     it { is_expected.to belong_to(:category).counter_cache(true) }
     it { is_expected.to have_many(:files).class_name("BookFile").dependent(:destroy) }
     it { is_expected.to have_many(:pages).through(:files) }
+    it { is_expected.to have_many(:search_clicks).as_(:result).dependent(:destroy) }
   end
 
   describe "validations" do

@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 class Components::SearchBookResultsList < Components::Base
-  def initialize(book:, results:, pagy:)
+  def initialize(book:, results:, pagy:, search_query:)
     @book = book
     @results = results
     @pagy = pagy
+    @search_query = search_query
   end
 
   def view_template
     turbo_frame_tag :results_list, @pagy.page do
       div(class: "mt-4 space-y-4") do
         @results.each_with_index do |result, index|
-          SearchPageCard(page: result)
+          SearchPageCard(page: result, search_query: @search_query)
 
           if (index + 1) == (@results.size - 5) && @pagy.next
             turbo_frame_tag :next_page, src: book_search_path(

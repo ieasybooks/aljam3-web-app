@@ -24,6 +24,7 @@ RSpec.describe Page do
 
   describe "associations" do
     it { is_expected.to belong_to(:file).class_name("BookFile").counter_cache(true) }
+    it { is_expected.to have_many(:search_clicks).as_(:result).dependent(:destroy) }
   end
 
   describe "validations" do

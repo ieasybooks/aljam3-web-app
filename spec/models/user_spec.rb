@@ -35,6 +35,18 @@
 require "rails_helper"
 
 RSpec.describe User do
+  describe "associations" do
+    it { is_expected.to have_many(:search_queries).dependent(:destroy) }
+    it { is_expected.to have_many(:search_clicks).through(:search_queries) }
+  end
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:role) }
+    it { is_expected.to validate_presence_of(:encrypted_password) }
+    it { is_expected.to validate_presence_of(:sign_in_count) }
+    it { is_expected.to validate_presence_of(:failed_attempts) }
+  end
+
   describe "enums" do
     it { is_expected.to define_enum_for(:role).with_values(user: 0, admin: 1) }
   end

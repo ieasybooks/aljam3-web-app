@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_05_062056) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_12_143120) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -100,6 +100,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_05_062056) do
     t.index ["database", "captured_at"], name: "index_pghero_space_stats_on_database_and_captured_at"
   end
 
+  create_table "search_clicks", force: :cascade do |t|
+    t.string "result_type", null: false
+    t.bigint "result_id", null: false
+    t.bigint "search_query_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["result_type", "result_id"], name: "index_search_clicks_on_result"
+    t.index ["search_query_id"], name: "index_search_clicks_on_search_query_id"
+  end
+
+  create_table "search_queries", force: :cascade do |t|
+    t.string "query"
+    t.jsonb "refinements"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_search_queries_on_user_id"
+  end
+
   create_table "solid_errors", force: :cascade do |t|
     t.text "exception_class", null: false
     t.text "message", null: false
@@ -155,5 +174,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_05_062056) do
   add_foreign_key "books", "categories"
   add_foreign_key "books", "libraries"
   add_foreign_key "pages", "book_files"
+  add_foreign_key "search_clicks", "search_queries"
+  add_foreign_key "search_queries", "users"
   add_foreign_key "solid_errors_occurrences", "solid_errors", column: "error_id"
 end

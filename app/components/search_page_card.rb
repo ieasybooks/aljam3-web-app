@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Components::SearchPageCard < Components::Base
-  def initialize(page:)
+  def initialize(page:, search_query:)
     @page = page
+    @search_query = search_query
   end
 
   def view_template
@@ -15,7 +16,10 @@ class Components::SearchPageCard < Components::Base
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @page.file.book.category.name }
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do
-          a(href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number), target: "_blank") do
+          a(
+            href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number, search_query: @search_query&.id),
+            target: "_blank"
+          ) do
             @page.file.book.title
           end
         end
@@ -62,7 +66,7 @@ class Components::SearchPageCard < Components::Base
         end
 
         Link(
-          href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number),
+          href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number, search_query: @search_query&.id),
           variant: :outline,
           size: :sm,
           target: "_blank"

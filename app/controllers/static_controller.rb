@@ -12,13 +12,19 @@ class StaticController < ApplicationController
   def home
     pagy, results = search
 
+    search_query = nil
+
+    if results.present? && request.headers["X-Sec-Purpose"] != "prefetch"
+      search_query = SearchQuery.create(query: params[:query], refinements: params.dig(:refinements), user: current_user)
+    end
+
     if params[:page].presence.to_i > 1
       render turbo_stream: turbo_stream.replace(
         "results_list_#{params[:page]}",
-        Components::SearchResultsList.new(results:, pagy:)
+        Components::SearchResultsList.new(results:, pagy:, search_query:)
       )
     else
-      render Views::Static::Home.new(results:, pagy:, carousels_books_ids:, libraries:, categories:)
+      render Views::Static::Home.new(results:, pagy:, search_query:, carousels_books_ids:, libraries:, categories:)
     end
   end
 

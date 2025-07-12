@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Components::SearchBookCard < Components::Base
-  def initialize(book:)
+  def initialize(book:, search_query:)
     @book = book
+    @search_query = search_query
   end
 
   def view_template
@@ -15,7 +16,7 @@ class Components::SearchBookCard < Components::Base
         Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do
-          a(href: book_path(@book.id), target: "_blank") do
+          a(href: book_path(@book.id, search_query: @search_query&.id), target: "_blank") do
             safe (process_meilisearch_highlights(@book.formatted["title"]) || @book.title)
           end
         end
@@ -52,7 +53,7 @@ class Components::SearchBookCard < Components::Base
           end
         end
 
-        Link(href: book_path(@book.id), variant: :outline, size: :sm, target: "_blank") { t(".book_page") }
+        Link(href: book_path(@book.id, search_query: @search_query&.id), variant: :outline, size: :sm, target: "_blank") { t(".book_page") }
       end
     end
   end
