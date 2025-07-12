@@ -34,9 +34,8 @@ class Components::Head < Components::Base
       end
 
       link rel: "manifest", href: pwa_manifest_path(format: :json, v: 2)
-      link rel: "icon", href: "/icon.png?v=2", type: "image/png"
-      link rel: "icon", href: "/icon.svg?v=2", type: "image/svg+xml"
-      link rel: "apple-touch-icon", href: "/icon.png?v=2"
+      link rel: "icon", href: "/icon.png?v=4", type: "image/png"
+      link rel: "apple-touch-icon", href: "/icon.png?v=4"
 
       stylesheet_link_tag "application", "data-turbo-track": "reload"
       javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
