@@ -3,6 +3,7 @@
 # Table name: search_clicks
 #
 #  id              :bigint           not null, primary key
+#  index           :integer          default(-1), not null
 #  result_type     :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -21,4 +22,6 @@
 class SearchClick < ApplicationRecord
   belongs_to :result, polymorphic: true
   belongs_to :search_query
+
+  validates :index, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1 }
 end

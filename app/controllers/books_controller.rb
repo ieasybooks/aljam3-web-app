@@ -4,7 +4,7 @@ class BooksController < ApplicationController
 
   def show
     if @search_query.present? && request.headers["X-Sec-Purpose"] != "prefetch"
-      SearchClick.create(search_query: @search_query, result: @book)
+      SearchClick.create(index: params[:index].presence&.to_i || -1, search_query: @search_query, result: @book)
     end
 
     first_page = @book.pages.first

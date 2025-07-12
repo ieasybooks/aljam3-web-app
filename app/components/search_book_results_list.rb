@@ -12,7 +12,7 @@ class Components::SearchBookResultsList < Components::Base
     turbo_frame_tag :results_list, @pagy.page do
       div(class: "mt-4 space-y-4") do
         @results.each_with_index do |result, index|
-          SearchPageCard(page: result, search_query: @search_query)
+          SearchPageCard(page: result, index: index + (@pagy.page - 1) * 20, search_query: @search_query)
 
           if (index + 1) == (@results.size - 5) && @pagy.next
             turbo_frame_tag :next_page, src: book_search_path(

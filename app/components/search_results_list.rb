@@ -18,9 +18,9 @@ class Components::SearchResultsList < Components::Base
         @results.each_with_index do |result, index|
           case result
           when Book
-            SearchBookCard(book: result, search_query: @search_query)
+            SearchBookCard(book: result, index: index + (current_page - 1) * 20, search_query: @search_query)
           when Page
-            SearchPageCard(page: result, search_query: @search_query)
+            SearchPageCard(page: result, index: index + (current_page - 1) * 20, search_query: @search_query)
           end
 
           if (index + 1) == (results_count - 5) && next_page

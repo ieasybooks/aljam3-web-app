@@ -7,6 +7,7 @@ class Avo::Resources::SearchClick < Avo::BaseResource
 
   def fields
     field :id, as: :id
+    field :index, as: :number
     field :result, as: :belongs_to, polymorphic_as: :result, types: [ ::Book, ::Page ]
     field :search_query, as: :belongs_to
   end
