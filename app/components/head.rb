@@ -38,14 +38,26 @@ class Components::Head < Components::Base
       link rel: "icon", href: "/icon.svg?v=2", type: "image/svg+xml"
       link rel: "apple-touch-icon", href: "/icon.png?v=2"
 
+      stylesheet_link_tag "application", "data-turbo-track": "reload"
+      javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
+
       link rel: "preconnect", href: "https://www.googletagmanager.com"
 
       script async: true,
                src: "https://www.googletagmanager.com/gtag/js?id=G-VBEGPJJEHW",
                data_turbo_track: "reload"
 
-      stylesheet_link_tag "application", "data-turbo-track": "reload"
-      javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
+      script do
+        raw(safe(
+          <<~JS
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "sdm48dgk9j");
+          JS
+        ))
+      end
 
       raw cloudflare_turnstile_script_tag
     end
