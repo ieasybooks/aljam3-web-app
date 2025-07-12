@@ -14,6 +14,7 @@ export default class extends Controller {
   }
 
   connect() {
+    this.internalCurrentPage = this.currentPageValue
     this.currentAbortController = null
     this.debounceTimeout = null
 
@@ -30,7 +31,13 @@ export default class extends Controller {
     this.debounceTimeout = setTimeout(() => {
       this.progressTarget.style.width = `${(this.currentPageValue / this.totalPagesValue) * 100}%`
 
+      if (this.currentPageValue === this.internalCurrentPage) {
+        return
+      }
+
       this.#fetchPageContent()
+
+      this.internalCurrentPage = this.currentPageValue
     }, 100)
   }
 
