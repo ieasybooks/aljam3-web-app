@@ -12,14 +12,19 @@ class StaticController < ApplicationController
   def home
     pagy, results = search
 
-    if results.present? && params[:search_query_id].blank? && request.headers["X-Sec-Purpose"] != "prefetch"
+    if results.present? && params[:qid].blank? && request.headers["X-Sec-Purpose"] != "prefetch"
       search_query_id = SearchQuery.create(
-        query: params[:query],
-        refinements: params.dig(:refinements),
+        query: params[:q],
+        refinements: {
+          search_scope: params.dig(:s),
+          library: params.dig(:l),
+          category: params.dig(:c),
+          author: params.dig(:a)
+        }.compact,
         user: current_user
       ).id
     else
-      search_query_id = params[:search_query_id]
+      search_query_id = params[:qid]
     end
 
     if params[:page].presence.to_i > 1
@@ -35,12 +40,12 @@ class StaticController < ApplicationController
   private
 
   def search
-    query = params[:query]
+    query = params[:q]
 
     return nil if query.blank?
 
-    case params.dig(:refinements, :search_scope)
-    when "title-and-content"
+    case params.dig(:s)
+    when "b"
       [ nil, Meilisearch::Rails.federated_search(
         queries: {
           Book => {
@@ -60,22 +65,22 @@ class StaticController < ApplicationController
         },
         federation: { offset: ((params[:page] || 1).to_i - 1) * 20 }
       ) ]
-    when "title"
+    when "t"
       pagy_meilisearch(Book.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
-    when "content"
+    when "c"
       pagy_meilisearch(Page.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     end
   end
 
   def filter
-    library = params.dig(:refinements, :library)
-    category = params.dig(:refinements, :category)
-    author = params.dig(:refinements, :author)
+    library = params.dig(:l)
+    category = params.dig(:c)
+    author = params.dig(:a)
 
     expression = []
-    expression << "library = \"#{library}\"" if library.present? && library != "all-libraries"
-    expression << "category = \"#{category}\"" if category.present? && category != "all-categories"
-    expression << "author = \"#{author}\"" if author.present? && author != "all-authors"
+    expression << "library = \"#{library}\"" if library.present? && library != "a"
+    expression << "category = \"#{category}\"" if category.present? && category != "a"
+    expression << "author = \"#{author}\"" if author.present? && author != "a"
 
     expression.any? ? expression.join(" AND ") : nil
   end

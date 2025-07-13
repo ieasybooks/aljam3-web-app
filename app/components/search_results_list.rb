@@ -25,14 +25,13 @@ class Components::SearchResultsList < Components::Base
 
           if (index + 1) == (results_count - 5) && next_page
             turbo_frame_tag :next_page, src: root_path(
-              query: params[:query],
-              refinements: {
-                search_scope: params.dig(:refinements, :search_scope),
-                library: params.dig(:refinements, :library),
-                category: params.dig(:refinements, :category)
-              },
+              q: params[:q],
+              s: params.dig(:s),
+              l: params.dig(:l),
+              c: params.dig(:c),
+              a: params.dig(:a),
               page: next_page,
-              search_query_id: @search_query_id
+              qid: @search_query_id
             ), loading: :lazy
           end
         end

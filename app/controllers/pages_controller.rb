@@ -2,8 +2,8 @@ class PagesController < ApplicationController
   before_action :set_page
 
   def show
-    if params[:search_query_id].present? && request.headers["X-Sec-Purpose"] != "prefetch"
-      SearchClick.create(index: params[:index].presence&.to_i || -1, search_query_id: params[:search_query_id], result: @page)
+    if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
+      SearchClick.create(index: params[:i].presence&.to_i || -1, search_query_id: params[:qid], result: @page)
     end
 
     respond_to do |format|

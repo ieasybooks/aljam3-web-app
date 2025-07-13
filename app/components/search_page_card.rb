@@ -18,13 +18,7 @@ class Components::SearchPageCard < Components::Base
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do
           a(
-            href: book_file_page_path(
-              @page.file.book.id,
-              @page.file.id,
-              @page.number,
-              index: @index,
-              search_query_id: @search_query_id
-            ),
+            href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number, i: @index, qid: @search_query_id),
             target: "_blank"
           ) do
             @page.file.book.title
@@ -73,13 +67,7 @@ class Components::SearchPageCard < Components::Base
         end
 
         Link(
-          href: book_file_page_path(
-            @page.file.book.id,
-            @page.file.id,
-            @page.number,
-            index: @index,
-            search_query_id: @search_query_id
-          ),
+          href: book_file_page_path(@page.file.book.id, @page.file.id, @page.number, i: @index, qid: @search_query_id),
           variant: :outline,
           size: :sm,
           target: "_blank"

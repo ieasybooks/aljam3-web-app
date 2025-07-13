@@ -11,8 +11,8 @@ class Components::BookSearchForm < Components::Base
 
           Input(
             type: :search,
-            name: "query",
-            value: params[:query],
+            name: "q",
+            value: params[:q],
             class: "h-12 px-4 ps-11 text-base",
             placeholder: t(".search_input_placeholder"),
             required: true,

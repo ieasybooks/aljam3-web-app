@@ -16,42 +16,42 @@ class Components::SearchRefinementsSheet < Components::Base
   def hidden_inputs
     Input(
       type: :hidden,
-      name: "refinements[search_scope]",
-      value: params.dig(:refinements, :search_scope) || "title-and-content",
+      name: "s",
+      value: params.dig(:s) || "b",
       data: {
         sync_value_target: "target",
-        sync_id: "refinements[search_scope]"
+        sync_id: "s"
       }
     )
 
     Input(
       type: :hidden,
-      name: "refinements[library]",
-      value: params.dig(:refinements, :library) || "all-libraries",
+      name: "l",
+      value: params.dig(:l) || "a",
       data: {
         sync_value_target: "target",
-        sync_id: "refinements[library]"
+        sync_id: "l"
       }
     )
 
     Input(
       type: :hidden,
-      name: "refinements[category]",
-      value: params.dig(:refinements, :category) || "all-categories",
+      name: "c",
+      value: params.dig(:c) || "a",
       data: {
         sync_value_target: "target",
-        sync_id: "refinements[category]"
+        sync_id: "c"
       }
     )
 
     Input(
       id: "selected-author",
       type: :hidden,
-      name: "refinements[author]",
-      value: params.dig(:refinements, :author) || "all-authors",
+      name: "a",
+      value: params.dig(:a) || "a",
       data: {
         sync_value_target: "target",
-        sync_id: "refinements[author]"
+        sync_id: "a"
       }
     )
   end
@@ -91,11 +91,11 @@ class Components::SearchRefinementsSheet < Components::Base
 
       Select do
         SelectInput(
-          value: params.dig(:refinements, :search_scope) || "title-and-content",
+          value: params.dig(:s) || "b",
           id: "select-a-search-scope",
           data: {
             sync_value_target: "source",
-            sync_id: "refinements[search_scope]",
+            sync_id: "s",
             sync_event: "change"
           }
         )
@@ -108,9 +108,9 @@ class Components::SearchRefinementsSheet < Components::Base
 
         SelectContent(outlet_id: "select-a-search-scope") do
           SelectGroup do
-            SelectItem(value: "title-and-content", aria_selected!: "true") { t(".search_scope_title_and_content") }
-            SelectItem(value: "title") { t(".search_scope_title") }
-            SelectItem(value: "content") { t(".search_scope_content") }
+            SelectItem(value: "b", aria_selected!: "true") { t(".search_scope_title_and_content") }
+            SelectItem(value: "t") { t(".search_scope_title") }
+            SelectItem(value: "c") { t(".search_scope_content") }
           end
         end
       end
@@ -123,11 +123,11 @@ class Components::SearchRefinementsSheet < Components::Base
 
       Select do
         SelectInput(
-          value: params.dig(:refinements, :library) || "all-libraries",
+          value: params.dig(:l) || "a",
           id: "select-a-library",
           data: {
             sync_value_target: "source",
-            sync_id: "refinements[library]",
+            sync_id: "l",
             sync_event: "change"
           }
         )
@@ -138,7 +138,7 @@ class Components::SearchRefinementsSheet < Components::Base
 
         SelectContent(outlet_id: "select-a-library") do
           SelectGroup do
-            SelectItem(value: "all-libraries", aria_selected!: "true") { t(".all_libraries") }
+            SelectItem(value: "a", aria_selected!: "true") { t(".all_libraries") }
 
             @libraries.call.each do |id, name|
               SelectItem(value: id) { t(".#{name}") }
@@ -155,11 +155,11 @@ class Components::SearchRefinementsSheet < Components::Base
 
       Select do
         SelectInput(
-          value: params.dig(:refinements, :category) || "all-categories",
+          value: params.dig(:c) || "a",
           id: "select-a-category",
           data: {
             sync_value_target: "source",
-            sync_id: "refinements[category]",
+            sync_id: "c",
             sync_event: "change"
           }
         )
@@ -170,7 +170,7 @@ class Components::SearchRefinementsSheet < Components::Base
 
         SelectContent(outlet_id: "select-a-category") do
           SelectGroup do
-            SelectItem(value: "all-categories", aria_selected!: "true") { t(".all_categories") }
+            SelectItem(value: "a", aria_selected!: "true") { t(".all_categories") }
 
             @categories.call.each do |id, name, count|
               SelectItem(value: id) { "#{name} (#{number_with_delimiter(count)} #{t(".books")})" }
@@ -195,15 +195,15 @@ class Components::SearchRefinementsSheet < Components::Base
             tom_select_plugins_value: [ "dropdown_input", "no_backspace_delete" ].to_json,
             tom_select_value_field_value: "id",
             tom_select_label_field_value: "name",
-            tom_select_options_value: [ { id: "all-authors", name: t(".all_authors") } ].to_json,
-            tom_select_items_value: [ "all-authors" ].to_json,
+            tom_select_options_value: [ { id: "a", name: t(".all_authors") } ].to_json,
+            tom_select_items_value: [ "a" ].to_json,
             tom_select_search_field_value: [ "name" ].to_json,
             tom_select_max_items_value: 1,
             tom_select_preload_value: true,
             tom_select_no_results_value: t(".no_results"),
             tom_select_default_value_source_value: "#selected-author",
             sync_value_target: "source",
-            sync_id: "refinements[author]",
+            sync_id: "a",
             sync_event: "change"
           }
         )

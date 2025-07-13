@@ -17,9 +17,9 @@ class Components::SearchBookResultsList < Components::Base
           if (index + 1) == (@results.size - 5) && @pagy.next
             turbo_frame_tag :next_page, src: book_search_path(
               @book,
-              query: params[:query],
+              query: params[:q],
               page: @pagy.next,
-              search_query_id: @search_query_id
+              qid: @search_query_id
             ), loading: :lazy
           end
         end

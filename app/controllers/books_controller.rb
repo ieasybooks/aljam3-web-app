@@ -2,8 +2,8 @@ class BooksController < ApplicationController
   before_action :set_book
 
   def show
-    if params[:search_query_id].present? && request.headers["X-Sec-Purpose"] != "prefetch"
-      SearchClick.create(index: params[:index].presence&.to_i || -1, search_query_id: params[:search_query_id], result: @book)
+    if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
+      SearchClick.create(index: params[:i].presence&.to_i || -1, search_query_id: params[:qid], result: @book)
     end
 
     first_page = @book.pages.first
@@ -13,19 +13,15 @@ class BooksController < ApplicationController
 
   def search
     pagy, results = pagy_meilisearch(Page.pagy_search(
-      params[:query],
+      params[:q],
       filter: %(book = "#{@book.id}"),
       highlight_pre_tag: "<mark>",
       highlight_post_tag: "</mark>"
     ))
 
-    search_query_id = params[:search_query_id]
-    if results.present? && params[:search_query_id].blank? && request.headers["X-Sec-Purpose"] != "prefetch"
-      search_query_id = SearchQuery.create(
-        query: params[:query],
-        refinements: { book: @book.id },
-        user: current_user
-      ).id
+    search_query_id = params[:qid]
+    if results.present? && params[:qid].blank? && request.headers["X-Sec-Purpose"] != "prefetch"
+      search_query_id = SearchQuery.create(query: params[:q], refinements: { book: @book.id }, user: current_user).id
     end
 
     render turbo_stream: turbo_stream.replace(

@@ -59,7 +59,7 @@ class Views::Static::Home < Views::Base
     div(class: "mt-2 horizontal-scroll-indicators") do
       div(class: "flex gap-2 overflow-x-auto no-scrollbar") do
         t(".examples").each do |example|
-          a(href: root_path(query: example, refinements: { search_scope: "title-and-content" })) do
+          a(href: root_path(q: example, s: "b")) do
             Badge(variant: :primary, class: "cursor-pointer whitespace-nowrap") { example }
           end
         end
