@@ -3,8 +3,8 @@
 # Table name: search_queries
 #
 #  id          :bigint           not null, primary key
-#  query       :string
-#  refinements :jsonb
+#  query       :string           not null
+#  refinements :jsonb            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  user_id     :bigint
@@ -19,7 +19,7 @@
 #
 class SearchQuery < ApplicationRecord
   belongs_to :user, optional: true
-  has_many :search_clicks, dependent: :destroy
+  has_many :search_clicks, dependent: :delete_all
 
   validates :query, :refinements, presence: true
   validates :query, length: { minimum: 3, maximum: 255 }

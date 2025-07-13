@@ -24,4 +24,5 @@ class SearchClick < ApplicationRecord
   belongs_to :search_query
 
   validates :index, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1 }
+  validates :result_type, presence: true
 end

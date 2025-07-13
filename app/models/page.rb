@@ -24,7 +24,7 @@ class Page < ApplicationRecord
   ActiveRecord_Relation.include Pagy::Meilisearch
 
   belongs_to :file, class_name: "BookFile", foreign_key: "book_file_id", counter_cache: true
-  has_many :search_clicks, as: :result, dependent: :destroy
+  has_many :search_clicks, as: :result, dependent: :delete_all
 
   validates :content, :number, presence: true
 

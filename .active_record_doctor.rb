@@ -44,5 +44,5 @@ ActiveRecordDoctor.configure do
   ]
 
   detector :incorrect_length_validation,
-    ignore_attributes: %w[Contact.message]
+    ignore_attributes: %w[Contact.message SearchQuery.query]
 end

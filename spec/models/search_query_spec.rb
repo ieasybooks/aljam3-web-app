@@ -3,8 +3,8 @@
 # Table name: search_queries
 #
 #  id          :bigint           not null, primary key
-#  query       :string
-#  refinements :jsonb
+#  query       :string           not null
+#  refinements :jsonb            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  user_id     :bigint
