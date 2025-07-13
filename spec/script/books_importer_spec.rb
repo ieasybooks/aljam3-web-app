@@ -161,8 +161,8 @@ RSpec.describe BooksImporter do
         expect(expected_commands[0]).to include('--title="Test Book 1"')
         expect(expected_commands[0]).to include('--author="Test Author 1"')
         expect(expected_commands[0]).to include('--category="Test Category 1"')
-        expect(expected_commands[0]).to include('--pages=100')
-        expect(expected_commands[0]).to include('--library-id=1')
+        expect(expected_commands[0]).to include("--pages=100")
+        expect(expected_commands[0]).to include("--library-id=1")
         expect(expected_commands[0]).to include('--pdf-urls="https://huggingface.co/datasets/test/library/resolve/main/book1/file1.pdf"')
 
         # Check second book command
@@ -192,7 +192,7 @@ RSpec.describe BooksImporter do
           importer.run
 
           expect(ssh_client).to have_received(:execute_with_output) do |_server_ip, _username, command, &block|
-            expect(command).to include('--volumes=3')
+            expect(command).to include("--volumes=3")
           end
         end
       end
@@ -218,7 +218,7 @@ RSpec.describe BooksImporter do
           importer.run
 
           expect(ssh_client).to have_received(:execute_with_output) do |_server_ip, _username, command, &block|
-            expect(command).not_to include('--volumes=')
+            expect(command).not_to include("--volumes=")
           end
         end
       end
@@ -245,7 +245,7 @@ RSpec.describe BooksImporter do
           importer.run
 
           expect(ssh_client).to have_received(:execute_with_output) do |_server_ip, _username, command, &block|
-            expect(command).not_to include('--volumes=')
+            expect(command).not_to include("--volumes=")
           end
         end
       end

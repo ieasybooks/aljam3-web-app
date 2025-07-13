@@ -57,6 +57,7 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
+          search_query_id: nil,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
           categories: kind_of(Proc)
@@ -78,12 +79,11 @@ RSpec.describe "Static" do
 
       let(:params) do
         {
-          query: "test query",
-          refinements: {
-            search_scope: "title-and-content",
-            library: "all-libraries",
-            category: "all-categories"
-          }
+          q: "test query",
+          s: "b",
+          l: "a",
+          c: "a",
+          a: "a"
         }
       end
 
@@ -122,6 +122,7 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_federated_results,
           pagy: nil,
+          search_query_id: anything,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
           categories: kind_of(Proc)
@@ -130,7 +131,7 @@ RSpec.describe "Static" do
 
       context "with library filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes library filter in search" do
-          get root_path, params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s))
+          get root_path, params: params.merge(l: library.id.to_s)
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -156,7 +157,7 @@ RSpec.describe "Static" do
 
       context "with category filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes category filter in search" do
-          get root_path, params: params.merge(refinements: params[:refinements].merge(category: "Fiction"))
+          get root_path, params: params.merge(c: "Fiction")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -182,7 +183,7 @@ RSpec.describe "Static" do
 
       context "with author filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes author filter in search" do
-          get root_path, params: params.merge(refinements: params[:refinements].merge(author: "John Doe"))
+          get root_path, params: params.merge(a: "John Doe")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -208,7 +209,7 @@ RSpec.describe "Static" do
 
       context "with both library and category filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes both filters in search" do
-          get root_path, params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction"))
+          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -234,7 +235,7 @@ RSpec.describe "Static" do
 
       context "with library, category, and author filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes all filters in search" do
-          get root_path, params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction", author: "John Doe"))
+          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
@@ -303,12 +304,11 @@ RSpec.describe "Static" do
 
       let(:params) do
         {
-          query: "test query",
-          refinements: {
-            search_scope: "title",
-            library: "all-libraries",
-            category: "all-categories"
-          }
+          q: "test query",
+          s: "t",
+          l: "a",
+          c: "a",
+          a: "a"
         }
       end
 
@@ -335,6 +335,7 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_search_results,
           pagy: mock_pagy,
+          search_query_id: anything,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
           categories: kind_of(Proc)
@@ -343,7 +344,7 @@ RSpec.describe "Static" do
 
       context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes filters in book search" do
-          get root_path, params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction", author: "John Doe"))
+          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
 
           expect(Book).to have_received(:pagy_search).with(
             "test query",
@@ -373,12 +374,11 @@ RSpec.describe "Static" do
 
       let(:params) do
         {
-          query: "test query",
-          refinements: {
-            search_scope: "content",
-            library: "all-libraries",
-            category: "all-categories"
-          }
+          q: "test query",
+          s: "c",
+          l: "a",
+          c: "a",
+          a: "a"
         }
       end
 
@@ -405,6 +405,7 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: mock_search_results,
           pagy: mock_pagy,
+          search_query_id: anything,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
           categories: kind_of(Proc)
@@ -413,7 +414,7 @@ RSpec.describe "Static" do
 
       context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
         it "includes filters in page search" do
-          get root_path, params: params.merge(refinements: params[:refinements].merge(library: library.id.to_s, category: "Fiction", author: "John Doe"))
+          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
 
           expect(Page).to have_received(:pagy_search).with(
             "test query",
@@ -443,12 +444,11 @@ RSpec.describe "Static" do
 
       let(:base_params) do
         {
-          query: "test query",
-          refinements: {
-            search_scope: "title",
-            library: "all-libraries",
-            category: "all-categories"
-          }
+          q: "test query",
+          s: "t",
+          l: "a",
+          c: "a",
+          a: "a"
         }
       end
 
@@ -466,6 +466,7 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: mock_search_results,
             pagy: mock_pagy,
+            search_query_id: anything,
             carousels_books_ids: kind_of(Proc),
             libraries: kind_of(Proc),
             categories: kind_of(Proc)
@@ -480,6 +481,7 @@ RSpec.describe "Static" do
           expect(Views::Static::Home).to have_received(:new).with(
             results: mock_search_results,
             pagy: mock_pagy,
+            search_query_id: anything,
             carousels_books_ids: kind_of(Proc),
             libraries: kind_of(Proc),
             categories: kind_of(Proc)
@@ -495,7 +497,8 @@ RSpec.describe "Static" do
 
           expect(Components::SearchResultsList).to have_received(:new).with(
             results: mock_search_results,
-            pagy: mock_pagy
+            pagy: mock_pagy,
+            search_query_id: anything
           )
         end
       end
@@ -519,10 +522,8 @@ RSpec.describe "Static" do
 
       let(:params) do
         {
-          query: "test query",
-          refinements: {
-            search_scope: "title"
-          }
+          q: "test query",
+          s: "t"
         }
       end
 
@@ -534,11 +535,12 @@ RSpec.describe "Static" do
       it "handles missing refinements gracefully" do
         allow(Views::Static::Home).to receive(:new).and_call_original
 
-        get root_path, params: { query: "test query" }
+        get root_path, params: { q: "test query" }
 
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
+          search_query_id: anything,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
           categories: kind_of(Proc)
@@ -546,7 +548,7 @@ RSpec.describe "Static" do
       end
 
       it "handles empty library filter" do
-        get root_path, params: params.merge(refinements: { search_scope: "title", library: "" })
+        get root_path, params: params.merge(s: "t", l: "")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -557,7 +559,7 @@ RSpec.describe "Static" do
       end
 
       it "handles empty category filter" do
-        get root_path, params: params.merge(refinements: { search_scope: "title", category: "" })
+        get root_path, params: params.merge(s: "t", c: "")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -568,7 +570,7 @@ RSpec.describe "Static" do
       end
 
       it "handles empty author filter" do
-        get root_path, params: params.merge(refinements: { search_scope: "title", author: "" })
+        get root_path, params: params.merge(s: "t", a: "")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -578,8 +580,8 @@ RSpec.describe "Static" do
         )
       end
 
-      it "ignores all-libraries value" do
-        get root_path, params: params.merge(refinements: { search_scope: "title", library: "all-libraries" })
+      it "ignores a value for library" do
+        get root_path, params: params.merge(s: "t", l: "a")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -589,8 +591,8 @@ RSpec.describe "Static" do
         )
       end
 
-      it "ignores all-categories value" do
-        get root_path, params: params.merge(refinements: { search_scope: "title", category: "all-categories" })
+      it "ignores a value for category" do
+        get root_path, params: params.merge(s: "t", c: "a")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -600,8 +602,8 @@ RSpec.describe "Static" do
         )
       end
 
-      it "ignores all-authors value" do
-        get root_path, params: params.merge(refinements: { search_scope: "title", author: "all-authors" })
+      it "ignores a value for author" do
+        get root_path, params: params.merge(s: "t", a: "a")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -613,7 +615,7 @@ RSpec.describe "Static" do
     end
 
     context "with search scope edge cases" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:base_params) { { query: "test query" } }
+      let(:base_params) { { q: "test query" } }
 
       before do
         allow(Views::Static::Home).to receive(:new).and_call_original
@@ -625,6 +627,7 @@ RSpec.describe "Static" do
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
+          search_query_id: anything,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
           categories: kind_of(Proc)
@@ -632,11 +635,185 @@ RSpec.describe "Static" do
       end
 
       it "handles unknown search_scope value" do
-        get root_path, params: base_params.merge(refinements: { search_scope: "unknown" })
+        get root_path, params: base_params.merge(s: "unknown")
 
         expect(Views::Static::Home).to have_received(:new).with(
           results: nil,
           pagy: nil,
+          search_query_id: anything,
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
+        )
+      end
+    end
+  end
+
+  describe "SearchQuery creation" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+    let(:user) { create(:user) }
+    let(:params) { { q: "test query", s: "t", l: 1, c: 2, a: 3 } }
+
+    let(:mock_pagy) do
+      double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
+    end
+
+    let(:mock_search_results) do
+      double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
+        allow(it).to receive_messages(
+          any?: true,
+          each_with_index: [ mock_book, 0 ],
+          size: 1,
+          respond_to?: false
+        )
+      end
+    end
+
+    before do
+      allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(StaticController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
+
+      allow(Book).to receive(:pagy_search).and_return(mock_search_results)
+    end
+
+    context "when conditions are met for SearchQuery creation" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it "creates a SearchQuery with correct attributes" do # rubocop:disable RSpec/MultipleExpectations
+        expect { get root_path, params: params }.to change(SearchQuery, :count).by(1)
+
+        search_query = SearchQuery.last
+        expect(search_query.query).to eq("test query")
+        expect(search_query.refinements).to eq({
+          "search_scope" => "t",
+          "library" => "1",
+          "category" => "2",
+          "author" => "3"
+        })
+        expect(search_query.user).to eq(user)
+      end
+
+      it "stores the search query and refinements with compacted values (removes nil, keeps empty strings)" do
+        get root_path, params: params.merge(l: "", c: nil)
+
+        search_query = SearchQuery.last
+        expect(search_query.refinements).to eq({
+          "search_scope" => "t",
+          "library" => "",
+          "author" => "3"
+        })
+      end
+
+      it "removes nil values from refinements" do
+        get root_path, params: { q: "test query", s: "t", l: nil, c: nil, a: nil }
+
+        search_query = SearchQuery.last
+        expect(search_query.refinements).to eq({
+          "search_scope" => "t"
+        })
+      end
+
+      it "associates with current user when present" do
+        get root_path, params: params
+
+        search_query = SearchQuery.last
+        expect(search_query.user).to eq(user)
+      end
+
+      it "works with nil user" do # rubocop:disable RSpec/MultipleExpectations
+        allow_any_instance_of(StaticController).to receive(:current_user).and_return(nil) # rubocop:disable RSpec/AnyInstance
+
+        expect { get root_path, params: params }.to change(SearchQuery, :count).by(1)
+
+        search_query = SearchQuery.last
+        expect(search_query.user).to be_nil
+      end
+
+      it "handles 'select all' refinement values" do
+        get root_path, params: { q: "test query", s: "t", l: "a", c: "a", a: "a" }
+
+        search_query = SearchQuery.last
+        expect(search_query.refinements).to eq({
+          "search_scope" => "t",
+          "library" => "a",
+          "category" => "a",
+          "author" => "a"
+        })
+      end
+
+      it "mixes integer and 'select all' values" do
+        get root_path, params: { q: "test query", s: "t", l: 1, c: "a", a: 3 }
+
+        search_query = SearchQuery.last
+        expect(search_query.refinements).to eq({
+          "search_scope" => "t",
+          "library" => "1",
+          "category" => "a",
+          "author" => "3"
+        })
+      end
+    end
+
+    context "when results are blank" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      before do
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow(mock_search_results).to receive_messages(any?: false, present?: false)
+      end
+
+      it "does not create SearchQuery" do
+        expect { get root_path, params: params }.not_to change(SearchQuery, :count)
+      end
+
+      it "uses params[:qid] as search_query_id" do
+        allow(Views::Static::Home).to receive(:new).and_call_original
+
+        get root_path, params: params.merge(qid: "existing_id")
+
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: mock_search_results,
+          pagy: mock_pagy,
+          search_query_id: "existing_id",
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
+        )
+      end
+    end
+
+    context "when qid param is present" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it "does not create SearchQuery" do
+        expect { get root_path, params: params.merge(qid: "existing_id") }.not_to change(SearchQuery, :count)
+      end
+
+      it "uses existing qid" do
+        allow(Views::Static::Home).to receive(:new).and_call_original
+
+        get root_path, params: params.merge(qid: "existing_id")
+
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: mock_search_results,
+          pagy: mock_pagy,
+          search_query_id: "existing_id",
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
+        )
+      end
+    end
+
+    context "when request is a prefetch" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it "does not create SearchQuery" do
+        expect {
+          get root_path, params: params, headers: { "X-Sec-Purpose" => "prefetch" }
+        }.not_to change(SearchQuery, :count)
+      end
+
+      it "uses params[:qid] as search_query_id" do
+        allow(Views::Static::Home).to receive(:new).and_call_original
+
+        get root_path, params: params.merge(qid: "prefetch_id"), headers: { "X-Sec-Purpose" => "prefetch" }
+
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: mock_search_results,
+          pagy: mock_pagy,
+          search_query_id: "prefetch_id",
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
           categories: kind_of(Proc)

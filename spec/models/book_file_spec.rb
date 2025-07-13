@@ -19,7 +19,7 @@
 #
 #  fk_rails_...  (book_id => books.id)
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe BookFile do
   describe "associations" do

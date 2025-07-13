@@ -24,11 +24,11 @@ RSpec.describe Author do
       described_class.index.number_of_documents
     end
 
-    it 'includes Meilisearch::Rails' do
+    it "includes Meilisearch::Rails" do
       expect(described_class.included_modules).to include(Meilisearch::Rails)
     end
 
-    it 'has the correct searchable attributes' do
+    it "has the correct searchable attributes" do
       expect(described_class.index.searchable_attributes).to match_array(%w[name])
     end
   end

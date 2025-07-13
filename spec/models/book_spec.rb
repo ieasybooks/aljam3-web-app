@@ -34,7 +34,7 @@ RSpec.describe Book do
     it { is_expected.to belong_to(:category).counter_cache(true) }
     it { is_expected.to have_many(:files).class_name("BookFile").dependent(:destroy) }
     it { is_expected.to have_many(:pages).through(:files) }
-    it { is_expected.to have_many(:search_clicks).dependent(:destroy) }
+    it { is_expected.to have_many(:search_clicks).dependent(:delete_all) }
   end
 
   describe "validations" do
@@ -48,15 +48,15 @@ RSpec.describe Book do
       described_class.index.number_of_documents
     end
 
-    it 'includes Meilisearch::Rails' do
+    it "includes Meilisearch::Rails" do
       expect(described_class.included_modules).to include(Meilisearch::Rails)
     end
 
-    it 'has the correct searchable attributes' do
+    it "has the correct searchable attributes" do
       expect(described_class.index.searchable_attributes).to match_array(%w[title])
     end
 
-    it 'has the correct filterable attributes' do
+    it "has the correct filterable attributes" do
       expect(described_class.index.filterable_attributes).to match_array(%w[library author category])
     end
   end

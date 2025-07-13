@@ -5,7 +5,7 @@ Library.find_or_create_by(name: "المكتبة الوقفية")
 Library.find_or_create_by(name: "المكتبة الشاملة الوقفية")
 
 if Rails.env.development? && Book.count == 0
-  require 'faker'
+  require "faker"
 
   10.times do
     library = Library.all.sample
