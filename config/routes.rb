@@ -3,7 +3,7 @@
 #                                   Prefix Verb     URI Pattern                                                                                       Controller#Action
 #                                                   /assets                                                                                           Propshaft::Server
 #                       rails_health_check GET      /up(.:format)                                                                                     rails/health#show
-#                             pwa_manifest GET      /manifest(.:format)                                                                               rails/pwa#manifest
+#                             pwa_manifest GET      /manifest-v2(.:format)                                                                            rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
 #                                     root GET      /                                                                                                 static#home
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
@@ -270,7 +270,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "manifest-v2" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
