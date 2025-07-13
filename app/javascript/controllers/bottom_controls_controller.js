@@ -20,6 +20,7 @@ export default class extends Controller {
 
   connect() {
     this.#updateButtonStates()
+    this.#registerPageChangingEvent()
   }
 
   firstPage() {
@@ -58,6 +59,16 @@ export default class extends Controller {
 
     // Update PDF.js page number at the end as it could be undefined/null and cause issues.
     this.iframeTarget.contentWindow.PDFViewerApplication.page = this.totalPagesValue
+  }
+
+  #registerPageChangingEvent() {
+    if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus) {
+      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
+        this.#updateButtonStates()
+      })
+    } else {
+      setTimeout(() => this.#registerPageChangingEvent(), 100)
+    }
   }
 
   #updateButtonStates() {
