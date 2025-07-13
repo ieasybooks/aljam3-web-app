@@ -112,6 +112,7 @@ en:
       one_place: One Place
       other: Other
       quran: Quran
+      results_title: Results for "%{query}"
       sixty_three_books: 63K Books
       thirty_four_authors: 34K Authors
       thirty_seven_million_pages: 37M Pages

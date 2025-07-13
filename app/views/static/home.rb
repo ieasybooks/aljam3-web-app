@@ -8,7 +8,14 @@ class Views::Static::Home < Views::Base
     @libraries = libraries
   end
 
-  def page_title = t(".title")
+  def page_title
+    if @results.nil?
+      t(".title")
+    else
+      t(".results_title", query: params[:q])
+    end
+  end
+
   def description = t(".description")
   def keywords = t(".keywords")
 

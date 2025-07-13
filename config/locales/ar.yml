@@ -110,6 +110,7 @@ ar:
       one_place: مكان واحد
       other: أخرى
       quran: القرآن وعلومه
+      results_title: نتائج البحث عن "%{query}"
       sixty_three_books: 63 ألف كتاب
       thirty_four_authors: 34 ألف مؤلِّف
       thirty_seven_million_pages: 37 مليون صفحة
