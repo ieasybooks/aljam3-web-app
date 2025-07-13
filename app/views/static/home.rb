@@ -1,8 +1,8 @@
 class Views::Static::Home < Views::Base
-  def initialize(results:, pagy:, search_query:, carousels_books_ids:, categories:, libraries:)
+  def initialize(results:, pagy:, search_query_id:, carousels_books_ids:, categories:, libraries:)
     @results = results
     @pagy = pagy
-    @search_query = search_query
+    @search_query_id = search_query_id
     @carousels_books_ids = carousels_books_ids
     @categories = categories
     @libraries = libraries
@@ -22,7 +22,7 @@ class Views::Static::Home < Views::Base
         search_examples
         carousels
       else
-        @results.any? ? SearchResultsList(results: @results, pagy: @pagy, search_query: @search_query) : SearchNoResultsFound()
+        @results.any? ? SearchResultsList(results: @results, pagy: @pagy, search_query_id: @search_query_id) : SearchNoResultsFound()
       end
     end
   end

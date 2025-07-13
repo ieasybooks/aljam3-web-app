@@ -1,10 +1,9 @@
 class PagesController < ApplicationController
   before_action :set_page
-  before_action :set_search_query
 
   def show
-    if @search_query.present? && request.headers["X-Sec-Purpose"] != "prefetch"
-      SearchClick.create(index: params[:index].presence&.to_i || -1, search_query: @search_query, result: @page)
+    if params[:search_query_id].present? && request.headers["X-Sec-Purpose"] != "prefetch"
+      SearchClick.create(index: params[:index].presence&.to_i || -1, search_query_id: params[:search_query_id], result: @page)
     end
 
     respond_to do |format|
@@ -16,12 +15,4 @@ class PagesController < ApplicationController
   private
 
   def set_page = @page = Page.find_by(book_file_id: params[:file_id], number: params[:page_number])
-
-  def set_search_query
-    @search_query = nil
-
-    if params[:search_query].present? && request.headers["X-Sec-Purpose"] != "prefetch"
-      @search_query = SearchQuery.find(params[:search_query])
-    end
-  end
 end

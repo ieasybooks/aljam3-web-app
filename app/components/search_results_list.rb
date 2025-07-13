@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Components::SearchResultsList < Components::Base
-  def initialize(results:, pagy:, search_query:)
+  def initialize(results:, pagy:, search_query_id:)
     @results = results
     @pagy = pagy
-    @search_query = search_query
+    @search_query_id = search_query_id
   end
 
   def view_template
@@ -18,9 +18,9 @@ class Components::SearchResultsList < Components::Base
         @results.each_with_index do |result, index|
           case result
           when Book
-            SearchBookCard(book: result, index: index + (current_page - 1) * 20, search_query: @search_query)
+            SearchBookCard(book: result, index: index + (current_page - 1) * 20, search_query_id: @search_query_id)
           when Page
-            SearchPageCard(page: result, index: index + (current_page - 1) * 20, search_query: @search_query)
+            SearchPageCard(page: result, index: index + (current_page - 1) * 20, search_query_id: @search_query_id)
           end
 
           if (index + 1) == (results_count - 5) && next_page
@@ -32,7 +32,7 @@ class Components::SearchResultsList < Components::Base
                 category: params.dig(:refinements, :category)
               },
               page: next_page,
-              search_query: @search_query.id
+              search_query_id: @search_query_id
             ), loading: :lazy
           end
         end

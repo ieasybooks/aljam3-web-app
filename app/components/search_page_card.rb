@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Components::SearchPageCard < Components::Base
-  def initialize(page:, index:, search_query:)
+  def initialize(page:, index:, search_query_id:)
     @page = page
     @index = index
-    @search_query = search_query
+    @search_query_id = search_query_id
   end
 
   def view_template
@@ -23,7 +23,7 @@ class Components::SearchPageCard < Components::Base
               @page.file.id,
               @page.number,
               index: @index,
-              search_query: @search_query&.id
+              search_query_id: @search_query_id
             ),
             target: "_blank"
           ) do
@@ -78,7 +78,7 @@ class Components::SearchPageCard < Components::Base
             @page.file.id,
             @page.number,
             index: @index,
-            search_query: @search_query&.id
+            search_query_id: @search_query_id
           ),
           variant: :outline,
           size: :sm,
