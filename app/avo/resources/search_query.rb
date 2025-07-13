@@ -10,5 +10,6 @@ class Avo::Resources::SearchQuery < Avo::BaseResource
     field :query, as: :text
     field :refinements, as: :code, language: "javascript"
     field :user, as: :belongs_to
+    field :search_clicks, as: :has_many
   end
 end
