@@ -10,7 +10,7 @@ gem "get_process_mem", "~> 1.0"
 gem "goldiloader", "~> 5.4"
 gem "meilisearch-rails", "~> 0.16.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
-gem "mission_control-jobs", "~> 1.0", ">= 1.0.2"
+gem "mission_control-jobs", "~> 1.1"
 gem "oj", "~> 3.16", ">= 3.16.11"
 gem "omniauth", "~> 2.1", ">= 2.1.3"
 gem "omniauth-google-oauth2", "~> 1.2", ">= 1.2.1"
