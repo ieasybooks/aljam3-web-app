@@ -10,12 +10,12 @@ gem "get_process_mem", "~> 1.0"
 gem "goldiloader", "~> 5.4"
 gem "meilisearch-rails", "~> 0.16.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
-gem "mission_control-jobs", "~> 1.0", ">= 1.0.2"
+gem "mission_control-jobs", "~> 1.1"
 gem "oj", "~> 3.16", ">= 3.16.11"
 gem "omniauth", "~> 2.1", ">= 2.1.3"
 gem "omniauth-google-oauth2", "~> 1.2", ">= 1.2.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
-gem "pagy", "~> 9.3", ">= 9.3.4"
+gem "pagy", "~> 9.3", ">= 9.3.5"
 gem "pghero", "~> 3.7"
 gem "pg_query", "~> 6.1"
 gem "phlex-icons", "~> 2.29"
@@ -34,7 +34,7 @@ gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
   gem "addressable", "~> 2.8", ">= 2.8.7"
-  gem "annotaterb", "~> 4.16"
+  gem "annotaterb", "~> 4.17"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
   gem "faker", "~> 3.5", ">= 3.5.2", require: false
