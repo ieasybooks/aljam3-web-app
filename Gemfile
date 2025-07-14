@@ -34,7 +34,7 @@ gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
   gem "addressable", "~> 2.8", ">= 2.8.7"
-  gem "annotaterb", "~> 4.16"
+  gem "annotaterb", "~> 4.17"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
   gem "faker", "~> 3.5", ">= 3.5.2", require: false
