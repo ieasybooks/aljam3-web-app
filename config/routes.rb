@@ -295,7 +295,7 @@ Rails.application.routes.draw do
     mount RailsPerformance::Engine, at: "/performance"
   end
 
-  get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page
-  get "/:book_id/:file_id", to: "files#show", as: :book_file
-  get "/:book_id", to: "books#show", as: :book
+  get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }
+  get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
+  get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
 end
