@@ -12,6 +12,7 @@ class Components::Layout < Components::Base
       Head(@page_info)
 
       body(data: { controller: "sync-value" }) do
+        Banner() unless @page_info.no_banner
         Navbar() unless @page_info.no_navbar
         Flash()
 

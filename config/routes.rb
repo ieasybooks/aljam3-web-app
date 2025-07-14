@@ -38,9 +38,9 @@
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
 #                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
 #                        rails_performance          /performance                                                                                      RailsPerformance::Engine
-#                           book_file_page GET      /:book_id/:file_id/:page_number(.:format)                                                         pages#show
-#                                book_file GET      /:book_id/:file_id(.:format)                                                                      files#show
-#                                     book GET      /:book_id(.:format)                                                                               books#show
+#                           book_file_page GET      /:book_id/:file_id/:page_number(.:format)                                                         pages#show {book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
+#                                book_file GET      /:book_id/:file_id(.:format)                                                                      files#show {book_id: /\d+/, file_id: /\d+/}
+#                                     book GET      /:book_id(.:format)                                                                               books#show {book_id: /\d+/}
 #         turbo_recede_historical_location GET      /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET      /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET      /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

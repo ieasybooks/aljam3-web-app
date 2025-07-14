@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import BannerController from "./banner_controller"
+application.register("banner", BannerController)
+
 import BottomControlsController from "./bottom_controls_controller"
 application.register("bottom-controls", BottomControlsController)
 

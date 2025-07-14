@@ -18,6 +18,7 @@ class Views::Static::Home < Views::Base
 
   def description = t(".description")
   def keywords = t(".keywords")
+  def no_banner = @results.present?
 
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
