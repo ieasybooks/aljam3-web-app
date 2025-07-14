@@ -13,7 +13,7 @@ services:
       - POSTGRES_DB=aljam3_development
 
   meilisearch:
-    image: getmeili/meilisearch:v1.14.0
+    image: getmeili/meilisearch:v1.15.1
     restart: unless-stopped
     ports:
       - "7701:7700"
