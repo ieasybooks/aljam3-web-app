@@ -41,6 +41,8 @@ ar:
       share_page: مشاركة الصفحة
       share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
       title: كتاب %{title}
+      empty_page: الصفحة فارغة
+      error_in_loading_page: حدث خطأ أثناء تحميل الصفحة
   pages_text: الصفحات
   search_book_card:
     book_page: صفحة الكتاب

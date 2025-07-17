@@ -1,15 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
-
 import { get } from "@rails/request.js"
 
 // Connects to data-controller="pdf-viewer"
 export default class extends Controller {
-  static targets = [ "iframe", "content", "progress" ]
+  static targets = ["iframe", "content", "progress"]
   static values = {
     bookId: Number,
     fileId: Number,
     currentPage: Number,
     skeleton: String,
+    emptyPage: String,
+    loadingError: String,
     totalPages: Number,
   }
 
@@ -36,7 +37,6 @@ export default class extends Controller {
       }
 
       this.#fetchPageContent()
-
       this.internalCurrentPage = this.currentPageValue
     }, 100)
   }
@@ -54,21 +54,18 @@ export default class extends Controller {
   }
 
   #hideNonFunctionalButtons() {
-    this.iframeTarget.contentWindow.document.querySelector("#viewFind").classList.add("hidden")
+    const iframeDocument = this.iframeTarget.contentWindow.document
 
-    this.iframeTarget.contentWindow.document.querySelector("#viewAttachments").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#viewLayers").classList.add("hidden")
-
-    this.iframeTarget.contentWindow.document.querySelector("#secondaryOpenFile").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#secondaryPrint").classList.add("hidden")
-
-    this.iframeTarget.contentWindow.document.querySelector("#viewBookmark").classList.add("hidden")
-
-    this.iframeTarget.contentWindow.document.querySelector("#cursorToolButtons").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#cursorToolButtons + .horizontalToolbarSeparator").classList.add("hidden")
-
-    this.iframeTarget.contentWindow.document.querySelector("#scrollModeButtons").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#scrollModeButtons + .horizontalToolbarSeparator").classList.add("hidden")
+    iframeDocument.querySelector("#viewFind")?.classList.add("hidden")
+    iframeDocument.querySelector("#viewAttachments")?.classList.add("hidden")
+    iframeDocument.querySelector("#viewLayers")?.classList.add("hidden")
+    iframeDocument.querySelector("#secondaryOpenFile")?.classList.add("hidden")
+    iframeDocument.querySelector("#secondaryPrint")?.classList.add("hidden")
+    iframeDocument.querySelector("#viewBookmark")?.classList.add("hidden")
+    iframeDocument.querySelector("#cursorToolButtons")?.classList.add("hidden")
+    iframeDocument.querySelector("#cursorToolButtons + .horizontalToolbarSeparator")?.classList.add("hidden")
+    iframeDocument.querySelector("#scrollModeButtons")?.classList.add("hidden")
+    iframeDocument.querySelector("#scrollModeButtons + .horizontalToolbarSeparator")?.classList.add("hidden")
   }
 
   async #fetchPageContent() {
@@ -83,10 +80,18 @@ export default class extends Controller {
       })
 
       history.replaceState(null, "", this.#newPagePath())
+
+      setTimeout(() => {
+        const text = this.contentTarget.innerText.trim()
+        const html = this.contentTarget.innerHTML
+        if (text === "" || html === this.skeletonValue) {
+          this.contentTarget.innerHTML = this.emptyPageValue
+        }
+      }, 300)
     } catch (error) {
       // Ignore AbortError - it means we cancelled the request intentionally
       if (error.name !== 'AbortError') {
-        console.error('Error fetching page content:', error)
+        this.contentTarget.innerHTML = this.loadingErrorValue
       }
     }
   }
