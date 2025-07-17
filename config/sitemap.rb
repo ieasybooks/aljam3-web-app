@@ -26,6 +26,10 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
+  Category.find_each do |category|
+    add category_path(category.id), lastmod: category.updated_at
+  end
+
   Book.joins(files: :pages)
       .select("books.*, pages.id as first_page_id, pages.number as first_page_number, pages.book_file_id as first_page_file_id")
       .where('pages.number = (

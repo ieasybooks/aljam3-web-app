@@ -17,6 +17,22 @@ en:
     last_page: Last Page
     next_page: Next Page
     previous_page: Previous Page
+  categories:
+    index:
+      description: List of Aljam3 categories
+      keywords:
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
+      title: Categories
+    show:
+      books: Books
   close: Close
   contact_dialog:
     contact_us_description: Have any faced any problems? Want to suggest some features? Or do you have any other questions? Contact us now!
@@ -30,6 +46,7 @@ en:
     dark_mode: Dark Mode
     light_mode: Light Mode
   navbar:
+    categories: Categories
     contact_us: Contact Us
     home: Home
     sign_out: Sign Out
@@ -75,6 +92,7 @@ en:
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
   static:
     home:
+      categories: Categories
       description: The library of Islamic libraries containing more than 63K books and 37M pages
       discover_books: Discover Books
       examples:

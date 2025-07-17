@@ -4,6 +4,7 @@ class Components::Menu < Components::Base
   def view_template
     div(class: "pb-4") do
       menu_link(path: root_path, text: t("navbar.home"), icon: Hero::Home.new(variant: :outline, class: "size-5"))
+      menu_link(path: categories_path, text: t("navbar.categories"), icon: Lucide::LayoutGrid.new(variant: :outline, class: "size-5"))
 
       if controller_name == "pages" && action_name == "show"
         ContactDialog do

@@ -31,6 +31,7 @@
 #                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
 #                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
 #                                 contacts POST     /contacts(.:format)                                                                               contacts#create
+#                                 category GET      /categories/:id(.:format)                                                                         categories#show
 #                                  authors GET      /authors(.:format)                                                                                authors#index
 #                              book_search GET      /books/:book_id/search(.:format)                                                                  books#search
 #                                      avo          /avo                                                                                              Avo::Engine
@@ -281,6 +282,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :contacts, only: %i[create]
+  resources :categories, only: %i[index show]
   resources :authors, only: :index
 
   resources :books, only: [] do

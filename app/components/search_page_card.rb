@@ -14,7 +14,9 @@ class Components::SearchPageCard < Components::Base
       end
 
       CardHeader(class: "p-4") do
-        Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @page.file.book.category.name }
+        a(href: category_path(@page.file.book.category.id)) do
+          Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @page.file.book.category.name }
+        end
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do
           a(
