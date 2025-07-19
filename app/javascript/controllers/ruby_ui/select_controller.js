@@ -185,7 +185,7 @@ export default class extends Controller {
 
   get localRubyUiSelectItemOutlets() {
     return this.rubyUiSelectItemOutlets.filter((outlet) =>
-      this.element.contains(outlet.element),
+      this.element.contains(outlet.element)
     );
   }
 }

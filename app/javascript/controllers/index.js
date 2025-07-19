@@ -2,70 +2,67 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application";
+import { application } from "./application"
 
-import BannerController from "./banner_controller";
-application.register("banner", BannerController);
+import BannerController from "./banner_controller"
+application.register("banner", BannerController)
 
-import BottomControlsController from "./bottom_controls_controller";
-application.register("bottom-controls", BottomControlsController);
+import BottomControlsController from "./bottom_controls_controller"
+application.register("bottom-controls", BottomControlsController)
 
-import CloudflareTurnstileController from "./cloudflare_turnstile_controller";
-application.register("cloudflare-turnstile", CloudflareTurnstileController);
+import CloudflareTurnstileController from "./cloudflare_turnstile_controller"
+application.register("cloudflare-turnstile", CloudflareTurnstileController)
 
-import DownloadFileController from "./download_file_controller";
-application.register("download-file", DownloadFileController);
+import DownloadFileController from "./download_file_controller"
+application.register("download-file", DownloadFileController)
 
-import PdfViewerController from "./pdf_viewer_controller";
-application.register("pdf-viewer", PdfViewerController);
+import PdfViewerController from "./pdf_viewer_controller"
+application.register("pdf-viewer", PdfViewerController)
 
-import RubyUi__CarouselController from "./ruby_ui/carousel_controller";
-application.register("ruby-ui--carousel", RubyUi__CarouselController);
+import RubyUi__CarouselController from "./ruby_ui/carousel_controller"
+application.register("ruby-ui--carousel", RubyUi__CarouselController)
 
-import RubyUi__CheckboxGroupController from "./ruby_ui/checkbox_group_controller";
-application.register(
-  "ruby-ui--checkbox-group",
-  RubyUi__CheckboxGroupController,
-);
+import RubyUi__CheckboxGroupController from "./ruby_ui/checkbox_group_controller"
+application.register("ruby-ui--checkbox-group", RubyUi__CheckboxGroupController)
 
-import RubyUi__DialogController from "./ruby_ui/dialog_controller";
-application.register("ruby-ui--dialog", RubyUi__DialogController);
+import RubyUi__DialogController from "./ruby_ui/dialog_controller"
+application.register("ruby-ui--dialog", RubyUi__DialogController)
 
-import RubyUi__DismissAlertController from "./ruby_ui/dismiss_alert_controller";
-application.register("ruby-ui--dismiss-alert", RubyUi__DismissAlertController);
+import RubyUi__DismissAlertController from "./ruby_ui/dismiss_alert_controller"
+application.register("ruby-ui--dismiss-alert", RubyUi__DismissAlertController)
 
-import RubyUi__DropdownMenuController from "./ruby_ui/dropdown_menu_controller";
-application.register("ruby-ui--dropdown-menu", RubyUi__DropdownMenuController);
+import RubyUi__DropdownMenuController from "./ruby_ui/dropdown_menu_controller"
+application.register("ruby-ui--dropdown-menu", RubyUi__DropdownMenuController)
 
-import RubyUi__FormFieldController from "./ruby_ui/form_field_controller";
-application.register("ruby-ui--form-field", RubyUi__FormFieldController);
+import RubyUi__FormFieldController from "./ruby_ui/form_field_controller"
+application.register("ruby-ui--form-field", RubyUi__FormFieldController)
 
-import RubyUi__SelectController from "./ruby_ui/select_controller";
-application.register("ruby-ui--select", RubyUi__SelectController);
+import RubyUi__SelectController from "./ruby_ui/select_controller"
+application.register("ruby-ui--select", RubyUi__SelectController)
 
-import RubyUi__SelectItemController from "./ruby_ui/select_item_controller";
-application.register("ruby-ui--select-item", RubyUi__SelectItemController);
+import RubyUi__SelectItemController from "./ruby_ui/select_item_controller"
+application.register("ruby-ui--select-item", RubyUi__SelectItemController)
 
-import RubyUi__SheetContentController from "./ruby_ui/sheet_content_controller";
-application.register("ruby-ui--sheet-content", RubyUi__SheetContentController);
+import RubyUi__SheetContentController from "./ruby_ui/sheet_content_controller"
+application.register("ruby-ui--sheet-content", RubyUi__SheetContentController)
 
-import RubyUi__SheetController from "./ruby_ui/sheet_controller";
-application.register("ruby-ui--sheet", RubyUi__SheetController);
+import RubyUi__SheetController from "./ruby_ui/sheet_controller"
+application.register("ruby-ui--sheet", RubyUi__SheetController)
 
-import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller";
-application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController);
+import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
+application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
 
-import RubyUi__TooltipController from "./ruby_ui/tooltip_controller";
-application.register("ruby-ui--tooltip", RubyUi__TooltipController);
+import RubyUi__TooltipController from "./ruby_ui/tooltip_controller"
+application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
-import SyncValueController from "./sync_value_controller";
-application.register("sync-value", SyncValueController);
+import SyncValueController from "./sync_value_controller"
+application.register("sync-value", SyncValueController)
 
-import TextRotationController from "./text_rotation_controller";
-application.register("text-rotation", TextRotationController);
+import TextRotationController from "./text_rotation_controller"
+application.register("text-rotation", TextRotationController)
 
-import TomSelectController from "./tom_select_controller";
-application.register("tom-select", TomSelectController);
+import TomSelectController from "./tom_select_controller"
+application.register("tom-select", TomSelectController)
 
-import TopControlsController from "./top_controls_controller";
-application.register("top-controls", TopControlsController);
+import TopControlsController from "./top_controls_controller"
+application.register("top-controls", TopControlsController)

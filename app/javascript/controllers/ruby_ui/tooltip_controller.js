@@ -3,7 +3,7 @@ import { computePosition, autoUpdate, offset } from "@floating-ui/dom";
 
 export default class extends Controller {
   static targets = ["trigger", "content"];
-  static values = { placement: String };
+  static values = { placement: String }
 
   constructor(...args) {
     super(...args);
@@ -23,10 +23,7 @@ export default class extends Controller {
 
   setFloatingElement() {
     this.cleanup = autoUpdate(this.triggerTarget, this.contentTarget, () => {
-      computePosition(this.triggerTarget, this.contentTarget, {
-        placement: this.placementValue,
-        middleware: [offset(4)],
-      }).then(({ x, y }) => {
+      computePosition(this.triggerTarget, this.contentTarget, { placement: this.placementValue, middleware: [offset(4)] }).then(({ x, y }) => {
         Object.assign(this.contentTarget.style, {
           left: `${x}px`,
           top: `${y}px`,
