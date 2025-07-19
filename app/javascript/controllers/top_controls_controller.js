@@ -9,7 +9,7 @@ const SIZE_TO_CLASS = {
   6: "text-2xl",
   7: "text-3xl",
   8: "text-4xl",
-  9: "text-5xl"
+  9: "text-5xl",
 }
 
 // Connects to data-controller="top-controls"
@@ -28,14 +28,14 @@ export default class extends Controller {
     "pdfContent",
     "iframe",
     "downloadImageButton",
-    "copyImageButton"
+    "copyImageButton",
   ]
 
   static values = {
     bookTitle: String,
     copyTextButtonDoneStatus: String,
     downloadImageButtonDoneStatus: String,
-    copyImageButtonDoneStatus: String
+    copyImageButtonDoneStatus: String,
   }
 
   connect() {
@@ -43,7 +43,7 @@ export default class extends Controller {
     this.pdfIndicatorTargetHTMLContent = this.pdfIndicatorTarget.innerHTML
 
     this.currentContentSize = parseInt(localStorage.getItem("txt-content-size")) || 3
-    
+
     const defaultLayout = this.#isMobile() ? "pdf-only" : "txt-and-pdf"
     this.currentLayout = localStorage.getItem("content-layout") || defaultLayout
 
@@ -177,7 +177,9 @@ export default class extends Controller {
   }
 
   #currentPageView() {
-    return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(this.iframeTarget.contentWindow.PDFViewerApplication.page - 1)
+    return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(
+      this.iframeTarget.contentWindow.PDFViewerApplication.page - 1,
+    )
   }
 
   #isMobile() {

@@ -11,11 +11,11 @@ export default class extends Controller {
     "nextPageButton",
     "nextPageButtonTooltip",
     "lastPageButton",
-    "lastPageButtonTooltip"
+    "lastPageButtonTooltip",
   ]
 
   static values = {
-    totalPages: Number
+    totalPages: Number,
   }
 
   connect() {
@@ -63,7 +63,7 @@ export default class extends Controller {
 
   #registerPageChangingEvent() {
     if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus) {
-      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
+      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", (event) => {
         this.#updateButtonStates()
       })
     } else {

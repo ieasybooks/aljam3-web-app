@@ -1,8 +1,8 @@
-import { Controller } from "@hotwired/stimulus";
-import EmblaCarousel from 'embla-carousel'
+import { Controller } from "@hotwired/stimulus"
+import EmblaCarousel from "embla-carousel"
 
 const DEFAULT_OPTIONS = {
-  loop: true
+  loop: true,
 }
 
 export default class extends Controller {
@@ -10,7 +10,7 @@ export default class extends Controller {
     options: {
       type: Object,
       default: {},
-    }
+    },
   }
   static targets = ["viewport", "nextButton", "prevButton"]
 
@@ -48,13 +48,13 @@ export default class extends Controller {
   }
 
   #toggleButtonsDisabledState(buttons, isDisabled) {
-    buttons.forEach((button) => button.disabled = isDisabled)
+    buttons.forEach((button) => (button.disabled = isDisabled))
   }
 
   get #mergedOptions() {
     return {
       ...DEFAULT_OPTIONS,
-      ...this.optionsValue
+      ...this.optionsValue,
     }
   }
 }

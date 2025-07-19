@@ -1,34 +1,37 @@
-import { Controller } from "@hotwired/stimulus";
-import { computePosition, autoUpdate, offset } from "@floating-ui/dom";
+import { Controller } from "@hotwired/stimulus"
+import { computePosition, autoUpdate, offset } from "@floating-ui/dom"
 
 export default class extends Controller {
-  static targets = ["trigger", "content"];
+  static targets = ["trigger", "content"]
   static values = { placement: String }
 
   constructor(...args) {
-    super(...args);
-    this.cleanup;
+    super(...args)
+    this.cleanup
   }
 
   connect() {
-    this.setFloatingElement();
+    this.setFloatingElement()
 
-    const tooltipId = this.contentTarget.getAttribute("id");
-    this.triggerTarget.setAttribute("aria-describedby", tooltipId);
+    const tooltipId = this.contentTarget.getAttribute("id")
+    this.triggerTarget.setAttribute("aria-describedby", tooltipId)
   }
 
   disconnect() {
-    this.cleanup();
+    this.cleanup()
   }
 
   setFloatingElement() {
     this.cleanup = autoUpdate(this.triggerTarget, this.contentTarget, () => {
-      computePosition(this.triggerTarget, this.contentTarget, { placement: this.placementValue, middleware: [offset(4)] }).then(({ x, y }) => {
+      computePosition(this.triggerTarget, this.contentTarget, {
+        placement: this.placementValue,
+        middleware: [offset(4)],
+      }).then(({ x, y }) => {
         Object.assign(this.contentTarget.style, {
           left: `${x}px`,
           top: `${y}px`,
-        });
-      });
-    });
+        })
+      })
+    })
   }
 }

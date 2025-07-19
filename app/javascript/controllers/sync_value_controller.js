@@ -20,7 +20,7 @@ export default class extends Controller {
 
   syncValueFromSourceToTarget(source) {
     const target = this.findTargetBySyncId(source.dataset.syncId)
-    
+
     if (target) {
       target.value = source.value
     }
@@ -28,15 +28,15 @@ export default class extends Controller {
 
   syncValueFromTargetToSource(source) {
     const target = this.findTargetBySyncId(source.dataset.syncId)
-    
+
     if (target) {
       source.value = target.value
 
-      source.dispatchEvent(new InputEvent(source.dataset.syncEvent, { bubbles: true }));
+      source.dispatchEvent(new InputEvent(source.dataset.syncEvent, { bubbles: true }))
     }
   }
 
   findTargetBySyncId(syncId) {
-    return this.targetTargets.find(target => target.dataset.syncId === syncId)
+    return this.targetTargets.find((target) => target.dataset.syncId === syncId)
   }
 }

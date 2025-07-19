@@ -52,7 +52,9 @@
   "search.exclude": {
     "app/views/pdfjs/index.html": true
   },
-  "mise.configureExtensionsAutomaticallyIgnoreList": [
-    "ms-vscode.js-debug"
-  ]
+  "mise.configureExtensionsAutomaticallyIgnoreList": ["ms-vscode.js-debug"],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  }
 }

@@ -45,7 +45,7 @@ export default class extends Controller {
     if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus) {
       this.#hideNonFunctionalButtons()
 
-      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
+      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", (event) => {
         this.currentPageValue = event.pageNumber
       })
     } else {
@@ -76,7 +76,7 @@ export default class extends Controller {
 
       await get(this.#newPagePath(), {
         responseKind: "turbo-stream",
-        signal: this.currentAbortController.signal
+        signal: this.currentAbortController.signal,
       })
 
       history.replaceState(null, "", this.#newPagePath())
@@ -90,7 +90,7 @@ export default class extends Controller {
       }, 300)
     } catch (error) {
       // Ignore AbortError - it means we cancelled the request intentionally
-      if (error.name !== 'AbortError') {
+      if (error.name !== "AbortError") {
         this.contentTarget.innerHTML = this.loadingErrorValue
       }
     }

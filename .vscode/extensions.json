@@ -12,6 +12,7 @@
     "mtxr.sqltools",
     "mtxr.sqltools-driver-pg",
     "vscode-icons-team.vscode-icons",
-    "waderyan.gitblame"
+    "waderyan.gitblame",
+    "esbenp.prettier-vscode"
   ]
 }

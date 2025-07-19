@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   connect() {
     if (window.turnstile && this.element.innerHTML.trim() === "") {
-      window.turnstile.render(this.element);
+      window.turnstile.render(this.element)
     }
   }
 }
