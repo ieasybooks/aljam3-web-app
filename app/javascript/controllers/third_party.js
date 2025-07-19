@@ -1,7 +1,7 @@
-import { application } from "./application"
+import { application } from "./application";
 
-import Clipboard from "@stimulus-components/clipboard"
-application.register("clipboard", Clipboard)
+import Clipboard from "@stimulus-components/clipboard";
+application.register("clipboard", Clipboard);
 
-import ReadMore from "@stimulus-components/read-more"
-application.register("read-more", ReadMore)
+import ReadMore from "@stimulus-components/read-more";
+application.register("read-more", ReadMore);
