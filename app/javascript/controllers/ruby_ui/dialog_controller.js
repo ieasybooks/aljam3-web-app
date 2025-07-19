@@ -6,7 +6,7 @@ export default class extends Controller {
   static values = {
     open: {
       type: Boolean,
-      default: false
+      default: false,
     },
   }
 
@@ -18,14 +18,14 @@ export default class extends Controller {
 
   open(e) {
     e.preventDefault()
-    document.body.insertAdjacentHTML('beforeend', this.contentTarget.innerHTML)
+    document.body.insertAdjacentHTML("beforeend", this.contentTarget.innerHTML)
     // prevent scroll on body
-    document.body.classList.add('overflow-hidden')
+    document.body.classList.add("overflow-hidden")
   }
 
   dismiss() {
     // allow scroll on body
-    document.body.classList.remove('overflow-hidden')
+    document.body.classList.remove("overflow-hidden")
     // remove the element
     this.element.remove()
   }

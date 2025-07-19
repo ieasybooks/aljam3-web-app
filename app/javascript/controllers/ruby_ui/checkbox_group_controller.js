@@ -1,21 +1,21 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["checkbox"];
+  static targets = ["checkbox"]
 
   connect() {
-    this.#handleRequired();
+    this.#handleRequired()
   }
 
   onChange() {
-    this.#handleRequired();
+    this.#handleRequired()
   }
 
   #handleRequired() {
-    if (!this.element.hasAttribute("data-required")) return;
+    if (!this.element.hasAttribute("data-required")) return
 
-    const checked = this.checkboxTargets.some(({ checked }) => checked);
+    const checked = this.checkboxTargets.some(({ checked }) => checked)
 
-    this.checkboxTargets.forEach((checkbox) => (checkbox.required = !checked));
+    this.checkboxTargets.forEach((checkbox) => (checkbox.required = !checked))
   }
 }

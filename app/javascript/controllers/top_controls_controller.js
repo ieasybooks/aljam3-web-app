@@ -9,7 +9,7 @@ const SIZE_TO_CLASS = {
   6: "text-2xl",
   7: "text-3xl",
   8: "text-4xl",
-  9: "text-5xl"
+  9: "text-5xl",
 }
 
 // Connects to data-controller="top-controls"
@@ -28,22 +28,23 @@ export default class extends Controller {
     "pdfContent",
     "iframe",
     "downloadImageButton",
-    "copyImageButton"
+    "copyImageButton",
   ]
 
   static values = {
     bookTitle: String,
     copyTextButtonDoneStatus: String,
     downloadImageButtonDoneStatus: String,
-    copyImageButtonDoneStatus: String
+    copyImageButtonDoneStatus: String,
   }
 
   connect() {
     this.txtIndicatorTargetHTMLContent = this.txtIndicatorTarget.innerHTML
     this.pdfIndicatorTargetHTMLContent = this.pdfIndicatorTarget.innerHTML
 
-    this.currentContentSize = parseInt(localStorage.getItem("txt-content-size")) || 3
-    
+    this.currentContentSize =
+      parseInt(localStorage.getItem("txt-content-size")) || 3
+
     const defaultLayout = this.#isMobile() ? "pdf-only" : "txt-and-pdf"
     this.currentLayout = localStorage.getItem("content-layout") || defaultLayout
 
@@ -72,7 +73,9 @@ export default class extends Controller {
       this.currentContentSize = 9
     }
 
-    this.contentTarget.classList.remove(SIZE_TO_CLASS[this.currentContentSize - 1])
+    this.contentTarget.classList.remove(
+      SIZE_TO_CLASS[this.currentContentSize - 1],
+    )
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
 
     localStorage.setItem("txt-content-size", this.currentContentSize)
@@ -85,7 +88,9 @@ export default class extends Controller {
       this.currentContentSize = 1
     }
 
-    this.contentTarget.classList.remove(SIZE_TO_CLASS[this.currentContentSize + 1])
+    this.contentTarget.classList.remove(
+      SIZE_TO_CLASS[this.currentContentSize + 1],
+    )
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
 
     localStorage.setItem("txt-content-size", this.currentContentSize)
@@ -118,7 +123,8 @@ export default class extends Controller {
     const oldInnerHTML = this.downloadImageButtonTarget.innerHTML
 
     this.downloadImageButtonTarget.setAttribute("disabled", true)
-    this.downloadImageButtonTarget.innerHTML = this.downloadImageButtonDoneStatusValue
+    this.downloadImageButtonTarget.innerHTML =
+      this.downloadImageButtonDoneStatusValue
 
     setTimeout(() => {
       this.downloadImageButtonTarget.innerHTML = oldInnerHTML
@@ -146,15 +152,27 @@ export default class extends Controller {
   #applyLayout() {
     this.txtIndicatorTarget.innerHTML = this.txtIndicatorTargetHTMLContent
 
-    this.txtContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
-    this.txtAndPdfContentButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
-    this.pdfContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
+    this.txtContentOnlyButtonTarget.classList.remove(
+      "bg-neutral-200!",
+      "dark:bg-neutral-700!",
+    )
+    this.txtAndPdfContentButtonTarget.classList.remove(
+      "bg-neutral-200!",
+      "dark:bg-neutral-700!",
+    )
+    this.pdfContentOnlyButtonTarget.classList.remove(
+      "bg-neutral-200!",
+      "dark:bg-neutral-700!",
+    )
 
     this.pdfIndicatorTarget.innerHTML = this.pdfIndicatorTargetHTMLContent
 
     switch (this.currentLayout) {
       case "txt-only":
-        this.txtContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
+        this.txtContentOnlyButtonTarget.classList.add(
+          "bg-neutral-200!",
+          "dark:bg-neutral-700!",
+        )
         this.txtContentTarget.classList.remove("hidden")
         this.pdfContentTarget.classList.add("hidden")
 
@@ -163,13 +181,19 @@ export default class extends Controller {
       case "pdf-only":
         this.txtIndicatorTarget.innerHTML = ""
 
-        this.pdfContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
+        this.pdfContentOnlyButtonTarget.classList.add(
+          "bg-neutral-200!",
+          "dark:bg-neutral-700!",
+        )
         this.txtContentTarget.classList.add("hidden")
         this.pdfContentTarget.classList.remove("hidden")
         break
       case "txt-and-pdf":
       default:
-        this.txtAndPdfContentButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
+        this.txtAndPdfContentButtonTarget.classList.add(
+          "bg-neutral-200!",
+          "dark:bg-neutral-700!",
+        )
         this.txtContentTarget.classList.remove("hidden")
         this.pdfContentTarget.classList.remove("hidden")
         break
@@ -177,7 +201,9 @@ export default class extends Controller {
   }
 
   #currentPageView() {
-    return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(this.iframeTarget.contentWindow.PDFViewerApplication.page - 1)
+    return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(
+      this.iframeTarget.contentWindow.PDFViewerApplication.page - 1,
+    )
   }
 
   #isMobile() {

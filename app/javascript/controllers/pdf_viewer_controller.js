@@ -4,7 +4,7 @@ import { get } from "@rails/request.js"
 
 // Connects to data-controller="pdf-viewer"
 export default class extends Controller {
-  static targets = [ "iframe", "content", "progress" ]
+  static targets = ["iframe", "content", "progress"]
   static values = {
     bookId: Number,
     fileId: Number,
@@ -45,30 +45,53 @@ export default class extends Controller {
     if (this.iframeTarget.contentWindow?.PDFViewerApplication?.eventBus) {
       this.#hideNonFunctionalButtons()
 
-      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on("pagechanging", event => {
-        this.currentPageValue = event.pageNumber
-      })
+      this.iframeTarget.contentWindow.PDFViewerApplication.eventBus._on(
+        "pagechanging",
+        (event) => {
+          this.currentPageValue = event.pageNumber
+        },
+      )
     } else {
       setTimeout(() => this.#registerPageChangingEvent(), 100)
     }
   }
 
   #hideNonFunctionalButtons() {
-    this.iframeTarget.contentWindow.document.querySelector("#viewFind").classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#viewFind")
+      .classList.add("hidden")
 
-    this.iframeTarget.contentWindow.document.querySelector("#viewAttachments").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#viewLayers").classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#viewAttachments")
+      .classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#viewLayers")
+      .classList.add("hidden")
 
-    this.iframeTarget.contentWindow.document.querySelector("#secondaryOpenFile").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#secondaryPrint").classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#secondaryOpenFile")
+      .classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#secondaryPrint")
+      .classList.add("hidden")
 
-    this.iframeTarget.contentWindow.document.querySelector("#viewBookmark").classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#viewBookmark")
+      .classList.add("hidden")
 
-    this.iframeTarget.contentWindow.document.querySelector("#cursorToolButtons").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#cursorToolButtons + .horizontalToolbarSeparator").classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#cursorToolButtons")
+      .classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#cursorToolButtons + .horizontalToolbarSeparator")
+      .classList.add("hidden")
 
-    this.iframeTarget.contentWindow.document.querySelector("#scrollModeButtons").classList.add("hidden")
-    this.iframeTarget.contentWindow.document.querySelector("#scrollModeButtons + .horizontalToolbarSeparator").classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#scrollModeButtons")
+      .classList.add("hidden")
+    this.iframeTarget.contentWindow.document
+      .querySelector("#scrollModeButtons + .horizontalToolbarSeparator")
+      .classList.add("hidden")
   }
 
   async #fetchPageContent() {
@@ -79,14 +102,14 @@ export default class extends Controller {
 
       await get(this.#newPagePath(), {
         responseKind: "turbo-stream",
-        signal: this.currentAbortController.signal
+        signal: this.currentAbortController.signal,
       })
 
       history.replaceState(null, "", this.#newPagePath())
     } catch (error) {
       // Ignore AbortError - it means we cancelled the request intentionally
-      if (error.name !== 'AbortError') {
-        console.error('Error fetching page content:', error)
+      if (error.name !== "AbortError") {
+        console.error("Error fetching page content:", error)
       }
     }
   }
