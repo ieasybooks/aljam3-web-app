@@ -40,9 +40,7 @@ export default class extends Controller {
   }
 
   toggle() {
-    this.contentTarget.classList.contains("hidden")
-      ? this.#open()
-      : this.close()
+    this.contentTarget.classList.contains("hidden") ? this.#open() : this.close()
   }
 
   #open() {
@@ -110,9 +108,7 @@ export default class extends Controller {
   }
 
   #deselectAll() {
-    this.menuItemTargets.forEach((item) =>
-      this.#toggleAriaSelected(item, false),
-    )
+    this.menuItemTargets.forEach((item) => this.#toggleAriaSelected(item, false))
     this.selectedIndex = -1
   }
 

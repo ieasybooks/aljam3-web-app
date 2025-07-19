@@ -48,9 +48,7 @@ export default class extends Controller {
   handleKeyDown(event) {
     event.preventDefault()
 
-    const currentIndex = this.itemTargets.findIndex(
-      (item) => item.getAttribute("aria-current") === "true",
-    )
+    const currentIndex = this.itemTargets.findIndex((item) => item.getAttribute("aria-current") === "true")
 
     if (currentIndex + 1 < this.itemTargets.length) {
       this.itemTargets[currentIndex].removeAttribute("aria-current")
@@ -61,9 +59,7 @@ export default class extends Controller {
   handleKeyUp(event) {
     event.preventDefault()
 
-    const currentIndex = this.itemTargets.findIndex(
-      (item) => item.getAttribute("aria-current") === "true",
-    )
+    const currentIndex = this.itemTargets.findIndex((item) => item.getAttribute("aria-current") === "true")
 
     if (currentIndex > 0) {
       this.itemTargets[currentIndex].removeAttribute("aria-current")
@@ -77,24 +73,16 @@ export default class extends Controller {
   }
 
   setFocusAndCurrent() {
-    const selectedItem = this.itemTargets.find(
-      (item) => item.getAttribute("aria-selected") === "true",
-    )
+    const selectedItem = this.itemTargets.find((item) => item.getAttribute("aria-selected") === "true")
 
     if (selectedItem) {
       selectedItem.focus({ preventScroll: true })
       selectedItem.setAttribute("aria-current", "true")
-      this.triggerTarget.setAttribute(
-        "aria-activedescendant",
-        selectedItem.getAttribute("id"),
-      )
+      this.triggerTarget.setAttribute("aria-activedescendant", selectedItem.getAttribute("id"))
     } else {
       this.itemTarget.focus({ preventScroll: true })
       this.itemTarget.setAttribute("aria-current", "true")
-      this.triggerTarget.setAttribute(
-        "aria-activedescendant",
-        this.itemTarget.getAttribute("id"),
-      )
+      this.triggerTarget.setAttribute("aria-activedescendant", this.itemTarget.getAttribute("id"))
     }
   }
 
@@ -142,10 +130,7 @@ export default class extends Controller {
     const currentItem = this.itemTargets[currentIndex]
     currentItem.focus({ preventScroll: true })
     currentItem.setAttribute("aria-current", "true")
-    this.triggerTarget.setAttribute(
-      "aria-activedescendant",
-      currentItem.getAttribute("id"),
-    )
+    this.triggerTarget.setAttribute("aria-activedescendant", currentItem.getAttribute("id"))
   }
 
   closeContent() {
@@ -182,8 +167,6 @@ export default class extends Controller {
   }
 
   get localRubyUiSelectItemOutlets() {
-    return this.rubyUiSelectItemOutlets.filter((outlet) =>
-      this.element.contains(outlet.element),
-    )
+    return this.rubyUiSelectItemOutlets.filter((outlet) => this.element.contains(outlet.element))
   }
 }

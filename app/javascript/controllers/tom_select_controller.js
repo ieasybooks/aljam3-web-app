@@ -9,10 +9,7 @@ const ARABIC_DIACRITICS = /[ًٌٍَُِّْ]/g
 
 function normalizeArabicText(text) {
   return text
-    .replace(
-      ARABIC_NORMALIZATION_REGEX,
-      (char) => ARABIC_NORMALIZATION_MAP[char],
-    )
+    .replace(ARABIC_NORMALIZATION_REGEX, (char) => ARABIC_NORMALIZATION_MAP[char])
     .replace(ARABIC_DIACRITICS, "")
 }
 

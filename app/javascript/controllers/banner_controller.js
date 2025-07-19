@@ -43,9 +43,7 @@ export default class extends Controller {
 
   connect() {
     const randomMessage =
-      this.constructor.RANDOM_MESSAGES[
-        Math.floor(Math.random() * this.constructor.RANDOM_MESSAGES.length)
-      ]
+      this.constructor.RANDOM_MESSAGES[Math.floor(Math.random() * this.constructor.RANDOM_MESSAGES.length)]
 
     this.linkTarget.href = randomMessage.link
     this.linkTarget.textContent = randomMessage.text

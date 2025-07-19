@@ -32,9 +32,7 @@ export default class extends Controller {
     if (target) {
       source.value = target.value
 
-      source.dispatchEvent(
-        new InputEvent(source.dataset.syncEvent, { bubbles: true }),
-      )
+      source.dispatchEvent(new InputEvent(source.dataset.syncEvent, { bubbles: true }))
     }
   }
 

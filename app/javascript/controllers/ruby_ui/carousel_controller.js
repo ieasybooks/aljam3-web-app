@@ -43,14 +43,8 @@ export default class extends Controller {
   }
 
   #updateControls() {
-    this.#toggleButtonsDisabledState(
-      this.nextButtonTargets,
-      !this.carousel.canScrollNext(),
-    )
-    this.#toggleButtonsDisabledState(
-      this.prevButtonTargets,
-      !this.carousel.canScrollPrev(),
-    )
+    this.#toggleButtonsDisabledState(this.nextButtonTargets, !this.carousel.canScrollNext())
+    this.#toggleButtonsDisabledState(this.prevButtonTargets, !this.carousel.canScrollPrev())
   }
 
   #toggleButtonsDisabledState(buttons, isDisabled) {
