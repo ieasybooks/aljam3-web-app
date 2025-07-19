@@ -295,7 +295,11 @@ class Components::TopControls < Components::Base
                   TableCell { index + 1 }
                   TableCell { file.name }
 
-                  [ file.pdf_url, file.txt_url, file.docx_url ].each do |url|
+                  [
+                    { url: file.pdf_url, extension: "pdf" },
+                    { url: file.txt_url, extension: "txt" },
+                    { url: file.docx_url, extension: "docx" }
+                  ].each do |file_info|
                     TableCell(class: "text-center") do
                       Button(
                         variant: :outline,
@@ -304,7 +308,8 @@ class Components::TopControls < Components::Base
                         data: {
                           controller: "download-file",
                           action: "click->download-file#download",
-                          download_file_url_value: url,
+                          download_file_url_value: file_info[:url],
+                          download_file_filename_value: "#{file.book.title} - #{file.name}.#{file_info[:extension]}",
                           download_file_loading_status_value: capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") }
                         }
                       ) do

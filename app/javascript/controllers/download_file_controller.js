@@ -5,6 +5,7 @@ export default class extends Controller {
   static values = {
     url: String,
     loadingStatus: String,
+    filename: String,
   }
 
   async download() {
@@ -16,12 +17,16 @@ export default class extends Controller {
     const response = await fetch(this.urlValue)
     const blob = await response.blob()
     const url = window.URL.createObjectURL(blob)
+
     const a = document.createElement("a")
     a.href = url
-    a.download = this.urlValue.split("/").pop()
+    a.download = this.filenameValue
+
     document.body.appendChild(a)
+
     a.click()
     a.remove()
+
     window.URL.revokeObjectURL(url)
 
     this.element.innerHTML = oldInnerHTML
