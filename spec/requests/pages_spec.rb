@@ -92,11 +92,40 @@ RSpec.describe "Pages" do
         expect(response.media_type).to eq("text/html")
       end
 
-      it "renders turbo_stream format successfully" do # rubocop:disable RSpec/MultipleExpectations
-        get book_file_page_path(page.file.book.id, page.file.id, page.number), as: :turbo_stream
+      context "with turbo_stream format" do
+        it "renders turbo_stream format successfully" do # rubocop:disable RSpec/MultipleExpectations
+          get book_file_page_path(page.file.book.id, page.file.id, page.number), as: :turbo_stream
 
-        expect(response).to have_http_status(:success)
-        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+          expect(response).to have_http_status(:success)
+          expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        end
+
+        context "when page has content" do # rubocop:disable RSpec/NestedGroups
+          let(:page) { create(:page, content: "This is some page content.") }
+
+          it "renders the page content with simple_format" do # rubocop:disable RSpec/MultipleExpectations
+            get book_file_page_path(page.file.book.id, page.file.id, page.number), as: :turbo_stream
+
+            expect(response).to have_http_status(:success)
+            expect(response.body).to include('<turbo-stream action="update" target="txt-content">')
+            expect(response.body).to include("<p>This is some page content.</p>")
+          end
+        end
+
+        context "when page has blank content" do # rubocop:disable RSpec/NestedGroups
+          it "renders TxtMessage component with empty page message" do # rubocop:disable RSpec/MultipleExpectations,RSpec/ExampleLength
+            stubbed_page = build_stubbed(:page, content: "")
+            allow(Page).to receive(:find_by).and_return(stubbed_page)
+
+            get book_file_page_path(stubbed_page.file.book.id, stubbed_page.file.id, stubbed_page.number), as: :turbo_stream
+
+            expect(response).to have_http_status(:success)
+            expect(response.body).to include('<turbo-stream action="update" target="txt-content">')
+            expect(response.body).to include("الصفحة فارغة") # Arabic translation for "Empty Page"
+            expect(response.body).to include("text-gray-500 text-2xl")
+            expect(response.body).to include("flex items-center justify-center h-full font-medium text-center")
+          end
+        end
       end
     end
   end

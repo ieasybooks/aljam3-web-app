@@ -9,7 +9,6 @@ export default class extends Controller {
     fileId: Number,
     currentPage: Number,
     skeleton: String,
-    emptyPage: String,
     loadingError: String,
     totalPages: Number,
   }
@@ -80,14 +79,6 @@ export default class extends Controller {
       })
 
       history.replaceState(null, "", this.#newPagePath())
-
-      setTimeout(() => {
-        const text = this.contentTarget.innerText.trim()
-        const html = this.contentTarget.innerHTML
-        if (text === "" || html === this.skeletonValue) {
-          this.contentTarget.innerHTML = this.emptyPageValue
-        }
-      }, 300)
     } catch (error) {
       // Ignore AbortError - it means we cancelled the request intentionally
       if (error.name !== "AbortError") {

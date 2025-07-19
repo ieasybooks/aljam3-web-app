@@ -8,7 +8,14 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html { render Views::Pages::Show.new(page: @page) }
-      format.turbo_stream { render turbo_stream: turbo_stream.update("txt-content", helpers.simple_format(@page.content)) }
+
+      format.turbo_stream do
+        if @page.content.blank?
+          render turbo_stream: turbo_stream.update("txt-content", Components::TxtMessage.new(variant: :info, text: t("pages.show.empty_page")))
+        else
+          render turbo_stream: turbo_stream.update("txt-content", helpers.simple_format(@page.content))
+        end
+      end
     end
   end
 

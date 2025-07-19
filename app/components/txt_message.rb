@@ -1,8 +1,14 @@
 class Components::TxtMessage < Components::Base
-  def initialize(variant, text)
+  VARIANT_CLASSES = {
+    info: "text-gray-500 text-2xl",
+    error: "text-red-600 text-xl"
+  }.freeze
+
+  def initialize(variant:, text:, **attrs)
     @variant = variant
     @text = text
-    @attrs = default_attrs
+
+    super(**attrs)
   end
 
   def view_template
@@ -13,21 +19,11 @@ class Components::TxtMessage < Components::Base
 
   private
 
-  def info_classes = "text-gray-500 text-2xl"
-  def error_classes = "text-red-600 text-xl"
-
-  def variant_classes
-    {
-      info: info_classes,
-      error: error_classes
-    }[@variant] || ""
-  end
-
   def default_attrs
     {
       class: [
         "flex items-center justify-center h-full font-medium text-center",
-        variant_classes
+        VARIANT_CLASSES[@variant]
       ]
     }
   end
