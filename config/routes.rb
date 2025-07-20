@@ -30,7 +30,9 @@
 #                          new_user_unlock GET      /users/unlock/new(.:format)                                                                       devise/unlocks#new
 #                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
 #                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
+#                            switch_locale PATCH    /switch_locale(.:format)                                                                          application#switch_locale
 #                                 contacts POST     /contacts(.:format)                                                                               contacts#create
+#                               categories GET      /categories(.:format)                                                                             categories#index
 #                                 category GET      /categories/:id(.:format)                                                                         categories#show
 #                                  authors GET      /authors(.:format)                                                                                authors#index
 #                              book_search GET      /books/:book_id/search(.:format)                                                                  books#search
@@ -280,6 +282,8 @@ Rails.application.routes.draw do
   get "pdfjs", to: "pdfjs#index"
 
   devise_for :users
+
+  patch "switch_locale", to: "application#switch_locale"
 
   resources :contacts, only: %i[create]
   resources :categories, only: %i[index show]

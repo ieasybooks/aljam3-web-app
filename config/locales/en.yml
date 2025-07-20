@@ -21,15 +21,15 @@ en:
     index:
       description: List of Aljam3 categories
       keywords:
-      - Islamic libraries
-      - Islamic books
-      - المكتبات الإسلامية
-      - الكتب الإسلامية
-      - المكتبة الشاملة
-      - المكتبة الوقفية
-      - المكتبة الشاملة الوقفية
-      - مكتبة المسجد النبوي
-      - PDF to Text
+        - Islamic libraries
+        - Islamic books
+        - المكتبات الإسلامية
+        - الكتب الإسلامية
+        - المكتبة الشاملة
+        - المكتبة الوقفية
+        - المكتبة الشاملة الوقفية
+        - مكتبة المسجد النبوي
+        - PDF to Text
       title: Categories
     show:
       books: Books
@@ -49,6 +49,7 @@ en:
     categories: Categories
     contact_us: Contact Us
     home: Home
+    language: Language
     sign_out: Sign Out
     theme: Theme
   page: Page
@@ -98,36 +99,36 @@ en:
       description: The library of Islamic libraries containing more than 63K books and 37M pages
       discover_books: Discover Books
       examples:
-      - ذلك الكتاب لا ريب فيه
-      - إنما الأعمال بالنيات
-      - إن في الدنيا جنة من لم يدخلها لم يدخل جنة الآخرة
-      - هذا التقيُّ النقيُّ الطاهر العلم
-      - نحن قوم أعزّنا الله بالإسلام
-      - العلم يرفع بيتا لا عماد له
-      - المشقة تجلب التيسير
-      - شروط الصلاة
-      - متن الآجرومية
-      - تفسير آية الكرسي
-      - أحكام البيوع
-      - تعلم كتاب اليهود
-      - تاريخ الأندلس
-      - لا إله إلا الله
-      - أعلام السنة المنشورة
+        - ذلك الكتاب لا ريب فيه
+        - إنما الأعمال بالنيات
+        - إن في الدنيا جنة من لم يدخلها لم يدخل جنة الآخرة
+        - هذا التقيُّ النقيُّ الطاهر العلم
+        - نحن قوم أعزّنا الله بالإسلام
+        - العلم يرفع بيتا لا عماد له
+        - المشقة تجلب التيسير
+        - شروط الصلاة
+        - متن الآجرومية
+        - تفسير آية الكرسي
+        - أحكام البيوع
+        - تعلم كتاب اليهود
+        - تاريخ الأندلس
+        - لا إله إلا الله
+        - أعلام السنة المنشورة
       faith: Faith
       fiqh: Fiqh
       hadith: Hadith
       history: History
       hundred_categories: 100 Categories
       keywords:
-      - Islamic libraries
-      - Islamic books
-      - المكتبات الإسلامية
-      - الكتب الإسلامية
-      - المكتبة الشاملة
-      - المكتبة الوقفية
-      - المكتبة الشاملة الوقفية
-      - مكتبة المسجد النبوي
-      - PDF to Text
+        - Islamic libraries
+        - Islamic books
+        - المكتبات الإسلامية
+        - الكتب الإسلامية
+        - المكتبة الشاملة
+        - المكتبة الوقفية
+        - المكتبة الشاملة الوقفية
+        - مكتبة المسجد النبوي
+        - PDF to Text
       language: Language
       one_place: One Place
       other: Other
