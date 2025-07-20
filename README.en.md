@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="250px" src="public/icon-v2.png"/>
+</p>
+
 # Aljam3
 
 The library of Islamic libraries

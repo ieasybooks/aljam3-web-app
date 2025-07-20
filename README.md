@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="250px" src="public/icon-v2.png"/>
+</p>
+
 <h1 dir="rtl">الجامع</h1>
 
 <p dir="rtl">مكتبة المكتبات الإسلامية</p>
