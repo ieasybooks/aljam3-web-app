@@ -55,8 +55,12 @@ ar:
       description: صفحة من كتاب %{title} من تأليف %{author}
       empty_page: الصفحة فارغة
       error_in_loading_page: حدث خطأ أثناء تحميل الصفحة
+      hide_tashkeel: إخفاء التشكيل
+      hide_tashkeel_tooltip: إخفاء علامات التشكيل
       share_page: مشاركة الصفحة
       share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
+      show_tashkeel: إظهار التشكيل
+      show_tashkeel_tooltip: إظهار علامات التشكيل
       title: كتاب %{title}
   pages_text: الصفحات
   search_book_card:
@@ -142,8 +146,12 @@ ar:
     download_files: تحميل الملفات
     download_image: تحميل الصورة
     file_name: اسم الملف
+    hide_tashkeel: إخفاء التشكيل
+    hide_tashkeel_tooltip: إخفاء علامات التشكيل
     pdf_content_only: الكتاب المُصوّر فقط
     search: البحث
+    show_tashkeel: إظهار التشكيل
+    show_tashkeel_tooltip: إظهار علامات التشكيل
     text_size: حجم الخط
     text_size_decrease: تصغير حجم الخط
     text_size_increase: تكبير حجم الخط

@@ -1,13 +1,21 @@
 # frozen_string_literal: true
 
 class Components::TopControls < Components::Base
-  def initialize(book:, files:)
+  def initialize(book:, files:, page: nil)
     @book = book
     @files = files
+    @page = page
   end
 
   def view_template
-    ControlsBar do |bar|
+    ControlsBar(
+      data: {
+        top_controls_hide_tashkeel_text_value: t(".hide_tashkeel"),
+        top_controls_show_tashkeel_text_value: t(".show_tashkeel"),
+        top_controls_hide_tashkeel_tooltip_value: t(".hide_tashkeel_tooltip"),
+        top_controls_show_tashkeel_tooltip_value: t(".show_tashkeel_tooltip")
+      }
+    ) do |bar|
       txt_indicator
 
       div(class: "w-full flex justify-between sm:justify-center items-center gap-x-2") do
@@ -38,6 +46,7 @@ class Components::TopControls < Components::Base
     div(class: "max-sm:hidden flex items-center gap-x-2") do
       search_button(bar)
       copy_text_button(bar)
+      tashkeel_toggle_button(bar) if @page&.content&.present?
       text_size_dropdown(bar)
     end
 
@@ -80,6 +89,28 @@ class Components::TopControls < Components::Base
     bar.tooltip(text: t(".copy_content")) do
       bar.button(data: { action: "click->top-controls#copyText", top_controls_target: "copyTextButton" }) do
         Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
+      end
+    end
+  end
+
+  def tashkeel_toggle_button(bar)
+    bar.tooltip(text: t(".hide_tashkeel_tooltip")) do
+      bar.button(
+        data: {
+          action: "click->top-controls#toggleTashkeel",
+          top_controls_target: "tashkeelToggleButton"
+        }
+      ) do
+        # Eye icon (default state - showing tashkeel)
+        Lucide::Eye(
+          class: "size-5 transition-all duration-200",
+          data: { top_controls_target: "tashkeelToggleIconEye" }
+        )
+        # EyeOff icon (hidden state - tashkeel hidden)
+        Lucide::EyeOff(
+          class: "size-5 transition-all duration-200 hidden",
+          data: { top_controls_target: "tashkeelToggleIconEyeOff" }
+        )
       end
     end
   end
@@ -147,6 +178,25 @@ class Components::TopControls < Components::Base
               Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
 
               plain t(".copy_content")
+            end
+          end
+
+          if @page&.content&.present?
+            DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#toggleTashkeel") do
+              div(class: "w-full flex items-center gap-x-2") do
+                # Eye icon for mobile (default state)
+                Lucide::Eye(
+                  class: "size-5 transition-all duration-200",
+                  data: { top_controls_target: "tashkeelToggleIconEyeMobile" }
+                )
+                # EyeOff icon for mobile (hidden state)
+                Lucide::EyeOff(
+                  class: "size-5 transition-all duration-200 hidden",
+                  data: { top_controls_target: "tashkeelToggleIconEyeOffMobile" }
+                )
+
+                span(data: { top_controls_target: "tashkeelToggleTextMobile" }) { t(".hide_tashkeel") }
+              end
             end
           end
 

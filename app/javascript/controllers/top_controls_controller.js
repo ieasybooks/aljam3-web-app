@@ -20,6 +20,13 @@ export default class extends Controller {
     "content",
     "copyTextButton",
 
+    "tashkeelToggleButton",
+    "tashkeelToggleIconEye",
+    "tashkeelToggleIconEyeOff",
+    "tashkeelToggleIconEyeMobile",
+    "tashkeelToggleIconEyeOffMobile",
+    "tashkeelToggleTextMobile",
+
     "txtContentOnlyButton",
     "txtAndPdfContentButton",
     "pdfContentOnlyButton",
@@ -36,6 +43,10 @@ export default class extends Controller {
     copyTextButtonDoneStatus: String,
     downloadImageButtonDoneStatus: String,
     copyImageButtonDoneStatus: String,
+    hideTashkeelText: String,
+    showTashkeelText: String,
+    hideTashkeelTooltip: String,
+    showTashkeelTooltip: String,
   }
 
   connect() {
@@ -48,6 +59,10 @@ export default class extends Controller {
     this.currentLayout = localStorage.getItem("content-layout") || defaultLayout
 
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
+
+    // Initialize tashkeel toggle
+    this.initializeTashkeelToggle()
+
     this.#applyLayout()
   }
 
@@ -184,5 +199,87 @@ export default class extends Controller {
 
   #isMobile() {
     return window.innerWidth < 640 // Tailwind's sm breakpoint
+  }
+
+  initializeTashkeelToggle() {
+    if (this.hasContentTarget) {
+      // Store the original content if we have tashkeel toggle buttons
+      if (this.hasTashkeelToggleButtonTarget) {
+        this.originalContent = this.contentTarget.innerHTML
+        this.showingTashkeel = true
+      }
+    }
+  }
+
+  toggleTashkeel() {
+    if (!this.hasContentTarget || !this.originalContent) return
+
+    this.showingTashkeel = !this.showingTashkeel
+
+    if (this.showingTashkeel) {
+      // Show original text with tashkeel
+      this.contentTarget.innerHTML = this.originalContent
+    } else {
+      // Hide tashkeel by removing diacritics
+      const textWithoutTashkeel = this.removeTashkeel(this.originalContent)
+      this.contentTarget.innerHTML = textWithoutTashkeel
+    }
+
+    this.updateTashkeelToggleUI()
+  }
+
+  updateTashkeelToggleUI() {
+    // Update desktop icons
+    if (this.hasTashkeelToggleIconEyeTarget && this.hasTashkeelToggleIconEyeOffTarget) {
+      if (this.showingTashkeel) {
+        // Show Eye icon (tashkeel visible)
+        this.tashkeelToggleIconEyeTarget.classList.remove("hidden")
+        this.tashkeelToggleIconEyeOffTarget.classList.add("hidden")
+      } else {
+        // Show EyeOff icon (tashkeel hidden)
+        this.tashkeelToggleIconEyeTarget.classList.add("hidden")
+        this.tashkeelToggleIconEyeOffTarget.classList.remove("hidden")
+      }
+    }
+
+    // Update mobile icons
+    if (this.hasTashkeelToggleIconEyeMobileTarget && this.hasTashkeelToggleIconEyeOffMobileTarget) {
+      if (this.showingTashkeel) {
+        // Show Eye icon (tashkeel visible)
+        this.tashkeelToggleIconEyeMobileTarget.classList.remove("hidden")
+        this.tashkeelToggleIconEyeOffMobileTarget.classList.add("hidden")
+      } else {
+        // Show EyeOff icon (tashkeel hidden)
+        this.tashkeelToggleIconEyeMobileTarget.classList.add("hidden")
+        this.tashkeelToggleIconEyeOffMobileTarget.classList.remove("hidden")
+      }
+    }
+
+    // Update mobile text
+    if (this.hasTashkeelToggleTextMobileTarget) {
+      const text = this.showingTashkeel ? this.hideTashkeelTextValue : this.showTashkeelTextValue
+      this.tashkeelToggleTextMobileTarget.textContent = text
+    }
+
+    // Update button title
+    if (this.hasTashkeelToggleButtonTarget) {
+      const tooltip = this.showingTashkeel ? this.hideTashkeelTooltipValue : this.showTashkeelTooltipValue
+      this.tashkeelToggleButtonTarget.title = tooltip
+    }
+  }
+
+  removeTashkeel(text) {
+    // Arabic diacritics Unicode ranges:
+    // \u064B-\u0652: Fathatan, Dammatan, Kasratan, Fatha, Damma, Kasra, Shadda, Sukun
+    // \u0653-\u0655: Maddah, Hamza above, Hamza below
+    // \u0656-\u065F: Various diacritics
+    // \u0670: Superscript Alef
+    // \u06D6-\u06ED: Various Quranic marks
+    // \u08D4-\u08E1: Arabic small high marks
+    // \u08E3-\u08FF: Extended Arabic diacritics
+
+    const tashkeelRegex = /[\u064B-\u0652\u0653-\u0655\u0656-\u065F\u0670\u06D6-\u06ED\u08D4-\u08E1\u08E3-\u08FF]/g
+
+    return text.replace(tashkeelRegex, "")
   }
 }
