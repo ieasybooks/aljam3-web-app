@@ -14,7 +14,7 @@ class BooksController < ApplicationController
   def search
     pagy, results = pagy_meilisearch(Page.pagy_search(
       params[:q],
-      filter: %(book = "#{@book.id}"),
+      filter: %(book = "#{@book.id}" AND (hidden = false OR hidden NOT EXISTS)),
       highlight_pre_tag: "<mark>",
       highlight_post_tag: "</mark>"
     ))

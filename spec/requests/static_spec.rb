@@ -99,14 +99,14 @@ RSpec.describe "Static" do
           queries: {
             Book => {
               q: "test query",
-              filter: "hidden = false",
+              filter: "(hidden = false OR hidden NOT EXISTS)",
               attributes_to_highlight: %i[title],
               highlight_pre_tag: "<mark>",
               highlight_post_tag: "</mark>"
             },
             Page => {
               q: "test query",
-              filter: nil,
+              filter: "(hidden = false OR hidden NOT EXISTS)",
               attributes_to_highlight: %i[content],
               highlight_pre_tag: "<mark>",
               highlight_post_tag: "</mark>"
@@ -137,14 +137,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "hidden = false AND library = \"#{library.id}\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: "library = \"#{library.id}\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -163,14 +163,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "hidden = false AND category = \"Fiction\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: "category = \"Fiction\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -189,14 +189,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "hidden = false AND author = \"John Doe\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: "author = \"John Doe\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -215,14 +215,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "hidden = false AND library = \"#{library.id}\" AND category = \"Fiction\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\"",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: "library = \"#{library.id}\" AND category = \"Fiction\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -241,14 +241,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "hidden = false AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: "library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -267,14 +267,14 @@ RSpec.describe "Static" do
             queries: {
               Book => {
                 q: "test query",
-                filter: "hidden = false",
+                filter: "(hidden = false OR hidden NOT EXISTS)",
                 attributes_to_highlight: %i[title],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
               Page => {
                 q: "test query",
-                filter: nil,
+                filter: "(hidden = false OR hidden NOT EXISTS)",
                 attributes_to_highlight: %i[content],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
@@ -323,7 +323,7 @@ RSpec.describe "Static" do
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
-          filter: "hidden = false",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )
@@ -348,7 +348,7 @@ RSpec.describe "Static" do
 
           expect(Book).to have_received(:pagy_search).with(
             "test query",
-            filter: "hidden = false AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )
@@ -393,7 +393,7 @@ RSpec.describe "Static" do
 
         expect(Page).to have_received(:pagy_search).with(
           "test query",
-          filter: nil,
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )
@@ -418,7 +418,7 @@ RSpec.describe "Static" do
 
           expect(Page).to have_received(:pagy_search).with(
             "test query",
-            filter: "library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )
@@ -552,7 +552,7 @@ RSpec.describe "Static" do
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
-          filter: "hidden = false",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )
@@ -563,7 +563,7 @@ RSpec.describe "Static" do
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
-          filter: "hidden = false",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )
@@ -574,7 +574,7 @@ RSpec.describe "Static" do
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
-          filter: "hidden = false",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )
@@ -585,7 +585,7 @@ RSpec.describe "Static" do
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
-          filter: "hidden = false",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )
@@ -596,7 +596,7 @@ RSpec.describe "Static" do
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
-          filter: "hidden = false",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )
@@ -607,7 +607,7 @@ RSpec.describe "Static" do
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
-          filter: "hidden = false",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )

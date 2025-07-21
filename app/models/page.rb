@@ -28,8 +28,10 @@ class Page < ApplicationRecord
 
   validates :content, :number, presence: true
 
+  def hidden = file.book.hidden
+
   meilisearch enqueue: true do
-    attribute :content
+    attribute :content, :hidden
 
     attribute :library do
       # :nocov:
@@ -57,6 +59,6 @@ class Page < ApplicationRecord
 
     attributes_to_highlight %i[content]
     searchable_attributes %i[content]
-    filterable_attributes %i[library book author category]
+    filterable_attributes %i[library book author category hidden]
   end
 end

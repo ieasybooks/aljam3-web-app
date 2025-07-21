@@ -99,7 +99,7 @@ RSpec.describe "Books" do
 
         expect(Page).to have_received(:pagy_search).with(
           "test query",
-          filter: %(book = "#{book.id}"),
+          filter: %(book = "#{book.id}" AND (hidden = false OR hidden NOT EXISTS)),
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
         )

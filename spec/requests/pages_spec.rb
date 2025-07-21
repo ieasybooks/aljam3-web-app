@@ -128,5 +128,16 @@ RSpec.describe "Pages" do
         end
       end
     end
+
+    context "when page is hidden" do
+      let(:book) { create(:book, :with_files, hidden: true) }
+      let(:page) { book.pages.first }
+
+      it "redirects to root path" do
+        get book_file_page_path(page.file.book.id, page.file.id, page.number)
+
+        expect(response).to redirect_to(root_path)
+      end
+    end
   end
 end

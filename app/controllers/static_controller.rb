@@ -50,14 +50,14 @@ class StaticController < ApplicationController
         queries: {
           Book => {
             q: query,
-            filter: filter(Book),
+            filter:,
             attributes_to_highlight: %i[title],
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           },
           Page => {
             q: query,
-            filter: filter(Page),
+            filter:,
             attributes_to_highlight: %i[content],
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
@@ -66,28 +66,23 @@ class StaticController < ApplicationController
         federation: { offset: ((params[:page] || 1).to_i - 1) * 20 }
       ) ]
     when "t"
-      pagy_meilisearch(Book.pagy_search(query, filter: filter(Book), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      pagy_meilisearch(Book.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     when "c"
-      pagy_meilisearch(Page.pagy_search(query, filter: filter(Page), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      pagy_meilisearch(Page.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     end
   end
 
-  def filter(model)
+  def filter
     library = params.dig(:l)
     category = params.dig(:c)
     author = params.dig(:a)
 
-    if model == Book
-      expression = [ "hidden = false" ]
-    else
-      expression = []
-    end
-
+    expression = [ "(hidden = false OR hidden NOT EXISTS)" ]
     expression << "library = \"#{library}\"" if library.present? && library != "a"
     expression << "category = \"#{category}\"" if category.present? && category != "a"
     expression << "author = \"#{author}\"" if author.present? && author != "a"
 
-    expression.any? ? expression.join(" AND ") : nil
+    expression.join(" AND ")
   end
 
   def carousels_books_ids

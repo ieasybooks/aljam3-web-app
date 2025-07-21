@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_page
+  before_action :set_page, :check_hidden
 
   def show
     if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
@@ -11,7 +11,10 @@ class PagesController < ApplicationController
 
       format.turbo_stream do
         if @page.content.blank?
-          render turbo_stream: turbo_stream.update("txt-content", Components::TxtMessage.new(variant: :info, text: t("pages.show.empty_page")))
+          render turbo_stream: turbo_stream.update(
+            "txt-content",
+            Components::TxtMessage.new(variant: :info, text: t("pages.show.empty_page"))
+          )
         else
           render turbo_stream: turbo_stream.update("txt-content", helpers.simple_format(@page.content))
         end
@@ -22,4 +25,8 @@ class PagesController < ApplicationController
   private
 
   def set_page = @page = Page.find_by(book_file_id: params[:file_id], number: params[:page_number])
+
+  def check_hidden
+    redirect_to root_path if @page.hidden
+  end
 end
