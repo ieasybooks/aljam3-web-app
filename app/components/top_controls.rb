@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Components::TopControls < Components::Base
-  def initialize(book:, files:, page: nil)
+  def initialize(book:, files:, page:)
     @book = book
     @files = files
     @page = page
@@ -46,7 +46,7 @@ class Components::TopControls < Components::Base
     div(class: "max-sm:hidden flex items-center gap-x-2") do
       search_button(bar)
       copy_text_button(bar)
-      tashkeel_toggle_button(bar) if @page&.content&.present?
+      tashkeel_toggle_button(bar)
       text_size_dropdown(bar)
     end
 
