@@ -40,6 +40,7 @@ class Book < ApplicationRecord
   has_many :search_clicks, as: :result, dependent: :delete_all
 
   validates :title, :volumes, :pages_count, presence: true
+  validates_inclusion_of :hidden, in: [ true, false ]
 
   meilisearch enqueue: true do
     attribute :title, :hidden

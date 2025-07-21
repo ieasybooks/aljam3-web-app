@@ -18,6 +18,7 @@ class Author < ApplicationRecord
   has_many :books, dependent: :destroy
 
   validates :name, :books_count, presence: true
+  validates_inclusion_of :hidden, in: [ true, false ]
 
   meilisearch enqueue: true do
     attribute :name, :hidden
