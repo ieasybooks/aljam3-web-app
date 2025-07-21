@@ -57,12 +57,8 @@ en:
       description: Page from %{title} book by %{author}
       empty_page: Empty Page
       error_in_loading_page: An error occurred while loading the page
-      hide_tashkeel: Hide Diacritics
-      hide_tashkeel_tooltip: Hide Arabic diacritics (tashkeel)
       share_page: Share Page
       share_page_dialog_title: Share the page link with your friends!
-      show_tashkeel: Show Diacritics
-      show_tashkeel_tooltip: Show Arabic diacritics (tashkeel)
       title: "%{title} Book"
   pages_text: Pages
   search_book_card:

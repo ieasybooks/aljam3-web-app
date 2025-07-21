@@ -55,12 +55,8 @@ ar:
       description: صفحة من كتاب %{title} من تأليف %{author}
       empty_page: الصفحة فارغة
       error_in_loading_page: حدث خطأ أثناء تحميل الصفحة
-      hide_tashkeel: إخفاء التشكيل
-      hide_tashkeel_tooltip: إخفاء علامات التشكيل
       share_page: مشاركة الصفحة
       share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
-      show_tashkeel: إظهار التشكيل
-      show_tashkeel_tooltip: إظهار علامات التشكيل
       title: كتاب %{title}
   pages_text: الصفحات
   search_book_card:
