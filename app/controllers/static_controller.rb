@@ -50,14 +50,14 @@ class StaticController < ApplicationController
         queries: {
           Book => {
             q: query,
-            filter:,
+            filter: filter(Book),
             attributes_to_highlight: %i[title],
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           },
           Page => {
             q: query,
-            filter:,
+            filter: filter(Page),
             attributes_to_highlight: %i[content],
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
@@ -66,18 +66,23 @@ class StaticController < ApplicationController
         federation: { offset: ((params[:page] || 1).to_i - 1) * 20 }
       ) ]
     when "t"
-      pagy_meilisearch(Book.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      pagy_meilisearch(Book.pagy_search(query, filter: filter(Book), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     when "c"
-      pagy_meilisearch(Page.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      pagy_meilisearch(Page.pagy_search(query, filter: filter(Page), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     end
   end
 
-  def filter
+  def filter(model)
     library = params.dig(:l)
     category = params.dig(:c)
     author = params.dig(:a)
 
-    expression = []
+    if model == Book
+      expression = [ "hidden = false" ]
+    else
+      expression = []
+    end
+
     expression << "library = \"#{library}\"" if library.present? && library != "a"
     expression << "category = \"#{category}\"" if category.present? && category != "a"
     expression << "author = \"#{author}\"" if author.present? && author != "a"
@@ -88,13 +93,13 @@ class StaticController < ApplicationController
   def carousels_books_ids
     proc do
       {
-        faith:    Book.where(category_id: CATEGORY_IDS[:faith]).order("RANDOM()").limit(10).pluck(:id),
-        quran:    Book.where(category_id: CATEGORY_IDS[:quran]).order("RANDOM()").limit(10).pluck(:id),
-        hadith:   Book.where(category_id: CATEGORY_IDS[:hadith]).order("RANDOM()").limit(10).pluck(:id),
-        fiqh:     Book.where(category_id: CATEGORY_IDS[:fiqh]).order("RANDOM()").limit(10).pluck(:id),
-        history:  Book.where(category_id: CATEGORY_IDS[:history]).order("RANDOM()").limit(10).pluck(:id),
-        language: Book.where(category_id: CATEGORY_IDS[:language]).order("RANDOM()").limit(10).pluck(:id),
-        other:    Book.where(category_id: CATEGORY_IDS[:other]).order("RANDOM()").limit(10).pluck(:id)
+        faith:    Book.where(category_id: CATEGORY_IDS[:faith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        quran:    Book.where(category_id: CATEGORY_IDS[:quran], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        hadith:   Book.where(category_id: CATEGORY_IDS[:hadith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        fiqh:     Book.where(category_id: CATEGORY_IDS[:fiqh], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        history:  Book.where(category_id: CATEGORY_IDS[:history], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        language: Book.where(category_id: CATEGORY_IDS[:language], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        other:    Book.where(category_id: CATEGORY_IDS[:other], hidden: false).order("RANDOM()").limit(10).pluck(:id)
       }
     end
   end

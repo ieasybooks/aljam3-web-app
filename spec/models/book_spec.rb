@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  files_count :integer          default(0), not null
+#  hidden      :boolean          default(FALSE), not null
 #  pages_count :integer          not null
 #  title       :string           not null
 #  volumes     :integer          not null
@@ -57,7 +58,7 @@ RSpec.describe Book do
     end
 
     it "has the correct filterable attributes" do
-      expect(described_class.index.filterable_attributes).to match_array(%w[library author category])
+      expect(described_class.index.filterable_attributes).to match_array(%w[library author category hidden])
     end
   end
 

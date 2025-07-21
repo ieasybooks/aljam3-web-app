@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_21_140308) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_21_141544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_140308) do
     t.integer "files_count", default: 0, null: false
     t.bigint "author_id", null: false
     t.bigint "category_id", null: false
+    t.boolean "hidden", default: false, null: false
     t.index ["author_id"], name: "index_books_on_author_id"
     t.index ["category_id"], name: "index_books_on_category_id"
     t.index ["library_id"], name: "index_books_on_library_id"

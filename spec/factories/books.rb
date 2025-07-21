@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  files_count :integer          default(0), not null
+#  hidden      :boolean          default(FALSE), not null
 #  pages_count :integer          not null
 #  title       :string           not null
 #  volumes     :integer          not null

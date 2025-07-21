@@ -8,6 +8,7 @@ class Avo::Resources::Book < Avo::BaseResource
   def fields
     field :id, as: :id
     field :title, as: :text
+    field :hidden, as: :boolean
     field :volumes, as: :number
     field :pages_count, as: :number
     field :files_count, as: :number, readonly: true

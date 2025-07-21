@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  files_count :integer          default(0), not null
+#  hidden      :boolean          default(FALSE), not null
 #  pages_count :integer          not null
 #  title       :string           not null
 #  volumes     :integer          not null
@@ -41,7 +42,7 @@ class Book < ApplicationRecord
   validates :title, :volumes, :pages_count, presence: true
 
   meilisearch enqueue: true do
-    attribute :title
+    attribute :title, :hidden
 
     attribute :library do
       # :nocov:
@@ -63,6 +64,6 @@ class Book < ApplicationRecord
 
     attributes_to_highlight %i[title]
     searchable_attributes %i[title]
-    filterable_attributes %i[library author category]
+    filterable_attributes %i[library author category hidden]
   end
 end
