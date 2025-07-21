@@ -3,22 +3,18 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   // Keep old methods for backward compatibility
   setArabicLanguage() {
-    console.log('Setting Arabic language')
     this.switchLanguage('ar')
   }
 
   setEnglishLanguage() {
-    console.log('Setting English language')
     this.switchLanguage('en')
   }
 
   switchToAr() {
-    console.log('Switching to Arabic language')
     this.switchLanguage('ar')
   }
 
   switchToEn() {
-    console.log('Switching to English language')
     this.switchLanguage('en')
   }
 
@@ -26,14 +22,12 @@ export default class extends Controller {
   switchLanguage(event) {
     // If called directly with a string parameter (backward compatibility)
     if (typeof event === 'string') {
-      console.log('Switching to locale:', event)
       this.performLanguageSwitch(event)
       return
     }
 
     // If called from click event, get locale from data attribute
     const locale = event.currentTarget.dataset.languageToggleLocaleParam
-    console.log('Switching to locale from button:', locale)
     
     if (locale) {
       this.performLanguageSwitch(locale)
@@ -43,7 +37,6 @@ export default class extends Controller {
   }
 
   performLanguageSwitch(locale) {
-    console.log('Performing language switch to:', locale)
     
     // Send request to Rails to switch locale
     fetch('/switch_locale', {
