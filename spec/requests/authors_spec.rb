@@ -74,5 +74,17 @@ RSpec.describe "Authors" do
         })
       end
     end
+
+    context "with a hidden author" do
+      it "does not return hidden authors" do
+        create(:author, name: "Hidden Author", hidden: true)
+
+        get authors_path
+
+        json_response = JSON.parse(response.body)
+
+        expect(json_response.length).to eq(0)
+      end
+    end
   end
 end

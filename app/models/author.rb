@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  books_count :integer          default(0), not null
+#  hidden      :boolean          default(FALSE), not null
 #  name        :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -19,9 +20,10 @@ class Author < ApplicationRecord
   validates :name, :books_count, presence: true
 
   meilisearch enqueue: true do
-    attribute :name
+    attribute :name, :hidden
 
     attributes_to_highlight %i[name]
     searchable_attributes %i[name]
+    filterable_attributes %i[hidden]
   end
 end

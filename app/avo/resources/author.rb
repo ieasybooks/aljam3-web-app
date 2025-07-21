@@ -8,6 +8,7 @@ class Avo::Resources::Author < Avo::BaseResource
   def fields
     field :id, as: :id
     field :name, as: :text
+    field :hidden, as: :boolean
     field :books_count, as: :number
     field :books, as: :has_many
   end

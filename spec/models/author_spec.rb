@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  books_count :integer          default(0), not null
+#  hidden      :boolean          default(FALSE), not null
 #  name        :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -30,6 +31,10 @@ RSpec.describe Author do
 
     it "has the correct searchable attributes" do
       expect(described_class.index.searchable_attributes).to match_array(%w[name])
+    end
+
+    it "has the correct filterable attributes" do
+      expect(described_class.index.filterable_attributes).to match_array(%w[hidden])
     end
   end
 end
