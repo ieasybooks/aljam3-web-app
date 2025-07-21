@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class Components::TopControls < Components::Base
-  def initialize(book:, files:, page:)
+  def initialize(book:, files:)
     @book = book
     @files = files
-    @page = page
   end
 
   def view_template
@@ -181,22 +180,20 @@ class Components::TopControls < Components::Base
             end
           end
 
-          if @page&.content&.present?
-            DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#toggleTashkeel") do
-              div(class: "w-full flex items-center gap-x-2") do
-                # Eye icon for mobile (default state)
-                Lucide::Eye(
-                  class: "size-5 transition-all duration-200",
-                  data: { top_controls_target: "tashkeelToggleIconEyeMobile" }
-                )
-                # EyeOff icon for mobile (hidden state)
-                Lucide::EyeOff(
-                  class: "size-5 transition-all duration-200 hidden",
-                  data: { top_controls_target: "tashkeelToggleIconEyeOffMobile" }
-                )
+          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#toggleTashkeel") do
+            div(class: "w-full flex items-center gap-x-2") do
+              # Eye icon for mobile (default state)
+              Lucide::Eye(
+                class: "size-5 transition-all duration-200",
+                data: { top_controls_target: "tashkeelToggleIconEyeMobile" }
+              )
+              # EyeOff icon for mobile (hidden state)
+              Lucide::EyeOff(
+                class: "size-5 transition-all duration-200 hidden",
+                data: { top_controls_target: "tashkeelToggleIconEyeOffMobile" }
+              )
 
-                span(data: { top_controls_target: "tashkeelToggleTextMobile" }) { t(".hide_tashkeel") }
-              end
+              span(data: { top_controls_target: "tashkeelToggleTextMobile" }) { t(".hide_tashkeel") }
             end
           end
 
