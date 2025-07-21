@@ -7,19 +7,6 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :check_rack_mini_profiler
 
-  def switch_locale
-    locale = params[:locale]&.to_sym
-    if I18n.available_locales.include?(locale)
-      session[:locale] = locale
-      I18n.locale = locale
-    end
-    
-    respond_to do |format|
-      format.json { head :ok }
-      format.html { redirect_back_or_to(root_path) }
-    end
-  end
-
   private
 
   def set_locale

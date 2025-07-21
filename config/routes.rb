@@ -283,7 +283,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  patch "switch_locale", to: "application#switch_locale"
+  patch "switch_locale", to: "locales#switch"
 
   resources :contacts, only: %i[create]
   resources :categories, only: %i[index show]
