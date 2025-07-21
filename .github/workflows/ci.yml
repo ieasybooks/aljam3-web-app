@@ -152,6 +152,7 @@ jobs:
         run: bin/rspec
 
       - uses: joshmfrankel/simplecov-check-action@main
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           minimum_suite_coverage: 100
