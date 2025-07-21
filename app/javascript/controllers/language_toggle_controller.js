@@ -1,10 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  initialize() {
-    this.currentLocale = document.documentElement.lang || 'ar'
-  }
-
   setArabicLanguage() {
     console.log('Setting Arabic language')
     this.switchLanguage('ar')
@@ -17,10 +13,6 @@ export default class extends Controller {
 
   switchLanguage(locale) {
     console.log('Switching to locale:', locale)
-    
-    // Update HTML attributes immediately for visual feedback
-    document.documentElement.lang = locale
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
     
     // Send request to Rails to switch locale
     fetch('/switch_locale', {
@@ -35,9 +27,6 @@ export default class extends Controller {
       window.location.reload()
     }).catch(error => {
       console.error('Error switching language:', error)
-      // Revert HTML attributes on error
-      document.documentElement.lang = this.currentLocale
-      document.documentElement.dir = this.currentLocale === 'ar' ? 'rtl' : 'ltr'
     })
   }
 } 
