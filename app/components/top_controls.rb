@@ -9,6 +9,10 @@ class Components::TopControls < Components::Base
   def view_template
     ControlsBar(
       data: {
+        top_controls_book_title_value: @book.title,
+        top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
+        top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
+        top_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_hide_tashkeel_text_value: t(".hide_tashkeel"),
         top_controls_show_tashkeel_text_value: t(".show_tashkeel"),
         top_controls_hide_tashkeel_tooltip_value: t(".hide_tashkeel_tooltip"),
