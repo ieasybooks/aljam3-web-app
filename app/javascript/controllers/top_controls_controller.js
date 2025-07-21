@@ -221,8 +221,7 @@ export default class extends Controller {
       this.contentTarget.innerHTML = this.originalContent
     } else {
       // Hide tashkeel by removing diacritics
-      const textWithoutTashkeel = this.removeTashkeel(this.originalContent)
-      this.contentTarget.innerHTML = textWithoutTashkeel
+      this.contentTarget.innerHTML = this.removeTashkeel(this.originalContent)
     }
 
     this.updateTashkeelToggleUI()
