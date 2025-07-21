@@ -18,10 +18,6 @@ class ContactsController < ApplicationController
 
   def contact_params = params.expect(contact: %i[name email topic message])
 
-  def validate_cloudflare_turnstile
-    raise RailsCloudflareTurnstile::Forbidden unless cloudflare_turnstile_ok?
-  end
-
   def cloudflare_turnstile_handler = response_with(contact: @contact, status: :captcha_error)
 
   def response_with(contact:, status:)
