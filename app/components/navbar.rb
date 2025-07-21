@@ -69,10 +69,7 @@ class Components::Navbar < Components::Base
   private
 
   def language_toggle
-    LanguageToggle do
-      SetArabicLanguage { Button(variant: :ghost, icon: true, class: "font-bold text-base min-w-8") { "ع" } }
-      SetEnglishLanguage { Button(variant: :ghost, icon: true, class: "font-bold text-base min-w-8") { "En" } }
-    end
+    LanguageToggle()
   end
 
   def theme_toggle

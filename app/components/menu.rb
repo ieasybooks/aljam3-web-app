@@ -39,21 +39,7 @@ class Components::Menu < Components::Base
   end
 
   def language_toggle
-    LanguageToggle do
-      SetArabicLanguage do
-        Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground font-bold") do
-          span(class: "text-lg min-w-5 text-center") { "ع" }
-          plain t("navbar.language")
-        end
-      end
-
-      SetEnglishLanguage do
-        Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground font-bold") do
-          span(class: "text-lg min-w-5 text-center") { "En" }
-          plain t("navbar.language")
-        end
-      end
-    end
+    LanguageToggle()
   end
 
   def theme_toggle
