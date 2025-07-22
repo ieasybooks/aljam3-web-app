@@ -87,4 +87,11 @@ Rails.application.configure do
       enable_starttls_auto: true
     }
   end
+
+  config.lookbook.component_paths << "app/components"
+  config.lookbook.preview_layout = "lookbook_preview"
+  config.lookbook.preview_display_options = {
+    direction: [ "rtl", "ltr" ],
+    theme: [ "light", "dark" ]
+  }
 end

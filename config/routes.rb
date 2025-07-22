@@ -31,6 +31,7 @@
 #                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
 #                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
 #                                 contacts POST     /contacts(.:format)                                                                               contacts#create
+#                               categories GET      /categories(.:format)                                                                             categories#index
 #                                 category GET      /categories/:id(.:format)                                                                         categories#show
 #                                  authors GET      /authors(.:format)                                                                                authors#index
 #                              book_search GET      /books/:book_id/search(.:format)                                                                  books#search
@@ -42,6 +43,7 @@
 #                           book_file_page GET      /:book_id/:file_id/:page_number(.:format)                                                         pages#show {book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
 #                                book_file GET      /:book_id/:file_id(.:format)                                                                      files#show {book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      /:book_id(.:format)                                                                               books#show {book_id: /\d+/}
+#                                 lookbook          /lookbook                                                                                         Lookbook::Engine
 #         turbo_recede_historical_location GET      /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET      /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET      /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -262,6 +264,18 @@
 #        rails_performance_rake GET  /rake(.:format)        rails_performance/rails_performance#rake
 #      rails_performance_custom GET  /custom(.:format)      rails_performance/rails_performance#custom
 #   rails_performance_resources GET  /resources(.:format)   rails_performance/rails_performance#resources
+#
+# Routes for Lookbook::Engine:
+#                 cable      /cable                   #<ActionCable::Server::Base:0x000000014d1dea68 @config=#<ActionCable::Server::Configuration:0x000000014d29a8d0 @log_tags=[], @connection_class=#<Proc:0x0000000148c11be8 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/lookbook-2.3.11/lib/lookbook/cable/cable.rb:48 (lambda)>, @worker_pool_size=4, @disable_request_forgery_protection=false, @allow_same_origin_as_host=true, @filter_parameters=[], @health_check_application=#<Proc:0x0000000148c11d50 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/actioncable-8.0.2/lib/action_cable/server/configuration.rb:32 (lambda)>, @cable={"adapter" => "async"}, @mount_path=nil, @logger=#<ActiveSupport::BroadcastLogger:0x0000000149fbdea8 @broadcasts=[#<ActiveSupport::Logger:0x000000014af06860 @level=0, @progname=nil, @default_formatter=#<Logger::Formatter:0x0000000149fbe330 @datetime_format=nil>, @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x0000000149fbe128 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13944">, @logdev=#<Logger::LogDevice:0x000000012e89c630 @shift_period_suffix="%Y%m%d", @shift_size=104857600, @shift_age=1, @filename="/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log", @dev=#<File:/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log>, @binmode=false, @reraise_write_errors=[], @skip_header=false, @mon_data=#<Monitor:0x0000000149fbe2b8>, @mon_data_owner_object_id=4064>, @level_override={}, @local_level_key=:logger_thread_safe_level_13936>], @progname="Broadcast", @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x0000000149fbe128 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13944">>>, @mutex=#<Monitor:0x0000000148c119e0>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#         lookbook_home GET  /                        lookbook/application#index
+#   lookbook_page_index GET  /pages(.:format)         lookbook/pages#index
+#         lookbook_page GET  /pages/*path(.:format)   lookbook/pages#show
+#     lookbook_previews GET  /previews(.:format)      lookbook/previews#index
+#      lookbook_preview GET  /preview/*path(.:format) lookbook/previews#show
+#      lookbook_inspect GET  /inspect/*path(.:format) lookbook/inspector#show
+# lookbook_embed_lookup GET  /embed(.:format)         lookbook/embeds#lookup
+#        lookbook_embed GET  /embed/*path(.:format)   lookbook/embeds#show
+#                       GET  /*path(.:format)         lookbook/application#not_found
 
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -300,4 +314,6 @@ Rails.application.routes.draw do
   get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }
   get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
   get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
+
+  mount Lookbook::Engine, at: "/lookbook" if Rails.env.development?
 end
