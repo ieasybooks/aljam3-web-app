@@ -21,11 +21,12 @@ export default class extends Controller {
     "copyTextButton",
 
     "tashkeelToggleButton",
-    "tashkeelToggleIconEye",
-    "tashkeelToggleIconEyeOff",
-    "tashkeelToggleIconEyeMobile",
-    "tashkeelToggleIconEyeOffMobile",
-    "tashkeelToggleTextMobile",
+    "tashkeelToggleTooltip",
+    "mobileTashkeelToggleButton",
+    "showTashkeelToggleIcon",
+    "hideTashkeelToggleIcon",
+    "mobileShowTashkeelToggleIcon",
+    "mobileHideTashkeelToggleIcon",
 
     "txtContentOnlyButton",
     "txtAndPdfContentButton",
@@ -45,8 +46,6 @@ export default class extends Controller {
     copyImageButtonDoneStatus: String,
     hideTashkeelText: String,
     showTashkeelText: String,
-    hideTashkeelTooltip: String,
-    showTashkeelTooltip: String,
   }
 
   connect() {
@@ -60,9 +59,7 @@ export default class extends Controller {
 
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
 
-    // Initialize tashkeel toggle
-    this.initializeTashkeelToggle()
-
+    this.#initializeTashkeel()
     this.#applyLayout()
   }
 
@@ -158,6 +155,23 @@ export default class extends Controller {
     }, 1000)
   }
 
+  toggleTashkeel() {
+    this.showingTashkeel = !this.showingTashkeel
+
+    if (this.showingTashkeel) {
+      this.contentTarget.innerHTML = this.originalContent
+    } else {
+      this.contentTarget.innerHTML = this.#removeTashkeel(this.originalContent)
+    }
+
+    this.#updateTashkeelToggleUI()
+  }
+
+  #initializeTashkeel() {
+    this.originalContent = this.contentTarget.innerHTML
+    this.showingTashkeel = true
+  }
+
   #applyLayout() {
     this.txtIndicatorTarget.innerHTML = this.txtIndicatorTargetHTMLContent
 
@@ -191,83 +205,7 @@ export default class extends Controller {
     }
   }
 
-  #currentPageView() {
-    return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(
-      this.iframeTarget.contentWindow.PDFViewerApplication.page - 1,
-    )
-  }
-
-  #isMobile() {
-    return window.innerWidth < 640 // Tailwind's sm breakpoint
-  }
-
-  initializeTashkeelToggle() {
-    if (this.hasContentTarget) {
-      // Store the original content if we have tashkeel toggle buttons
-      if (this.hasTashkeelToggleButtonTarget) {
-        this.originalContent = this.contentTarget.innerHTML
-        this.showingTashkeel = true
-      }
-    }
-  }
-
-  toggleTashkeel() {
-    if (!this.hasContentTarget || !this.originalContent) return
-
-    this.showingTashkeel = !this.showingTashkeel
-
-    if (this.showingTashkeel) {
-      // Show original text with tashkeel
-      this.contentTarget.innerHTML = this.originalContent
-    } else {
-      // Hide tashkeel by removing diacritics
-      this.contentTarget.innerHTML = this.removeTashkeel(this.originalContent)
-    }
-
-    this.updateTashkeelToggleUI()
-  }
-
-  updateTashkeelToggleUI() {
-    // Update desktop icons
-    if (this.hasTashkeelToggleIconEyeTarget && this.hasTashkeelToggleIconEyeOffTarget) {
-      if (this.showingTashkeel) {
-        // Show Eye icon (tashkeel visible)
-        this.tashkeelToggleIconEyeTarget.classList.remove("hidden")
-        this.tashkeelToggleIconEyeOffTarget.classList.add("hidden")
-      } else {
-        // Show EyeOff icon (tashkeel hidden)
-        this.tashkeelToggleIconEyeTarget.classList.add("hidden")
-        this.tashkeelToggleIconEyeOffTarget.classList.remove("hidden")
-      }
-    }
-
-    // Update mobile icons
-    if (this.hasTashkeelToggleIconEyeMobileTarget && this.hasTashkeelToggleIconEyeOffMobileTarget) {
-      if (this.showingTashkeel) {
-        // Show Eye icon (tashkeel visible)
-        this.tashkeelToggleIconEyeMobileTarget.classList.remove("hidden")
-        this.tashkeelToggleIconEyeOffMobileTarget.classList.add("hidden")
-      } else {
-        // Show EyeOff icon (tashkeel hidden)
-        this.tashkeelToggleIconEyeMobileTarget.classList.add("hidden")
-        this.tashkeelToggleIconEyeOffMobileTarget.classList.remove("hidden")
-      }
-    }
-
-    // Update mobile text
-    if (this.hasTashkeelToggleTextMobileTarget) {
-      const text = this.showingTashkeel ? this.hideTashkeelTextValue : this.showTashkeelTextValue
-      this.tashkeelToggleTextMobileTarget.textContent = text
-    }
-
-    // Update button title
-    if (this.hasTashkeelToggleButtonTarget) {
-      const tooltip = this.showingTashkeel ? this.hideTashkeelTooltipValue : this.showTashkeelTooltipValue
-      this.tashkeelToggleButtonTarget.title = tooltip
-    }
-  }
-
-  removeTashkeel(text) {
+  #removeTashkeel(text) {
     // Arabic diacritics Unicode ranges:
     // \u064B-\u0652: Fathatan, Dammatan, Kasratan, Fatha, Damma, Kasra, Shadda, Sukun
     // \u0653-\u0655: Maddah, Hamza above, Hamza below
@@ -280,5 +218,38 @@ export default class extends Controller {
     const tashkeelRegex = /[\u064B-\u0652\u0653-\u0655\u0656-\u065F\u0670\u06D6-\u06ED\u08D4-\u08E1\u08E3-\u08FF]/g
 
     return text.replace(tashkeelRegex, "")
+  }
+
+  #updateTashkeelToggleUI() {
+    if (this.showingTashkeel) {
+      this.showTashkeelToggleIconTarget.classList.remove("hidden")
+      this.hideTashkeelToggleIconTarget.classList.add("hidden")
+    } else {
+      this.showTashkeelToggleIconTarget.classList.add("hidden")
+      this.hideTashkeelToggleIconTarget.classList.remove("hidden")
+    }
+
+    if (this.showingTashkeel) {
+      this.mobileShowTashkeelToggleIconTarget.classList.remove("hidden")
+      this.mobileHideTashkeelToggleIconTarget.classList.add("hidden")
+    } else {
+      this.mobileShowTashkeelToggleIconTarget.classList.add("hidden")
+      this.mobileHideTashkeelToggleIconTarget.classList.remove("hidden")
+    }
+
+    const tashkeelText = this.showingTashkeel ? this.hideTashkeelTextValue : this.showTashkeelTextValue
+
+    this.tashkeelToggleTooltipTarget.querySelector("p").textContent = tashkeelText
+    this.mobileTashkeelToggleButtonTarget.textContent = tashkeelText
+  }
+
+  #currentPageView() {
+    return this.iframeTarget.contentWindow.PDFViewerApplication.pdfViewer.getPageView(
+      this.iframeTarget.contentWindow.PDFViewerApplication.page - 1,
+    )
+  }
+
+  #isMobile() {
+    return window.innerWidth < 640 // Tailwind's sm breakpoint
   }
 }

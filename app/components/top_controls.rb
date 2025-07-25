@@ -7,18 +7,7 @@ class Components::TopControls < Components::Base
   end
 
   def view_template
-    ControlsBar(
-      data: {
-        top_controls_book_title_value: @book.title,
-        top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
-        top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
-        top_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
-        top_controls_hide_tashkeel_text_value: t(".hide_tashkeel"),
-        top_controls_show_tashkeel_text_value: t(".show_tashkeel"),
-        top_controls_hide_tashkeel_tooltip_value: t(".hide_tashkeel_tooltip"),
-        top_controls_show_tashkeel_tooltip_value: t(".show_tashkeel_tooltip")
-      }
-    ) do |bar|
+    ControlsBar do |bar|
       txt_indicator
 
       div(class: "w-full flex justify-between sm:justify-center items-center gap-x-2") do
@@ -49,8 +38,8 @@ class Components::TopControls < Components::Base
     div(class: "max-sm:hidden flex items-center gap-x-2") do
       search_button(bar)
       copy_text_button(bar)
-      tashkeel_toggle_button(bar)
       text_size_dropdown(bar)
+      tashkeel_toggle_button(bar)
     end
 
     right_side_mobile_controls(bar)
@@ -69,6 +58,7 @@ class Components::TopControls < Components::Base
       download_image_button(bar)
       copy_image_button(bar)
       download_files_button(bar)
+      bar.dummy_button
     end
   end
 
@@ -97,22 +87,21 @@ class Components::TopControls < Components::Base
   end
 
   def tashkeel_toggle_button(bar)
-    bar.tooltip(text: t(".hide_tashkeel_tooltip")) do
+    bar.tooltip(text: t(".hide_tashkeel"), content_data: { top_controls_target: "tashkeelToggleTooltip" }) do
       bar.button(
         data: {
           action: "click->top-controls#toggleTashkeel",
           top_controls_target: "tashkeelToggleButton"
         }
       ) do
-        # Eye icon (default state - showing tashkeel)
-        Lucide::Eye(
+        CustomIcons::FilledShaddah(
           class: "size-5 transition-all duration-200",
-          data: { top_controls_target: "tashkeelToggleIconEye" }
+          data: { top_controls_target: "showTashkeelToggleIcon" }
         )
-        # EyeOff icon (hidden state - tashkeel hidden)
-        Lucide::EyeOff(
+
+        CustomIcons::DottedShaddah(
           class: "size-5 transition-all duration-200 hidden",
-          data: { top_controls_target: "tashkeelToggleIconEyeOff" }
+          data: { top_controls_target: "hideTashkeelToggleIcon" }
         )
       end
     end
@@ -184,23 +173,6 @@ class Components::TopControls < Components::Base
             end
           end
 
-          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#toggleTashkeel") do
-            div(class: "w-full flex items-center gap-x-2") do
-              # Eye icon for mobile (default state)
-              Lucide::Eye(
-                class: "size-5 transition-all duration-200",
-                data: { top_controls_target: "tashkeelToggleIconEyeMobile" }
-              )
-              # EyeOff icon for mobile (hidden state)
-              Lucide::EyeOff(
-                class: "size-5 transition-all duration-200 hidden",
-                data: { top_controls_target: "tashkeelToggleIconEyeOffMobile" }
-              )
-
-              span(data: { top_controls_target: "tashkeelToggleTextMobile" }) { t(".hide_tashkeel") }
-            end
-          end
-
           DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#textSizeIncrease") do
             div(class: "w-full flex items-center gap-x-2") do
               Tabler::TextIncrease(variant: :outline, class: "size-5")
@@ -214,6 +186,22 @@ class Components::TopControls < Components::Base
               Tabler::TextDecrease(variant: :outline, class: "size-5")
 
               plain t(".text_size_decrease")
+            end
+          end
+
+          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#toggleTashkeel") do
+            div(class: "w-full flex items-center gap-x-2") do
+              CustomIcons::FilledShaddah(
+                class: "size-5 transition-all duration-200",
+                data: { top_controls_target: "mobileShowTashkeelToggleIcon" }
+              )
+
+              CustomIcons::DottedShaddah(
+                class: "size-5 transition-all duration-200 hidden",
+                data: { top_controls_target: "mobileHideTashkeelToggleIcon" }
+              )
+
+              span(data: { top_controls_target: "mobileTashkeelToggleButton" }) { t(".hide_tashkeel") }
             end
           end
 
