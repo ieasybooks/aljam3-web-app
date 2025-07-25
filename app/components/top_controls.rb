@@ -39,6 +39,7 @@ class Components::TopControls < Components::Base
       search_button(bar)
       copy_text_button(bar)
       text_size_dropdown(bar)
+      tashkeel_toggle_button(bar)
     end
 
     right_side_mobile_controls(bar)
@@ -57,6 +58,7 @@ class Components::TopControls < Components::Base
       download_image_button(bar)
       copy_image_button(bar)
       download_files_button(bar)
+      bar.dummy_button
     end
   end
 
@@ -80,6 +82,27 @@ class Components::TopControls < Components::Base
     bar.tooltip(text: t(".copy_content")) do
       bar.button(data: { action: "click->top-controls#copyText", top_controls_target: "copyTextButton" }) do
         Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
+      end
+    end
+  end
+
+  def tashkeel_toggle_button(bar)
+    bar.tooltip(text: t(".hide_tashkeel"), content_data: { top_controls_target: "tashkeelToggleTooltip" }) do
+      bar.button(
+        data: {
+          action: "click->top-controls#toggleTashkeel",
+          top_controls_target: "tashkeelToggleButton"
+        }
+      ) do
+        CustomIcons::FilledShaddah(
+          class: "size-5 transition-all duration-200",
+          data: { top_controls_target: "showTashkeelToggleIcon" }
+        )
+
+        CustomIcons::DottedShaddah(
+          class: "size-5 transition-all duration-200 hidden",
+          data: { top_controls_target: "hideTashkeelToggleIcon" }
+        )
       end
     end
   end
@@ -163,6 +186,22 @@ class Components::TopControls < Components::Base
               Tabler::TextDecrease(variant: :outline, class: "size-5")
 
               plain t(".text_size_decrease")
+            end
+          end
+
+          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#toggleTashkeel") do
+            div(class: "w-full flex items-center gap-x-2") do
+              CustomIcons::FilledShaddah(
+                class: "size-5 transition-all duration-200",
+                data: { top_controls_target: "mobileShowTashkeelToggleIcon" }
+              )
+
+              CustomIcons::DottedShaddah(
+                class: "size-5 transition-all duration-200 hidden",
+                data: { top_controls_target: "mobileHideTashkeelToggleIcon" }
+              )
+
+              span(data: { top_controls_target: "mobileTashkeelToggleButton" }) { t(".hide_tashkeel") }
             end
           end
 

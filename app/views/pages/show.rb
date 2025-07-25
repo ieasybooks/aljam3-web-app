@@ -28,6 +28,8 @@ class Views::Pages::Show < Views::Base
         top_controls_copy_text_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_download_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
         top_controls_copy_image_button_done_status_value: capture { render Lucide::Check(class: "size-5") },
+        top_controls_hide_tashkeel_text_value: t(".hide_tashkeel"),
+        top_controls_show_tashkeel_text_value: t(".show_tashkeel"),
         bottom_controls_total_pages_value: @file.pages_count
       }
     ) do

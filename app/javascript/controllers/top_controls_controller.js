@@ -20,6 +20,14 @@ export default class extends Controller {
     "content",
     "copyTextButton",
 
+    "tashkeelToggleButton",
+    "tashkeelToggleTooltip",
+    "mobileTashkeelToggleButton",
+    "showTashkeelToggleIcon",
+    "hideTashkeelToggleIcon",
+    "mobileShowTashkeelToggleIcon",
+    "mobileHideTashkeelToggleIcon",
+
     "txtContentOnlyButton",
     "txtAndPdfContentButton",
     "pdfContentOnlyButton",
@@ -36,6 +44,8 @@ export default class extends Controller {
     copyTextButtonDoneStatus: String,
     downloadImageButtonDoneStatus: String,
     copyImageButtonDoneStatus: String,
+    hideTashkeelText: String,
+    showTashkeelText: String,
   }
 
   connect() {
@@ -48,6 +58,8 @@ export default class extends Controller {
     this.currentLayout = localStorage.getItem("content-layout") || defaultLayout
 
     this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
+
+    this.#initializeTashkeel()
     this.#applyLayout()
   }
 
@@ -143,6 +155,23 @@ export default class extends Controller {
     }, 1000)
   }
 
+  toggleTashkeel() {
+    this.showingTashkeel = !this.showingTashkeel
+
+    if (this.showingTashkeel) {
+      this.contentTarget.innerHTML = this.originalContent
+    } else {
+      this.contentTarget.innerHTML = this.#removeTashkeel(this.originalContent)
+    }
+
+    this.#updateTashkeelToggleUI()
+  }
+
+  #initializeTashkeel() {
+    this.originalContent = this.contentTarget.innerHTML
+    this.showingTashkeel = true
+  }
+
   #applyLayout() {
     this.txtIndicatorTarget.innerHTML = this.txtIndicatorTargetHTMLContent
 
@@ -174,6 +203,44 @@ export default class extends Controller {
         this.pdfContentTarget.classList.remove("hidden")
         break
     }
+  }
+
+  #removeTashkeel(text) {
+    // Arabic diacritics Unicode ranges:
+    // \u064B-\u0652: Fathatan, Dammatan, Kasratan, Fatha, Damma, Kasra, Shadda, Sukun
+    // \u0653-\u0655: Maddah, Hamza above, Hamza below
+    // \u0656-\u065F: Various diacritics
+    // \u0670: Superscript Alef
+    // \u06D6-\u06ED: Various Quranic marks
+    // \u08D4-\u08E1: Arabic small high marks
+    // \u08E3-\u08FF: Extended Arabic diacritics
+
+    const tashkeelRegex = /[\u064B-\u0652\u0653-\u0655\u0656-\u065F\u0670\u06D6-\u06ED\u08D4-\u08E1\u08E3-\u08FF]/g
+
+    return text.replace(tashkeelRegex, "")
+  }
+
+  #updateTashkeelToggleUI() {
+    if (this.showingTashkeel) {
+      this.showTashkeelToggleIconTarget.classList.remove("hidden")
+      this.hideTashkeelToggleIconTarget.classList.add("hidden")
+    } else {
+      this.showTashkeelToggleIconTarget.classList.add("hidden")
+      this.hideTashkeelToggleIconTarget.classList.remove("hidden")
+    }
+
+    if (this.showingTashkeel) {
+      this.mobileShowTashkeelToggleIconTarget.classList.remove("hidden")
+      this.mobileHideTashkeelToggleIconTarget.classList.add("hidden")
+    } else {
+      this.mobileShowTashkeelToggleIconTarget.classList.add("hidden")
+      this.mobileHideTashkeelToggleIconTarget.classList.remove("hidden")
+    }
+
+    const tashkeelText = this.showingTashkeel ? this.hideTashkeelTextValue : this.showTashkeelTextValue
+
+    this.tashkeelToggleTooltipTarget.querySelector("p").textContent = tashkeelText
+    this.mobileTashkeelToggleButtonTarget.textContent = tashkeelText
   }
 
   #currentPageView() {
