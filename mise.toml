@@ -29,6 +29,10 @@ run = "bundle install"
 description = "Prepare database (create and migrate)"
 run = "bundle exec rails db:create db:migrate"
 
+[tasks.lint]
+description = "Run linters"
+run = "bundle exec rubocop -a && yarn format:js"
+
 [tasks.dev]
 description = "Start development environment"
 run = '''
