@@ -44,6 +44,16 @@ class Components::Navbar < Components::Base
 
           Tooltip(placement: :bottom) do
             TooltipTrigger do
+              language_toggle
+            end
+
+            TooltipContent(class: "delay-100 max-sm:hidden") do
+              Text { t(".language") }
+            end
+          end
+
+          Tooltip(placement: :bottom) do
+            TooltipTrigger do
               theme_toggle
             end
 
@@ -57,6 +67,10 @@ class Components::Navbar < Components::Base
   end
 
   private
+
+  def language_toggle
+    LanguageToggle()
+  end
 
   def theme_toggle
     ThemeToggle do
