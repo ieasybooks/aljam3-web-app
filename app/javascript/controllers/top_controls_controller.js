@@ -167,6 +167,16 @@ export default class extends Controller {
     this.#updateTashkeelToggleUI()
   }
 
+  updateTashkeelContent() {
+    this.originalContent = this.contentTarget.innerHTML
+
+    if (this.showingTashkeel) {
+      this.contentTarget.innerHTML = this.originalContent
+    } else {
+      this.contentTarget.innerHTML = this.#removeTashkeel(this.originalContent)
+    }
+  }
+
   #initializeTashkeel() {
     this.originalContent = this.contentTarget.innerHTML
     this.showingTashkeel = true

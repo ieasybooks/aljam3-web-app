@@ -18,6 +18,7 @@ class Views::Pages::Show < Views::Base
       class: "flex flex-col h-screen sm:container px-4 sm:px-4 py-4 space-y-4",
       data: {
         controller: "pdf-viewer top-controls bottom-controls",
+        action: "update-tashkeel-content@window->top-controls#updateTashkeelContent",
         pdf_viewer_book_id_value: @book.id,
         pdf_viewer_file_id_value: @file.id,
         pdf_viewer_current_page_value: @page.number,

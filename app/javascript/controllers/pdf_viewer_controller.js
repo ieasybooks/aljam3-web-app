@@ -73,6 +73,17 @@ export default class extends Controller {
     try {
       this.contentTarget.innerHTML = this.skeletonValue
 
+      const observer = new MutationObserver(() => {
+        window.dispatchEvent(new CustomEvent("update-tashkeel-content"))
+
+        observer.disconnect()
+      })
+
+      observer.observe(this.contentTarget, {
+        childList: true,
+        subtree: true,
+      })
+
       await get(this.#newPagePath(), {
         responseKind: "turbo-stream",
         signal: this.currentAbortController.signal,
