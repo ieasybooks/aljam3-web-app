@@ -183,34 +183,50 @@ export default class extends Controller {
   }
 
   #applyLayout() {
+    const buttonActiveClasses = ["bg-neutral-200!", "dark:bg-neutral-700!"]
+    const contentActiveClassesToAdd = ["shadow", "border"]
+    const contentActiveClassesToRemove = ["size-0", "absolute"]
+
     this.txtIndicatorTarget.innerHTML = this.txtIndicatorTargetHTMLContent
 
-    this.txtContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
-    this.txtAndPdfContentButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
-    this.pdfContentOnlyButtonTarget.classList.remove("bg-neutral-200!", "dark:bg-neutral-700!")
+    this.txtContentOnlyButtonTarget.classList.remove(...buttonActiveClasses)
+    this.txtAndPdfContentButtonTarget.classList.remove(...buttonActiveClasses)
+    this.pdfContentOnlyButtonTarget.classList.remove(...buttonActiveClasses)
 
     this.pdfIndicatorTarget.innerHTML = this.pdfIndicatorTargetHTMLContent
 
     switch (this.currentLayout) {
       case "txt-only":
-        this.txtContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
-        this.txtContentTarget.classList.remove("hidden")
-        this.pdfContentTarget.classList.add("hidden")
+        this.txtContentOnlyButtonTarget.classList.add(...buttonActiveClasses)
+
+        this.txtContentTarget.classList.remove(...contentActiveClassesToRemove)
+        this.txtContentTarget.classList.add(...contentActiveClassesToAdd)
+
+        this.pdfContentTarget.classList.add(...contentActiveClassesToRemove)
+        this.pdfContentTarget.classList.remove(...contentActiveClassesToAdd)
 
         this.pdfIndicatorTarget.innerHTML = ""
         break
       case "pdf-only":
         this.txtIndicatorTarget.innerHTML = ""
 
-        this.pdfContentOnlyButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
-        this.txtContentTarget.classList.add("hidden")
-        this.pdfContentTarget.classList.remove("hidden")
+        this.pdfContentOnlyButtonTarget.classList.add(...buttonActiveClasses)
+
+        this.txtContentTarget.classList.add(...contentActiveClassesToRemove)
+        this.txtContentTarget.classList.remove(...contentActiveClassesToAdd)
+
+        this.pdfContentTarget.classList.remove(...contentActiveClassesToRemove)
+        this.pdfContentTarget.classList.add(...contentActiveClassesToAdd)
         break
       case "txt-and-pdf":
       default:
-        this.txtAndPdfContentButtonTarget.classList.add("bg-neutral-200!", "dark:bg-neutral-700!")
-        this.txtContentTarget.classList.remove("hidden")
-        this.pdfContentTarget.classList.remove("hidden")
+        this.txtAndPdfContentButtonTarget.classList.add(...buttonActiveClasses)
+
+        this.txtContentTarget.classList.remove(...contentActiveClassesToRemove)
+        this.pdfContentTarget.classList.remove(...contentActiveClassesToRemove)
+
+        this.txtContentTarget.classList.add(...contentActiveClassesToAdd)
+        this.pdfContentTarget.classList.add(...contentActiveClassesToAdd)
         break
     }
   }
