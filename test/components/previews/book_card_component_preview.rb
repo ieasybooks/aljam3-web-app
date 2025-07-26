@@ -8,6 +8,6 @@ class BookCardComponentPreview < Lookbook::Preview
   end
 
   def with_no_volumes
-    render Components::BookCard.new(book: Book.first.tap { it.update(volumes: -1) })
+    render Components::BookCard.new(book: Book.first.tap { it.volumes = -1 })
   end
 end

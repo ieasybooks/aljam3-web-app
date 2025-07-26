@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 class Components::Menu < Components::Base
+  def initialize(controller_name: nil, action_name: nil)
+    @controller_name = controller_name
+    @action_name = action_name
+  end
+
   def view_template
     div(class: "pb-4") do
       menu_link(path: root_path, text: t("navbar.home"), icon: Hero::Home.new(variant: :outline, class: "size-5"))
       menu_link(path: categories_path, text: t("navbar.categories"), icon: Lucide::LayoutGrid.new(variant: :outline, class: "size-5"))
 
-      if controller_name == "pages" && action_name == "show"
+      if @controller_name == "pages" && @action_name == "show"
         ContactDialog do
           Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground") do
             Bootstrap::Mailbox(class: "size-5 ltr:transform ltr:-scale-x-100")

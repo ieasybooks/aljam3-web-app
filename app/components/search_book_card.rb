@@ -20,7 +20,7 @@ class Components::SearchBookCard < Components::Base
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do
           a(href: book_path(@book.id, i: @index, qid: @search_query_id), target: "_blank") do
-            safe (process_meilisearch_highlights(@book.formatted["title"]) || @book.title)
+            safe (process_meilisearch_highlights(@book.formatted&.[]("title")) || @book.title)
           end
         end
 

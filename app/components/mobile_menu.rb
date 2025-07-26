@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class Components::MobileMenu < Components::Base
-  def initialize(**attrs)
+  def initialize(controller_name: nil, action_name: nil, **attrs)
+    @controller_name = controller_name
+    @action_name = action_name
+
     super(**attrs)
   end
 
@@ -14,7 +17,7 @@ class Components::MobileMenu < Components::Base
           SheetHeader { Logo() }
 
           div(class: "flex-grow overflow-y-scroll") do
-            SheetMiddle { Menu() }
+            SheetMiddle { Menu(controller_name: @controller_name, action_name: @action_name) }
           end
         end
       end

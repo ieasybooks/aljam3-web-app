@@ -44,7 +44,7 @@ class Components::SearchPageCard < Components::Base
           }
         ) do
           p(class: "read-more-content", data: { read_more_target: "content" }) do
-            raw safe process_meilisearch_highlights(@page.formatted["content"]) || @page.content
+            raw safe process_meilisearch_highlights(@page.formatted&.[]("content")) || @page.content
           end
 
           button(class: "text-primary text-sm cursor-pointer", data: { action: "read-more#toggle" }) { t(".read_more") }

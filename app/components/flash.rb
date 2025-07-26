@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class Components::Flash < Components::Base
+  def initialize(flash:)
+    @flash = flash
+  end
+
   def view_template
     div(class: "sm:container px-4 sm:px-4") do
-      flash.each do |type, message|
+      @flash.each do |type, message|
         next unless message.is_a?(String)
 
         if type == "notice"

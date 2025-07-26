@@ -120,7 +120,7 @@ class Views::Pages::Show < Views::Base
 
   def breadcrumb
     div(class: "flex items-center") do
-      MobileMenu()
+      MobileMenu(controller_name:, action_name:)
 
       Breadcrumb do
         BreadcrumbList do
