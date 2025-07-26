@@ -17,6 +17,7 @@ export default class extends Controller {
     this.internalCurrentPage = this.currentPageValue
     this.currentAbortController = null
     this.debounceTimeout = null
+    this.currentObserver = null
 
     this.#registerPageChangingEvent()
   }
@@ -73,13 +74,16 @@ export default class extends Controller {
     try {
       this.contentTarget.innerHTML = this.skeletonValue
 
-      const observer = new MutationObserver(() => {
-        window.dispatchEvent(new CustomEvent("update-tashkeel-content"))
+      this.currentObserver = new MutationObserver(() => {
+        if (this.contentTarget.innerHTML !== this.skeletonValue) {
+          this.currentObserver.disconnect()
+          this.currentObserver = null
 
-        observer.disconnect()
+          window.dispatchEvent(new CustomEvent("update-tashkeel-content"))
+        }
       })
 
-      observer.observe(this.contentTarget, {
+      this.currentObserver.observe(this.contentTarget, {
         childList: true,
         subtree: true,
       })
@@ -109,6 +113,11 @@ export default class extends Controller {
 
     if (this.debounceTimeout) {
       clearTimeout(this.debounceTimeout)
+    }
+
+    if (this.currentObserver) {
+      this.currentObserver.disconnect()
+      this.currentObserver = null
     }
   }
 }
