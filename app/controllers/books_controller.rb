@@ -24,10 +24,13 @@ class BooksController < ApplicationController
       search_query_id = SearchQuery.create(query: params[:q], refinements: { book: @book.id }, user: current_user).id
     end
 
-    render turbo_stream: turbo_stream.replace(
-      params[:page].blank? ? "results_list" : "results_list_#{params[:page]}",
-      Components::SearchBookResultsList.new(book: @book, results:, pagy:, search_query_id:)
-    )
+    render turbo_stream: [
+      turbo_stream.replace("results_count", Components::SearchResultsCount.new(count: pagy.count, class: "py-2")),
+      turbo_stream.replace(
+        params[:page].blank? ? "results_list" : "results_list_#{params[:page]}",
+        Components::SearchBookResultsList.new(book: @book, results:, pagy:, search_query_id:)
+      )
+    ]
   end
 
   private

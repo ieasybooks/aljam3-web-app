@@ -288,7 +288,7 @@ RSpec.describe "Static" do
 
     context "when search_scope is title" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
+        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
       end
 
       let(:mock_search_results) do
@@ -358,7 +358,7 @@ RSpec.describe "Static" do
 
     context "when search_scope is content" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
+        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
       end
 
       let(:mock_search_results) do
@@ -428,7 +428,7 @@ RSpec.describe "Static" do
 
     context "with pagination" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
+        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
       end
 
       let(:mock_search_results) do
@@ -506,7 +506,7 @@ RSpec.describe "Static" do
 
     context "with filter edge cases" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
+        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
       end
 
       let(:mock_search_results) do
@@ -654,7 +654,7 @@ RSpec.describe "Static" do
     let(:params) { { q: "test query", s: "t", l: 1, c: 2, a: 3 } }
 
     let(:mock_pagy) do
-      double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
+      double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
     end
 
     let(:mock_search_results) do

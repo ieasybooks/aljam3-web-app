@@ -35,7 +35,12 @@ class Views::Static::Home < Views::Base
           end
         end
       else
-        @results.any? ? SearchResultsList(results: @results, pagy: @pagy, search_query_id: @search_query_id) : SearchNoResultsFound()
+        if @results.any?
+          SearchResultsCount(count: @pagy ? @pagy.count : @results.metadata["estimatedTotalHits"])
+          SearchResultsList(results: @results, pagy: @pagy, search_query_id: @search_query_id)
+        else
+          SearchNoResultsFound()
+        end
       end
     end
   end

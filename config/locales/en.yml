@@ -94,6 +94,8 @@ en:
     المكتبة الشاملة الوقفية: Shamela Waqfeya Library (4.6K books)
     المكتبة الوقفية: Waqfeya Library (10.2K books)
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
+  search_results_count:
+    results_count: 'Search results: %{count}'
   static:
     home:
       categories: Categories

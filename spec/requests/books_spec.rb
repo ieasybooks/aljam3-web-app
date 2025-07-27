@@ -83,7 +83,7 @@ RSpec.describe "Books" do
     end
 
     let(:mock_pagy) do
-      double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil) } # rubocop:disable RSpec/VerifiedDoubles
+      double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
     end
 
     before do
@@ -223,7 +223,7 @@ RSpec.describe "Books" do
 
     context "with pagination" do
       let(:mock_pagy_page) do
-        double("pagy").tap { allow(it).to receive_messages(page: 2, next: 3) } # rubocop:disable RSpec/VerifiedDoubles
+        double("pagy").tap { allow(it).to receive_messages(page: 2, next: 3, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
       end
 
       before do

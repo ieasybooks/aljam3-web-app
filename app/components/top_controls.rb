@@ -299,6 +299,7 @@ class Components::TopControls < Components::Base
         DialogMiddle(class: "py-0") do
           BookSearchForm(book: @book)
 
+          turbo_frame_tag :results_count
           turbo_frame_tag :results_list
         end
       end

@@ -10,7 +10,7 @@ class Components::SearchBookResultsList < Components::Base
 
   def view_template
     turbo_frame_tag :results_list, @pagy.page do
-      div(class: "mt-4 space-y-4") do
+      div(class: "space-y-4") do
         @results.each_with_index do |result, index|
           SearchPageCard(page: result, index: index + (@pagy.page - 1) * 20, search_query_id: @search_query_id)
 
