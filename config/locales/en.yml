@@ -9,6 +9,22 @@ en:
         topic: Topic
   aljam3: Aljam3
   apply: Apply
+  author_card:
+    books: Books
+  authors:
+    index:
+      description: List of Aljam3 authors
+      keywords:
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
+      title: Authors
   book_search_form:
     search_input_placeholder: Search in the book content
   bottom_controls:
@@ -46,6 +62,7 @@ en:
     dark_mode: Dark Mode
     light_mode: Light Mode
   navbar:
+    authors: Authors
     categories: Categories
     contact_us: Contact Us
     home: Home

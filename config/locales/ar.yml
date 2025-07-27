@@ -9,6 +9,20 @@ ar:
         topic: الموضوع
   aljam3: الجامع
   apply: تطبيق
+  author_card:
+    books: الكتب
+  authors:
+    index:
+      description: قائمة مؤلفي الجامع
+      keywords:
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF إلى نص
+      title: المؤلفون
   book_search_form:
     search_input_placeholder: ابحث في محتوى الكتاب
   bottom_controls:
@@ -44,6 +58,7 @@ ar:
     dark_mode: الوضع الداكن
     light_mode: الوضع الفاتح
   navbar:
+    authors: المؤلفون
     categories: التصنيفات
     contact_us: راسلنا
     home: الرئيسية

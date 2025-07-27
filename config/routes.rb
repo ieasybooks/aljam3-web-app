@@ -297,7 +297,7 @@ Rails.application.routes.draw do
 
   resources :contacts, only: %i[create]
   resources :categories, only: %i[index show]
-  resources :authors, only: :index
+  resources :authors, only: %i[index show]
 
   resources :books, only: [] do
     get :search
