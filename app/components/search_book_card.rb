@@ -27,7 +27,7 @@ class Components::SearchBookCard < Components::Base
         CardDescription(class: "flex items-center gap-x-1") do
           Bootstrap::Feather(class: "size-4")
 
-          plain @book.author.name
+          a(href: author_path(@book.author.id), data: { turbo_frame: "_top" }) { @book.author.name }
         end
       end
 

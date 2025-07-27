@@ -1,6 +1,74 @@
 require "rails_helper"
 
 RSpec.describe "Authors" do
+  describe "GET /authors/:id" do
+    let(:author) { create(:author) }
+
+    context "when author exists and is not hidden" do
+      it "renders the author show view" do
+        get author_path(author)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      context "with books" do
+        let!(:hidden_book) { create(:book, author:, hidden: true) }
+
+        it "displays only non-hidden books" do
+          create_list(:book, 3, author:, hidden: false)
+
+          get author_path(author)
+
+          expect(response.body).not_to include(hidden_book.title)
+        end
+
+        it "orders books by title" do
+          # Create books with specific titles to test ordering
+          book_a = create(:book, author:, title: "A Book", hidden: false)
+          book_z = create(:book, author:, title: "Z Book", hidden: false)
+
+          get author_path(author)
+
+          expect(response.body.index(book_a.title)).to be < response.body.index(book_z.title)
+        end
+      end
+
+      context "with pagination" do
+        before do
+          create_list(:book, 25, author:, hidden: false)
+        end
+
+        it "handles paginated requests with turbo stream" do
+          get author_path(author, page: 2), as: :turbo_stream
+
+          expect(response.body).to include('target="results_list_2"')
+        end
+
+        it "renders regular view for page 1" do
+          get author_path(author, page: 1)
+
+          expect(response.content_type).to eq("text/html; charset=utf-8")
+        end
+
+        it "renders regular view when no page parameter" do
+          get author_path(author)
+
+          expect(response.content_type).to eq("text/html; charset=utf-8")
+        end
+      end
+    end
+
+    context "when author is hidden" do
+      let(:hidden_author) { create(:author, hidden: true) }
+
+      it "redirects to root path" do
+        get author_path(hidden_author)
+
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
+
   describe "GET /authors" do
     context "with JSON format" do
       context "when no authors exist" do

@@ -23,6 +23,8 @@ ar:
       - مكتبة المسجد النبوي
       - PDF إلى نص
       title: المؤلفون
+    show:
+      books: الكتب
   book_search_form:
     search_input_placeholder: ابحث في محتوى الكتاب
   bottom_controls:

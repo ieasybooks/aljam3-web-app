@@ -15,7 +15,7 @@ class CategoriesController < ApplicationController
     else
       render turbo_stream: turbo_stream.replace(
         "results_list_#{@pagy.page}",
-        Components::BooksList.new(category: @category, books: @books, pagy: @pagy)
+        Components::CategoryBooksList.new(category: @category, books: @books, pagy: @pagy)
       )
     end
   end

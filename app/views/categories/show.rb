@@ -14,7 +14,7 @@ class Views::Categories::Show < Views::Base
       Heading(level: 1, class: "mb-2 font-[Cairo]") { @category.name }
       Text(class: "mb-3") { "#{t(".books")}: #{number_with_delimiter(@category.books_count)}" }
 
-      BooksList(category: @category, books: @books, pagy: @pagy)
+      CategoryBooksList(category: @category, books: @books, pagy: @pagy)
     end
   end
 end

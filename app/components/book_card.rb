@@ -1,26 +1,29 @@
 # frozen_string_literal: true
 
 class Components::BookCard < Components::Base
-  def initialize(book:, show_category: true)
+  def initialize(book:, show_category: true, show_author: true)
     @book = book
     @show_category = show_category
+    @show_author = show_author
   end
 
   def view_template
     Card do
       CardHeader(class: "p-4") do
         if @show_category
-          a(href: category_path(@book.category.id), data: { turbo_frame: "_top" }) do
-            Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
+          a(href: category_path(@book.category.id), class: "w-fit mb-4", data: { turbo_frame: "_top" }) do
+            Badge(variant: :neutral, size: :sm) { @book.category.name }
           end
         end
 
         CardTitle(class: "line-clamp-1") { a(href: book_path(@book.id), data: { turbo_frame: "_top" }) { @book.title } }
 
-        CardDescription(class: "flex items-center gap-x-1") do
-          Bootstrap::Feather(class: "size-4")
+        if @show_author
+          CardDescription(class: "flex items-center gap-x-1") do
+            Bootstrap::Feather(class: "size-4")
 
-          span(class: "line-clamp-1") { @book.author.name }
+            span(class: "line-clamp-1") { a(href: author_path(@book.author.id), data: { turbo_frame: "_top" }) { @book.author.name } }
+          end
         end
       end
 

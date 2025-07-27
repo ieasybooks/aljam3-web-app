@@ -146,7 +146,7 @@ class Views::Pages::Show < Views::Base
     Text(size: "1", weight: "muted", class: "flex gap-x-1") do
       Bootstrap::Feather(class: "size-4")
 
-      plain @book.author.name
+      a(href: author_path(@book.author), data: { turbo_frame: "_top" }) { @book.author.name }
     end
   end
 
