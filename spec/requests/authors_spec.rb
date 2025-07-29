@@ -160,7 +160,7 @@ RSpec.describe "Authors" do
         end
 
         before do
-          allow(Author).to receive(:where).with(hidden: false).and_return(double.tap { |d| allow(d).to receive(:order).with(:name).and_return(mock_authors_relation) }) # rubocop:disable RSpec/VerifiedDoubles
+          allow(Author).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:name).and_return(mock_authors_relation) }) # rubocop:disable RSpec/VerifiedDoubles
           allow_any_instance_of(AuthorsController).to receive(:pagy).and_return([ mock_pagy, mock_authors_relation ]) # rubocop:disable RSpec/AnyInstance
         end
 

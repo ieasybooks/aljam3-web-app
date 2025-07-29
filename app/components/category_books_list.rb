@@ -14,7 +14,7 @@ class Components::CategoryBooksList < Components::Base
           BookCard(book:, show_category: false)
 
           if (index + 1) == (@books.size - 5) && @pagy.next
-            turbo_frame_tag :next_page, src: category_path(@category.id, page: @pagy.next), loading: :lazy
+            turbo_frame_tag :next_page, src: category_path(@category.id, q: params[:q], page: @pagy.next, format: :turbo_stream), loading: :lazy
           end
         end
 

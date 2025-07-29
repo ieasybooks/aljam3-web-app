@@ -27,8 +27,6 @@ en:
       title: Authors
     show:
       books: Books
-  authors_search_form:
-    search_input_placeholder: Enter at least 3 characters
   book_search_form:
     search_input_placeholder: Search in the book content
   bottom_controls:
@@ -62,6 +60,8 @@ en:
     captcha_error: We couldn't verify that you're human.
     contact_received_successfully: We received your message and we will contact you regarding it.
   files: Files
+  inline_search_form:
+    search_input_placeholder: Enter at least 3 characters
   menu:
     dark_mode: Dark Mode
     light_mode: Light Mode
