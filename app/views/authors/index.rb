@@ -18,7 +18,7 @@ class Views::Authors::Index < Views::Base
       div(class: "flex max-sm:flex-col max-sm:space-y-4 justify-between items-top mb-4") do
         Heading(level: 1, class: "font-[Cairo]") { page_title }
 
-        AuthorsSearchForm()
+        InlineSearchForm(action: authors_path)
       end
 
       AuthorsList(authors: @authors, pagy: @pagy)

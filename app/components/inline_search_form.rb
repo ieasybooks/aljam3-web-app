@@ -1,7 +1,11 @@
-class Components::AuthorsSearchForm < Components::Base
+class Components::InlineSearchForm < Components::Base
+  def initialize(action:)
+    @action = action
+  end
+
   def view_template
     Form(
-      action: authors_path,
+      action: @action,
       method: :get,
       accept_charset: "UTF-8",
       class: "sm:w-1/3",
