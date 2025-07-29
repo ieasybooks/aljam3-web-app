@@ -135,6 +135,7 @@
 
 <h3 dir="rtl">واجهة المستخدم</h3>
 <ul dir="ltr">
+  <li><a href="https://github.com/lookbook-hq/lookbook">lookbook</a></li>
   <li><a href="https://github.com/AliOsm/phlex-icons">phlex-icons</a></li>
   <li><a href="https://github.com/yippee-fun/phlex-rails">phlex-rails</a></li>
   <li><a href="https://github.com/svenfuchs/rails-i18n">rails-i18n</a></li>
@@ -198,6 +199,7 @@
   <li><a href="https://github.com/tailwindlabs/tailwindcss-forms" dir="ltr">@tailwindcss/forms</a></li>
   <li><a href="https://github.com/tailwindlabs/tailwindcss-typography" dir="ltr">@tailwindcss/typography</a></li>
   <li><a href="https://github.com/davidjerleke/embla-carousel">embla-carousel</a></li>
+  <li><a href="https://github.com/prettier/prettier">prettier</a></li>
   <li><a href="https://github.com/orchidjs/tom-select">tom-select</a></li>
   <li><a href="https://github.com/Wombosvideo/tw-animate-css">tw-animate-css</a></li>
 </ul>

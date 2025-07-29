@@ -40,7 +40,7 @@ group :development do
   gem "faker", "~> 3.5", ">= 3.5.2", require: false
   gem "hotwire-spark", "~> 0.1.13"
   gem "i18n-tasks", "~> 1.0", ">= 1.0.15"
-  gem "lookbook", "~> 2.3", ">= 2.3.11"
+  gem "lookbook", "~> 2.3", ">= 2.3.12"
   gem "net-ssh", "~> 7.3"
   gem "rubocop-rake", "~> 0.7.1"
   gem "rubocop-rspec", "~> 3.6"

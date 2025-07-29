@@ -126,6 +126,7 @@ All the settings for these extensions are already present in the [`.vscode/setti
 - [sitemap_generator](https://github.com/kjvarga/sitemap_generator)
 
 ### User Interface
+- [lookbook](https://github.com/lookbook-hq/lookbook)
 - [phlex-icons](https://github.com/AliOsm/phlex-icons)
 - [phlex-rails](https://github.com/yippee-fun/phlex-rails)
 - [rails-i18n](https://github.com/svenfuchs/rails-i18n)
@@ -183,6 +184,7 @@ In addition to the core Ruby on Rails framework libraries.
 - [@tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms)
 - [@tailwindcss/typography](https://github.com/tailwindlabs/tailwindcss-typography)
 - [embla-carousel](https://github.com/davidjerleke/embla-carousel)
+- [prettier](https://github.com/prettier/prettier)
 - [tom-select](https://github.com/orchidjs/tom-select)
 - [tw-animate-css](https://github.com/Wombosvideo/tw-animate-css)
 
