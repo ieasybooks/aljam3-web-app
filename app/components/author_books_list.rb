@@ -12,7 +12,7 @@ class Components::AuthorBooksList < Components::Base
           BookCard(book:, show_author: false)
 
           if (index + 1) == (@books.size - 5) && @pagy.next
-            turbo_frame_tag :next_page, src: author_path(@author.id, page: @pagy.next), loading: :lazy
+            turbo_frame_tag :next_page, src: author_path(@author.id, q: params[:q], page: @pagy.next, format: :turbo_stream), loading: :lazy
           end
         end
 
