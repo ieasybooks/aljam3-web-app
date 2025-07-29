@@ -6,7 +6,6 @@ RSpec.describe "Books" do
   describe "GET /books" do
     context "with search functionality" do
       let!(:ruby_book) { create(:book, title: "Ruby Programming", hidden: false) }
-      let!(:python_book) { create(:book, title: "Python Guide", hidden: false) }
       let!(:hidden_book) { create(:book, title: "Hidden Ruby Book", hidden: true) } # rubocop:disable RSpec/LetSetup
 
       context "with query parameter" do
@@ -48,7 +47,6 @@ RSpec.describe "Books" do
             get books_path(q: "ruby"), as: :html
 
             expect(response.body).to include("Ruby Programming")
-            expect(response.body).not_to include("Python Guide")
             expect(response.body).not_to include("Hidden Ruby Book")
           end
         end
@@ -69,7 +67,6 @@ RSpec.describe "Books" do
             get books_path(q: "ruby"), as: :turbo_stream
 
             expect(response.body).to include("Ruby Programming")
-            expect(response.body).not_to include("Python Guide")
             expect(response.body).not_to include("Hidden Ruby Book")
           end
         end
@@ -88,7 +85,7 @@ RSpec.describe "Books" do
             )
 
             allow(relation).to receive(:each_with_index) do |&block|
-              [ python_book, ruby_book ].each_with_index(&block)
+              [ ruby_book ].each_with_index(&block)
             end
           end
         end

@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :search]
+  before_action :set_book, only: [ :show, :search ]
 
   def index
     pagy, books = search_or_list

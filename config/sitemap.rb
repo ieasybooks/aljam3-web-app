@@ -26,8 +26,16 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
+  add categories_path, priority: 0.9, lastmod: Category.maximum(:updated_at)
+  add authors_path, priority: 0.9, lastmod: Author.maximum(:updated_at)
+  add books_path, priority: 0.9, lastmod: Book.maximum(:updated_at)
+
   Category.find_each do |category|
-    add category_path(category.id), lastmod: category.updated_at
+    add category_path(category.id), priority: 0.7, lastmod: category.updated_at
+  end
+
+  Author.find_each do |author|
+    add author_path(author.id), priority: 0.7, lastmod: author.updated_at
   end
 
   Book.joins(files: :pages)
@@ -39,6 +47,6 @@ SitemapGenerator::Sitemap.create do
         WHERE bf2.book_id = books.id
       )')
       .find_each do |book|
-        add book_file_page_path(book.id, book.first_page_file_id, book.first_page_number), lastmod: book.updated_at
+        add book_file_page_path(book.id, book.first_page_file_id, book.first_page_number), priority: 0.5, lastmod: book.updated_at
       end
 end

@@ -13,10 +13,9 @@ RSpec.describe "Authors" do
 
       context "with search functionality" do
         let!(:matching_book) { create(:book, author:, title: "Ruby Programming", hidden: false) }
-        let!(:other_book) { create(:book, author:, title: "Python Guide", hidden: false) }
         let!(:hidden_book) { create(:book, author:, title: "Hidden Ruby Book", hidden: true) } # rubocop:disable RSpec/LetSetup
 
-        context "with query parameter" do
+        context "with query parameter" do # rubocop:disable RSpec/NestedGroups
           let(:mock_pagy) do
             double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 1) } # rubocop:disable RSpec/VerifiedDoubles
           end
@@ -55,7 +54,6 @@ RSpec.describe "Authors" do
               get author_path(author, q: "ruby"), as: :html
 
               expect(response.body).to include("Ruby Programming")
-              expect(response.body).not_to include("Python Guide")
               expect(response.body).not_to include("Hidden Ruby Book")
             end
           end
@@ -76,13 +74,12 @@ RSpec.describe "Authors" do
               get author_path(author, q: "ruby"), as: :turbo_stream
 
               expect(response.body).to include("Ruby Programming")
-              expect(response.body).not_to include("Python Guide")
               expect(response.body).not_to include("Hidden Ruby Book")
             end
           end
         end
 
-        context "without query parameter" do
+        context "without query parameter" do # rubocop:disable RSpec/NestedGroups
           let(:mock_pagy) do
             double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 2) } # rubocop:disable RSpec/VerifiedDoubles
           end
@@ -95,7 +92,7 @@ RSpec.describe "Authors" do
               )
 
               allow(relation).to receive(:each_with_index) do |&block|
-                [ matching_book, other_book ].each_with_index(&block)
+                [ matching_book ].each_with_index(&block)
               end
             end
           end

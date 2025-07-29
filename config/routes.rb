@@ -34,7 +34,9 @@
 #                               categories GET      /categories(.:format)                                                                             categories#index
 #                                 category GET      /categories/:id(.:format)                                                                         categories#show
 #                                  authors GET      /authors(.:format)                                                                                authors#index
+#                                   author GET      /authors/:id(.:format)                                                                            authors#show
 #                              book_search GET      /books/:book_id/search(.:format)                                                                  books#search
+#                                    books GET      /books(.:format)                                                                                  books#index
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
@@ -299,7 +301,7 @@ Rails.application.routes.draw do
   resources :categories, only: %i[index show]
   resources :authors, only: %i[index show]
 
-  resources :books, only: [] do
+  resources :books, only: :index do
     get :search
   end
 
