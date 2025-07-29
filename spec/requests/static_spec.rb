@@ -92,11 +92,18 @@ RSpec.describe "Static" do
         allow(Views::Static::Home).to receive(:new).and_call_original
       end
 
-      it "performs federated search on both Book and Page models" do
+      it "performs federated search on Page, Book, and Author models" do
         get root_path, params: params
 
         expect(Meilisearch::Rails).to have_received(:federated_search).with(
           queries: {
+            Page => {
+              q: "test query",
+              filter: "(hidden = false OR hidden NOT EXISTS)",
+              attributes_to_highlight: %i[content],
+              highlight_pre_tag: "<mark>",
+              highlight_post_tag: "</mark>"
+            },
             Book => {
               q: "test query",
               filter: "(hidden = false OR hidden NOT EXISTS)",
@@ -104,10 +111,10 @@ RSpec.describe "Static" do
               highlight_pre_tag: "<mark>",
               highlight_post_tag: "</mark>"
             },
-            Page => {
+            Author => {
               q: "test query",
               filter: "(hidden = false OR hidden NOT EXISTS)",
-              attributes_to_highlight: %i[content],
+              attributes_to_highlight: %i[name],
               highlight_pre_tag: "<mark>",
               highlight_post_tag: "</mark>"
             }
@@ -130,11 +137,18 @@ RSpec.describe "Static" do
       end
 
       context "with library filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes library filter in search" do
+        it "includes library filter in Page and Book search but not Author search" do
           get root_path, params: params.merge(l: library.id.to_s)
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
+              Page => {
+                q: "test query",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
               Book => {
                 q: "test query",
                 filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
@@ -142,10 +156,10 @@ RSpec.describe "Static" do
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
-              Page => {
+              Author => {
                 q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
-                attributes_to_highlight: %i[content],
+                filter: "(hidden = false OR hidden NOT EXISTS)",
+                attributes_to_highlight: %i[name],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               }
@@ -156,11 +170,18 @@ RSpec.describe "Static" do
       end
 
       context "with category filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes category filter in search" do
+        it "includes category filter in Page and Book search but not Author search" do
           get root_path, params: params.merge(c: "Fiction")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
+              Page => {
+                q: "test query",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
               Book => {
                 q: "test query",
                 filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
@@ -168,10 +189,10 @@ RSpec.describe "Static" do
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
-              Page => {
+              Author => {
                 q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
-                attributes_to_highlight: %i[content],
+                filter: "(hidden = false OR hidden NOT EXISTS)",
+                attributes_to_highlight: %i[name],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               }
@@ -182,11 +203,18 @@ RSpec.describe "Static" do
       end
 
       context "with author filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes author filter in search" do
+        it "includes author filter in Page and Book search but not Author search" do
           get root_path, params: params.merge(a: "John Doe")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
+              Page => {
+                q: "test query",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
               Book => {
                 q: "test query",
                 filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
@@ -194,10 +222,10 @@ RSpec.describe "Static" do
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
-              Page => {
+              Author => {
                 q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
-                attributes_to_highlight: %i[content],
+                filter: "(hidden = false OR hidden NOT EXISTS)",
+                attributes_to_highlight: %i[name],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               }
@@ -208,11 +236,18 @@ RSpec.describe "Static" do
       end
 
       context "with both library and category filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes both filters in search" do
+        it "includes both filters in Page and Book search but not Author search" do
           get root_path, params: params.merge(l: library.id.to_s, c: "Fiction")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
+              Page => {
+                q: "test query",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\"",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
               Book => {
                 q: "test query",
                 filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\"",
@@ -220,10 +255,10 @@ RSpec.describe "Static" do
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
-              Page => {
+              Author => {
                 q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\"",
-                attributes_to_highlight: %i[content],
+                filter: "(hidden = false OR hidden NOT EXISTS)",
+                attributes_to_highlight: %i[name],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               }
@@ -234,11 +269,18 @@ RSpec.describe "Static" do
       end
 
       context "with library, category, and author filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes all filters in search" do
+        it "includes all filters in Page and Book search but not Author search" do
           get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
+              Page => {
+                q: "test query",
+                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
               Book => {
                 q: "test query",
                 filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
@@ -246,10 +288,10 @@ RSpec.describe "Static" do
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
-              Page => {
+              Author => {
                 q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
-                attributes_to_highlight: %i[content],
+                filter: "(hidden = false OR hidden NOT EXISTS)",
+                attributes_to_highlight: %i[name],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               }
@@ -265,6 +307,13 @@ RSpec.describe "Static" do
 
           expect(Meilisearch::Rails).to have_received(:federated_search).with(
             queries: {
+              Page => {
+                q: "test query",
+                filter: "(hidden = false OR hidden NOT EXISTS)",
+                attributes_to_highlight: %i[content],
+                highlight_pre_tag: "<mark>",
+                highlight_post_tag: "</mark>"
+              },
               Book => {
                 q: "test query",
                 filter: "(hidden = false OR hidden NOT EXISTS)",
@@ -272,10 +321,10 @@ RSpec.describe "Static" do
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               },
-              Page => {
+              Author => {
                 q: "test query",
                 filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[content],
+                attributes_to_highlight: %i[name],
                 highlight_pre_tag: "<mark>",
                 highlight_post_tag: "</mark>"
               }
@@ -419,6 +468,76 @@ RSpec.describe "Static" do
           expect(Page).to have_received(:pagy_search).with(
             "test query",
             filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          )
+        end
+      end
+    end
+
+    context "when search_scope is name" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:mock_pagy) do
+        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
+      end
+
+      let(:mock_search_results) do
+        double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
+          allow(it).to receive_messages(
+            any?: true,
+            each_with_index: [ mock_book, 0 ],
+            size: 1,
+            respond_to?: false
+          )
+        end
+      end
+
+      let(:params) do
+        {
+          q: "test query",
+          s: "n",
+          l: "a",
+          c: "a",
+          a: "a"
+        }
+      end
+
+      before do
+        allow(Author).to receive(:pagy_search).and_return(mock_search_results)
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow(Views::Static::Home).to receive(:new).and_call_original
+      end
+
+      it "performs search on Author model only" do
+        get root_path, params: params
+
+        expect(Author).to have_received(:pagy_search).with(
+          "test query",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
+          highlight_pre_tag: "<mark>",
+          highlight_post_tag: "</mark>"
+        )
+      end
+
+      it "renders home view with paginated results and carousel books" do
+        get root_path, params: params
+
+        expect(Views::Static::Home).to have_received(:new).with(
+          results: mock_search_results,
+          pagy: mock_pagy,
+          search_query_id: anything,
+          carousels_books_ids: kind_of(Proc),
+          libraries: kind_of(Proc),
+          categories: kind_of(Proc)
+        )
+      end
+
+      context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        it "excludes all filters from author search" do
+          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
+
+          expect(Author).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS)",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )

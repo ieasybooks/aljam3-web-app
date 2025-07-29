@@ -16,6 +16,7 @@ class Author < ApplicationRecord
   ActiveRecord_Relation.include Pagy::Meilisearch
 
   has_many :books, dependent: :destroy
+  has_many :search_clicks, as: :result, dependent: :delete_all
 
   validates :name, :books_count, presence: true
   validates_inclusion_of :hidden, in: [ true, false ]

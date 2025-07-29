@@ -21,6 +21,8 @@ class Components::SearchResultsList < Components::Base
             SearchBookCard(book: result, index: index + (current_page - 1) * 20, search_query_id: @search_query_id)
           when Page
             SearchPageCard(page: result, index: index + (current_page - 1) * 20, search_query_id: @search_query_id)
+          when Author
+            SearchAuthorCard(author: result, index: index + (current_page - 1) * 20, search_query_id: @search_query_id)
           end
 
           if (index + 1) == (results_count - 5) && next_page

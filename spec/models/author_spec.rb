@@ -14,6 +14,7 @@ require "rails_helper"
 RSpec.describe Author do
   describe "associations" do
     it { is_expected.to have_many(:books).dependent(:destroy) }
+    it { is_expected.to have_many(:search_clicks).dependent(:delete_all) }
   end
 
   describe "validations" do

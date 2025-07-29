@@ -99,6 +99,8 @@ en:
       show_tashkeel: Show Diacritics
       title: "%{title} Book"
   pages_text: Pages
+  search_author_card:
+    books: Books
   search_book_card:
     book_page: Book Page
   search_form:
@@ -122,10 +124,11 @@ en:
     library_placeholder: Select a library
     no_results: No results found
     search_scope: Search Scope
+    search_scope_author: Authors Only
     search_scope_content: Content Only
     search_scope_placeholder: Select a scope
     search_scope_title: Titles Only
-    search_scope_title_and_content: Titles and Content
+    search_scope_title_and_content: Authors, Titles and Content
     title: Refinements
     المكتبة الشاملة الوقفية: Shamela Waqfeya Library (4.6K books)
     المكتبة الوقفية: Waqfeya Library (10.2K books)

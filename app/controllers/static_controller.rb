@@ -48,39 +48,51 @@ class StaticController < ApplicationController
     when "b"
       [ nil, Meilisearch::Rails.federated_search(
         queries: {
+          Page => {
+            q: query,
+            filter: filter(Page),
+            attributes_to_highlight: %i[content],
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          },
           Book => {
             q: query,
-            filter:,
+            filter: filter(Book),
             attributes_to_highlight: %i[title],
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           },
-          Page => {
+          Author => {
             q: query,
-            filter:,
-            attributes_to_highlight: %i[content],
+            filter: filter(Author),
+            attributes_to_highlight: %i[name],
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           }
         },
         federation: { offset: ((params[:page] || 1).to_i - 1) * 20 }
       ) ]
-    when "t"
-      pagy_meilisearch(Book.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     when "c"
-      pagy_meilisearch(Page.pagy_search(query, filter:, highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      pagy_meilisearch(Page.pagy_search(query, filter: filter(Page), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+    when "t"
+      pagy_meilisearch(Book.pagy_search(query, filter: filter(Book), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+    when "n"
+      pagy_meilisearch(Author.pagy_search(query, filter: filter(Author), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
     end
   end
 
-  def filter
+  def filter(model)
     library = params.dig(:l)
     category = params.dig(:c)
     author = params.dig(:a)
 
     expression = [ "(hidden = false OR hidden NOT EXISTS)" ]
-    expression << "library = \"#{library}\"" if library.present? && library != "a"
-    expression << "category = \"#{category}\"" if category.present? && category != "a"
-    expression << "author = \"#{author}\"" if author.present? && author != "a"
+
+    unless model == Author
+      expression << %(library = "#{library}") if library.present? && library != "a"
+      expression << %(category = "#{category}") if category.present? && category != "a"
+      expression << %(author = "#{author}") if author.present? && author != "a"
+    end
 
     expression.join(" AND ")
   end

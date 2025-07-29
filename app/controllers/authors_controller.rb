@@ -28,6 +28,10 @@ class AuthorsController < ApplicationController
   end
 
   def show
+    if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
+      SearchClick.create(index: params[:i].presence&.to_i || -1, search_query_id: params[:qid], result: @author)
+    end
+
     pagy, books = search_or_list_books
 
     respond_to do |format|

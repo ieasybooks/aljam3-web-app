@@ -93,6 +93,8 @@ ar:
       show_tashkeel: إظهار التشكيل
       title: كتاب %{title}
   pages_text: الصفحات
+  search_author_card:
+    books: الكتب
   search_book_card:
     book_page: صفحة الكتاب
   search_form:
@@ -116,10 +118,11 @@ ar:
     library_placeholder: اختر المكتبة
     no_results: لا يوجد نتائج
     search_scope: نطاق البحث
+    search_scope_author: أسماء المؤلفين فقط
     search_scope_content: محتوى الكتب فقط
     search_scope_placeholder: اختر نطاق البحث
     search_scope_title: عناوين الكتب فقط
-    search_scope_title_and_content: عناوين الكتب ومحتواها
+    search_scope_title_and_content: أسماء المؤلفين وعناوين الكتب ومحتواها
     title: خصّص البحث
     المكتبة الشاملة الوقفية: المكتبة الشاملة الوقفية (4,600 كتاب)
     المكتبة الوقفية: المكتبة الوقفية (10,200 كتاب)

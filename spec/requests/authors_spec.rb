@@ -188,6 +188,65 @@ RSpec.describe "Authors" do
       end
     end
 
+    context "with search click tracking" do
+      let(:user) { create(:user) }
+
+      before do
+        sign_in user
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
+      end
+
+      context "without search query parameters" do
+        it "does not create a SearchClick" do
+          expect { get author_path(author) }.not_to change(SearchClick, :count)
+        end
+      end
+
+      context "with search query parameters" do
+        let(:search_query) { SearchQuery.create!(query: "test query", refinements: { author: author.id }, user: user) }
+
+        it "creates a SearchClick when qid is present" do # rubocop:disable RSpec/MultipleExpectations
+          expect {
+            get author_path(author), params: { qid: search_query.id, i: "3" }
+          }.to change(SearchClick, :count).by(1)
+
+          search_click = SearchClick.last
+          expect(search_click.search_query_id).to eq(search_query.id)
+          expect(search_click.result).to eq(author)
+          expect(search_click.index).to eq(3)
+        end
+
+        it "defaults index to -1 when i parameter is missing" do # rubocop:disable RSpec/MultipleExpectations
+          expect {
+            get author_path(author), params: { qid: search_query.id }
+          }.to change(SearchClick, :count).by(1)
+
+          search_click = SearchClick.last
+          expect(search_click.index).to eq(-1)
+        end
+
+        it "does not create SearchClick when request is prefetch" do
+          expect {
+            get author_path(author),
+                params: { qid: search_query.id, i: "3" },
+                headers: { "X-Sec-Purpose" => "prefetch" }
+          }.not_to change(SearchClick, :count)
+        end
+
+        it "does not create SearchClick when qid is blank" do
+          expect {
+            get author_path(author), params: { qid: "", i: "3" }
+          }.not_to change(SearchClick, :count)
+        end
+
+        it "renders the author show view after creating SearchClick" do
+          get author_path(author), params: { qid: search_query.id, i: "3" }
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
+
     context "when author is hidden" do
       let(:hidden_author) { create(:author, hidden: true) }
 

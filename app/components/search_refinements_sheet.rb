@@ -109,8 +109,9 @@ class Components::SearchRefinementsSheet < Components::Base
         SelectContent(outlet_id: "select-a-search-scope") do
           SelectGroup do
             SelectItem(value: "b", aria_selected!: "true") { t(".search_scope_title_and_content") }
-            SelectItem(value: "t") { t(".search_scope_title") }
             SelectItem(value: "c") { t(".search_scope_content") }
+            SelectItem(value: "t") { t(".search_scope_title") }
+            SelectItem(value: "n") { t(".search_scope_author") }
           end
         end
       end

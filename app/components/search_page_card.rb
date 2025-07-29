@@ -9,8 +9,8 @@ class Components::SearchPageCard < Components::Base
 
   def view_template
     Card(class: "relative") do
-      div(class: "absolute top-0 left-0 p-2.5 border-b border-r rounded-br-xl") do
-        Lucide::FileText(class: "size-5.5 text-muted-foreground")
+      div(class: "absolute top-0 left-0 p-2 border-b border-r rounded-br-xl") do
+        Lucide::FileText(class: "size-4 text-muted-foreground")
       end
 
       CardHeader(class: "p-4") do
