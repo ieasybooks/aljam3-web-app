@@ -70,6 +70,134 @@ RSpec.describe "Authors" do
   end
 
   describe "GET /authors" do
+    context "with search functionality" do
+      let!(:john_author) { create(:author, name: "John Doe", hidden: false) }
+      let!(:jane_author) { create(:author, name: "Jane Smith", hidden: false) }
+      let!(:hidden_author) { create(:author, name: "Hidden Author", hidden: true) } # rubocop:disable RSpec/LetSetup
+
+      context "with query parameter" do
+        let(:mock_pagy) do
+          double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 2) } # rubocop:disable RSpec/VerifiedDoubles
+        end
+
+        let(:mock_search_results) do
+          double("search_results").tap do |results| # rubocop:disable RSpec/VerifiedDoubles
+            allow(results).to receive_messages(
+              any?: true,
+              size: 2
+            )
+
+            allow(results).to receive(:each_with_index) do |&block|
+              [ john_author, jane_author ].each_with_index(&block)
+            end
+          end
+        end
+
+        before do
+          allow(Author).to receive(:pagy_search).and_return(mock_search_results)
+          allow_any_instance_of(AuthorsController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        end
+
+        context "with HTML format" do # rubocop:disable RSpec/NestedGroups
+          it "searches authors using Meilisearch" do
+            get authors_path(q: "john"), as: :html
+
+            expect(Author).to have_received(:pagy_search).with(
+              "john",
+              filter: "hidden = false",
+              highlight_pre_tag: "<mark>",
+              highlight_post_tag: "</mark>"
+            )
+          end
+
+          it "renders the authors list" do # rubocop:disable RSpec/MultipleExpectations
+            get authors_path(q: "john"), as: :html
+
+            expect(response.body).to include("John Doe")
+            expect(response.body).to include("Jane Smith")
+            expect(response.body).not_to include("Hidden Author")
+          end
+        end
+
+        context "with Turbo Stream format" do # rubocop:disable RSpec/NestedGroups
+          it "searches authors using Meilisearch" do
+            get authors_path(q: "jane"), as: :turbo_stream
+
+            expect(Author).to have_received(:pagy_search).with(
+              "jane",
+              filter: "hidden = false",
+              highlight_pre_tag: "<mark>",
+              highlight_post_tag: "</mark>"
+            )
+          end
+
+          it "renders the authors list" do # rubocop:disable RSpec/MultipleExpectations
+            get authors_path(q: "jane"), as: :turbo_stream
+
+            expect(response.body).to include("Jane Smith")
+            expect(response.body).to include("John Doe")
+            expect(response.body).not_to include("Hidden Author")
+          end
+        end
+      end
+
+      context "without query parameter" do
+        let(:mock_pagy) do
+          double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 2) } # rubocop:disable RSpec/VerifiedDoubles
+        end
+
+        let(:mock_authors_relation) do
+          double("authors_relation").tap do |relation| # rubocop:disable RSpec/VerifiedDoubles
+            allow(relation).to receive_messages(
+              any?: true,
+              size: 2
+            )
+
+            allow(relation).to receive(:each_with_index) do |&block|
+              [ john_author, jane_author ].each_with_index(&block)
+            end
+          end
+        end
+
+        before do
+          allow(Author).to receive(:where).with(hidden: false).and_return(double.tap { |d| allow(d).to receive(:order).with(:name).and_return(mock_authors_relation) }) # rubocop:disable RSpec/VerifiedDoubles
+          allow_any_instance_of(AuthorsController).to receive(:pagy).and_return([ mock_pagy, mock_authors_relation ]) # rubocop:disable RSpec/AnyInstance
+        end
+
+        context "with HTML format" do # rubocop:disable RSpec/NestedGroups
+          it "uses regular ActiveRecord query" do
+            get authors_path, as: :html
+
+            expect(Author).to have_received(:where).with(hidden: false)
+          end
+
+          it "does not call Meilisearch" do
+            allow(Author).to receive(:pagy_search)
+
+            get authors_path, as: :html
+
+            expect(Author).not_to have_received(:pagy_search)
+          end
+        end
+
+        context "with Turbo Stream format" do # rubocop:disable RSpec/NestedGroups
+          it "uses regular ActiveRecord query" do
+            get authors_path, as: :turbo_stream
+
+            expect(Author).to have_received(:where).with(hidden: false)
+          end
+
+          it "does not call Meilisearch" do
+            allow(Author).to receive(:pagy_search)
+
+            get authors_path, as: :turbo_stream
+
+            expect(Author).not_to have_received(:pagy_search)
+          end
+        end
+      end
+    end
+
     context "with JSON format" do
       context "when no authors exist" do
         it "returns an empty array" do

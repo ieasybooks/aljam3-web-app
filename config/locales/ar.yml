@@ -25,6 +25,8 @@ ar:
       title: المؤلفون
     show:
       books: الكتب
+  authors_search_form:
+    search_input_placeholder: أدخل 3 حروف على الأقل
   book_search_form:
     search_input_placeholder: ابحث في محتوى الكتاب
   bottom_controls:

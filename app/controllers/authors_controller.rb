@@ -24,7 +24,7 @@ class AuthorsController < ApplicationController
       end
 
       format.turbo_stream do
-        pagy, authors = pagy(Author.where(hidden: false).order(:name))
+        pagy, authors = search_or_list
 
         render turbo_stream: turbo_stream.replace(
           "results_list_#{params[:page]}",
@@ -33,7 +33,7 @@ class AuthorsController < ApplicationController
       end
 
       format.html do
-        pagy, authors = pagy(Author.where(hidden: false).order(:name))
+        pagy, authors = search_or_list
 
         render Views::Authors::Index.new(authors:, pagy:)
       end
@@ -46,5 +46,18 @@ class AuthorsController < ApplicationController
 
   def check_hidden
     redirect_to root_path if @author.hidden
+  end
+
+  def search_or_list
+    if params[:q].present?
+      pagy_meilisearch(Author.pagy_search(
+        params[:q],
+        filter: "hidden = false",
+        highlight_pre_tag: "<mark>",
+        highlight_post_tag: "</mark>"
+      ))
+    else
+      pagy(Author.where(hidden: false).order(:name))
+    end
   end
 end

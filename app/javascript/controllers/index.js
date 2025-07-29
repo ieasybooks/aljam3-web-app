@@ -55,6 +55,9 @@ application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
 import RubyUi__TooltipController from "./ruby_ui/tooltip_controller"
 application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
+import SearchAutoSubmitController from "./search_auto_submit_controller"
+application.register("search-auto-submit", SearchAutoSubmitController)
+
 import SyncValueController from "./sync_value_controller"
 application.register("sync-value", SyncValueController)
 

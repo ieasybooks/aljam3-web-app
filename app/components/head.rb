@@ -16,6 +16,8 @@ class Components::Head < Components::Base
       meta name: "apple-mobile-web-app-capable", content: "yes"
       meta name: "mobile-web-app-capable", content: "yes"
 
+      @page_info.head if @page_info.head.present?
+
       csrf_meta_tags
       csp_meta_tag
 

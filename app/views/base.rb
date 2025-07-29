@@ -9,7 +9,7 @@ class Views::Base < Components::Base
 
   include Components
 
-  PageInfo = Data.define(:title, :description, :keywords, :no_banner, :no_navbar)
+  PageInfo = Data.define(:head, :title, :description, :keywords, :no_banner, :no_navbar)
 
   def around_template
     if layout
@@ -21,6 +21,7 @@ class Views::Base < Components::Base
     end
   end
 
+  def head = nil
   def layout = Components::Layout
   def page_title = nil
   def description = nil
@@ -30,6 +31,7 @@ class Views::Base < Components::Base
 
   def page_info
     PageInfo.new(
+      head:,
       title: page_title,
       description:,
       keywords:,

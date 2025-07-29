@@ -11,7 +11,7 @@ class Components::AuthorsList < Components::Base
           AuthorCard(author: author)
 
           if (index + 1) == (@authors.size - 5) && @pagy.next
-            turbo_frame_tag :next_page, src: authors_path(page: @pagy.next, format: :turbo_stream), loading: :lazy
+            turbo_frame_tag :next_page, src: authors_path(q: params[:q], page: @pagy.next, format: :turbo_stream), loading: :lazy
           end
         end
 

@@ -27,6 +27,8 @@ en:
       title: Authors
     show:
       books: Books
+  authors_search_form:
+    search_input_placeholder: Enter at least 3 characters
   book_search_form:
     search_input_placeholder: Search in the book content
   bottom_controls:
