@@ -1,5 +1,22 @@
 class BooksController < ApplicationController
-  before_action :set_book
+  before_action :set_book, only: [:show, :search]
+
+  def index
+    pagy, books = search_or_list
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          "results_list_#{params[:page]}",
+          Components::BooksList.new(books:, pagy:)
+        )
+      end
+
+      format.html do
+        render Views::Books::Index.new(books:, pagy:)
+      end
+    end
+  end
 
   def show
     if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
@@ -36,4 +53,17 @@ class BooksController < ApplicationController
   private
 
   def set_book = @book = Book.find(params[:book_id])
+
+  def search_or_list
+    if params[:q].present?
+      pagy_meilisearch(Book.pagy_search(
+        params[:q],
+        filter: "hidden = false",
+        highlight_pre_tag: "<mark>",
+        highlight_post_tag: "</mark>"
+      ))
+    else
+      pagy(Book.where(hidden: false).order(:title))
+    end
+  end
 end

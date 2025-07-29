@@ -12,6 +12,7 @@ class Components::Navbar < Components::Base
           Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
           Link(href: categories_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".categories") }
           Link(href: authors_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".authors") }
+          Link(href: books_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".books") }
         end
 
         div(class: "flex items-center gap-x-1") do

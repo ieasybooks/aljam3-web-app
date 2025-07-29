@@ -45,7 +45,9 @@ RSpec.describe "Categories" do
 
             expect(Book).to have_received(:pagy_search).with(
               "ruby",
-              filter: %((hidden = false OR hidden NOT EXISTS) AND category = "#{category.id}")
+              filter: %((hidden = false OR hidden NOT EXISTS) AND category = "#{category.id}"),
+              highlight_pre_tag: "<mark>",
+              highlight_post_tag: "</mark>"
             )
           end
 
@@ -63,7 +65,9 @@ RSpec.describe "Categories" do
 
             expect(Book).to have_received(:pagy_search).with(
               "rails",
-              filter: %((hidden = false OR hidden NOT EXISTS) AND category = "#{category.id}")
+              filter: %((hidden = false OR hidden NOT EXISTS) AND category = "#{category.id}"),
+              highlight_pre_tag: "<mark>",
+              highlight_post_tag: "</mark>"
             )
           end
 

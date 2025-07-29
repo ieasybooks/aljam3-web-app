@@ -29,6 +29,20 @@ en:
       books: Books
   book_search_form:
     search_input_placeholder: Search in the book content
+  books:
+    index:
+      description: List of Aljam3 books
+      keywords:
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
+      title: Books
   bottom_controls:
     book_files: Book Files
     first_page: First Page
@@ -67,6 +81,7 @@ en:
     light_mode: Light Mode
   navbar:
     authors: Authors
+    books: Books
     categories: Categories
     contact_us: Contact Us
     home: Home

@@ -3,6 +3,228 @@ require "rails_helper"
 RSpec.describe "Books" do
   let(:user) { create(:user) }
 
+  describe "GET /books" do
+    context "with search functionality" do
+      let!(:ruby_book) { create(:book, title: "Ruby Programming", hidden: false) }
+      let!(:python_book) { create(:book, title: "Python Guide", hidden: false) }
+      let!(:hidden_book) { create(:book, title: "Hidden Ruby Book", hidden: true) } # rubocop:disable RSpec/LetSetup
+
+      context "with query parameter" do
+        let(:mock_pagy) do
+          double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 1) } # rubocop:disable RSpec/VerifiedDoubles
+        end
+
+        let(:mock_search_results) do
+          double("search_results").tap do |results| # rubocop:disable RSpec/VerifiedDoubles
+            allow(results).to receive_messages(
+              any?: true,
+              size: 1
+            )
+
+            allow(results).to receive(:each_with_index) do |&block|
+              [ ruby_book ].each_with_index(&block)
+            end
+          end
+        end
+
+        before do
+          allow(Book).to receive(:pagy_search).and_return(mock_search_results)
+          allow_any_instance_of(BooksController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        end
+
+        context "with HTML format" do # rubocop:disable RSpec/NestedGroups
+          it "searches books using Meilisearch" do
+            get books_path(q: "ruby"), as: :html
+
+            expect(Book).to have_received(:pagy_search).with(
+              "ruby",
+              filter: "hidden = false",
+              highlight_pre_tag: "<mark>",
+              highlight_post_tag: "</mark>"
+            )
+          end
+
+          it "renders the books list" do # rubocop:disable RSpec/MultipleExpectations
+            get books_path(q: "ruby"), as: :html
+
+            expect(response.body).to include("Ruby Programming")
+            expect(response.body).not_to include("Python Guide")
+            expect(response.body).not_to include("Hidden Ruby Book")
+          end
+        end
+
+        context "with Turbo Stream format" do # rubocop:disable RSpec/NestedGroups
+          it "searches books using Meilisearch" do
+            get books_path(q: "ruby"), as: :turbo_stream
+
+            expect(Book).to have_received(:pagy_search).with(
+              "ruby",
+              filter: "hidden = false",
+              highlight_pre_tag: "<mark>",
+              highlight_post_tag: "</mark>"
+            )
+          end
+
+          it "renders the books list" do # rubocop:disable RSpec/MultipleExpectations
+            get books_path(q: "ruby"), as: :turbo_stream
+
+            expect(response.body).to include("Ruby Programming")
+            expect(response.body).not_to include("Python Guide")
+            expect(response.body).not_to include("Hidden Ruby Book")
+          end
+        end
+      end
+
+      context "without query parameter" do
+        let(:mock_pagy) do
+          double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 2) } # rubocop:disable RSpec/VerifiedDoubles
+        end
+
+        let(:mock_books_relation) do
+          double("books_relation").tap do |relation| # rubocop:disable RSpec/VerifiedDoubles
+            allow(relation).to receive_messages(
+              any?: true,
+              size: 2
+            )
+
+            allow(relation).to receive(:each_with_index) do |&block|
+              [ python_book, ruby_book ].each_with_index(&block)
+            end
+          end
+        end
+
+        before do
+          allow(Book).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) # rubocop:disable RSpec/VerifiedDoubles
+          allow_any_instance_of(BooksController).to receive(:pagy).and_return([ mock_pagy, mock_books_relation ]) # rubocop:disable RSpec/AnyInstance
+        end
+
+        context "with HTML format" do # rubocop:disable RSpec/NestedGroups
+          it "uses regular ActiveRecord query" do
+            get books_path, as: :html
+
+            expect(Book).to have_received(:where).with(hidden: false)
+          end
+
+          it "does not call Meilisearch" do
+            allow(Book).to receive(:pagy_search)
+
+            get books_path, as: :html
+
+            expect(Book).not_to have_received(:pagy_search)
+          end
+        end
+
+        context "with Turbo Stream format" do # rubocop:disable RSpec/NestedGroups
+          it "uses regular ActiveRecord query" do
+            get books_path, as: :turbo_stream
+
+            expect(Book).to have_received(:where).with(hidden: false)
+          end
+
+          it "does not call Meilisearch" do
+            allow(Book).to receive(:pagy_search)
+
+            get books_path, as: :turbo_stream
+
+            expect(Book).not_to have_received(:pagy_search)
+          end
+        end
+      end
+    end
+
+    context "with hidden books" do
+      let!(:hidden_book) { create(:book, hidden: true) }
+
+      it "displays only non-hidden books" do
+        create_list(:book, 3, hidden: false)
+
+        get books_path
+
+        expect(response.body).not_to include(hidden_book.title)
+      end
+
+      it "orders books by title" do
+        # Create books with specific titles to test ordering
+        book_a = create(:book, title: "A Book", hidden: false)
+        book_z = create(:book, title: "Z Book", hidden: false)
+
+        get books_path
+
+        expect(response.body.index(book_a.title)).to be < response.body.index(book_z.title)
+      end
+    end
+
+    context "with pagination" do
+      before do
+        create_list(:book, 25, hidden: false)
+      end
+
+      it "handles paginated requests with turbo stream" do
+        get books_path(page: 2), as: :turbo_stream
+
+        expect(response.body).to include('target="results_list_2"')
+      end
+
+      it "renders regular view for page 1" do
+        get books_path(page: 1)
+
+        expect(response.content_type).to eq("text/html; charset=utf-8")
+      end
+
+      it "renders regular view when no page parameter" do
+        get books_path
+
+        expect(response.content_type).to eq("text/html; charset=utf-8")
+      end
+    end
+
+    context "with HTML format" do
+      it "renders HTML response" do
+        get books_path, as: :html
+
+        expect(response.content_type).to eq("text/html; charset=utf-8")
+      end
+
+      it "excludes hidden books" do
+        create(:book, title: "Hidden Book", hidden: true)
+
+        get books_path, as: :html
+
+        expect(response.body).not_to include("Hidden Book")
+      end
+    end
+
+    context "with Turbo Stream format" do
+      it "renders turbo stream response" do
+        get books_path, as: :turbo_stream
+
+        expect(response.content_type).to eq("text/vnd.turbo-stream.html; charset=utf-8")
+      end
+
+      it "excludes hidden books" do
+        create(:book, title: "Hidden Book", hidden: true)
+
+        get books_path, as: :turbo_stream
+
+        expect(response.body).not_to include("Hidden Book")
+      end
+
+      it "includes correct turbo stream target for first page" do
+        get books_path, as: :turbo_stream
+
+        expect(response.body).to include('target="results_list_"')
+      end
+
+      it "includes correct turbo stream target for specific page" do
+        create_list(:book, 25)
+
+        get books_path(page: 2), as: :turbo_stream
+
+        expect(response.body).to include('target="results_list_2"')
+      end
+    end
+  end
+
   describe "GET /show" do
     let(:book) { create(:book, :with_files) }
 

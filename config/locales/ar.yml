@@ -27,6 +27,18 @@ ar:
       books: الكتب
   book_search_form:
     search_input_placeholder: ابحث في محتوى الكتاب
+  books:
+    index:
+      description: قائمة كتب الجامع
+      keywords:
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF إلى نص
+      title: الكتب
   bottom_controls:
     book_files: ملفات الكتاب
     first_page: الصفحة الأولى
@@ -63,6 +75,7 @@ ar:
     light_mode: الوضع الفاتح
   navbar:
     authors: المؤلفون
+    books: الكتب
     categories: التصنيفات
     contact_us: راسلنا
     home: الرئيسية
