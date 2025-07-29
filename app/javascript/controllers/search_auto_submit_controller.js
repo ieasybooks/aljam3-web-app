@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { debounce } from "../utils"
 
 // Connects to data-controller="search-auto-submit"
 export default class extends Controller {
@@ -6,24 +7,23 @@ export default class extends Controller {
   static values = { delay: { type: Number, default: 150 } }
 
   connect() {
-    this.timeout = null
+    this.submit = debounce(this.submit.bind(this), this.delayValue)
+  }
+
+  disconnect() {
+    this.submit = null
   }
 
   submit() {
-    if (this.inputTarget.value.length > 0 && this.inputTarget.value.length < 3) {
+    if (this.inputTarget.value.length === 0) {
+      this.element.requestSubmit()
       return
     }
 
-    let delay = this.inputTarget.value.length === 0 ? 0 : this.delayValue
+    if (this.inputTarget.value.length < 3) {
+      return
+    }
 
-    clearTimeout(this.timeout)
-
-    this.timeout = setTimeout(() => {
-      if (this.inputTarget.value.length > 0 && this.inputTarget.value.length < 3) {
-        return
-      }
-
-      this.element.requestSubmit()
-    }, delay)
+    this.element.requestSubmit()
   }
 }
