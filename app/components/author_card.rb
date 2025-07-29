@@ -6,7 +6,11 @@ class Components::AuthorCard < Components::Base
   def view_template
     Card do
       CardHeader(class: "p-4") do
-        CardTitle(class: "line-clamp-1") { a(href: author_path(@author.id), data: { turbo_frame: "_top" }) { @author.name } }
+        CardTitle(class: "line-clamp-1") do
+          a(href: author_path(@author.id), data: { turbo_frame: "_top" }) do
+            safe (process_meilisearch_highlights(@author.formatted&.[]("name")) || @author.name)
+          end
+        end
       end
 
       CardContent(class: "flex justify-between items-center p-4 border-t") do

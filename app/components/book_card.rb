@@ -16,7 +16,11 @@ class Components::BookCard < Components::Base
           end
         end
 
-        CardTitle(class: "line-clamp-1") { a(href: book_path(@book.id), data: { turbo_frame: "_top" }) { @book.title } }
+        CardTitle(class: "line-clamp-1") do
+          a(href: book_path(@book.id), data: { turbo_frame: "_top" }) do
+            safe (process_meilisearch_highlights(@book.formatted&.[]("title")) || @book.title)
+          end
+        end
 
         if @show_author
           CardDescription(class: "flex items-center gap-x-1") do

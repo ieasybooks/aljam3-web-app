@@ -28,7 +28,9 @@ class CategoriesController < ApplicationController
     if params[:q].present?
       pagy_meilisearch(Book.pagy_search(
         params[:q],
-        filter: %((hidden = false OR hidden NOT EXISTS) AND category = "#{@category.id}")
+        filter: %((hidden = false OR hidden NOT EXISTS) AND category = "#{@category.id}"),
+        highlight_pre_tag: "<mark>",
+        highlight_post_tag: "</mark>"
       ))
     else
       pagy(@category.books.where(hidden: false).order(:title))
