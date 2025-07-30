@@ -22,6 +22,7 @@ class Components::Menu < Components::Base
           end
         end
 
+        language_toggle
         theme_toggle
       end
     end
@@ -42,6 +43,10 @@ class Components::Menu < Components::Base
 
       plain text
     end
+  end
+
+  def language_toggle
+    LanguageToggle()
   end
 
   def theme_toggle
