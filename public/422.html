@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Unsupported Browser (406)</title>
+  <title>Unprocessable Entity (422)</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
@@ -39,9 +39,9 @@
 </head>
 
 <body class="min-h-screen bg-background flex items-center justify-center p-4">
-  <!-- This file lives in public/406-unsupported-browser.html -->
+  <!-- This file lives in public/422.html -->
   
-  <div class="w-full max-w-lg">
+  <div class="w-full max-w-md">
     <!-- Main Card -->
     <div class="rounded-xl border bg-card shadow-lg p-8 text-center space-y-6">
       
@@ -49,54 +49,44 @@
       <div class="flex justify-center">
         <div class="rounded-full bg-warning/10 p-6">
           <svg class="w-16 h-16 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
         </div>
       </div>
       
       <!-- Error Code -->
       <div class="space-y-2">
-        <h1 class="scroll-m-20 text-4xl font-bold tracking-tight text-primary">406</h1>
-        <h2 class="scroll-m-20 text-xl font-semibold tracking-tight text-primary">Unsupported Browser</h2>
+        <h1 class="scroll-m-20 text-4xl font-bold tracking-tight text-primary">422</h1>
+        <h2 class="scroll-m-20 text-xl font-semibold tracking-tight text-primary">Unprocessable Entity</h2>
       </div>
       
       <!-- Error Description -->
       <div class="space-y-4">
         <p class="text-base text-muted-foreground leading-7">
-          Your browser version is not supported by this application. Please update to a modern browser for the best experience.
+          The change you wanted was rejected due to validation errors or invalid data format.
         </p>
         
         <div class="bg-muted rounded-md p-4 text-left">
-          <h3 class="text-sm font-medium text-primary mb-3">Recommended browsers:</h3>
-          <div class="grid grid-cols-2 gap-3 text-sm">
-            <div class="flex items-center gap-2">
-              <div class="w-4 h-4 bg-blue-500 rounded-sm"></div>
-              <span class="text-muted-foreground">Chrome 90+</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="w-4 h-4 bg-orange-500 rounded-sm"></div>
-              <span class="text-muted-foreground">Firefox 88+</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="w-4 h-4 bg-blue-600 rounded-sm"></div>
-              <span class="text-muted-foreground">Edge 90+</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="w-4 h-4 bg-gray-800 rounded-sm"></div>
-              <span class="text-muted-foreground">Safari 14+</span>
-            </div>
-          </div>
+          <h3 class="text-sm font-medium text-primary mb-2">Common causes:</h3>
+          <ul class="text-sm text-muted-foreground space-y-1">
+            <li>• Missing required fields</li>
+            <li>• Invalid data format</li>
+            <li>• Validation constraints not met</li>
+            <li>• Duplicate values where unique required</li>
+          </ul>
         </div>
         
         <p class="text-sm text-muted-foreground">
-          Updating your browser will provide better security, performance, and compatibility.
+          Please review your input and try again. If you're the application owner, check the logs for detailed validation errors.
         </p>
       </div>
       
+    </div>
+    
     <!-- Footer -->
     <div class="text-center mt-6">
       <p class="text-xs text-muted-foreground">
-        Error Code: 406 | Not Acceptable - Unsupported Browser
+        Error Code: 422 | Unprocessable Entity
       </p>
     </div>
   </div>
