@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/gregnavis/active_record_doctor.git
-  revision: 98d7d6ec79d2247c560ffe5c0b4ae520ecff9aaf
+  revision: f226d2c9ee451d279867ec7fbf53646eff48eec7
   specs:
     active_record_doctor (1.15.0)
       activerecord (>= 7.0.0)
