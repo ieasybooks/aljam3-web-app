@@ -46,6 +46,11 @@
 #                                book_file GET      /:book_id/:file_id(.:format)                                                                      files#show {book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      /:book_id(.:format)                                                                               books#show {book_id: /\d+/}
 #                                 lookbook          /lookbook                                                                                         Lookbook::Engine
+#                                                   /404(.:format)                                                                                    errors#not_found
+#                                                   /422(.:format)                                                                                    errors#unprocessable_content
+#                                                   /500(.:format)                                                                                    errors#internal_server_error
+#                                                   /406(.:format)                                                                                    errors#unsupported_browser
+#                                                   /400(.:format)                                                                                    errors#bad_request
 #         turbo_recede_historical_location GET      /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET      /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET      /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -318,4 +323,10 @@ Rails.application.routes.draw do
   get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
 
   mount Lookbook::Engine, at: "/lookbook" if Rails.env.development?
+
+  match "/404", to: "errors#not_found", via: :all
+  match "/422", to: "errors#unprocessable_content", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+  match "/406", to: "errors#unsupported_browser", via: :all
+  match "/400", to: "errors#bad_request", via: :all
 end
