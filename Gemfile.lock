@@ -84,7 +84,7 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    annotaterb (4.17.0)
+    annotaterb (4.18.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
     ast (2.4.3)
@@ -673,7 +673,7 @@ PLATFORMS
 DEPENDENCIES
   active_record_doctor!
   addressable (~> 2.8, >= 2.8.7)
-  annotaterb (~> 4.17)
+  annotaterb (~> 4.18)
   avo (~> 3.22, >= 3.22.2)
   better_errors (~> 2.10, >= 2.10.1)
   binding_of_caller (~> 1.0, >= 1.0.1)
