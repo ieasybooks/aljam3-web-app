@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "avo", "~> 3.22", ">= 3.22.2"
+gem "avo", "~> 3.23"
 gem "browser", "~> 6.2"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.14"
@@ -18,10 +18,10 @@ gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.3", ">= 9.3.5"
 gem "pghero", "~> 3.7"
 gem "pg_query", "~> 6.1"
-gem "phlex-icons", "~> 2.30"
+gem "phlex-icons", "~> 2.32"
 gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
-gem "rails_cloudflare_turnstile", "~> 0.4.1"
+gem "rails_cloudflare_turnstile", "~> 0.4.2"
 gem "rails-i18n", "~> 8.0", ">= 8.0.1"
 gem "rails_performance", "~> 1.4", ">= 1.4.2"
 gem "sitemap_generator", "~> 6.3"
@@ -34,7 +34,7 @@ gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
   gem "addressable", "~> 2.8", ">= 2.8.7"
-  gem "annotaterb", "~> 4.17"
+  gem "annotaterb", "~> 4.18"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
   gem "faker", "~> 3.5", ">= 3.5.2", require: false
@@ -128,4 +128,4 @@ end
 
 # Added gems ↓
 
-gem "rack-mini-profiler", "~> 4.0" # Needs to be added after `pg` gem for auto-detection.
+gem "rack-mini-profiler", "~> 4.0", ">= 4.0.1" # Needs to be added after `pg` gem for auto-detection.
