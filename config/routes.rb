@@ -44,7 +44,7 @@
 #                        rails_performance          /performance                                                                                      RailsPerformance::Engine
 #                           book_file_page GET      /:book_id/:file_id/:page_number(.:format)                                                         pages#show {book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
 #                                book_file GET      /:book_id/:file_id(.:format)                                                                      files#show {book_id: /\d+/, file_id: /\d+/}
-#                                     book GET      /:book_id(.:format)                                                                               books#show {book_id: /\d+/}
+#                                     book GET      /:book_id(.:format)                                                                               books#show {book_id: /(?!404|400|500|422|406)\d+/}
 #                                 lookbook          /lookbook                                                                                         Lookbook::Engine
 #                                                   /404(.:format)                                                                                    errors#not_found
 #                                                   /422(.:format)                                                                                    errors#unprocessable_content
@@ -320,7 +320,7 @@ Rails.application.routes.draw do
 
   get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }
   get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
-  get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
+  get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /(?!404|400|500|422|406)\d+/ }
 
   mount Lookbook::Engine, at: "/lookbook" if Rails.env.development?
 
