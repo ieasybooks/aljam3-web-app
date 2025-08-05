@@ -46,5 +46,7 @@ module Aljam3
     config.mission_control.jobs.http_basic_auth_enabled = false
 
     Rails.application.config.assets.paths << Rails.root.join("app/assets/fonts")
+
+    config.exceptions_app = routes
   end
 end
