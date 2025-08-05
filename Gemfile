@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "avo", "~> 3.22", ">= 3.22.2"
+gem "avo", "~> 3.23"
 gem "browser", "~> 6.2"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.14"
