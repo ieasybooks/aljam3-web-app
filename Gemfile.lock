@@ -123,6 +123,10 @@ GEM
       racc
     browser (6.2.0)
     builder (3.3.0)
+    cache_with_locale (0.0.3)
+      actionview
+      activesupport
+      railties
     cloudflare-rails (6.2.0)
       actionpack (>= 7.1.0, < 8.1.0)
       activesupport (>= 7.1.0, < 8.1.0)
@@ -678,6 +682,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   browser (~> 6.2)
+  cache_with_locale (~> 0.0.3)
   cloudflare-rails (~> 6.2)
   cssbundling-rails
   debug

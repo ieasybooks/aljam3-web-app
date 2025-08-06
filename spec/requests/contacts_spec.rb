@@ -94,9 +94,11 @@ RSpec.describe "Contacts" do
       end
 
       it "renders turbo_stream response with captcha error" do
-        post contacts_path, params: valid_params, as: :turbo_stream
+        I18n.with_locale(:en) do
+          post contacts_path, params: valid_params.merge(locale: "en"), as: :turbo_stream
 
-        expect(response.body).to include(I18n.t("contact_form.captcha_error"))
+          expect(response.body).to include(I18n.t("contact_form.captcha_error").gsub("'", "&#39;"))
+        end
       end
     end
   end

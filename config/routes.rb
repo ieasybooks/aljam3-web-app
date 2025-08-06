@@ -5,52 +5,52 @@
 #                       rails_health_check GET      /up(.:format)                                                                                     rails/health#show
 #                             pwa_manifest GET      /manifest-v2(.:format)                                                                            rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
-#                                     root GET      /                                                                                                 static#home
-#                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
-#                         new_user_session GET      /users/sign_in(.:format)                                                                          devise/sessions#new
-#                             user_session POST     /users/sign_in(.:format)                                                                          devise/sessions#create
-#                     destroy_user_session DELETE   /users/sign_out(.:format)                                                                         devise/sessions#destroy
 #           user_google_omniauth_authorize GET|POST /users/auth/google(.:format)                                                                      devise/omniauth_callbacks#passthru
 #            user_google_omniauth_callback GET|POST /users/auth/google/callback(.:format)                                                             devise/omniauth_callbacks#google
-#                        new_user_password GET      /users/password/new(.:format)                                                                     devise/passwords#new
-#                       edit_user_password GET      /users/password/edit(.:format)                                                                    devise/passwords#edit
-#                            user_password PATCH    /users/password(.:format)                                                                         devise/passwords#update
-#                                          PUT      /users/password(.:format)                                                                         devise/passwords#update
-#                                          POST     /users/password(.:format)                                                                         devise/passwords#create
-#                 cancel_user_registration GET      /users/cancel(.:format)                                                                           devise/registrations#cancel
-#                    new_user_registration GET      /users/sign_up(.:format)                                                                          devise/registrations#new
-#                   edit_user_registration GET      /users/edit(.:format)                                                                             devise/registrations#edit
-#                        user_registration PATCH    /users(.:format)                                                                                  devise/registrations#update
-#                                          PUT      /users(.:format)                                                                                  devise/registrations#update
-#                                          DELETE   /users(.:format)                                                                                  devise/registrations#destroy
-#                                          POST     /users(.:format)                                                                                  devise/registrations#create
-#                    new_user_confirmation GET      /users/confirmation/new(.:format)                                                                 devise/confirmations#new
-#                        user_confirmation GET      /users/confirmation(.:format)                                                                     devise/confirmations#show
-#                                          POST     /users/confirmation(.:format)                                                                     devise/confirmations#create
-#                          new_user_unlock GET      /users/unlock/new(.:format)                                                                       devise/unlocks#new
-#                              user_unlock GET      /users/unlock(.:format)                                                                           devise/unlocks#show
-#                                          POST     /users/unlock(.:format)                                                                           devise/unlocks#create
-#                                 contacts POST     /contacts(.:format)                                                                               contacts#create
-#                               categories GET      /categories(.:format)                                                                             categories#index
-#                                 category GET      /categories/:id(.:format)                                                                         categories#show
-#                                  authors GET      /authors(.:format)                                                                                authors#index
-#                                   author GET      /authors/:id(.:format)                                                                            authors#show
-#                              book_search GET      /books/:book_id/search(.:format)                                                                  books#search
-#                                    books GET      /books(.:format)                                                                                  books#index
-#                                      avo          /avo                                                                                              Avo::Engine
-#                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
-#                                  pg_hero          /pghero                                                                                           PgHero::Engine
-#                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
-#                        rails_performance          /performance                                                                                      RailsPerformance::Engine
-#                           book_file_page GET      /:book_id/:file_id/:page_number(.:format)                                                         pages#show {book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
-#                                book_file GET      /:book_id/:file_id(.:format)                                                                      files#show {book_id: /\d+/, file_id: /\d+/}
-#                                     book GET      /:book_id(.:format)                                                                               books#show {book_id: /(?!404|400|500|422|406)\d+/}
-#                                 lookbook          /lookbook                                                                                         Lookbook::Engine
+#                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
 #                                                   /404(.:format)                                                                                    errors#not_found
 #                                                   /422(.:format)                                                                                    errors#unprocessable_content
 #                                                   /500(.:format)                                                                                    errors#internal_server_error
 #                                                   /406(.:format)                                                                                    errors#unsupported_browser
 #                                                   /400(.:format)                                                                                    errors#bad_request
+#                                     root GET      /(:locale)(.:format)                                                                              static#home {locale: /ar|en/}
+#                         new_user_session GET      (/:locale)/users/sign_in(.:format)                                                                devise/sessions#new {locale: /ar|en/}
+#                             user_session POST     (/:locale)/users/sign_in(.:format)                                                                devise/sessions#create {locale: /ar|en/}
+#                     destroy_user_session DELETE   (/:locale)/users/sign_out(.:format)                                                               devise/sessions#destroy {locale: /ar|en/}
+#                        new_user_password GET      (/:locale)/users/password/new(.:format)                                                           devise/passwords#new {locale: /ar|en/}
+#                       edit_user_password GET      (/:locale)/users/password/edit(.:format)                                                          devise/passwords#edit {locale: /ar|en/}
+#                            user_password PATCH    (/:locale)/users/password(.:format)                                                               devise/passwords#update {locale: /ar|en/}
+#                                          PUT      (/:locale)/users/password(.:format)                                                               devise/passwords#update {locale: /ar|en/}
+#                                          POST     (/:locale)/users/password(.:format)                                                               devise/passwords#create {locale: /ar|en/}
+#                 cancel_user_registration GET      (/:locale)/users/cancel(.:format)                                                                 devise/registrations#cancel {locale: /ar|en/}
+#                    new_user_registration GET      (/:locale)/users/sign_up(.:format)                                                                devise/registrations#new {locale: /ar|en/}
+#                   edit_user_registration GET      (/:locale)/users/edit(.:format)                                                                   devise/registrations#edit {locale: /ar|en/}
+#                        user_registration PATCH    (/:locale)/users(.:format)                                                                        devise/registrations#update {locale: /ar|en/}
+#                                          PUT      (/:locale)/users(.:format)                                                                        devise/registrations#update {locale: /ar|en/}
+#                                          DELETE   (/:locale)/users(.:format)                                                                        devise/registrations#destroy {locale: /ar|en/}
+#                                          POST     (/:locale)/users(.:format)                                                                        devise/registrations#create {locale: /ar|en/}
+#                    new_user_confirmation GET      (/:locale)/users/confirmation/new(.:format)                                                       devise/confirmations#new {locale: /ar|en/}
+#                        user_confirmation GET      (/:locale)/users/confirmation(.:format)                                                           devise/confirmations#show {locale: /ar|en/}
+#                                          POST     (/:locale)/users/confirmation(.:format)                                                           devise/confirmations#create {locale: /ar|en/}
+#                          new_user_unlock GET      (/:locale)/users/unlock/new(.:format)                                                             devise/unlocks#new {locale: /ar|en/}
+#                              user_unlock GET      (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#show {locale: /ar|en/}
+#                                          POST     (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#create {locale: /ar|en/}
+#                                 contacts POST     (/:locale)/contacts(.:format)                                                                     contacts#create {locale: /ar|en/}
+#                               categories GET      (/:locale)/categories(.:format)                                                                   categories#index {locale: /ar|en/}
+#                                 category GET      (/:locale)/categories/:id(.:format)                                                               categories#show {locale: /ar|en/}
+#                                  authors GET      (/:locale)/authors(.:format)                                                                      authors#index {locale: /ar|en/}
+#                                   author GET      (/:locale)/authors/:id(.:format)                                                                  authors#show {locale: /ar|en/}
+#                              book_search GET      (/:locale)/books/:book_id/search(.:format)                                                        books#search {locale: /ar|en/}
+#                                    books GET      (/:locale)/books(.:format)                                                                        books#index {locale: /ar|en/}
+#                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
+#                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|en/, book_id: /\d+/, file_id: /\d+/}
+#                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|en/, book_id: /(?!404|400|500|422|406)\d+/}
+#                                      avo          /avo                                                                                              Avo::Engine
+#                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
+#                                  pg_hero          /pghero                                                                                           PgHero::Engine
+#                             solid_errors          /solid_errors                                                                                     SolidErrors::Engine
+#                        rails_performance          /performance                                                                                      RailsPerformance::Engine
+#                                 lookbook          /lookbook                                                                                         Lookbook::Engine
 #         turbo_recede_historical_location GET      /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET      /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET      /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -273,7 +273,7 @@
 #   rails_performance_resources GET  /resources(.:format)   rails_performance/rails_performance#resources
 #
 # Routes for Lookbook::Engine:
-#                 cable      /cable                   #<ActionCable::Server::Base:0x000000014d1dea68 @config=#<ActionCable::Server::Configuration:0x000000014d29a8d0 @log_tags=[], @connection_class=#<Proc:0x0000000148c11be8 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/lookbook-2.3.11/lib/lookbook/cable/cable.rb:48 (lambda)>, @worker_pool_size=4, @disable_request_forgery_protection=false, @allow_same_origin_as_host=true, @filter_parameters=[], @health_check_application=#<Proc:0x0000000148c11d50 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/actioncable-8.0.2/lib/action_cable/server/configuration.rb:32 (lambda)>, @cable={"adapter" => "async"}, @mount_path=nil, @logger=#<ActiveSupport::BroadcastLogger:0x0000000149fbdea8 @broadcasts=[#<ActiveSupport::Logger:0x000000014af06860 @level=0, @progname=nil, @default_formatter=#<Logger::Formatter:0x0000000149fbe330 @datetime_format=nil>, @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x0000000149fbe128 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13944">, @logdev=#<Logger::LogDevice:0x000000012e89c630 @shift_period_suffix="%Y%m%d", @shift_size=104857600, @shift_age=1, @filename="/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log", @dev=#<File:/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log>, @binmode=false, @reraise_write_errors=[], @skip_header=false, @mon_data=#<Monitor:0x0000000149fbe2b8>, @mon_data_owner_object_id=4064>, @level_override={}, @local_level_key=:logger_thread_safe_level_13936>], @progname="Broadcast", @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x0000000149fbe128 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13944">>>, @mutex=#<Monitor:0x0000000148c119e0>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                 cable      /cable                   #<ActionCable::Server::Base:0x0000000149c32900 @config=#<ActionCable::Server::Configuration:0x000000013b61f148 @log_tags=[], @connection_class=#<Proc:0x0000000148870228 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/lookbook-2.3.12/lib/lookbook/cable/cable.rb:48 (lambda)>, @worker_pool_size=4, @disable_request_forgery_protection=false, @allow_same_origin_as_host=true, @filter_parameters=[], @health_check_application=#<Proc:0x0000000148870408 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/actioncable-8.0.2/lib/action_cable/server/configuration.rb:32 (lambda)>, @cable={"adapter" => "async"}, @mount_path=nil, @logger=#<ActiveSupport::BroadcastLogger:0x000000013fa57748 @broadcasts=[#<ActiveSupport::Logger:0x000000013f9f3900 @level=0, @progname=nil, @default_formatter=#<Logger::Formatter:0x000000013fa57bd0 @datetime_format=nil>, @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x000000013fa579c8 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13816">, @logdev=#<Logger::LogDevice:0x000000013fa36a48 @shift_period_suffix="%Y%m%d", @shift_size=104857600, @shift_age=1, @filename="/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log", @dev=#<File:/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log>, @binmode=false, @reraise_write_errors=[], @skip_header=false, @mon_data=#<Monitor:0x000000013fa57b58>, @mon_data_owner_object_id=4064>, @level_override={}, @local_level_key=:logger_thread_safe_level_13808>], @progname="Broadcast", @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x000000013fa579c8 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13816">>>, @mutex=#<Monitor:0x00000001488700e8>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #         lookbook_home GET  /                        lookbook/application#index
 #   lookbook_page_index GET  /pages(.:format)         lookbook/pages#index
 #         lookbook_page GET  /pages/*path(.:format)   lookbook/pages#show
@@ -295,19 +295,33 @@ Rails.application.routes.draw do
   get "manifest-v2" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  root "static#home"
+  devise_for :users, only: :omniauth_callbacks
 
   get "pdfjs", to: "pdfjs#index"
 
-  devise_for :users
+  match "/404", to: "errors#not_found", via: :all
+  match "/422", to: "errors#unprocessable_content", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+  match "/406", to: "errors#unsupported_browser", via: :all
+  match "/400", to: "errors#bad_request", via: :all
 
-  resources :contacts, only: %i[create]
-  resources :categories, only: %i[index show]
-  resources :authors, only: %i[index show]
+  scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+    # Defines the root path route ("/")
+    root "static#home"
 
-  resources :books, only: :index do
-    get :search
+    devise_for :users, skip: :omniauth_callbacks
+
+    resources :contacts, only: %i[create]
+    resources :categories, only: %i[index show]
+    resources :authors, only: %i[index show]
+
+    resources :books, only: :index do
+      get :search
+    end
+
+    get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }
+    get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
+    get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /(?!404|400|500|422|406)\d+/ }
   end
 
   authenticate :user, ->(user) { user.admin? } do
@@ -318,15 +332,5 @@ Rails.application.routes.draw do
     mount RailsPerformance::Engine, at: "/performance"
   end
 
-  get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }
-  get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
-  get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /(?!404|400|500|422|406)\d+/ }
-
   mount Lookbook::Engine, at: "/lookbook" if Rails.env.development?
-
-  match "/404", to: "errors#not_found", via: :all
-  match "/422", to: "errors#unprocessable_content", via: :all
-  match "/500", to: "errors#internal_server_error", via: :all
-  match "/406", to: "errors#unsupported_browser", via: :all
-  match "/400", to: "errors#bad_request", via: :all
 end

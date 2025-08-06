@@ -150,6 +150,7 @@
   <li><a href="https://github.com/drwl/annotaterb">annotaterb</a></li>
   <li><a href="https://github.com/BetterErrors/better_errors">better_errors</a></li>
   <li><a href="https://github.com/banister/binding_of_caller">binding_of_caller</a></li>
+  <li><a href="https://github.com/igorkasyanchuk/cache_with_locale">cache_with_locale</a></li>
   <li><a href="https://github.com/thoughtbot/factory_bot_rails">factory_bot_rails</a></li>
   <li><a href="https://github.com/faker-ruby/faker">faker</a></li>
   <li><a href="https://github.com/hotwired/spark">hotwire-spark</a></li>

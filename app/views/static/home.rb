@@ -27,7 +27,7 @@ class Views::Static::Home < Views::Base
       SearchForm(libraries: @libraries, categories: @categories)
 
       if @results.nil?
-        cache expires_in: 1.hour do
+        cache I18n.locale, expires_in: 1.hour do
           div(class: "mb-10") do
             search_examples
             carousels

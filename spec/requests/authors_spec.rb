@@ -6,7 +6,7 @@ RSpec.describe "Authors" do
 
     context "when author exists and is not hidden" do
       it "renders the author show view" do
-        get author_path(author)
+        get author_path(id: author.id)
 
         expect(response).to have_http_status(:ok)
       end
@@ -40,7 +40,7 @@ RSpec.describe "Authors" do
 
           context "with HTML format" do # rubocop:disable RSpec/NestedGroups
             it "searches books using Meilisearch with author filter" do
-              get author_path(author, q: "ruby"), as: :html
+              get author_path(id: author.id, q: "ruby"), as: :html
 
               expect(Book).to have_received(:pagy_search).with(
                 "ruby",
@@ -51,7 +51,7 @@ RSpec.describe "Authors" do
             end
 
             it "renders the author show view with search results" do # rubocop:disable RSpec/MultipleExpectations
-              get author_path(author, q: "ruby"), as: :html
+              get author_path(id: author.id, q: "ruby"), as: :html
 
               expect(response.body).to include("Ruby Programming")
               expect(response.body).not_to include("Hidden Ruby Book")
@@ -60,7 +60,7 @@ RSpec.describe "Authors" do
 
           context "with Turbo Stream format" do # rubocop:disable RSpec/NestedGroups
             it "searches books using Meilisearch with author filter" do
-              get author_path(author, q: "ruby"), as: :turbo_stream
+              get author_path(id: author.id, q: "ruby"), as: :turbo_stream
 
               expect(Book).to have_received(:pagy_search).with(
                 "ruby",
@@ -71,7 +71,7 @@ RSpec.describe "Authors" do
             end
 
             it "renders the author books list with search results" do # rubocop:disable RSpec/MultipleExpectations
-              get author_path(author, q: "ruby"), as: :turbo_stream
+              get author_path(id: author.id, q: "ruby"), as: :turbo_stream
 
               expect(response.body).to include("Ruby Programming")
               expect(response.body).not_to include("Hidden Ruby Book")
@@ -106,7 +106,7 @@ RSpec.describe "Authors" do
               allow(author).to receive(:books).and_return(double.tap { allow(it).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) }) # rubocop:disable RSpec/VerifiedDoubles
               allow(Author).to receive(:find).with(author.id.to_s).and_return(author)
 
-              get author_path(author), as: :html
+              get author_path(id: author.id), as: :html
 
               expect(author).to have_received(:books)
             end
@@ -114,7 +114,7 @@ RSpec.describe "Authors" do
             it "does not call Meilisearch" do
               allow(Book).to receive(:pagy_search)
 
-              get author_path(author), as: :html
+              get author_path(id: author.id), as: :html
 
               expect(Book).not_to have_received(:pagy_search)
             end
@@ -125,7 +125,7 @@ RSpec.describe "Authors" do
               allow(author).to receive(:books).and_return(double.tap { allow(it).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) }) # rubocop:disable RSpec/VerifiedDoubles
               allow(Author).to receive(:find).with(author.id.to_s).and_return(author)
 
-              get author_path(author), as: :turbo_stream
+              get author_path(id: author.id), as: :turbo_stream
 
               expect(author).to have_received(:books)
             end
@@ -133,7 +133,7 @@ RSpec.describe "Authors" do
             it "does not call Meilisearch" do
               allow(Book).to receive(:pagy_search)
 
-              get author_path(author), as: :turbo_stream
+              get author_path(id: author.id), as: :turbo_stream
 
               expect(Book).not_to have_received(:pagy_search)
             end
@@ -147,7 +147,7 @@ RSpec.describe "Authors" do
         it "displays only non-hidden books" do
           create_list(:book, 3, author:, hidden: false)
 
-          get author_path(author)
+          get author_path(id: author.id)
 
           expect(response.body).not_to include(hidden_book.title)
         end
@@ -157,7 +157,7 @@ RSpec.describe "Authors" do
           book_a = create(:book, author:, title: "A Book", hidden: false)
           book_z = create(:book, author:, title: "Z Book", hidden: false)
 
-          get author_path(author)
+          get author_path(id: author.id)
 
           expect(response.body.index(book_a.title)).to be < response.body.index(book_z.title)
         end
@@ -169,19 +169,19 @@ RSpec.describe "Authors" do
         end
 
         it "handles paginated requests with turbo stream" do
-          get author_path(author, page: 2), as: :turbo_stream
+          get author_path(id: author.id, page: 2), as: :turbo_stream
 
           expect(response.body).to include('target="results_list_2"')
         end
 
         it "renders regular view for page 1" do
-          get author_path(author, page: 1)
+          get author_path(id: author.id, page: 1)
 
           expect(response.content_type).to eq("text/html; charset=utf-8")
         end
 
         it "renders regular view when no page parameter" do
-          get author_path(author)
+          get author_path(id: author.id)
 
           expect(response.content_type).to eq("text/html; charset=utf-8")
         end
@@ -198,7 +198,7 @@ RSpec.describe "Authors" do
 
       context "without search query parameters" do
         it "does not create a SearchClick" do
-          expect { get author_path(author) }.not_to change(SearchClick, :count)
+          expect { get author_path(id: author.id) }.not_to change(SearchClick, :count)
         end
       end
 
@@ -207,7 +207,7 @@ RSpec.describe "Authors" do
 
         it "creates a SearchClick when qid is present" do # rubocop:disable RSpec/MultipleExpectations
           expect {
-            get author_path(author), params: { qid: search_query.id, i: "3" }
+            get author_path(id: author.id), params: { qid: search_query.id, i: "3" }
           }.to change(SearchClick, :count).by(1)
 
           search_click = SearchClick.last
@@ -218,7 +218,7 @@ RSpec.describe "Authors" do
 
         it "defaults index to -1 when i parameter is missing" do # rubocop:disable RSpec/MultipleExpectations
           expect {
-            get author_path(author), params: { qid: search_query.id }
+            get author_path(id: author.id), params: { qid: search_query.id }
           }.to change(SearchClick, :count).by(1)
 
           search_click = SearchClick.last
@@ -227,7 +227,7 @@ RSpec.describe "Authors" do
 
         it "does not create SearchClick when request is prefetch" do
           expect {
-            get author_path(author),
+            get author_path(id: author.id),
                 params: { qid: search_query.id, i: "3" },
                 headers: { "X-Sec-Purpose" => "prefetch" }
           }.not_to change(SearchClick, :count)
@@ -235,12 +235,12 @@ RSpec.describe "Authors" do
 
         it "does not create SearchClick when qid is blank" do
           expect {
-            get author_path(author), params: { qid: "", i: "3" }
+            get author_path(id: author.id), params: { qid: "", i: "3" }
           }.not_to change(SearchClick, :count)
         end
 
         it "renders the author show view after creating SearchClick" do
-          get author_path(author), params: { qid: search_query.id, i: "3" }
+          get author_path(id: author.id), params: { qid: search_query.id, i: "3" }
 
           expect(response).to have_http_status(:ok)
         end
@@ -251,7 +251,7 @@ RSpec.describe "Authors" do
       let(:hidden_author) { create(:author, hidden: true) }
 
       it "redirects to root path" do
-        get author_path(hidden_author)
+        get author_path(id: hidden_author.id)
 
         expect(response).to redirect_to(root_path)
       end

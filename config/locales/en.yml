@@ -102,6 +102,10 @@ en:
   files: Files
   inline_search_form:
     search_input_placeholder: Enter at least 3 characters
+  language_dropdown:
+    ar: Arabic
+    en: English
+    language: Language
   menu:
     dark_mode: Dark Mode
     light_mode: Light Mode

@@ -4,6 +4,7 @@ source "https://rubygems.org"
 
 gem "avo", "~> 3.23"
 gem "browser", "~> 6.2"
+gem "cache_with_locale", "~> 0.0.3"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.14"
 gem "get_process_mem", "~> 1.0"

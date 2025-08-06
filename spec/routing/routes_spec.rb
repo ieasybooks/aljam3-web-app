@@ -82,7 +82,7 @@ RSpec.describe "Routes" do
     end
 
     it "has a named route for book_search" do
-      expect(book_search_path(1)).to eq("/books/1/search")
+      expect(book_search_path(book_id: 1)).to eq("/books/1/search")
     end
 
     it "routes GET /:book_id to books#show" do
@@ -90,7 +90,7 @@ RSpec.describe "Routes" do
     end
 
     it "has a named route for book" do
-      expect(book_path(1)).to eq("/1")
+      expect(book_path(book_id: 1)).to eq("/1")
     end
   end
 
@@ -100,7 +100,7 @@ RSpec.describe "Routes" do
     end
 
     it "has a named route for book_file" do
-      expect(book_file_path(1, 1)).to eq("/1/1")
+      expect(book_file_path(book_id: 1, file_id: 1)).to eq("/1/1")
     end
   end
 
@@ -110,7 +110,7 @@ RSpec.describe "Routes" do
     end
 
     it "has a named route for book_file_page" do
-      expect(book_file_page_path(1, 1, 1)).to eq("/1/1/1")
+      expect(book_file_page_path(book_id: 1, file_id: 1, page_number: 1)).to eq("/1/1/1")
     end
   end
 

@@ -6,7 +6,7 @@ RSpec.describe "Pages" do
     let(:search_query) { SearchQuery.create(query: "test query", refinements: { search_scope: "c" }, user: nil) }
 
     it "returns http success" do
-      get book_file_page_path(page.file.book.id, page.file.id, page.number)
+      get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number)
 
       expect(response).to have_http_status(:success)
     end
@@ -15,7 +15,7 @@ RSpec.describe "Pages" do
       context "when qid param is present and X-Sec-Purpose header is not 'prefetch'" do
         it "creates a SearchClick record with default index when no index param is provided" do # rubocop:disable RSpec/MultipleExpectations
           expect {
-            get book_file_page_path(page.file.book.id, page.file.id, page.number, qid: search_query.id)
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number, qid: search_query.id)
           }.to change(SearchClick, :count).by(1)
 
           search_click = SearchClick.last
@@ -26,7 +26,7 @@ RSpec.describe "Pages" do
 
         it "creates a SearchClick record with provided index when index param is provided" do # rubocop:disable RSpec/MultipleExpectations
           expect {
-            get book_file_page_path(page.file.book.id, page.file.id, page.number, qid: search_query.id, i: "5")
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number, qid: search_query.id, i: "5")
           }.to change(SearchClick, :count).by(1)
 
           search_click = SearchClick.last
@@ -37,7 +37,7 @@ RSpec.describe "Pages" do
 
         it "handles invalid index param by converting to 0" do # rubocop:disable RSpec/MultipleExpectations
           expect {
-            get book_file_page_path(page.file.book.id, page.file.id, page.number, qid: search_query.id, i: "invalid")
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number, qid: search_query.id, i: "invalid")
           }.to change(SearchClick, :count).by(1)
 
           search_click = SearchClick.last
@@ -48,7 +48,7 @@ RSpec.describe "Pages" do
 
         it "handles empty index param by defaulting to -1" do # rubocop:disable RSpec/MultipleExpectations
           expect {
-            get book_file_page_path(page.file.book.id, page.file.id, page.number, qid: search_query.id, i: "")
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number, qid: search_query.id, i: "")
           }.to change(SearchClick, :count).by(1)
 
           search_click = SearchClick.last
@@ -61,7 +61,7 @@ RSpec.describe "Pages" do
       context "when qid param is present but X-Sec-Purpose header is 'prefetch'" do
         it "does not create a SearchClick record" do
           expect {
-            get book_file_page_path(page.file.book.id, page.file.id, page.number, qid: search_query.id),
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number, qid: search_query.id),
                 headers: { "X-Sec-Purpose" => "prefetch" }
           }.not_to change(SearchClick, :count)
         end
@@ -70,7 +70,7 @@ RSpec.describe "Pages" do
       context "when qid param is not present" do
         it "does not create a SearchClick record" do
           expect {
-            get book_file_page_path(page.file.book.id, page.file.id, page.number)
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number)
           }.not_to change(SearchClick, :count)
         end
       end
@@ -78,7 +78,7 @@ RSpec.describe "Pages" do
       context "when qid param is blank" do
         it "does not create a SearchClick record" do
           expect {
-            get book_file_page_path(page.file.book.id, page.file.id, page.number, qid: "")
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number, qid: "")
           }.not_to change(SearchClick, :count)
         end
       end
@@ -86,7 +86,7 @@ RSpec.describe "Pages" do
 
     context "with different response formats" do
       it "renders HTML format successfully" do # rubocop:disable RSpec/MultipleExpectations
-        get book_file_page_path(page.file.book.id, page.file.id, page.number)
+        get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number)
 
         expect(response).to have_http_status(:success)
         expect(response.media_type).to eq("text/html")
@@ -94,7 +94,7 @@ RSpec.describe "Pages" do
 
       context "with turbo_stream format" do
         it "renders turbo_stream format successfully" do # rubocop:disable RSpec/MultipleExpectations
-          get book_file_page_path(page.file.book.id, page.file.id, page.number), as: :turbo_stream
+          get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number), as: :turbo_stream
 
           expect(response).to have_http_status(:success)
           expect(response.media_type).to eq("text/vnd.turbo-stream.html")
@@ -104,7 +104,7 @@ RSpec.describe "Pages" do
           let(:page) { create(:page, content: "This is some page content.") }
 
           it "renders the page content with simple_format" do # rubocop:disable RSpec/MultipleExpectations
-            get book_file_page_path(page.file.book.id, page.file.id, page.number), as: :turbo_stream
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number), as: :turbo_stream
 
             expect(response).to have_http_status(:success)
             expect(response.body).to include('<turbo-stream action="update" target="txt-content">')
@@ -117,11 +117,13 @@ RSpec.describe "Pages" do
             stubbed_page = build_stubbed(:page, content: "")
             allow(Page).to receive(:find_by).and_return(stubbed_page)
 
-            get book_file_page_path(stubbed_page.file.book.id, stubbed_page.file.id, stubbed_page.number), as: :turbo_stream
+            I18n.with_locale(:en) do
+              get book_file_page_path(book_id: stubbed_page.file.book.id, file_id: stubbed_page.file.id, page_number: stubbed_page.number, locale: "en"), as: :turbo_stream
+            end
 
             expect(response).to have_http_status(:success)
             expect(response.body).to include('<turbo-stream action="update" target="txt-content">')
-            expect(response.body).to include("الصفحة فارغة") # Arabic translation for "Empty Page"
+            expect(response.body).to include("Empty Page")
             expect(response.body).to include("text-gray-500 text-2xl")
             expect(response.body).to include("flex items-center justify-center h-full font-medium text-center")
           end
@@ -134,7 +136,7 @@ RSpec.describe "Pages" do
       let(:page) { book.pages.first }
 
       it "redirects to root path" do
-        get book_file_page_path(page.file.book.id, page.file.id, page.number)
+        get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number)
 
         expect(response).to redirect_to(root_path)
       end

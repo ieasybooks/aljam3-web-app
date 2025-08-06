@@ -44,6 +44,8 @@ class Components::Navbar < Components::Base
             end
           end
 
+          LanguageDropdown()
+
           Tooltip(placement: :bottom) do
             TooltipTrigger do
               theme_toggle

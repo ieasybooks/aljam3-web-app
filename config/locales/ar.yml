@@ -96,6 +96,10 @@ ar:
   files: الملفات
   inline_search_form:
     search_input_placeholder: أدخل 3 حروف على الأقل
+  language_dropdown:
+    ar: العربية
+    en: الإنجليزية
+    language: اللغة
   menu:
     dark_mode: الوضع الداكن
     light_mode: الوضع الفاتح

@@ -41,7 +41,7 @@ RSpec.describe "Categories" do
 
         context "with HTML format" do # rubocop:disable RSpec/NestedGroups
           it "searches books using Meilisearch with category filter" do
-            get category_path(category.id, q: "ruby"), as: :html
+            get category_path(id: category.id, q: "ruby"), as: :html
 
             expect(Book).to have_received(:pagy_search).with(
               "ruby",
@@ -52,7 +52,7 @@ RSpec.describe "Categories" do
           end
 
           it "renders the category show view with search results" do # rubocop:disable RSpec/MultipleExpectations
-            get category_path(category.id, q: "ruby"), as: :html
+            get category_path(id: category.id, q: "ruby"), as: :html
 
             expect(response.body).to include("Ruby Programming")
             expect(response.body).not_to include("Hidden Book")
@@ -61,7 +61,7 @@ RSpec.describe "Categories" do
 
         context "with Turbo Stream format" do # rubocop:disable RSpec/NestedGroups
           it "searches books using Meilisearch with category filter" do
-            get category_path(category.id, q: "rails"), as: :turbo_stream
+            get category_path(id: category.id, q: "rails"), as: :turbo_stream
 
             expect(Book).to have_received(:pagy_search).with(
               "rails",
@@ -72,7 +72,7 @@ RSpec.describe "Categories" do
           end
 
           it "renders the category books list with search results" do # rubocop:disable RSpec/MultipleExpectations
-            get category_path(category.id, q: "rails"), as: :turbo_stream
+            get category_path(id: category.id, q: "rails"), as: :turbo_stream
 
             expect(response.body).to include("Ruby Programming")
             expect(response.body).not_to include("Hidden Book")
@@ -107,7 +107,7 @@ RSpec.describe "Categories" do
             allow(category).to receive(:books).and_return(double.tap { allow(it).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) }) # rubocop:disable RSpec/VerifiedDoubles
             allow(Category).to receive(:find).with(category.id.to_s).and_return(category)
 
-            get category_path(category.id), as: :html
+            get category_path(id: category.id), as: :html
 
             expect(category).to have_received(:books)
           end
@@ -115,7 +115,7 @@ RSpec.describe "Categories" do
           it "does not call Meilisearch" do
             allow(Book).to receive(:pagy_search)
 
-            get category_path(category.id), as: :html
+            get category_path(id: category.id), as: :html
 
             expect(Book).not_to have_received(:pagy_search)
           end
@@ -126,7 +126,7 @@ RSpec.describe "Categories" do
             allow(category).to receive(:books).and_return(double.tap { allow(it).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) }) # rubocop:disable RSpec/VerifiedDoubles
             allow(Category).to receive(:find).with(category.id.to_s).and_return(category)
 
-            get category_path(category.id), as: :turbo_stream
+            get category_path(id: category.id), as: :turbo_stream
 
             expect(category).to have_received(:books)
           end
@@ -134,7 +134,7 @@ RSpec.describe "Categories" do
           it "does not call Meilisearch" do
             allow(Book).to receive(:pagy_search)
 
-            get category_path(category.id), as: :turbo_stream
+            get category_path(id: category.id), as: :turbo_stream
 
             expect(Book).not_to have_received(:pagy_search)
           end
@@ -144,13 +144,13 @@ RSpec.describe "Categories" do
 
     context "without pagination (page 1)" do
       it "returns http success" do
-        get category_path(category.id)
+        get category_path(id: category.id)
 
         expect(response).to have_http_status(:success)
       end
 
       it "renders the full view for page 1" do
-        get category_path(category.id)
+        get category_path(id: category.id)
 
         expect(response.content_type).to eq("text/html; charset=utf-8")
       end
@@ -162,13 +162,13 @@ RSpec.describe "Categories" do
       end
 
       it "returns turbo_stream response for page 2" do
-        get category_path(category.id), params: { page: "2" }, as: :turbo_stream
+        get category_path(id: category.id), params: { page: "2" }, as: :turbo_stream
 
         expect(response.content_type).to eq("text/vnd.turbo-stream.html; charset=utf-8")
       end
 
       it "replaces the correct pagination element for page 2" do
-        get category_path(category.id), params: { page: "2" }, as: :turbo_stream
+        get category_path(id: category.id), params: { page: "2" }, as: :turbo_stream
 
         expect(response.body).to include('turbo-stream action="replace" target="results_list_2"')
       end

@@ -57,7 +57,7 @@ class Components::SearchRefinementsSheet < Components::Base
   end
 
   def sheet
-    cache browser.device.mobile?, expires_in: 1.week do
+    cache [ browser.device.mobile?, I18n.locale ], expires_in: 1.week do
       Sheet do
         SheetTrigger do
           Button(variant: :outline, size: :xl, icon: true) do

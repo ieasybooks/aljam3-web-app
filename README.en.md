@@ -139,6 +139,7 @@ All the settings for these extensions are already present in the [`.vscode/setti
 - [annotaterb](https://github.com/drwl/annotaterb)
 - [better_errors](https://github.com/BetterErrors/better_errors)
 - [binding_of_caller](https://github.com/banister/binding_of_caller)
+- [cache_with_locale](https://github.com/igorkasyanchuk/cache_with_locale)
 - [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails)
 - [faker](https://github.com/faker-ruby/faker)
 - [hotwire-spark](https://github.com/hotwired/spark)
