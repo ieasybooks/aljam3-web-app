@@ -49,16 +49,16 @@
   --radius: 0.3rem;
   --shadow-2xs: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.09);
   --shadow-xs: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.09);
-  --shadow-sm: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18),
-    0px 1px 2px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
-  --shadow: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18),
-    0px 1px 2px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
-  --shadow-md: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18),
-    0px 2px 4px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
-  --shadow-lg: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18),
-    0px 4px 6px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
-  --shadow-xl: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18),
-    0px 8px 10px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
+  --shadow-sm:
+    0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18), 0px 1px 2px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
+  --shadow:
+    0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18), 0px 1px 2px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
+  --shadow-md:
+    0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18), 0px 2px 4px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
+  --shadow-lg:
+    0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18), 0px 4px 6px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
+  --shadow-xl:
+    0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.18), 0px 8px 10px -1px hsl(15.7895 13.4752% 27.6471% / 0.18);
   --shadow-2xl: 0px 2px 3px 0px hsl(15.7895 13.4752% 27.6471% / 0.45);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
@@ -106,16 +106,11 @@
   --radius: 0.3rem;
   --shadow-2xs: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.09);
   --shadow-xs: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.09);
-  --shadow-sm: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18),
-    0px 1px 2px -1px hsl(0 0% 10.1961% / 0.18);
-  --shadow: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18),
-    0px 1px 2px -1px hsl(0 0% 10.1961% / 0.18);
-  --shadow-md: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18),
-    0px 2px 4px -1px hsl(0 0% 10.1961% / 0.18);
-  --shadow-lg: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18),
-    0px 4px 6px -1px hsl(0 0% 10.1961% / 0.18);
-  --shadow-xl: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18),
-    0px 8px 10px -1px hsl(0 0% 10.1961% / 0.18);
+  --shadow-sm: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18), 0px 1px 2px -1px hsl(0 0% 10.1961% / 0.18);
+  --shadow: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18), 0px 1px 2px -1px hsl(0 0% 10.1961% / 0.18);
+  --shadow-md: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18), 0px 2px 4px -1px hsl(0 0% 10.1961% / 0.18);
+  --shadow-lg: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18), 0px 4px 6px -1px hsl(0 0% 10.1961% / 0.18);
+  --shadow-xl: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.18), 0px 8px 10px -1px hsl(0 0% 10.1961% / 0.18);
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 10.1961% / 0.45);
 
   /* ruby_ui specific */
@@ -183,13 +178,12 @@
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
 
-  --font-body: NotoNaskhArabicUI, ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
-    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
-    Noto Color Emoji;
-  --font-sans: NotoNaskhArabicUI, ui-sans-serif, system-ui, -apple-system,
-    system-ui, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
-    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  --font-body:
+    NotoNaskhArabicUI, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  --font-sans:
+    NotoNaskhArabicUI, Inter, ui-sans-serif, system-ui, -apple-system, system-ui, Segoe UI, Roboto, Helvetica Neue,
+    Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
 /* Container settings */

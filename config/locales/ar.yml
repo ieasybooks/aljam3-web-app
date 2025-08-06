@@ -98,7 +98,7 @@ ar:
     search_input_placeholder: أدخل 3 حروف على الأقل
   language_dropdown:
     ar: العربية
-    en: الإنجليزية
+    en: English
     language: اللغة
   menu:
     dark_mode: الوضع الداكن

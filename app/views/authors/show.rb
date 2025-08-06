@@ -18,7 +18,7 @@ class Views::Authors::Show < Views::Base
     div(class: "px-4 sm:px-4 py-4 sm:container") do
       div(class: "flex max-sm:flex-col max-sm:space-y-4 justify-between items-top mb-4") do
         div do
-          Heading(level: 1, class: "mb-2 font-[Cairo]") { @author.name }
+          Heading(level: 1, class: "mb-2 font-[Inter] rtl:font-[Cairo]") { @author.name }
           Text { "#{t(".books")}: #{number_with_delimiter(@author.books_count)}" }
         end
 

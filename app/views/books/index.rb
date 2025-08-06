@@ -16,7 +16,7 @@ class Views::Books::Index < Views::Base
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
       div(class: "flex max-sm:flex-col max-sm:space-y-4 justify-between items-top mb-4") do
-        Heading(level: 1, class: "font-[Cairo]") { page_title }
+        Heading(level: 1, class: "font-[Inter] rtl:font-[Cairo]") { page_title }
 
         InlineSearchForm(action: books_path)
       end

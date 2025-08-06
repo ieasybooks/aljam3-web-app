@@ -2,9 +2,9 @@
   font-family: NotoNaskhArabicUI;
   src: url(NotoNaskhArabicUI[wght].ttf);
   font-display: swap;
-  unicode-range: U+200?, U+60C, U+618-61B, U+61F, U+621-63A, U+640-655, U+65C,
-    U+660-66C, U+670-671, U+6CC, U+6D4, U+6D6-6DD, U+6DF-6E8, U+6EA-6ED,
-    U+8F0-8F3, U+FD3E-FD3F, U+FDF2;
+  unicode-range:
+    U+200?, U+60C, U+618-61B, U+61F, U+621-63A, U+640-655, U+65C, U+660-66C, U+670-671, U+6CC, U+6D4, U+6D6-6DD,
+    U+6DF-6E8, U+6EA-6ED, U+8F0-8F3, U+FD3E-FD3F, U+FDF2;
 }
 
 @font-face {
@@ -21,4 +21,20 @@
   font-weight: 700;
   font-display: swap;
   src: url(Cairo.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(Inter.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(Inter.woff2) format("woff2");
 }

@@ -52,7 +52,7 @@ class Views::Static::Home < Views::Base
       div(class: "flex max-sm:flex-col items-center gap-4 sm:gap-8") do
         Aljam3Logo(class: "size-50 text-primary flex-shrink-0")
 
-        div(class: "font-[Cairo] w-full max-sm:text-center sm:w-96") do
+        div(class: "font-[Inter] rtl:font-[Cairo] w-full max-sm:text-center sm:w-96") do
           p(class: "text-4xl sm:text-5xl pb-4 sm:pb-6") { t(".one_place") }
 
           p(
@@ -88,7 +88,7 @@ class Views::Static::Home < Views::Base
   def carousels
     div(class: "py-16 sm:py-20 flex items-center") do
       div(class: "flex-1 border-t border-border")
-      Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".discover_books") }
+      Text(size: "9", class: "px-4 text-center font-[Inter] rtl:font-[Cairo] max-sm:text-3xl") { t(".discover_books") }
       div(class: "flex-1 border-t border-border")
     end
 
@@ -119,7 +119,7 @@ class Views::Static::Home < Views::Base
   def categories
     div(class: "py-16 sm:py-20 flex items-center") do
       div(class: "flex-1 border-t border-border")
-      Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".categories") }
+      Text(size: "9", class: "px-4 text-center font-[Inter] rtl:font-[Cairo] max-sm:text-3xl") { t(".categories") }
       div(class: "flex-1 border-t border-border")
     end
 
