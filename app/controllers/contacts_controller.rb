@@ -8,7 +8,7 @@ class ContactsController < ApplicationController
     if @contact.save
       response_with(contact: Contact.new, status: :created)
     else
-      response_with(contact: @contact, status: :unprocessable_entity)
+      response_with(contact: @contact, status: :unprocessable_content)
     end
   end
 
@@ -21,7 +21,7 @@ class ContactsController < ApplicationController
   def cloudflare_turnstile_handler = response_with(contact: @contact, status: :captcha_error)
 
   def response_with(contact:, status:)
-    response_status = status == :captcha_error ? :unprocessable_entity : status
+    response_status = status == :captcha_error ? :unprocessable_content : status
 
     render turbo_stream: turbo_stream.replace(
       "new-contact",

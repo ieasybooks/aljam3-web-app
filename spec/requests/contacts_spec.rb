@@ -63,10 +63,10 @@ RSpec.describe "Contacts" do
           end.not_to change(Contact, :count)
         end
 
-        it "returns unprocessable_entity status" do
+        it "returns unprocessable_content status" do
           post contacts_path, params: invalid_params, as: :turbo_stream
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
     end
@@ -87,10 +87,10 @@ RSpec.describe "Contacts" do
         end.not_to change(Contact, :count)
       end
 
-      it "returns unprocessable_entity status" do
+      it "returns unprocessable_content status" do
         post contacts_path, params: valid_params, as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "renders turbo_stream response with captcha error" do

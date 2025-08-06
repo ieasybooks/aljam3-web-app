@@ -73,6 +73,32 @@ en:
   contact_form:
     captcha_error: We couldn't verify that you're human.
     contact_received_successfully: We received your message and we will contact you regarding it.
+  errors:
+    bad_request:
+      contact_us: If you're the application owner, check the logs for more information.
+      description: The server cannot process the request due to a client error. Please check the request and try again.
+      error_code: 400 | Bad Request
+      title: Bad Request
+    internal_server_error:
+      contact_us: If you're the application owner, check the logs for more information about this error.
+      description: We're sorry, but something went wrong on our end. Our team has been notified and is working to fix the issue.
+      error_code: 500 | Internal Server Error
+      title: Internal Server Error
+    not_found:
+      contact_us: If you believe this is a mistake, please contact the website administrator.
+      description: The page you're looking for doesn't exist or has been moved to a different location.
+      error_code: 404 | Page Not Found
+      title: Page Not Found
+    unprocessable_content:
+      contact_us: Please review your input and try again. If you're the application owner, check the logs for detailed validation errors.
+      description: The change you wanted was rejected due to validation errors or invalid data format.
+      error_code: 422 | Unprocessable Entity
+      title: Unprocessable Entity
+    unsupported_browser:
+      contact_us: Updating your browser will provide better security, performance, and compatibility.
+      description: Your browser version is not supported by this application. Please update to a modern browser for the best experience.
+      error_code: 406 | Unsupported Browser
+      title: Unsupported Browser
   files: Files
   inline_search_form:
     search_input_placeholder: Enter at least 3 characters
