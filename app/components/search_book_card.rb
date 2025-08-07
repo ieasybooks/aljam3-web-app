@@ -9,7 +9,7 @@ class Components::SearchBookCard < Components::Base
 
   def view_template
     Card(class: "relative") do
-      div(class: "absolute top-0 left-0 p-2 border-b border-r rounded-br-xl") do
+      div(class: "absolute top-0 end-0 p-2 border-b border-s rounded-es-xl") do
         Hero::BookOpen(variant: :outline, class: "size-4 text-muted-foreground")
       end
 

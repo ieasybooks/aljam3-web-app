@@ -130,7 +130,7 @@ class Views::Pages::Show < Views::Base
           BreadcrumbSeparator(class: "max-sm:hidden") { Radix::Slash() }
 
           # TODO: Add a link to the library page IF implemented.
-          BreadcrumbLink(href: "#") { @library.name }
+          BreadcrumbLink(href: "#") { t(".#{@library.name}") }
 
           BreadcrumbSeparator { Radix::Slash() }
 
@@ -163,7 +163,7 @@ class Views::Pages::Show < Views::Base
 
   def txt_content
     Card(
-      class: "sm:max-w-1/2 flex-1 flex flex-col",
+      class: "sm:max-w-1/2 flex-1 flex flex-col text-right",
       data: {
         top_controls_target: "txtContent"
       }

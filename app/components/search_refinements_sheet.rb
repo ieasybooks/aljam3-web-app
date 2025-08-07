@@ -65,7 +65,7 @@ class Components::SearchRefinementsSheet < Components::Base
           end
         end
 
-        SheetContent(side: browser.device.mobile? ? :bottom : side, with_close_button: false, class: "w-[350px] max-sm:w-full") do
+        SheetContent(side: browser.device.mobile? ? :bottom : side, with_close_button: false, class: "w-[350px] ltr:w-[375px] max-sm:w-full ltr:max-sm:w-full") do
           SheetHeader do
             SheetTitle { t(".title") }
           end

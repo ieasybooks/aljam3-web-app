@@ -44,7 +44,16 @@ class Components::Navbar < Components::Base
             end
           end
 
-          LanguageDropdown()
+          LanguageDropdown(placement: "bottom-end") do
+            Button(variant: :ghost, icon: true) do
+              render [
+                Bootstrap::GlobeAmericas,
+                Bootstrap::GlobeAsiaAustralia,
+                Bootstrap::GlobeCentralSouthAsia,
+                Bootstrap::GlobeEuropeAfrica
+              ].sample.new(class: "size-5")
+            end
+          end
 
           Tooltip(placement: :bottom) do
             TooltipTrigger do

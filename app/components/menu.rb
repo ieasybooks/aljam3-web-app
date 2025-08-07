@@ -22,6 +22,19 @@ class Components::Menu < Components::Base
           end
         end
 
+        LanguageDropdown(placement: "bottom-start") do
+          Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground") do
+            render [
+              Bootstrap::GlobeAmericas,
+              Bootstrap::GlobeAsiaAustralia,
+              Bootstrap::GlobeCentralSouthAsia,
+              Bootstrap::GlobeEuropeAfrica
+            ].sample.new(class: "size-5")
+
+            plain t("navbar.language")
+          end
+        end
+
         theme_toggle
       end
     end

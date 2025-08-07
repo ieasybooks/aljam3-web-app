@@ -27,6 +27,18 @@ en:
       title: Authors
     show:
       books: Books
+  banner:
+    texts:
+    - Islam in 200 Questions and Answers - Sound Beliefs Made Simple
+    - Baheth - AI in Service of Islamic Sciences
+    - Turath - Shamela with Modern Innovative Interface
+    - Shamela - Search in 8 Thousand Islamic Books
+    - Quranic Researcher - Everything You Need About the Quran
+    - Interactive Tafsir - Read and Listen to Interpretations
+    - Hadith Researcher - Instant Search in Dorar Encyclopedia
+    - Faidah - Daily Benefits and Readings
+    - Rawy - Listen to Thousands of Audio Books
+    - Al Minasa - Everything You Need About Prophetic Hadith
   book_search_form:
     search_input_placeholder: Search in the book content
   books:
@@ -115,6 +127,7 @@ en:
     categories: Categories
     contact_us: Contact Us
     home: Home
+    language: Language
     sign_out: Sign Out
     theme: Theme
   page: Page
@@ -128,6 +141,9 @@ en:
       share_page_dialog_title: Share the page link with your friends!
       show_tashkeel: Show Diacritics
       title: "%{title} Book"
+      المكتبة الشاملة الوقفية: Shamela Waqfeya Library
+      المكتبة الوقفية: Waqfeya Library
+      مكتبة المسجد النبوي: Prophet's Mosque Library
   pages_text: Pages
   search_author_card:
     books: Books

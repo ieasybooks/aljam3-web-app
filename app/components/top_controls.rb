@@ -108,7 +108,7 @@ class Components::TopControls < Components::Base
   end
 
   def text_size_dropdown(bar)
-    DropdownMenu(options: { placement: rtl? ? "bottom-start" : "bottom-end" }) do
+    DropdownMenu(options: { placement: "bottom-start" }) do
       DropdownMenuTrigger do
         bar.tooltip(text: t(".text_size")) do
           bar.button do
@@ -117,7 +117,7 @@ class Components::TopControls < Components::Base
         end
       end
 
-      DropdownMenuContent(class: "w-40") do
+      DropdownMenuContent(class: "w-40 ltr:w-50") do
         DropdownMenuItem(
           as: :button,
           class: "w-full",
@@ -149,12 +149,12 @@ class Components::TopControls < Components::Base
 
   def right_side_mobile_controls(bar)
     div(class: "sm:hidden flex items-center gap-x-2") do
-      DropdownMenu(options: { placement: rtl? ? "bottom-end" : "bottom-start" }) do
+      DropdownMenu(options: { placement: "bottom-end" }) do
         DropdownMenuTrigger(class: "w-full") do
           bar.button { Lucide::Menu(class: "size-5") }
         end
 
-        DropdownMenuContent(class: "w-40") do
+        DropdownMenuContent(class: "w-40 ltr:w-50") do
           search_dialog do
             DropdownMenuItem(as: :button, class: "w-full") do
               div(class: "w-full flex items-center gap-x-2") do

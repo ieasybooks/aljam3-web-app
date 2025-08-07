@@ -9,7 +9,7 @@ class Components::SearchPageCard < Components::Base
 
   def view_template
     Card(class: "relative") do
-      div(class: "absolute top-0 left-0 p-2 border-b border-r rounded-br-xl") do
+      div(class: "absolute top-0 end-0 p-2 border-b border-s rounded-es-xl") do
         Lucide::FileText(class: "size-4 text-muted-foreground")
       end
 
@@ -36,7 +36,7 @@ class Components::SearchPageCard < Components::Base
 
       CardContent() do
         div(
-          class: "border-s border-s-5 ps-2",
+          class: "border-e rtl:border-s border-e-5 rtl:border-s-5 pe-2 rtl:ps-2 text-right",
           data: {
             controller: "read-more",
             read_more_more_text_value: t(".read_more"),
