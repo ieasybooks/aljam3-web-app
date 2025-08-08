@@ -43,7 +43,7 @@ class Components::SearchPageCard < Components::Base
             read_more_less_text_value: t(".hide")
           }
         ) do
-          p(class: "read-more-content", data: { read_more_target: "content" }) do
+          p(class: "read-more-content font-[Kitab] leading-7", data: { read_more_target: "content" }) do
             raw safe process_meilisearch_highlights(@page.formatted&.[]("content")) || @page.content
           end
 

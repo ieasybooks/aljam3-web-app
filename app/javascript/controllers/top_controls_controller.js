@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-const SIZE_TO_CLASS = {
+const SIZE_TO_TEXT_CLASS = {
   1: "text-xs",
   2: "text-sm",
   3: "text-base",
@@ -10,6 +10,18 @@ const SIZE_TO_CLASS = {
   7: "text-3xl",
   8: "text-4xl",
   9: "text-5xl",
+}
+
+const SIZE_TO_LEADING_CLASS = {
+  1: "leading-5",
+  2: "leading-5.5",
+  3: "leading-6.5",
+  4: "leading-7",
+  5: "leading-8",
+  6: "leading-9.5",
+  7: "leading-11.5",
+  8: "leading-13",
+  9: "leading-18",
 }
 
 // Connects to data-controller="top-controls"
@@ -57,7 +69,10 @@ export default class extends Controller {
     const defaultLayout = this.#isMobile() ? "pdf-only" : "txt-and-pdf"
     this.currentLayout = localStorage.getItem("content-layout") || defaultLayout
 
-    this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
+    this.contentTarget.classList.add(
+      SIZE_TO_TEXT_CLASS[this.currentContentSize],
+      SIZE_TO_LEADING_CLASS[this.currentContentSize],
+    )
 
     this.#initializeTashkeel()
     this.#applyLayout()
@@ -84,8 +99,14 @@ export default class extends Controller {
       this.currentContentSize = 9
     }
 
-    this.contentTarget.classList.remove(SIZE_TO_CLASS[this.currentContentSize - 1])
-    this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
+    this.contentTarget.classList.remove(
+      SIZE_TO_TEXT_CLASS[this.currentContentSize - 1],
+      SIZE_TO_LEADING_CLASS[this.currentContentSize - 1],
+    )
+    this.contentTarget.classList.add(
+      SIZE_TO_TEXT_CLASS[this.currentContentSize],
+      SIZE_TO_LEADING_CLASS[this.currentContentSize],
+    )
 
     localStorage.setItem("txt-content-size", this.currentContentSize)
   }
@@ -97,8 +118,14 @@ export default class extends Controller {
       this.currentContentSize = 1
     }
 
-    this.contentTarget.classList.remove(SIZE_TO_CLASS[this.currentContentSize + 1])
-    this.contentTarget.classList.add(SIZE_TO_CLASS[this.currentContentSize])
+    this.contentTarget.classList.remove(
+      SIZE_TO_TEXT_CLASS[this.currentContentSize + 1],
+      SIZE_TO_LEADING_CLASS[this.currentContentSize + 1],
+    )
+    this.contentTarget.classList.add(
+      SIZE_TO_TEXT_CLASS[this.currentContentSize],
+      SIZE_TO_LEADING_CLASS[this.currentContentSize],
+    )
 
     localStorage.setItem("txt-content-size", this.currentContentSize)
   }

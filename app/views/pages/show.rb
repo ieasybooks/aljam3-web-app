@@ -170,7 +170,7 @@ class Views::Pages::Show < Views::Base
     ) do
       CardContent(
         id: "txt-content",
-        class: "flex-1 p-4 overflow-y-auto",
+        class: "flex-1 p-4 overflow-y-auto font-[Kitab]",
         data: {
           pdf_viewer_target: "content",
           top_controls_target: "content"
