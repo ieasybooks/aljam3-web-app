@@ -23,6 +23,8 @@ class Components::LanguageDropdown < Components::Base
     case locale
     when :ar
       Flag::Sa.new(variant: :square, class: "size-5 rounded-full")
+    when :ur
+      Flag::Pk.new(variant: :square, class: "size-5 rounded-full")
     when :en
       Flag::Us.new(variant: :square, class: "size-5 rounded-full")
     end

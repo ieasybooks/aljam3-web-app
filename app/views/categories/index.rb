@@ -10,7 +10,7 @@ class Views::Categories::Index < Views::Base
   def view_template
     cache I18n.locale, expires_in: 1.hour do
       div(class: "px-4 sm:px-4 py-4 sm:container") do
-        Heading(level: 1, class: "mb-4 font-[Inter] rtl:font-[Cairo]") { page_title }
+        Heading(level: 1, class: "mb-4 font-[Cairo]") { page_title }
 
         Card(class: "w-full overflow-hidden") do
           CardContent(class: "p-0 overflow-y-auto") do

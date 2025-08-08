@@ -45,7 +45,7 @@ class Components::Base < RubyUI::Base
 
   def direction = rtl? ? :rtl : :ltr
   def side = rtl? ? :right : :left
-  def rtl? = I18n.locale == :ar
+  def rtl? = I18n.locale == :ar || I18n.locale == :ur
 
   def process_meilisearch_highlights(content) = merge_consecutive_marks(remove_definite_articles_marks(content))
   def remove_definite_articles_marks(content) = content&.gsub(/<mark>(ال|أل|إل|آل)<\/mark>(?!<mark>)/, '\1')

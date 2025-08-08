@@ -1,0 +1,239 @@
+---
+ur:
+  activerecord:
+    attributes:
+      contact:
+        email: ای میل
+        message: پیغام
+        name: نام
+        topic: موضوع
+  aljam3: الجامع
+  apply: لاگو کریں
+  author_card:
+    books: کتب
+  authors:
+    index:
+      description: الجامع کے مصنفین کی فہرست
+      keywords:
+      - اسلامی لائبریریاں
+      - اسلامی کتب
+      - المکتبہ الشاملہ
+      - المکتبہ الوقفیہ
+      - المکتبہ الشاملہ الوقفیہ
+      - مسجد نبوی کی لائبریری
+      - PDF سے متن
+      title: مصنفین
+    show:
+      books: کتب
+  banner:
+    texts:
+    - اسلام 200 سوال و جواب میں - سادہ اور درست عقیدہ
+    - باحث - شرعی علوم کی خدمت میں مصنوعی ذہانت
+    - تراث - الشاملہ جدید اور جدید تر انٹرفیس کے ساتھ
+    - الشاملہ - 8 ہزار اسلامی کتابوں میں تلاش کریں
+    - الباحث القرآنی - قرآن کے بارے میں سب کچھ
+    - تفسیر انٹرایکٹو - تفاسیر پڑھیں اور سنیں
+    - الباحث الحدیثی - الدرر السنیہ انسائیکلوپیڈیا میں فوری تلاش
+    - فائدة - روزانہ فوائد اور مطالعہ
+    - راوی - ہزاروں آڈیو کتابیں سنیں
+    - الحدیثی پلیٹ فارم - حدیث نبوی کے بارے میں سب کچھ
+  book_search_form:
+    search_input_placeholder: کتاب کے مواد میں تلاش کریں
+  books:
+    index:
+      description: الجامع کی کتابوں کی فہرست
+      keywords:
+      - اسلامی لائبریریاں
+      - اسلامی کتب
+      - المکتبہ الشاملہ
+      - المکتبہ الوقفیہ
+      - المکتبہ الشاملہ الوقفیہ
+      - مسجد نبوی کی لائبریری
+      - PDF سے متن
+      title: کتب
+  bottom_controls:
+    book_files: کتاب کی فائلیں
+    first_page: پہلا صفحہ
+    last_page: آخری صفحہ
+    next_page: اگلا صفحہ
+    previous_page: پچھلا صفحہ
+  categories:
+    index:
+      description: الجامع کے زمرہ جات کی فہرست
+      keywords:
+      - اسلامی لائبریریاں
+      - اسلامی کتب
+      - المکتبہ الشاملہ
+      - المکتبہ الوقفیہ
+      - المکتبہ الشاملہ الوقفیہ
+      - مسجد نبوی کی لائبریری
+      - PDF سے متن
+      title: زمرہ جات
+    show:
+      books: کتب
+  close: بند کریں
+  contact_dialog:
+    contact_us_description: کوئی مسئلہ درپیش ہے؟ کوئی فیچر تجویز کرنا چاہتے ہیں؟ یا کوئی اور سوال ہے؟ ابھی ہم سے رابطہ کریں!
+    contact_us_title: ہم سے رابطہ کریں!
+    send: بھیجیں
+  contact_form:
+    captcha_error: اس بات کی تصدیق نہیں ہو سکی کہ آپ انسان ہیں۔
+    contact_received_successfully: ہمیں آپ کا پیغام موصول ہو گیا ہے اور ضرورت پڑنے پر ہم آپ سے رابطہ کریں گے۔
+  errors:
+    bad_request:
+      contact_us: اگر آپ ایپ کے مالک ہیں تو مزید معلومات کے لیے لاگز چیک کریں۔
+      description: سرور کلائنٹ کی جانب سے آنے والی غلطی کی وجہ سے درخواست پر عمل نہیں کر سکا۔ براہِ کرم درخواست چیک کریں اور دوبارہ کوشش کریں۔
+      error_code: 400 | غلط درخواست
+      title: غلط درخواست
+    internal_server_error:
+      contact_us: اگر آپ ایپ کے مالک ہیں تو اس خرابی کے بارے میں مزید معلومات کے لیے لاگز چیک کریں۔
+      description: معذرت، یہ ہماری طرف سے ایک خرابی ہے۔ ہماری ٹیم کو اطلاع دے دی گئی ہے اور وہ مسئلہ حل کرنے پر کام کر رہی ہے۔
+      error_code: 500 | سرور کی خرابی
+      title: سرور کی خرابی
+    not_found:
+      contact_us: اگر آپ سمجھتے ہیں کہ یہ غلطی ہے تو سائٹ ایڈمنسٹریٹر سے رابطہ کریں۔
+      description: آپ جس صفحے کی تلاش کر رہے ہیں وہ موجود نہیں یا کسی اور جگہ منتقل ہو گیا ہے۔
+      error_code: 404 | صفحہ نہیں ملا
+      title: صفحہ نہیں ملا
+    unprocessable_content:
+      contact_us: براہ کرم اپنے ڈیٹا کا جائزہ لیں اور دوبارہ کوشش کریں۔ اگر آپ ایپ کے مالک ہیں تو تفصیلی تصدیقی غلطیوں کے لیے لاگز چیک کریں۔
+      description: آپ کی تبدیلی کو تصدیقی غلطیوں یا غلط ڈیٹا فارمیٹ کی وجہ سے مسترد کر دیا گیا۔
+      error_code: 422 | مواد پر عمل درآمد ممکن نہیں
+      title: مواد پر عمل درآمد ممکن نہیں
+    unsupported_browser:
+      contact_us: اپنے براؤزر کو اپ ڈیٹ کرنا آپ کو بہتر سیکیورٹی، کارکردگی اور مطابقت فراہم کرے گا۔
+      description: آپ کے براؤزر کا ورژن اس ایپ کے لیے معاون نہیں ہے۔ بہتر تجربے کے لیے نیا براؤزر اپ ڈیٹ کریں۔
+      error_code: 406 | غیر معاون براؤزر
+      title: غیر معاون براؤزر
+  files: فائلیں
+  inline_search_form:
+    search_input_placeholder: کم از کم 3 حروف درج کریں
+  language_dropdown:
+    ar: العربية
+    en: English
+    language: زبان
+    ur: اردو
+  menu:
+    dark_mode: ڈارک موڈ
+    light_mode: لائٹ موڈ
+  navbar:
+    authors: مصنفین
+    books: کتب
+    categories: زمرہ جات
+    contact_us: رابطہ کریں
+    home: ہوم
+    language: زبان
+    sign_out: لاگ آؤٹ
+    theme: تھیم
+  page: صفحہ
+  pages:
+    show:
+      description: کتاب %{title} کا صفحہ، مصنف %{author}
+      empty_page: یہ صفحہ خالی ہے
+      error_in_loading_page: صفحہ لوڈ کرنے میں خرابی پیش آئی
+      hide_tashkeel: اعراب چھپائیں
+      share_page: صفحہ شیئر کریں
+      share_page_dialog_title: صفحے کا لنک اپنے دوستوں سے شیئر کریں!
+      show_tashkeel: اعراب دکھائیں
+      title: کتاب %{title}
+      المكتبة الشاملة الوقفية: المکتبہ الشاملہ الوقفیہ
+      المكتبة الوقفية: المکتبہ الوقفیہ
+      مكتبة المسجد النبوي: مسجد نبوی کی لائبریری
+  pages_text: صفحات
+  search_author_card:
+    books: کتب
+  search_book_card:
+    book_page: کتاب کا صفحہ
+  search_form:
+    search_input_placeholder: 63 ہزار کتابوں میں تلاش کریں!
+  search_no_results_found:
+    no_results_found: کوئی نتیجہ نہیں ملا
+  search_page_card:
+    file_name: فائل کا نام
+    hide: چھپائیں
+    read_more: مزید پڑھیں
+    show_page: صفحہ دکھائیں
+  search_refinements_sheet:
+    all_authors: تمام مصنفین
+    all_categories: تمام زمرہ جات
+    all_libraries: تمام لائبریریاں (63,500 کتب)
+    author: مصنف
+    books: کتاب
+    category: زمرہ
+    category_placeholder: زمرہ منتخب کریں
+    library: لائبریری
+    library_placeholder: لائبریری منتخب کریں
+    no_results: کوئی نتیجہ نہیں
+    search_scope: تلاش کا دائرہ
+    search_scope_author: صرف مصنفین کے نام
+    search_scope_content: صرف کتابوں کا مواد
+    search_scope_placeholder: تلاش کا دائرہ منتخب کریں
+    search_scope_title: صرف کتابوں کے عنوانات
+    search_scope_title_and_content: مصنفین کے نام، کتابوں کے عنوانات اور مواد
+    title: تلاش کو حسبِ ضرورت بنائیں
+    المكتبة الشاملة الوقفية: المکتبہ الشاملہ الوقفیہ (4,600 کتب)
+    المكتبة الوقفية: المکتبہ الوقفیہ (10,200 کتب)
+    مكتبة المسجد النبوي: مسجد نبوی کی لائبریری (48,700 کتب)
+  search_results_count:
+    results_count: 'تلاش کے نتائج: %{count}'
+  static:
+    home:
+      categories: زمرہ جات
+      description: اسلامی لائبریریوں کی لائبریری، 63 ہزار سے زائد کتب اور 37 ملین صفحات پر مشتمل
+      discover_books: کتابیں دریافت کریں
+      examples:
+      - ذلك الكتاب لا ريب فيه
+      - إنما الأعمال بالنيات
+      - إن في الدنيا جنة من لم يدخلها لم يدخل جنة الآخرة
+      - هذا التقيُّ النقيُّ الطاهر العلم
+      - نحن قوم أعزّنا الله بالإسلام
+      - العلم يرفع بيتا لا عماد له
+      - المشقة تجلب التيسير
+      - شروط الصلاة
+      - متن الآجرومية
+      - تفسير آية الكرسي
+      - أحكام البيوع
+      - تعلم كتاب اليهود
+      - تاريخ الأندلس
+      - لا إله إلا الله
+      - أعلام السنة المنشورة
+      faith: توحید و عقیدہ
+      fiqh: فقہ و اصول و قواعد
+      hadith: حدیث و علوم حدیث
+      history: سیرت و تاریخ
+      hundred_categories: 100 زمرے
+      keywords:
+      - اسلامی لائبریریاں
+      - اسلامی کتب
+      - المکتبہ الشاملہ
+      - المکتبہ الوقفیہ
+      - المکتبہ الشاملہ الوقفیہ
+      - مسجد نبوی کی لائبریری
+      - PDF سے متن
+      language: زبان و ادب
+      one_place: ایک جگہ
+      other: دیگر
+      quran: قرآن و علوم القرآن
+      results_title: '"%{query}" کے لیے تلاش کے نتائج'
+      sixty_three_books: 63 ہزار کتب
+      thirty_four_authors: 34 ہزار مصنفین
+      thirty_seven_million_pages: 37 ملین صفحات
+      three_libraries: 3 لائبریریاں
+      title: ہوم
+  top_controls:
+    book_pdf: کتاب کی تصویری شکل
+    book_txt: کتاب کا متن
+    copy_content: مواد کاپی کریں
+    copy_image: تصویر کاپی کریں
+    download_files: فائلیں ڈاؤن لوڈ کریں
+    download_image: تصویر ڈاؤن لوڈ کریں
+    file_name: فائل کا نام
+    hide_tashkeel: اعراب چھپائیں
+    pdf_content_only: صرف کتاب کی تصویری شکل
+    search: تلاش
+    text_size: فونٹ کا سائز
+    text_size_decrease: فونٹ سائز کم کریں
+    text_size_increase: فونٹ سائز بڑھائیں
+    txt_and_pdf_content: کتاب کا متن اور تصویری شکل دونوں
+    txt_content_only: صرف کتاب کا متن
+  volumes: جلدیں

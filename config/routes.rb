@@ -13,38 +13,38 @@
 #                                                   /500(.:format)                                                                                    errors#internal_server_error
 #                                                   /406(.:format)                                                                                    errors#unsupported_browser
 #                                                   /400(.:format)                                                                                    errors#bad_request
-#                                     root GET      /(:locale)(.:format)                                                                              static#home {locale: /ar|en/}
-#                         new_user_session GET      (/:locale)/users/sign_in(.:format)                                                                devise/sessions#new {locale: /ar|en/}
-#                             user_session POST     (/:locale)/users/sign_in(.:format)                                                                devise/sessions#create {locale: /ar|en/}
-#                     destroy_user_session DELETE   (/:locale)/users/sign_out(.:format)                                                               devise/sessions#destroy {locale: /ar|en/}
-#                        new_user_password GET      (/:locale)/users/password/new(.:format)                                                           devise/passwords#new {locale: /ar|en/}
-#                       edit_user_password GET      (/:locale)/users/password/edit(.:format)                                                          devise/passwords#edit {locale: /ar|en/}
-#                            user_password PATCH    (/:locale)/users/password(.:format)                                                               devise/passwords#update {locale: /ar|en/}
-#                                          PUT      (/:locale)/users/password(.:format)                                                               devise/passwords#update {locale: /ar|en/}
-#                                          POST     (/:locale)/users/password(.:format)                                                               devise/passwords#create {locale: /ar|en/}
-#                 cancel_user_registration GET      (/:locale)/users/cancel(.:format)                                                                 devise/registrations#cancel {locale: /ar|en/}
-#                    new_user_registration GET      (/:locale)/users/sign_up(.:format)                                                                devise/registrations#new {locale: /ar|en/}
-#                   edit_user_registration GET      (/:locale)/users/edit(.:format)                                                                   devise/registrations#edit {locale: /ar|en/}
-#                        user_registration PATCH    (/:locale)/users(.:format)                                                                        devise/registrations#update {locale: /ar|en/}
-#                                          PUT      (/:locale)/users(.:format)                                                                        devise/registrations#update {locale: /ar|en/}
-#                                          DELETE   (/:locale)/users(.:format)                                                                        devise/registrations#destroy {locale: /ar|en/}
-#                                          POST     (/:locale)/users(.:format)                                                                        devise/registrations#create {locale: /ar|en/}
-#                    new_user_confirmation GET      (/:locale)/users/confirmation/new(.:format)                                                       devise/confirmations#new {locale: /ar|en/}
-#                        user_confirmation GET      (/:locale)/users/confirmation(.:format)                                                           devise/confirmations#show {locale: /ar|en/}
-#                                          POST     (/:locale)/users/confirmation(.:format)                                                           devise/confirmations#create {locale: /ar|en/}
-#                          new_user_unlock GET      (/:locale)/users/unlock/new(.:format)                                                             devise/unlocks#new {locale: /ar|en/}
-#                              user_unlock GET      (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#show {locale: /ar|en/}
-#                                          POST     (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#create {locale: /ar|en/}
-#                                 contacts POST     (/:locale)/contacts(.:format)                                                                     contacts#create {locale: /ar|en/}
-#                               categories GET      (/:locale)/categories(.:format)                                                                   categories#index {locale: /ar|en/}
-#                                 category GET      (/:locale)/categories/:id(.:format)                                                               categories#show {locale: /ar|en/}
-#                                  authors GET      (/:locale)/authors(.:format)                                                                      authors#index {locale: /ar|en/}
-#                                   author GET      (/:locale)/authors/:id(.:format)                                                                  authors#show {locale: /ar|en/}
-#                              book_search GET      (/:locale)/books/:book_id/search(.:format)                                                        books#search {locale: /ar|en/}
-#                                    books GET      (/:locale)/books(.:format)                                                                        books#index {locale: /ar|en/}
-#                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
-#                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|en/, book_id: /\d+/, file_id: /\d+/}
-#                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|en/, book_id: /(?!404|400|500|422|406)\d+/}
+#                                     root GET      /(:locale)(.:format)                                                                              static#home {locale: /ar|ur|en/}
+#                         new_user_session GET      (/:locale)/users/sign_in(.:format)                                                                devise/sessions#new {locale: /ar|ur|en/}
+#                             user_session POST     (/:locale)/users/sign_in(.:format)                                                                devise/sessions#create {locale: /ar|ur|en/}
+#                     destroy_user_session DELETE   (/:locale)/users/sign_out(.:format)                                                               devise/sessions#destroy {locale: /ar|ur|en/}
+#                        new_user_password GET      (/:locale)/users/password/new(.:format)                                                           devise/passwords#new {locale: /ar|ur|en/}
+#                       edit_user_password GET      (/:locale)/users/password/edit(.:format)                                                          devise/passwords#edit {locale: /ar|ur|en/}
+#                            user_password PATCH    (/:locale)/users/password(.:format)                                                               devise/passwords#update {locale: /ar|ur|en/}
+#                                          PUT      (/:locale)/users/password(.:format)                                                               devise/passwords#update {locale: /ar|ur|en/}
+#                                          POST     (/:locale)/users/password(.:format)                                                               devise/passwords#create {locale: /ar|ur|en/}
+#                 cancel_user_registration GET      (/:locale)/users/cancel(.:format)                                                                 devise/registrations#cancel {locale: /ar|ur|en/}
+#                    new_user_registration GET      (/:locale)/users/sign_up(.:format)                                                                devise/registrations#new {locale: /ar|ur|en/}
+#                   edit_user_registration GET      (/:locale)/users/edit(.:format)                                                                   devise/registrations#edit {locale: /ar|ur|en/}
+#                        user_registration PATCH    (/:locale)/users(.:format)                                                                        devise/registrations#update {locale: /ar|ur|en/}
+#                                          PUT      (/:locale)/users(.:format)                                                                        devise/registrations#update {locale: /ar|ur|en/}
+#                                          DELETE   (/:locale)/users(.:format)                                                                        devise/registrations#destroy {locale: /ar|ur|en/}
+#                                          POST     (/:locale)/users(.:format)                                                                        devise/registrations#create {locale: /ar|ur|en/}
+#                    new_user_confirmation GET      (/:locale)/users/confirmation/new(.:format)                                                       devise/confirmations#new {locale: /ar|ur|en/}
+#                        user_confirmation GET      (/:locale)/users/confirmation(.:format)                                                           devise/confirmations#show {locale: /ar|ur|en/}
+#                                          POST     (/:locale)/users/confirmation(.:format)                                                           devise/confirmations#create {locale: /ar|ur|en/}
+#                          new_user_unlock GET      (/:locale)/users/unlock/new(.:format)                                                             devise/unlocks#new {locale: /ar|ur|en/}
+#                              user_unlock GET      (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#show {locale: /ar|ur|en/}
+#                                          POST     (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#create {locale: /ar|ur|en/}
+#                                 contacts POST     (/:locale)/contacts(.:format)                                                                     contacts#create {locale: /ar|ur|en/}
+#                               categories GET      (/:locale)/categories(.:format)                                                                   categories#index {locale: /ar|ur|en/}
+#                                 category GET      (/:locale)/categories/:id(.:format)                                                               categories#show {locale: /ar|ur|en/}
+#                                  authors GET      (/:locale)/authors(.:format)                                                                      authors#index {locale: /ar|ur|en/}
+#                                   author GET      (/:locale)/authors/:id(.:format)                                                                  authors#show {locale: /ar|ur|en/}
+#                              book_search GET      (/:locale)/books/:book_id/search(.:format)                                                        books#search {locale: /ar|ur|en/}
+#                                    books GET      (/:locale)/books(.:format)                                                                        books#index {locale: /ar|ur|en/}
+#                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
+#                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
+#                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /(?!404|400|500|422|406)\d+/}
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine

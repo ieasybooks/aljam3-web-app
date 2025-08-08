@@ -18,7 +18,7 @@ class Views::Categories::Show < Views::Base
     div(class: "px-4 sm:px-4 py-4 sm:container") do
       div(class: "flex max-sm:flex-col max-sm:space-y-4 justify-between items-top mb-4") do
         div do
-          Heading(level: 1, class: "mb-2 font-[Inter] rtl:font-[Cairo]") { @category.name }
+          Heading(level: 1, class: "mb-2 font-[Cairo]") { @category.name }
           Text { "#{t(".books")}: #{number_with_delimiter(@category.books_count)}" }
         end
 
