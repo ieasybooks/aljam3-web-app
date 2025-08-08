@@ -44,7 +44,7 @@
 #                                    books GET      (/:locale)/books(.:format)                                                                        books#index {locale: /ar|ur|en/}
 #                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
-#                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /(?!404|400|500|422|406)\d+/}
+#                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /\d+/}
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
@@ -321,7 +321,7 @@ Rails.application.routes.draw do
 
     get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }
     get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
-    get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /(?!404|400|500|422|406)\d+/ }
+    get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
   end
 
   authenticate :user, ->(user) { user.admin? } do
