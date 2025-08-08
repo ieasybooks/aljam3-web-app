@@ -134,6 +134,7 @@ ar:
       hide_tashkeel: إخفاء التشكيل
       share_page: مشاركة الصفحة
       share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
+      share_text: اقرأ كتاب "%{title}" من تأليف "%{author}" على الجامع
       show_tashkeel: إظهار التشكيل
       title: كتاب %{title}
       المكتبة الشاملة الوقفية: المكتبة الشاملة الوقفية

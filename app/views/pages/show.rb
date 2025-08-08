@@ -34,6 +34,18 @@ class Views::Pages::Show < Views::Base
         bottom_controls_total_pages_value: @file.pages_count
       }
     ) do
+      if hotwire_native_app?
+        div(
+          class: "hidden",
+          data: {
+            controller: "bridge--share",
+            bridge__share_url_value: book_file_page_url(locale: I18n.locale, book_id: @book.id, file_id: @file.id, page_number: @page.number),
+            bridge__share_text_value: android_native_app? ? t(".share_text", title: @book.title, author: @book.author.name) : "\n\n#{t(".share_text", title: @book.title, author: @book.author.name)}",
+            pdf_viewer_target: "bridgeShare"
+          }
+        )
+      end
+
       div(
         class: "absolute top-0 start-0 h-1 bg-primary transition-all duration-300 ease-out",
         data: { pdf_viewer_target: "progress" }
@@ -48,7 +60,7 @@ class Views::Pages::Show < Views::Base
 
   def header
     div(class: "relative") do
-      share_button
+      share_button unless hotwire_native_app?
 
       div(class: "flex items-center justify-between") do
         div(class: "flex flex-col items-start gap-y-1") do
@@ -61,7 +73,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def share_button
-    Dialog do
+    Dialog(data: { pdf_viewer_target: "shareDialog" }) do
       DialogTrigger(class: "absolute max-sm:-top-4 max-sm:-end-4 sm:-top-4 sm:end-0") do
         Tooltip(placement: "bottom") do
           TooltipTrigger do
@@ -121,7 +133,7 @@ class Views::Pages::Show < Views::Base
 
   def breadcrumb
     div(class: "flex items-center") do
-      MobileMenu(controller_name:, action_name:)
+      MobileMenu(controller_name:, action_name:) unless hotwire_native_app?
 
       Breadcrumb do
         BreadcrumbList do
@@ -140,7 +152,7 @@ class Views::Pages::Show < Views::Base
     end
   end
 
-  def title = Heading(level: "1", class: "max-sm:text-2xl line-clamp-3 sm:line-clamp-2") { @book.title }
+  def title = Heading(level: "1", class: "max-sm:text-lg line-clamp-3 sm:line-clamp-2") { @book.title }
 
   def author
     Text(size: "1", weight: "muted", class: "flex gap-x-1") do
@@ -153,7 +165,7 @@ class Views::Pages::Show < Views::Base
   def content
     TopControls(book: @book, files: @files)
 
-    div(class: "flex-1 flex justify-center gap-2 sm:gap-4 min-h-0") do
+    div(class: "relative flex-1 flex justify-center gap-2 sm:gap-4 min-h-0") do
       txt_content
       pdf_content
     end

@@ -9,10 +9,12 @@ class Views::Static::Home < Views::Base
   end
 
   def page_title
-    if @results.nil?
-      t(".title")
-    else
+    if params[:q].present?
       t(".results_title", query: params[:q])
+    elsif hotwire_native_app?
+      t("aljam3")
+    elsif @results.nil?
+      t(".title")
     end
   end
 
@@ -125,9 +127,11 @@ class Views::Static::Home < Views::Base
 
     div(class: "flex justify-center") do
       Card(class: "w-full overflow-hidden") do
-        CardContent(class: "p-0 max-h-96 overflow-y-auto") do
+        CardContent(class: "p-2 max-h-96 overflow-y-auto") do
           @categories.call.each_with_index do |(id, name, count), index|
-            Link(href: category_path(id:), class: "w-full px-3 py-5 border-b border-border rounded-none hover:bg-accent hover:no-underline") do
+            Separator(class: "my-2") unless index.zero?
+
+            Link(href: category_path(id), class: "w-full px-3 py-5 text-foreground hover:bg-accent hover:no-underline") do
               div(class: "w-full flex justify-between") do
                 Text(size: "4") { "#{index + 1}. #{name}" }
                 Text(size: "4") { number_with_delimiter(count) }

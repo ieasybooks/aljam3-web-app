@@ -148,7 +148,7 @@ class Components::TopControls < Components::Base
   end
 
   def right_side_mobile_controls(bar)
-    div(class: "sm:hidden flex items-center gap-x-2") do
+    div(class: "sm:hidden flex items-center gap-x-2 z-50") do
       DropdownMenu(options: { placement: "bottom-end" }) do
         DropdownMenuTrigger(class: "w-full") do
           bar.button { Lucide::Menu(class: "size-5") }
@@ -205,19 +205,21 @@ class Components::TopControls < Components::Base
             end
           end
 
-          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#downloadImage") do
-            div(class: "w-full flex items-center gap-x-2") do
-              Lucide::ImageDown(class: "size-5 ltr:transform ltr:-scale-x-100")
+          unless hotwire_native_app?
+            DropdownMenuItem(as: :button, class: "w-full max-sm:hidden", data_action: "click->top-controls#downloadImage") do
+              div(class: "w-full flex items-center gap-x-2") do
+                Lucide::ImageDown(class: "size-5 ltr:transform ltr:-scale-x-100")
 
-              plain t(".download_image")
+                plain t(".download_image")
+              end
             end
-          end
 
-          DropdownMenuItem(as: :button, class: "w-full max-sm:hidden", data_action: "click->top-controls#copyImage") do
-            div(class: "w-full flex items-center gap-x-2") do
-              Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
+            DropdownMenuItem(as: :button, class: "w-full max-sm:hidden", data_action: "click->top-controls#copyImage") do
+              div(class: "w-full flex items-center gap-x-2") do
+                Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
 
-              plain t(".copy_image")
+                plain t(".copy_image")
+              end
             end
           end
         end
@@ -346,11 +348,20 @@ class Components::TopControls < Components::Base
                         size: :sm,
                         icon: true,
                         data: {
-                          controller: "download-file",
-                          action: "click->download-file#download",
-                          download_file_url_value: file_info[:url],
-                          download_file_filename_value: "#{file.book.title} - #{file.name}.#{file_info[:extension]}",
-                          download_file_loading_status_value: capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") }
+                          controller: [
+                            ("file-download" unless hotwire_native_app?),
+                            ("bridge--file-download" if hotwire_native_app?)
+                          ],
+                          action: [
+                            ("click->file-download#download" unless hotwire_native_app?),
+                            ("click->bridge--file-download#download" if hotwire_native_app?)
+                          ],
+                          file_download_url_value: (file_info[:url] unless hotwire_native_app?),
+                          file_download_filename_value: ("#{file.book.title} - #{file.name}.#{file_info[:extension]}" unless hotwire_native_app?),
+                          file_download_loading_status_value: (capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") } unless hotwire_native_app?),
+                          bridge__file_download_url_value: (file_info[:url] if hotwire_native_app?),
+                          bridge__file_download_filename_value: ("#{file.book.title} - #{file.name}.#{file_info[:extension]}" if hotwire_native_app?),
+                          bridge__file_download_loading_status_value: (capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") } if hotwire_native_app?)
                         }
                       ) do
                         Lucide::Download(variant: :solid, class: "size-3.5")

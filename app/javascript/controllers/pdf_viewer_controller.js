@@ -3,7 +3,7 @@ import { get } from "@rails/request.js"
 
 // Connects to data-controller="pdf-viewer"
 export default class extends Controller {
-  static targets = ["iframe", "content", "progress"]
+  static targets = ["iframe", "content", "progress", "shareDialog", "bridgeShare"]
   static values = {
     bookId: Number,
     fileId: Number,
@@ -93,6 +93,8 @@ export default class extends Controller {
         signal: this.currentAbortController.signal,
       })
 
+      this.#updateShareDialogUrl()
+      this.#updateNativeShareUrl()
       history.replaceState(null, "", this.#newPagePath())
     } catch (error) {
       // Ignore AbortError - it means we cancelled the request intentionally
@@ -104,6 +106,22 @@ export default class extends Controller {
 
   #newPagePath() {
     return `/${this.bookIdValue}/${this.fileIdValue}/${this.currentPageValue}`
+  }
+
+  #updateShareDialogUrl() {
+    if (this.hasShareDialogTarget) {
+      const input = this.shareDialogTarget
+        .querySelector("template[data-ruby-ui--dialog-target='content']")
+        .content.querySelector("input[type='text']")
+
+      input.setAttribute("value", window.location.origin + this.#newPagePath())
+    }
+  }
+
+  #updateNativeShareUrl() {
+    if (this.hasBridgeShareTarget) {
+      this.bridgeShareTarget.setAttribute("data-bridge--share-url-value", window.location.origin + this.#newPagePath())
+    }
   }
 
   #cleanup() {

@@ -212,7 +212,7 @@ export default class extends Controller {
   #applyLayout() {
     const buttonActiveClasses = ["bg-neutral-200!", "dark:bg-neutral-700!"]
     const contentActiveClassesToAdd = ["shadow", "border"]
-    const contentActiveClassesToRemove = ["size-0", "absolute"]
+    const contentActiveClassesToRemove = ["absolute", "inset-0", "opacity-0", "pointer-events-none"]
 
     this.txtIndicatorTarget.innerHTML = this.txtIndicatorTargetHTMLContent
 
