@@ -243,3 +243,9 @@ mark {
   -webkit-line-clamp: var(--read-more-line-clamp, 2);
   line-clamp: var(--read-more-line-clamp, 2);
 }
+
+.disable-transitions *,
+.disable-transitions *::before,
+.disable-transitions *::after {
+  transition: none !important;
+}

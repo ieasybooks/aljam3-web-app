@@ -491,7 +491,7 @@ RSpec.describe "Authors" do
       it "includes correct turbo stream target for first page" do
         get authors_path, as: :turbo_stream
 
-        expect(response.body).to include('target="results_list_"')
+        expect(response.body).to include('target="results_list_1"')
       end
 
       it "includes correct turbo stream target for specific page" do

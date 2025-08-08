@@ -36,7 +36,7 @@ class Components::SearchPageCard < Components::Base
 
       CardContent() do
         div(
-          class: "border-e rtl:border-s border-e-5 rtl:border-s-5 pe-2 rtl:ps-2 text-right",
+          class: "ltr:border-e rtl:border-s ltr:border-e-5 rtl:border-s-5 ltr:pe-2 rtl:ps-2 text-right",
           data: {
             controller: "read-more",
             read_more_more_text_value: t(".read_more"),

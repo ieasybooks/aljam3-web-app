@@ -5,11 +5,6 @@ class Views::Categories::Show < Views::Base
     @pagy = pagy
   end
 
-  def head
-    meta name: "turbo-refresh-method", content: "morph"
-    meta name: "turbo-refresh-scroll", content: "preserve"
-  end
-
   def page_title = @category.name
   def description = "#{@category.name} - #{t(".books")}: #{number_with_delimiter(@category.books_count)}"
   def keywords = [ @category.name ]
@@ -17,9 +12,11 @@ class Views::Categories::Show < Views::Base
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
       div(class: "flex max-sm:flex-col max-sm:space-y-4 justify-between items-top mb-4") do
-        div do
-          Heading(level: 1, class: "mb-2 font-[Cairo]") { @category.name }
-          Text { "#{t(".books")}: #{number_with_delimiter(@category.books_count)}" }
+        unless hotwire_native_app?
+          div do
+            Heading(level: 1, class: "mb-2 font-[Cairo]") { @category.name }
+            Text { "#{t(".books")}: #{number_with_delimiter(@category.books_count)}" }
+          end
         end
 
         InlineSearchForm(action: category_path(@category))

@@ -73,7 +73,11 @@ class Components::Head < Components::Base
 
   def page_title
     if @page_info.title.present?
-      "#{t("aljam3")} | #{@page_info.title}"
+      if hotwire_native_app?
+        @page_info.title
+      else
+        "#{t("aljam3")} | #{@page_info.title}"
+      end
     else
       t("aljam3")
     end

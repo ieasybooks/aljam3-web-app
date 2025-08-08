@@ -251,6 +251,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hotwired/hotwire-native-bridge@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@hotwired/hotwire-native-bridge@npm:1.2.1"
+  peerDependencies:
+    "@hotwired/stimulus": ^3.2.2
+  checksum: 10c0/30280bbe611ea23c1965fa71de52a162e99ddcec8cb1777fac08d945d012e3b6007789e0ac22b7510b462fd7c38fd3d8cce2505371c75f91febd3af4e8f5013c
+  languageName: node
+  linkType: hard
+
 "@hotwired/stimulus@npm:^3.2.2":
   version: 3.2.2
   resolution: "@hotwired/stimulus@npm:3.2.2"
@@ -825,6 +834,7 @@ __metadata:
   resolution: "app@workspace:."
   dependencies:
     "@floating-ui/dom": "npm:^1.7.3"
+    "@hotwired/hotwire-native-bridge": "npm:^1.2.1"
     "@hotwired/stimulus": "npm:^3.2.2"
     "@hotwired/turbo-rails": "npm:^8.0.16"
     "@rails/request.js": "npm:^0.0.12"

@@ -7,7 +7,7 @@ class BooksController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "results_list_#{params[:page]}",
+          "results_list_#{pagy.page}",
           Components::BooksList.new(books:, pagy:)
         )
       end

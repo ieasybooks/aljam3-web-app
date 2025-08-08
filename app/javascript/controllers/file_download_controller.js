@@ -1,11 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="download-file"
+// Connects to data-controller="file-download"
 export default class extends Controller {
   static values = {
     url: String,
-    loadingStatus: String,
     filename: String,
+    loadingStatus: String,
   }
 
   async download() {

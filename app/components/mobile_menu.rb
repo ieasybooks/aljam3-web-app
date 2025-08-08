@@ -9,12 +9,12 @@ class Components::MobileMenu < Components::Base
   end
 
   def view_template(&)
-    Sheet(**attrs) do
+    Sheet(id: "mobile-menu", **attrs) do
       SheetTrigger(class: "me-2") { Button(variant: :ghost, icon: true) { Lucide::Menu(class: "size-5") } }
 
-      SheetContent(class: "w-[350px] max-sm:w-full", side:) do
+      SheetContent(id: "mobile-menu-content", class: "w-[350px] max-sm:w-full max-sm:border-none", side:) do
         div(class: "flex flex-col h-full") do
-          SheetHeader { Logo() }
+          SheetHeader(class: "flex items-center justify-center py-8") { Aljam3Logo(class: "h-30 text-primary") }
 
           div(class: "flex-grow overflow-y-scroll") do
             SheetMiddle { Menu(controller_name: @controller_name, action_name: @action_name) }

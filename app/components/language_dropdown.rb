@@ -7,7 +7,14 @@ class Components::LanguageDropdown < Components::Base
 
       DropdownMenuContent(class: "w-30") do
         I18n.available_locales.each do |locale|
-          DropdownMenuItem(href: url_for(locale:), class: "flex items-center gap-2", data: { turbo: "false" }) do
+          DropdownMenuItem(
+            href: url_for(locale:),
+            class: "flex items-center gap-2",
+            data: {
+              turbo: ("false" unless hotwire_native_app?),
+              turbo_action: ("replace" if hotwire_native_app?)
+            }
+          ) do
             render locale_flag(locale)
 
             span { t(".#{locale}") }

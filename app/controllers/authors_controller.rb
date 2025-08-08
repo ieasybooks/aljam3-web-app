@@ -14,7 +14,7 @@ class AuthorsController < ApplicationController
         pagy, authors = search_or_list_authors
 
         render turbo_stream: turbo_stream.replace(
-          "results_list_#{params[:page]}",
+          "results_list_#{pagy.page}",
           Components::AuthorsList.new(authors:, pagy:)
         )
       end

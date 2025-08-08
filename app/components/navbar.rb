@@ -2,12 +2,17 @@
 
 class Components::Navbar < Components::Base
   def view_template
-    header(class: "supports-backdrop-blur:bg-background/80 sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-2xl backdrop-saturate-200") do
+    header(
+      class: [
+        "supports-backdrop-blur:bg-background/80 sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-2xl backdrop-saturate-200",
+        ("hidden" if hotwire_native_app?)
+      ]
+    ) do
       div(class: "px-2 sm:px-4 sm:container flex h-14 items-center justify-between") do
         div(class: "flex items-center") do
           MobileMenu(class: "md:hidden")
 
-          Logo(class: "max-sm:ps-1")
+          Aljam3Logo(class: "h-9 text-primary me-4 max-sm:ps-1")
 
           Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
           Link(href: categories_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".categories") }

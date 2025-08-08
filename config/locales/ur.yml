@@ -134,6 +134,7 @@ ur:
       hide_tashkeel: اعراب چھپائیں
       share_page: صفحہ شیئر کریں
       share_page_dialog_title: صفحے کا لنک اپنے دوستوں سے شیئر کریں!
+      share_text: '"%{title}" کتاب کا صفحہ، "%{author}" کے تألیف میں'
       show_tashkeel: اعراب دکھائیں
       title: کتاب %{title}
       المكتبة الشاملة الوقفية: المکتبہ الشاملہ الوقفیہ

@@ -10,8 +10,7 @@ class Components::InlineSearchForm < Components::Base
       accept_charset: "UTF-8",
       class: "sm:w-1/3",
       data: {
-        turbo_action: "replace",
-        turbo_permanent: "",
+        turbo_stream: "true",
         controller: "search-auto-submit"
       }
     ) do

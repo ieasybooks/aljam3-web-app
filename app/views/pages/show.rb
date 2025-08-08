@@ -14,6 +14,17 @@ class Views::Pages::Show < Views::Base
   def no_navbar = true
 
   def view_template
+    if hotwire_native_app?
+      div(
+        class: "hidden",
+        data: {
+          controller: "bridge--share",
+          bridge__share_url_value: book_file_page_url(locale: I18n.locale, book_id: @book.id, file_id: @file.id, page_number: @page.number),
+          bridge__share_text_value: t(".share_text", title: @book.title, author: @book.author.name)
+        }
+      )
+    end
+
     div(
       class: "flex flex-col h-screen sm:container px-4 sm:px-4 py-4 space-y-4",
       data: {
@@ -48,7 +59,7 @@ class Views::Pages::Show < Views::Base
 
   def header
     div(class: "relative") do
-      share_button
+      share_button unless hotwire_native_app?
 
       div(class: "flex items-center justify-between") do
         div(class: "flex flex-col items-start gap-y-1") do
@@ -121,7 +132,7 @@ class Views::Pages::Show < Views::Base
 
   def breadcrumb
     div(class: "flex items-center") do
-      MobileMenu(controller_name:, action_name:)
+      MobileMenu(controller_name:, action_name:) unless hotwire_native_app?
 
       Breadcrumb do
         BreadcrumbList do

@@ -7,11 +7,26 @@ import { application } from "./application"
 import BottomControlsController from "./bottom_controls_controller"
 application.register("bottom-controls", BottomControlsController)
 
+import Bridge__FileDownloadController from "./bridge/file_download_controller"
+application.register("bridge--file-download", Bridge__FileDownloadController)
+
+import Bridge__LocaleController from "./bridge/locale_controller"
+application.register("bridge--locale", Bridge__LocaleController)
+
+import Bridge__MenuButtonController from "./bridge/menu_button_controller"
+application.register("bridge--menu-button", Bridge__MenuButtonController)
+
+import Bridge__ShareController from "./bridge/share_controller"
+application.register("bridge--share", Bridge__ShareController)
+
+import Bridge__ThemeController from "./bridge/theme_controller"
+application.register("bridge--theme", Bridge__ThemeController)
+
 import CloudflareTurnstileController from "./cloudflare_turnstile_controller"
 application.register("cloudflare-turnstile", CloudflareTurnstileController)
 
-import DownloadFileController from "./download_file_controller"
-application.register("download-file", DownloadFileController)
+import FileDownloadController from "./file_download_controller"
+application.register("file-download", FileDownloadController)
 
 import PdfViewerController from "./pdf_viewer_controller"
 application.register("pdf-viewer", PdfViewerController)
@@ -54,6 +69,9 @@ application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
 import SearchAutoSubmitController from "./search_auto_submit_controller"
 application.register("search-auto-submit", SearchAutoSubmitController)
+
+import SyncDirectionController from "./sync_direction_controller"
+application.register("sync-direction", SyncDirectionController)
 
 import SyncValueController from "./sync_value_controller"
 application.register("sync-value", SyncValueController)
