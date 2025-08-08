@@ -27,6 +27,8 @@ const SIZE_TO_LEADING_CLASS = {
 // Connects to data-controller="top-controls"
 export default class extends Controller {
   static targets = [
+    "contentContainer",
+
     "txtIndicator",
     "txtContent",
     "content",
@@ -49,6 +51,8 @@ export default class extends Controller {
     "iframe",
     "downloadImageButton",
     "copyImageButton",
+
+    "txtOnlyOption",
   ]
 
   static values = {
@@ -211,8 +215,10 @@ export default class extends Controller {
 
   #applyLayout() {
     const buttonActiveClasses = ["bg-neutral-200!", "dark:bg-neutral-700!"]
-    const contentActiveClassesToAdd = ["shadow", "border"]
-    const contentActiveClassesToRemove = ["size-0", "absolute"]
+    const pdfContentActiveClassesToAdd = ["sm:max-w-1/2", "flex-1", "flex", "flex-col", "border"]
+    const pdfContentActiveClassesToRemove = ["w-0"]
+
+    this.contentContainerTarget.classList.add("gap-2", "sm:gap-4")
 
     this.txtIndicatorTarget.innerHTML = this.txtIndicatorTargetHTMLContent
 
@@ -222,38 +228,47 @@ export default class extends Controller {
 
     this.pdfIndicatorTarget.innerHTML = this.pdfIndicatorTargetHTMLContent
 
+    this.txtOnlyOptionTargets.forEach((option) => {
+      option.classList.remove("hidden")
+    })
+
     switch (this.currentLayout) {
       case "txt-only":
+        this.contentContainerTarget.classList.remove("gap-2", "sm:gap-4")
+
         this.txtContentOnlyButtonTarget.classList.add(...buttonActiveClasses)
 
-        this.txtContentTarget.classList.remove(...contentActiveClassesToRemove)
-        this.txtContentTarget.classList.add(...contentActiveClassesToAdd)
+        this.txtContentTarget.classList.remove("hidden")
 
-        this.pdfContentTarget.classList.add(...contentActiveClassesToRemove)
-        this.pdfContentTarget.classList.remove(...contentActiveClassesToAdd)
+        this.pdfContentTarget.classList.add(...pdfContentActiveClassesToRemove)
+        this.pdfContentTarget.classList.remove(...pdfContentActiveClassesToAdd)
 
         this.pdfIndicatorTarget.innerHTML = ""
         break
       case "pdf-only":
+        this.contentContainerTarget.classList.remove("gap-2", "sm:gap-4")
+
         this.txtIndicatorTarget.innerHTML = ""
 
         this.pdfContentOnlyButtonTarget.classList.add(...buttonActiveClasses)
 
-        this.txtContentTarget.classList.add(...contentActiveClassesToRemove)
-        this.txtContentTarget.classList.remove(...contentActiveClassesToAdd)
+        this.txtContentTarget.classList.add("hidden")
 
-        this.pdfContentTarget.classList.remove(...contentActiveClassesToRemove)
-        this.pdfContentTarget.classList.add(...contentActiveClassesToAdd)
+        this.pdfContentTarget.classList.remove(...pdfContentActiveClassesToRemove)
+        this.pdfContentTarget.classList.add(...pdfContentActiveClassesToAdd)
+
+        this.txtOnlyOptionTargets.forEach((option) => {
+          option.classList.add("hidden")
+        })
         break
       case "txt-and-pdf":
       default:
         this.txtAndPdfContentButtonTarget.classList.add(...buttonActiveClasses)
 
-        this.txtContentTarget.classList.remove(...contentActiveClassesToRemove)
-        this.pdfContentTarget.classList.remove(...contentActiveClassesToRemove)
+        this.txtContentTarget.classList.remove("hidden")
 
-        this.txtContentTarget.classList.add(...contentActiveClassesToAdd)
-        this.pdfContentTarget.classList.add(...contentActiveClassesToAdd)
+        this.pdfContentTarget.classList.remove(...pdfContentActiveClassesToRemove)
+        this.pdfContentTarget.classList.add(...pdfContentActiveClassesToAdd)
         break
     }
   }

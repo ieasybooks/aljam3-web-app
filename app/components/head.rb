@@ -16,6 +16,12 @@ class Components::Head < Components::Base
       meta name: "apple-mobile-web-app-capable", content: "yes"
       meta name: "mobile-web-app-capable", content: "yes"
 
+      if hotwire_native_app?
+        meta name: "platform", content: ios_native_app? ? "ios" : "android"
+      else
+        meta name: "platform", content: "web"
+      end
+
       @page_info.head if @page_info.head.present?
 
       csrf_meta_tags
@@ -73,7 +79,11 @@ class Components::Head < Components::Base
 
   def page_title
     if @page_info.title.present?
-      "#{t("aljam3")} | #{@page_info.title}"
+      if hotwire_native_app?
+        @page_info.title
+      else
+        "#{t("aljam3")} | #{@page_info.title}"
+      end
     else
       t("aljam3")
     end

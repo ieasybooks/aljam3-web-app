@@ -134,6 +134,7 @@ ur:
       hide_tashkeel: اعراب چھپائیں
       share_page: صفحہ شیئر کریں
       share_page_dialog_title: صفحے کا لنک اپنے دوستوں سے شیئر کریں!
+      share_text: '"%{title}" کتاب کا صفحہ، "%{author}" کے تألیف میں'
       show_tashkeel: اعراب دکھائیں
       title: کتاب %{title}
       المكتبة الشاملة الوقفية: المکتبہ الشاملہ الوقفیہ
@@ -221,19 +222,19 @@ ur:
       three_libraries: 3 لائبریریاں
       title: ہوم
   top_controls:
-    book_pdf: کتاب کی تصویری شکل
+    book_pdf: تصویری کتاب
     book_txt: کتاب کا متن
-    copy_content: مواد کاپی کریں
     copy_image: تصویر کاپی کریں
+    copy_page_content: صفحہ کا مواد کاپی کریں
     download_files: فائلیں ڈاؤن لوڈ کریں
     download_image: تصویر ڈاؤن لوڈ کریں
     file_name: فائل کا نام
     hide_tashkeel: اعراب چھپائیں
     pdf_content_only: صرف کتاب کی تصویری شکل
-    search: تلاش
+    search_in_book: کتاب میں تلاش کریں
     text_size: فونٹ کا سائز
     text_size_decrease: فونٹ سائز کم کریں
     text_size_increase: فونٹ سائز بڑھائیں
-    txt_and_pdf_content: کتاب کا متن اور تصویری شکل دونوں
+    txt_and_pdf_content: کتاب کا متن اور تصویری کتاب
     txt_content_only: صرف کتاب کا متن
   volumes: جلدیں

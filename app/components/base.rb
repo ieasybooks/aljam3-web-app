@@ -20,6 +20,9 @@ class Components::Base < RubyUI::Base
   include Phlex::Rails::Helpers::TurboFrameTag
   include Phlex::Rails::Layout
 
+  RTL_LANGUAGES = %i[ar ur]
+  LTR_LANGUAGES = %i[en]
+
   register_output_helper :cloudflare_turnstile_script_tag
 
   register_value_helper :action_name
@@ -27,6 +30,7 @@ class Components::Base < RubyUI::Base
   register_value_helper :cloudflare_turnstile
   register_value_helper :controller_name
   register_value_helper :devise_mapping
+  register_value_helper :hotwire_native_app?
   register_value_helper :params
   register_value_helper :resource
   register_value_helper :resource_class
@@ -45,11 +49,14 @@ class Components::Base < RubyUI::Base
 
   def direction = rtl? ? :rtl : :ltr
   def side = rtl? ? :right : :left
-  def rtl? = I18n.locale == :ar || I18n.locale == :ur
+  def rtl? = RTL_LANGUAGES.include?(I18n.locale)
 
   def process_meilisearch_highlights(content) = merge_consecutive_marks(remove_definite_articles_marks(content))
   def remove_definite_articles_marks(content) = content&.gsub(/<mark>(ال|أل|إل|آل)<\/mark>(?!<mark>)/, '\1')
   def merge_consecutive_marks(content) = content&.gsub(/<\/mark>(\s*)<mark>/) { Regexp.last_match(1).empty? ? "" : "&nbsp;" }
+
+  def ios_native_app? = request.user_agent.to_s.match?(/(Turbo|Hotwire) Native iOS/)
+  def android_native_app? = request.user_agent.to_s.match?(/(Turbo|Hotwire) Native Android/)
 
   if Rails.env.development?
     def before_template

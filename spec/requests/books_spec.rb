@@ -209,7 +209,7 @@ RSpec.describe "Books" do
       it "includes correct turbo stream target for first page" do
         get books_path, as: :turbo_stream
 
-        expect(response.body).to include('target="results_list_"')
+        expect(response.body).to include('target="results_list_1"')
       end
 
       it "includes correct turbo stream target for specific page" do
@@ -333,7 +333,7 @@ RSpec.describe "Books" do
       it "replaces the results_list element for first page" do
         get book_search_path(book_id: book.id), params: { q: "test query" }, as: :turbo_stream
 
-        expect(response.body).to include('turbo-stream action="replace" target="results_list"')
+        expect(response.body).to include('turbo-stream action="replace" target="results_list_1"')
       end
 
       context "when qid parameter is present" do

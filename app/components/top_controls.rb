@@ -70,7 +70,7 @@ class Components::TopControls < Components::Base
 
   def search_button(bar)
     search_dialog do
-      bar.tooltip(text: t(".search")) do
+      bar.tooltip(text: t(".search_in_book")) do
         bar.button do
           Hero::MagnifyingGlass(class: "size-5.5 ltr:transform ltr:-scale-x-100")
         end
@@ -79,7 +79,7 @@ class Components::TopControls < Components::Base
   end
 
   def copy_text_button(bar)
-    bar.tooltip(text: t(".copy_content")) do
+    bar.tooltip(text: t(".copy_page_content")) do
       bar.button(data: { action: "click->top-controls#copyText", top_controls_target: "copyTextButton" }) do
         Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
       end
@@ -108,7 +108,7 @@ class Components::TopControls < Components::Base
   end
 
   def text_size_dropdown(bar)
-    DropdownMenu(options: { placement: "bottom-start" }) do
+    DropdownMenu(options: { placement: "bottom-start" }, class: "z-50") do
       DropdownMenuTrigger do
         bar.tooltip(text: t(".text_size")) do
           bar.button do
@@ -148,32 +148,41 @@ class Components::TopControls < Components::Base
   end
 
   def right_side_mobile_controls(bar)
-    div(class: "sm:hidden flex items-center gap-x-2") do
+    div(class: "sm:hidden flex items-center gap-x-2 z-50") do
       DropdownMenu(options: { placement: "bottom-end" }) do
         DropdownMenuTrigger(class: "w-full") do
           bar.button { Lucide::Menu(class: "size-5") }
         end
 
-        DropdownMenuContent(class: "w-40 ltr:w-50") do
+        DropdownMenuContent(class: "w-50") do
           search_dialog do
             DropdownMenuItem(as: :button, class: "w-full") do
               div(class: "w-full flex items-center gap-x-2") do
                 Hero::MagnifyingGlass(class: "size-5 ltr:transform ltr:-scale-x-100")
 
-                plain t(".search")
+                plain t(".search_in_book")
               end
             end
           end
 
-          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#copyText") do
+          DropdownMenuItem(
+            as: :button,
+            class: "w-full",
+            data_action: "click->top-controls#copyText"
+          ) do
             div(class: "w-full flex items-center gap-x-2") do
               Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
 
-              plain t(".copy_content")
+              plain t(".copy_page_content")
             end
           end
 
-          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#textSizeIncrease") do
+          DropdownMenuItem(
+            as: :button,
+            class: "w-full",
+            data_action: "click->top-controls#textSizeIncrease",
+            data: { top_controls_target: "txtOnlyOption" }
+          ) do
             div(class: "w-full flex items-center gap-x-2") do
               Tabler::TextIncrease(variant: :outline, class: "size-5")
 
@@ -181,7 +190,12 @@ class Components::TopControls < Components::Base
             end
           end
 
-          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#textSizeDecrease") do
+          DropdownMenuItem(
+            as: :button,
+            class: "w-full",
+            data_action: "click->top-controls#textSizeDecrease",
+            data: { top_controls_target: "txtOnlyOption" }
+          ) do
             div(class: "w-full flex items-center gap-x-2") do
               Tabler::TextDecrease(variant: :outline, class: "size-5")
 
@@ -189,7 +203,12 @@ class Components::TopControls < Components::Base
             end
           end
 
-          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#toggleTashkeel") do
+          DropdownMenuItem(
+            as: :button,
+            class: "w-full",
+            data_action: "click->top-controls#toggleTashkeel",
+            data: { top_controls_target: "txtOnlyOption" }
+          ) do
             div(class: "w-full flex items-center gap-x-2") do
               CustomIcons::FilledShaddah(
                 class: "size-5 transition-all duration-200",
@@ -202,22 +221,6 @@ class Components::TopControls < Components::Base
               )
 
               span(data: { top_controls_target: "mobileTashkeelToggleButton" }) { t(".hide_tashkeel") }
-            end
-          end
-
-          DropdownMenuItem(as: :button, class: "w-full", data_action: "click->top-controls#downloadImage") do
-            div(class: "w-full flex items-center gap-x-2") do
-              Lucide::ImageDown(class: "size-5 ltr:transform ltr:-scale-x-100")
-
-              plain t(".download_image")
-            end
-          end
-
-          DropdownMenuItem(as: :button, class: "w-full max-sm:hidden", data_action: "click->top-controls#copyImage") do
-            div(class: "w-full flex items-center gap-x-2") do
-              Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
-
-              plain t(".copy_image")
             end
           end
         end
@@ -291,16 +294,24 @@ class Components::TopControls < Components::Base
         yield
       end
 
-      DialogContent(size: :xl, class: "p-4") do
+      DialogContent(
+        size: :xl,
+        class: [
+          "p-4",
+          ("max-h-[min(90vh,600px)]" if ios_native_app?),
+          ("max-sm:border-x-0 max-sm:light:border-t max-sm:dark:border-y" unless hotwire_native_app?),
+          ("border-x-0 light:border-t dark:border-y" if hotwire_native_app?)
+        ]
+      ) do
         DialogHeader do
-          DialogTitle { t(".search") }
+          DialogTitle { t(".search_in_book") }
         end
 
         DialogMiddle(class: "py-0") do
           BookSearchForm(book: @book)
 
           turbo_frame_tag :results_count
-          turbo_frame_tag :results_list
+          turbo_frame_tag :results_list_1
         end
       end
     end
@@ -312,7 +323,13 @@ class Components::TopControls < Components::Base
         yield
       end
 
-      DialogContent(class: "p-4") do
+      DialogContent(
+        class: [
+          "p-4",
+          ("max-sm:border-x-0 max-sm:light:border-t max-sm:dark:border-y" unless hotwire_native_app?),
+          ("border-x-0 light:border-t dark:border-y" if hotwire_native_app?)
+        ]
+      ) do
         DialogHeader do
           DialogTitle { t(".download_files") }
         end
@@ -346,11 +363,20 @@ class Components::TopControls < Components::Base
                         size: :sm,
                         icon: true,
                         data: {
-                          controller: "download-file",
-                          action: "click->download-file#download",
-                          download_file_url_value: file_info[:url],
-                          download_file_filename_value: "#{file.book.title} - #{file.name}.#{file_info[:extension]}",
-                          download_file_loading_status_value: capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") }
+                          controller: [
+                            ("file-download" unless hotwire_native_app?),
+                            ("bridge--file-download" if hotwire_native_app?)
+                          ],
+                          action: [
+                            ("click->file-download#download" unless hotwire_native_app?),
+                            ("click->bridge--file-download#download" if hotwire_native_app?)
+                          ],
+                          file_download_url_value: (file_info[:url] unless hotwire_native_app?),
+                          file_download_filename_value: ("#{file.book.title} - #{file.name}.#{file_info[:extension]}" unless hotwire_native_app?),
+                          file_download_loading_status_value: (capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") } unless hotwire_native_app?),
+                          bridge__file_download_url_value: (file_info[:url] if hotwire_native_app?),
+                          bridge__file_download_filename_value: ("#{file.book.title} - #{file.name}.#{file_info[:extension]}" if hotwire_native_app?),
+                          bridge__file_download_loading_status_value: (capture { render Lucide::LoaderCircle.new(class: "size-3.5 animate-spin") } if hotwire_native_app?)
                         }
                       ) do
                         Lucide::Download(variant: :solid, class: "size-3.5")

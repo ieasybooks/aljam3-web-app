@@ -7,7 +7,7 @@ class BooksController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "results_list_#{params[:page]}",
+          "results_list_#{pagy.page}",
           Components::BooksList.new(books:, pagy:)
         )
       end
@@ -44,7 +44,7 @@ class BooksController < ApplicationController
     render turbo_stream: [
       turbo_stream.replace("results_count", Components::SearchResultsCount.new(count: pagy.count, class: "py-2")),
       turbo_stream.replace(
-        params[:page].blank? ? "results_list" : "results_list_#{params[:page]}",
+        "results_list_#{pagy.page}",
         Components::SearchBookResultsList.new(book: @book, results:, pagy:, search_query_id:)
       )
     ]

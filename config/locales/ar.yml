@@ -134,6 +134,7 @@ ar:
       hide_tashkeel: إخفاء التشكيل
       share_page: مشاركة الصفحة
       share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
+      share_text: اقرأ كتاب "%{title}" من تأليف "%{author}" على الجامع
       show_tashkeel: إظهار التشكيل
       title: كتاب %{title}
       المكتبة الشاملة الوقفية: المكتبة الشاملة الوقفية
@@ -223,14 +224,14 @@ ar:
   top_controls:
     book_pdf: الكتاب المُصوّر
     book_txt: نص الكتاب
-    copy_content: نسخ المحتوى
     copy_image: نسخ الصورة
+    copy_page_content: نسخ محتوى الصفحة
     download_files: تحميل الملفات
     download_image: تحميل الصورة
     file_name: اسم الملف
     hide_tashkeel: إخفاء التشكيل
     pdf_content_only: الكتاب المُصوّر فقط
-    search: البحث
+    search_in_book: البحث في الكتاب
     text_size: حجم الخط
     text_size_decrease: تصغير حجم الخط
     text_size_increase: تكبير حجم الخط

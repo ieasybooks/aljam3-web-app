@@ -33,6 +33,7 @@ class Components::SearchForm < Components::Base
           size: :xl,
           type: :submit,
           icon: true,
+          class: "flex-shrink-0",
           data: {
             turbo_submits_with: capture { render Lucide::LoaderCircle.new(class: "size-6 animate-spin") }
           }

@@ -7,7 +7,7 @@ en:
         message: Message
         name: Name
         topic: Topic
-  aljam3: Aljam3
+  aljam3: الجامع
   apply: Apply
   author_card:
     books: Books
@@ -140,6 +140,7 @@ en:
       hide_tashkeel: Hide Diacritics
       share_page: Share Page
       share_page_dialog_title: Share the page link with your friends!
+      share_text: Read "%{title}" book by "%{author}" on Aljam3
       show_tashkeel: Show Diacritics
       title: "%{title} Book"
       المكتبة الشاملة الوقفية: Shamela Waqfeya Library
@@ -231,14 +232,14 @@ en:
   top_controls:
     book_pdf: PDF
     book_txt: Text
-    copy_content: Copy Content
     copy_image: Copy Image
+    copy_page_content: Copy Page Content
     download_files: Download Files
     download_image: Download Image
     file_name: File Name
     hide_tashkeel: Hide Diacritics
     pdf_content_only: PDF Content Only
-    search: Search
+    search_in_book: Search in Book
     text_size: Text Size
     text_size_decrease: Decrease Text Size
     text_size_increase: Increase Text Size

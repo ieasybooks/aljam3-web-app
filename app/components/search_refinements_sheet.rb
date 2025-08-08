@@ -78,7 +78,7 @@ class Components::SearchRefinementsSheet < Components::Base
           end
 
           SheetFooter do
-            Button(variant: :outline, data: { action: "click->ruby-ui--sheet-content#close" }) { t("apply") }
+            Button(variant: :primary, data: { action: "click->ruby-ui--sheet-content#close" }) { t("apply") }
           end
         end
       end

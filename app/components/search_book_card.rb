@@ -14,8 +14,8 @@ class Components::SearchBookCard < Components::Base
       end
 
       CardHeader(class: "p-4") do
-        a(href: category_path(@book.category.id)) do
-          Badge(variant: :neutral, size: :sm, class: "mb-4 w-fit") { @book.category.name }
+        a(href: category_path(@book.category.id), data: { turbo_frame: "_top" }) do
+          Badge(variant: :neutral, size: :sm, class: "mb-1 w-fit") { @book.category.name }
         end
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do

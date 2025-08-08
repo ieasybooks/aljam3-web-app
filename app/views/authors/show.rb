@@ -17,9 +17,11 @@ class Views::Authors::Show < Views::Base
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
       div(class: "flex max-sm:flex-col max-sm:space-y-4 justify-between items-top mb-4") do
-        div do
-          Heading(level: 1, class: "mb-2 font-[Cairo]") { @author.name }
-          Text { "#{t(".books")}: #{number_with_delimiter(@author.books_count)}" }
+        unless hotwire_native_app?
+          div do
+            Heading(level: 1, class: "mb-2 font-[Cairo]") { @author.name }
+            Text { "#{t(".books")}: #{number_with_delimiter(@author.books_count)}" }
+          end
         end
 
         InlineSearchForm(action: author_path(@author))

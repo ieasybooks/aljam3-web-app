@@ -7,7 +7,13 @@ class Components::ContactDialog < Components::Base
         yield
       end
 
-      DialogContent(class: "p-4") do
+      DialogContent(
+        class: [
+          "p-4",
+          ("max-sm:border-x-0 max-sm:light:border-t max-sm:dark:border-y" unless hotwire_native_app?),
+          ("border-x-0 light:border-t dark:border-y" if hotwire_native_app?)
+        ]
+      ) do
         DialogHeader do
           DialogTitle { t(".contact_us_title") }
           DialogDescription { t(".contact_us_description") }
