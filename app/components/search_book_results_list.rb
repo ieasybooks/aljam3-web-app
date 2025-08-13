@@ -16,7 +16,6 @@ class Components::SearchBookResultsList < Components::Base
             page: result,
             index: index + (@pagy.page - 1) * 20,
             search_query_id: @search_query_id,
-            show_page_indicator: false,
             show_category: false,
             show_title: false,
             show_author: false

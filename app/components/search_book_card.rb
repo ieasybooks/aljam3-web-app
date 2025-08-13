@@ -9,13 +9,9 @@ class Components::SearchBookCard < Components::Base
 
   def view_template
     Card(class: "relative") do
-      div(class: "absolute top-0 end-0 p-2 border-b border-s rounded-es-xl") do
-        Hero::BookOpen(variant: :outline, class: "size-4 text-muted-foreground")
-      end
-
       CardHeader(class: "p-4") do
-        a(href: category_path(@book.category.id), data: { turbo_frame: "_top" }) do
-          Badge(variant: :neutral, size: :sm, class: "mb-1 w-fit") { @book.category.name }
+        a(href: category_path(@book.category.id), class: "w-fit", data: { turbo_frame: "_top" }) do
+          Badge(variant: :neutral, size: :sm, class: "mb-1") { @book.category.name }
         end
 
         CardTitle(class: "line-clamp-3 sm:line-clamp-2 leading-6") do

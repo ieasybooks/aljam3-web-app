@@ -148,6 +148,7 @@ en:
       مكتبة المسجد النبوي: Prophet's Mosque Library
   pages_text: Pages
   search_author_card:
+    author_page: Author Page
     books: Books
   search_book_card:
     book_page: Book Page
@@ -171,18 +172,16 @@ en:
     library: Library
     library_placeholder: Select a library
     no_results: No results found
-    search_scope: Search Scope
-    search_scope_author: Authors Only
-    search_scope_content: Content Only
-    search_scope_placeholder: Select a scope
-    search_scope_title: Titles Only
-    search_scope_title_and_content: Authors, Titles and Content
     title: Refinements
     المكتبة الشاملة الوقفية: Shamela Waqfeya Library (4.6K books)
     المكتبة الوقفية: Waqfeya Library (10.2K books)
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
   search_results_count:
     results_count: 'Search results: %{count}'
+  search_tabs:
+    authors: Authors Names
+    pages: Pages
+    titles: Books Titles
   static:
     home:
       categories: Categories

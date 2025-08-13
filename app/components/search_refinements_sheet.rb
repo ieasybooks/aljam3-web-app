@@ -16,16 +16,6 @@ class Components::SearchRefinementsSheet < Components::Base
   def hidden_inputs
     Input(
       type: :hidden,
-      name: "s",
-      value: params.dig(:s) || "b",
-      data: {
-        sync_value_target: "target",
-        sync_id: "s"
-      }
-    )
-
-    Input(
-      type: :hidden,
       name: "l",
       value: params.dig(:l) || "a",
       data: {
@@ -71,7 +61,6 @@ class Components::SearchRefinementsSheet < Components::Base
           end
 
           SheetMiddle(class: "space-y-2") do
-            search_scopes_select
             libraries_select
             categories_select
             authors_select
@@ -79,39 +68,6 @@ class Components::SearchRefinementsSheet < Components::Base
 
           SheetFooter do
             Button(variant: :primary, data: { action: "click->ruby-ui--sheet-content#close" }) { t("apply") }
-          end
-        end
-      end
-    end
-  end
-
-  def search_scopes_select
-    FormField do
-      FormFieldLabel { t(".search_scope") }
-
-      Select do
-        SelectInput(
-          value: params.dig(:s) || "b",
-          id: "select-a-search-scope",
-          data: {
-            sync_value_target: "source",
-            sync_id: "s",
-            sync_event: "change"
-          }
-        )
-
-        SelectTrigger(class: "mt-1") do
-          SelectValue(placeholder: t(".search_scope_placeholder"), id: "select-a-search-scope") do
-            t(".search_scope_title_and_content")
-          end
-        end
-
-        SelectContent(outlet_id: "select-a-search-scope") do
-          SelectGroup do
-            SelectItem(value: "b", aria_selected!: "true") { t(".search_scope_title_and_content") }
-            SelectItem(value: "c") { t(".search_scope_content") }
-            SelectItem(value: "t") { t(".search_scope_title") }
-            SelectItem(value: "n") { t(".search_scope_author") }
           end
         end
       end

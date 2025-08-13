@@ -7,10 +7,6 @@ class Components::SearchAuthorCard < Components::Base
 
   def view_template
     Card(class: "relative") do
-      div(class: "absolute top-0 end-0 p-2 border-b border-s rounded-es-xl") do
-        Bootstrap::Feather(class: "size-4 text-muted-foreground")
-      end
-
       CardHeader(class: "p-4") do
         CardTitle(class: "line-clamp-1") do
           a(href: author_path(@author.id, i: @index, qid: @search_query_id), target: "_blank") do
@@ -28,8 +24,8 @@ class Components::SearchAuthorCard < Components::Base
           end
         end
 
-        Link(href: author_path(@author.id, i: @index, qid: @search_query_id), variant: :outline, size: :sm, icon: true, target: "_blank") do
-          Hero::ArrowSmallRight(variant: :solid, class: "size-3.5 rtl:transform rtl:-scale-x-100")
+        Link(href: author_path(@author.id, i: @index, qid: @search_query_id), variant: :outline, size: :sm, target: "_blank") do
+          t(".author_page")
         end
       end
     end

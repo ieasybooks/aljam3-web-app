@@ -142,6 +142,7 @@ ur:
       مكتبة المسجد النبوي: مسجد نبوی کی لائبریری
   pages_text: صفحات
   search_author_card:
+    author_page: مصنف کا صفحہ
     books: کتب
   search_book_card:
     book_page: کتاب کا صفحہ
@@ -165,18 +166,16 @@ ur:
     library: لائبریری
     library_placeholder: لائبریری منتخب کریں
     no_results: کوئی نتیجہ نہیں
-    search_scope: تلاش کا دائرہ
-    search_scope_author: صرف مصنفین کے نام
-    search_scope_content: صرف کتابوں کا مواد
-    search_scope_placeholder: تلاش کا دائرہ منتخب کریں
-    search_scope_title: صرف کتابوں کے عنوانات
-    search_scope_title_and_content: مصنفین کے نام، کتابوں کے عنوانات اور مواد
     title: تلاش کو حسبِ ضرورت بنائیں
     المكتبة الشاملة الوقفية: المکتبہ الشاملہ الوقفیہ (4,600 کتب)
     المكتبة الوقفية: المکتبہ الوقفیہ (10,200 کتب)
     مكتبة المسجد النبوي: مسجد نبوی کی لائبریری (48,700 کتب)
   search_results_count:
     results_count: 'تلاش کے نتائج: %{count}'
+  search_tabs:
+    authors: مصنفین کے نام
+    pages: صفحات
+    titles: کتابوں کے عنوانات
   static:
     home:
       categories: زمرہ جات

@@ -1,7 +1,6 @@
 class Views::Static::Home < Views::Base
-  def initialize(results:, pagy:, search_query_id:, carousels_books_ids:, categories:, libraries:)
-    @results = results
-    @pagy = pagy
+  def initialize(tabs_search_results:, search_query_id:, carousels_books_ids:, categories:, libraries:)
+    @tabs_search_results = tabs_search_results
     @search_query_id = search_query_id
     @carousels_books_ids = carousels_books_ids
     @categories = categories
@@ -13,22 +12,22 @@ class Views::Static::Home < Views::Base
       t(".results_title", query: params[:q])
     elsif hotwire_native_app?
       t("aljam3")
-    elsif @results.nil?
+    else
       t(".title")
     end
   end
 
   def description = t(".description")
   def keywords = t(".keywords")
-  def no_banner = @results.present?
+  def no_banner = params[:q].present?
 
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
-      header if @results.nil?
+      header if params[:q].blank?
 
       SearchForm(libraries: @libraries, categories: @categories)
 
-      if @results.nil?
+      if params[:q].blank?
         cache I18n.locale, expires_in: 1.hour do
           div(class: "mb-10") do
             search_examples
@@ -37,12 +36,7 @@ class Views::Static::Home < Views::Base
           end
         end
       else
-        if @results.any?
-          SearchResultsCount(count: @pagy ? @pagy.count : @results.metadata["estimatedTotalHits"])
-          SearchResultsList(results: @results, pagy: @pagy, search_query_id: @search_query_id)
-        else
-          SearchNoResultsFound()
-        end
+        SearchTabs(tabs_search_results: @tabs_search_results, search_query_id: @search_query_id)
       end
     end
   end

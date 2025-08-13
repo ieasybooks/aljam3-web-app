@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class Components::SearchPageCard < Components::Base
-  def initialize(page:, index:, search_query_id:, show_page_indicator: true, show_category: true, show_title: true, show_author: true)
+  def initialize(page:, index:, search_query_id:, show_category: true, show_title: true, show_author: true)
     @page = page
     @index = index
     @search_query_id = search_query_id
-    @show_page_indicator = show_page_indicator
     @show_category = show_category
     @show_title = show_title
     @show_author = show_author
@@ -13,17 +12,11 @@ class Components::SearchPageCard < Components::Base
 
   def view_template
     Card(class: "relative") do
-      if @show_page_indicator
-        div(class: "absolute top-0 end-0 p-2 border-b border-s rounded-es-xl") do
-          Lucide::FileText(class: "size-4 text-muted-foreground")
-        end
-      end
-
       if @show_category || @show_title || @show_author
         CardHeader(class: "p-4") do
           if @show_category
-            a(href: category_path(@page.file.book.category.id)) do
-              Badge(variant: :neutral, size: :sm, class: "mb-1 w-fit") { @page.file.book.category.name }
+            a(href: category_path(@page.file.book.category.id), class: "w-fit") do
+              Badge(variant: :neutral, size: :sm, class: "mb-1") { @page.file.book.category.name }
             end
           end
 
@@ -62,7 +55,7 @@ class Components::SearchPageCard < Components::Base
             read_more_less_text_value: t(".hide")
           }
         ) do
-          p(class: "long-read-more-content font-[Kitab] leading-7", data: { read_more_target: "content" }) do
+          p(class: "read-more-content font-[Kitab] leading-7", data: { read_more_target: "content" }) do
             raw safe process_meilisearch_highlights(@page.formatted&.[]("content")) || @page.content
           end
 

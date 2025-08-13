@@ -10,13 +10,12 @@ class StaticController < ApplicationController
   }
 
   def home
-    pagy, results = search
+    results = search
 
     if results.present? && params[:qid].blank? && request.headers["X-Sec-Purpose"] != "prefetch"
       search_query_id = SearchQuery.create(
         query: params[:q],
         refinements: {
-          search_scope: params.dig(:s),
           library: params.dig(:l),
           category: params.dig(:c),
           author: params.dig(:a)
@@ -27,13 +26,13 @@ class StaticController < ApplicationController
       search_query_id = params[:qid]
     end
 
-    if params[:page].presence.to_i > 1
+    if valid_model?
       render turbo_stream: turbo_stream.replace(
-        "results_list_#{params[:page]}",
-        Components::SearchResultsList.new(results:, pagy:, search_query_id:)
+        "#{params[:m]}_results_list_#{params[:page]}",
+        Components::SearchResultsList.new(search_results: results, search_query_id:, model: params[:m])
       )
     else
-      render Views::Static::Home.new(results:, pagy:, search_query_id:, carousels_books_ids:, libraries:, categories:)
+      render Views::Static::Home.new(tabs_search_results: results, search_query_id:, carousels_books_ids:, libraries:, categories:)
     end
   end
 
@@ -44,40 +43,22 @@ class StaticController < ApplicationController
 
     return nil if query.blank?
 
-    case params.dig(:s)
-    when "b"
-      [ nil, Meilisearch::Rails.federated_search(
-        queries: {
-          Page => {
-            q: query,
-            filter: filter(Page),
-            attributes_to_highlight: %i[content],
-            highlight_pre_tag: "<mark>",
-            highlight_post_tag: "</mark>"
-          },
-          Book => {
-            q: query,
-            filter: filter(Book),
-            attributes_to_highlight: %i[title],
-            highlight_pre_tag: "<mark>",
-            highlight_post_tag: "</mark>"
-          },
-          Author => {
-            q: query,
-            filter: filter(Author),
-            attributes_to_highlight: %i[name],
-            highlight_pre_tag: "<mark>",
-            highlight_post_tag: "</mark>"
-          }
-        },
-        federation: { offset: ((params[:page] || 1).to_i - 1) * 20 }
-      ) ]
-    when "c"
-      pagy_meilisearch(Page.pagy_search(query, filter: filter(Page), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
-    when "t"
-      pagy_meilisearch(Book.pagy_search(query, filter: filter(Book), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
-    when "n"
-      pagy_meilisearch(Author.pagy_search(query, filter: filter(Author), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+    if valid_model?
+      model = params[:m].classify.constantize
+
+      pagy, results = pagy_meilisearch(model.pagy_search(query, filter: filter(model), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+
+      SearchResults.new(pagy:, results:)
+    else
+      page_pagy, page_results = pagy_meilisearch(Page.pagy_search(query, filter: filter(Page), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      book_pagy, book_results = pagy_meilisearch(Book.pagy_search(query, filter: filter(Book), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      author_pagy, author_results = pagy_meilisearch(Author.pagy_search(query, filter: filter(Author), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+
+      TabsSearchResults.new(
+        pages: SearchResults.new(pagy: page_pagy, results: page_results),
+        books: SearchResults.new(pagy: book_pagy, results: book_results),
+        authors: SearchResults.new(pagy: author_pagy, results: author_results)
+      )
     end
   end
 
@@ -113,4 +94,6 @@ class StaticController < ApplicationController
 
   def libraries = proc { Library.all.order(:id).pluck(:id, :name) }
   def categories = proc { Category.order(:name).pluck(:id, :name, :books_count) }
+
+  def valid_model? = params[:m].present? && [ "page", "book", "author" ].include?(params[:m])
 end

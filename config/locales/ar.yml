@@ -142,6 +142,7 @@ ar:
       مكتبة المسجد النبوي: مكتبة المسجد النبوي
   pages_text: الصفحات
   search_author_card:
+    author_page: صفحة المؤلف
     books: الكتب
   search_book_card:
     book_page: صفحة الكتاب
@@ -165,18 +166,16 @@ ar:
     library: المكتبة
     library_placeholder: اختر المكتبة
     no_results: لا يوجد نتائج
-    search_scope: نطاق البحث
-    search_scope_author: أسماء المؤلفين فقط
-    search_scope_content: محتوى الكتب فقط
-    search_scope_placeholder: اختر نطاق البحث
-    search_scope_title: عناوين الكتب فقط
-    search_scope_title_and_content: أسماء المؤلفين وعناوين الكتب ومحتواها
     title: خصّص البحث
     المكتبة الشاملة الوقفية: المكتبة الشاملة الوقفية (4,600 كتاب)
     المكتبة الوقفية: المكتبة الوقفية (10,200 كتاب)
     مكتبة المسجد النبوي: مكتبة المسجد النبوي (48,700 كتاب)
   search_results_count:
     results_count: 'نتائج البحث: %{count}'
+  search_tabs:
+    authors: أسماء المؤلفين
+    pages: الصفحات
+    titles: عناوين الكتب
   static:
     home:
       categories: التصنيفات
