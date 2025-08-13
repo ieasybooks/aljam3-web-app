@@ -17,10 +17,10 @@ gem "oj", "~> 3.16", ">= 3.16.11"
 gem "omniauth", "~> 2.1", ">= 2.1.3"
 gem "omniauth-google-oauth2", "~> 1.2", ">= 1.2.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
-gem "pagy", "~> 9.3", ">= 9.3.5"
+gem "pagy", "~> 9.4"
 gem "pghero", "~> 3.7"
 gem "pg_query", "~> 6.1"
-gem "phlex-icons", "~> 2.32"
+gem "phlex-icons", "~> 2.33"
 gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.2"
@@ -61,7 +61,7 @@ end
 
 group :development, :test do
   gem "active_record_doctor", github: "gregnavis/active_record_doctor"
-  gem "rspec-rails", "~> 8.0", ">= 8.0.1"
+  gem "rspec-rails", "~> 8.0", ">= 8.0.2"
 end
 
 group :production do
@@ -71,7 +71,7 @@ end
 # Template gems ↓
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.0", ">= 8.0.2.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgresql as the database for Active Record
