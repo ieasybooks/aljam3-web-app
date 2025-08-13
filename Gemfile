@@ -61,7 +61,7 @@ end
 
 group :development, :test do
   gem "active_record_doctor", github: "gregnavis/active_record_doctor"
-  gem "rspec-rails", "~> 8.0", ">= 8.0.1"
+  gem "rspec-rails", "~> 8.0"
 end
 
 group :production do
