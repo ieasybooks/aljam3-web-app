@@ -402,7 +402,7 @@ GEM
       activerecord (>= 7.1)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.32.0)
+    phlex-icons (2.33.0)
       phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
@@ -713,7 +713,7 @@ DEPENDENCIES
   pg (~> 1.1)
   pg_query (~> 6.1)
   pghero (~> 3.7)
-  phlex-icons (~> 2.32)
+  phlex-icons (~> 2.33)
   phlex-rails (~> 2.3, >= 2.3.1)
   propshaft
   puma (>= 5.0)
