@@ -144,6 +144,7 @@ All the settings for these extensions are already present in the [`.vscode/setti
 - [faker](https://github.com/faker-ruby/faker)
 - [hotwire-spark](https://github.com/hotwired/spark)
 - [i18n-tasks](https://github.com/glebm/i18n-tasks)
+- [literal](https://github.com/yippee-fun/literal)
 - [net-ssh](https://github.com/net-ssh/net-ssh)
 - [rspec-rails](https://github.com/rspec/rspec-rails)
 - [rubocop-rake](https://github.com/rubocop/rubocop-rake)

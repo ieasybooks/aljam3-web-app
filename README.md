@@ -155,6 +155,7 @@
   <li><a href="https://github.com/faker-ruby/faker">faker</a></li>
   <li><a href="https://github.com/hotwired/spark">hotwire-spark</a></li>
   <li><a href="https://github.com/glebm/i18n-tasks">i18n-tasks</a></li>
+  <li><a href="https://github.com/yippee-fun/literal">literal</a></li>
   <li><a href="https://github.com/net-ssh/net-ssh">net-ssh</a></li>
   <li><a href="https://github.com/rspec/rspec-rails">rspec-rails</a></li>
   <li><a href="https://github.com/rubocop/rubocop-rake">rubocop-rake</a></li>
