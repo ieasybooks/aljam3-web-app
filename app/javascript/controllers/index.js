@@ -61,6 +61,9 @@ application.register("ruby-ui--sheet-content", RubyUi__SheetContentController)
 import RubyUi__SheetController from "./ruby_ui/sheet_controller"
 application.register("ruby-ui--sheet", RubyUi__SheetController)
 
+import RubyUi__TabsController from "./ruby_ui/tabs_controller"
+application.register("ruby-ui--tabs", RubyUi__TabsController)
+
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
 
