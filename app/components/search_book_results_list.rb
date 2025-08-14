@@ -18,7 +18,8 @@ class Components::SearchBookResultsList < Components::Base
             search_query_id: @search_query_id,
             show_category: false,
             show_title: false,
-            show_author: false
+            show_author: false,
+            content_length: :long
           )
 
           if (index + 1) == (@results.size - 5) && @pagy.next

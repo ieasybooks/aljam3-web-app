@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class Components::SearchPageCard < Components::Base
-  def initialize(page:, index:, search_query_id:, show_category: true, show_title: true, show_author: true)
+  def initialize(page:, index:, search_query_id:, show_category: true, show_title: true, show_author: true, content_length: :short)
     @page = page
     @index = index
     @search_query_id = search_query_id
     @show_category = show_category
     @show_title = show_title
     @show_author = show_author
+    @content_length = content_length
   end
 
   def view_template
@@ -15,7 +16,7 @@ class Components::SearchPageCard < Components::Base
       if @show_category || @show_title || @show_author
         CardHeader(class: "p-4") do
           if @show_category
-            a(href: category_path(@page.file.book.category.id), class: "w-fit") do
+            a(href: category_path(@page.file.book.category.id), class: "w-fit", data: { turbo_frame: "_top" }) do
               Badge(variant: :neutral, size: :sm, class: "mb-1") { @page.file.book.category.name }
             end
           end
@@ -55,7 +56,14 @@ class Components::SearchPageCard < Components::Base
             read_more_less_text_value: t(".hide")
           }
         ) do
-          p(class: "read-more-content font-[Kitab] leading-7", data: { read_more_target: "content" }) do
+          p(
+            class: [
+              "font-[Kitab] leading-7",
+              ("read-more-content" if @content_length == :short),
+              ("long-read-more-content" if @content_length == :long)
+            ],
+            data: { read_more_target: "content" }
+          ) do
             raw safe process_meilisearch_highlights(@page.formatted&.[]("content")) || @page.content
           end
 
