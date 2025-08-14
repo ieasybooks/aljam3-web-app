@@ -324,6 +324,8 @@ Rails.application.routes.draw do
     get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
   end
 
+  get "/privacy", to: "static#privacy", as: :privacy
+
   authenticate :user, ->(user) { user.admin? } do
     mount_avo
     mount MissionControl::Jobs::Engine, at: "/jobs"

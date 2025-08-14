@@ -36,6 +36,8 @@ class StaticController < ApplicationController
     end
   end
 
+  def privacy = render Views::Static::Privacy.new
+
   private
 
   def search
