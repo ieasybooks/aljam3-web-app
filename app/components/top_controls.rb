@@ -29,7 +29,7 @@ class Components::TopControls < Components::Base
   private
 
   def txt_indicator
-    div(class: "w-30 flex justify-start items-center ps-2 max-sm:hidden", data: { top_controls_target: "txtIndicator" }) do
+    div(class: "w-35 flex justify-start items-center ps-2 max-sm:hidden", data: { top_controls_target: "txtIndicator" }) do
       Text(weight: "bold") { t(".book_txt") }
     end
   end
@@ -63,7 +63,7 @@ class Components::TopControls < Components::Base
   end
 
   def pdf_indicator
-    div(class: "w-30 flex justify-end items-center pe-2 max-sm:hidden", data: { top_controls_target: "pdfIndicator" }) do
+    div(class: "w-35 flex justify-end items-center pe-2 max-sm:hidden", data: { top_controls_target: "pdfIndicator" }) do
       Text(weight: "bold") { t(".book_pdf") }
     end
   end
