@@ -31,7 +31,8 @@ class Views::Static::Home < Views::Base
         cache I18n.locale, expires_in: 1.hour do
           div(class: "mb-10") do
             search_examples
-            carousels
+            most_viewed_books
+            books_by_category
             categories
           end
         end
@@ -81,7 +82,28 @@ class Views::Static::Home < Views::Base
     end
   end
 
-  def carousels
+  def most_viewed_books
+    div(class: "py-16 sm:py-20 flex items-center") do
+      div(class: "flex-1 border-t border-border")
+      Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".most_viewed") }
+      div(class: "flex-1 border-t border-border")
+    end
+
+    Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: }) do
+      CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
+        Book.most_viewed(10).each do |book|
+          CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
+            div(class: "pb-0.5") { BookCard(book:) }
+          end
+        end
+      end
+
+      CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
+      CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+    end
+  end
+
+  def books_by_category
     div(class: "py-16 sm:py-20 flex items-center") do
       div(class: "flex-1 border-t border-border")
       Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".discover_books") }

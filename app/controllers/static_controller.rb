@@ -83,7 +83,6 @@ class StaticController < ApplicationController
   def carousels_books_ids
     proc do
       {
-        most_viewed: Book.most_viewed(10).pluck(:id),
         faith:       Book.where(category_id: CATEGORY_IDS[:faith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
         quran:       Book.where(category_id: CATEGORY_IDS[:quran], hidden: false).order("RANDOM()").limit(10).pluck(:id),
         hadith:      Book.where(category_id: CATEGORY_IDS[:hadith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
