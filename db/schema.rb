@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_21_141544) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_16_121630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -45,9 +45,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_141544) do
     t.bigint "author_id", null: false
     t.bigint "category_id", null: false
     t.boolean "hidden", default: false, null: false
+    t.integer "views_count", default: 0, null: false
     t.index ["author_id"], name: "index_books_on_author_id"
     t.index ["category_id"], name: "index_books_on_category_id"
     t.index ["library_id"], name: "index_books_on_library_id"
+    t.index ["views_count"], name: "index_books_on_views_count"
   end
 
   create_table "categories", force: :cascade do |t|

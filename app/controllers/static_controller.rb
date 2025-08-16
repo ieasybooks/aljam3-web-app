@@ -83,13 +83,14 @@ class StaticController < ApplicationController
   def carousels_books_ids
     proc do
       {
-        faith:    Book.where(category_id: CATEGORY_IDS[:faith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
-        quran:    Book.where(category_id: CATEGORY_IDS[:quran], hidden: false).order("RANDOM()").limit(10).pluck(:id),
-        hadith:   Book.where(category_id: CATEGORY_IDS[:hadith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
-        fiqh:     Book.where(category_id: CATEGORY_IDS[:fiqh], hidden: false).order("RANDOM()").limit(10).pluck(:id),
-        history:  Book.where(category_id: CATEGORY_IDS[:history], hidden: false).order("RANDOM()").limit(10).pluck(:id),
-        language: Book.where(category_id: CATEGORY_IDS[:language], hidden: false).order("RANDOM()").limit(10).pluck(:id),
-        other:    Book.where(category_id: CATEGORY_IDS[:other], hidden: false).order("RANDOM()").limit(10).pluck(:id)
+        most_viewed: Book.most_viewed(10).pluck(:id),
+        faith:       Book.where(category_id: CATEGORY_IDS[:faith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        quran:       Book.where(category_id: CATEGORY_IDS[:quran], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        hadith:      Book.where(category_id: CATEGORY_IDS[:hadith], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        fiqh:        Book.where(category_id: CATEGORY_IDS[:fiqh], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        history:     Book.where(category_id: CATEGORY_IDS[:history], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        language:    Book.where(category_id: CATEGORY_IDS[:language], hidden: false).order("RANDOM()").limit(10).pluck(:id),
+        other:       Book.where(category_id: CATEGORY_IDS[:other], hidden: false).order("RANDOM()").limit(10).pluck(:id)
       }
     end
   end

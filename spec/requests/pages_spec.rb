@@ -141,5 +141,23 @@ RSpec.describe "Pages" do
         expect(response).to redirect_to(root_path)
       end
     end
+
+    context "when incrementing book views" do
+      context "with HTML format request" do
+        it "increases the book's views_count by 1" do
+          expect {
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number)
+          }.to change { page.file.book.reload.views_count }.by(1)
+        end
+      end
+
+      context "with non-HTML format request" do
+        it "does not increase views_count for non-HTML formats" do
+          expect {
+            get book_file_page_path(book_id: page.file.book.id, file_id: page.file.id, page_number: page.number), as: :turbo_stream
+          }.not_to change { page.file.book.reload.views_count }
+        end
+      end
+    end
   end
 end
