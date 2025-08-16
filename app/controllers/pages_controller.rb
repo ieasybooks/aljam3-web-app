@@ -27,5 +27,8 @@ class PagesController < ApplicationController
   private
 
   def set_page = @page = Page.find_by(book_file_id: params[:file_id], number: params[:page_number])
-  def check_hidden = redirect_to root_path if @page.hidden
+
+  def check_hidden
+    redirect_to root_path if @page.hidden
+  end
 end
