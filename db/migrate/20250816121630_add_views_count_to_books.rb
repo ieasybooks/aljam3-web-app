@@ -3,13 +3,12 @@ class AddViewsCountToBooks < ActiveRecord::Migration[8.0]
     add_column :books, :views_count, :integer, default: 0, null: false
     add_index :books, :views_count
 
-    # Populate with existing search clicks data using efficient SQL
     execute <<~SQL
-      UPDATE books 
+      UPDATE books
       SET views_count = COALESCE(click_counts.count, 0)
       FROM (
         SELECT result_id, COUNT(*) as count
-        FROM search_clicks 
+        FROM search_clicks
         WHERE result_type = 'Book'
         GROUP BY result_id
       ) AS click_counts

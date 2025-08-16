@@ -7,6 +7,7 @@
 #  hidden      :boolean          default(FALSE), not null
 #  pages_count :integer          not null
 #  title       :string           not null
+#  views_count :integer          default(0), not null
 #  volumes     :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -19,6 +20,7 @@
 #  index_books_on_author_id    (author_id)
 #  index_books_on_category_id  (category_id)
 #  index_books_on_library_id   (library_id)
+#  index_books_on_views_count  (views_count)
 #
 # Foreign Keys
 #
@@ -43,8 +45,6 @@ class Book < ApplicationRecord
   validates_inclusion_of :hidden, in: [ true, false ]
 
   scope :most_viewed, ->(limit = 10) { where(hidden: false).order(views_count: :desc).limit(limit) }
-
-  def increment_views! = increment!(:views_count)
 
   meilisearch enqueue: true do
     attribute :title, :hidden
@@ -71,4 +71,6 @@ class Book < ApplicationRecord
     searchable_attributes %i[title]
     filterable_attributes %i[library author category hidden]
   end
+
+  def increment_views! = increment!(:views_count)
 end
