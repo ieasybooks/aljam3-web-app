@@ -7,6 +7,18 @@ RSpec.describe "Static" do
     create(:book).tap { allow(it).to receive(:formatted).and_return({ "title" => "<mark>#{it.title}</mark>" }) }
   end
 
+  let(:mock_page) do
+    create(:page).tap { allow(it).to receive(:formatted).and_return({ "content" => "<mark>test content</mark>" }) }
+  end
+
+  let(:mock_author) do
+    create(:author).tap { allow(it).to receive(:formatted).and_return({ "name" => "<mark>test author</mark>" }) }
+  end
+
+  let(:mock_pagy) do
+    Pagy.new(count: 100, page: 1)
+  end
+
   before do
     books_relation = instance_double(ActiveRecord::Relation)
     ordered_relation = instance_double(ActiveRecord::Relation)
@@ -55,8 +67,7 @@ RSpec.describe "Static" do
         get root_path
 
         expect(Views::Static::Home).to have_received(:new).with(
-          results: nil,
-          pagy: nil,
+          tabs_search_results: nil,
           search_query_id: nil,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
@@ -65,22 +76,10 @@ RSpec.describe "Static" do
       end
     end
 
-    context "when search_scope is title-and-content" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:mock_federated_results) do
-        double("federated_results").tap do # rubocop:disable RSpec/VerifiedDoubles
-          allow(it).to receive_messages(
-            any?: true,
-            each_with_index: [ mock_book, 0 ],
-            size: 1,
-            metadata: { "estimatedTotalHits" => 100 }
-          )
-        end
-      end
-
+    context "when query provided without model (tabs search)" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:params) do
         {
           q: "test query",
-          s: "b",
           l: "a",
           c: "a",
           a: "a"
@@ -88,47 +87,56 @@ RSpec.describe "Static" do
       end
 
       before do
-        allow(Meilisearch::Rails).to receive(:federated_search).and_return(mock_federated_results)
+        allow(Page).to receive(:pagy_search).and_return([ mock_page ])
+        allow(Book).to receive(:pagy_search).and_return([ mock_book ])
+        allow(Author).to receive(:pagy_search).and_return([ mock_author ])
+
+        call_count = 0
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch) do |*args| # rubocop:disable RSpec/AnyInstance
+          call_count += 1
+          case call_count
+          when 1
+            [ mock_pagy, [ mock_page ] ]
+          when 2
+            [ mock_pagy, [ mock_book ] ]
+          when 3
+            [ mock_pagy, [ mock_author ] ]
+          else
+            [ mock_pagy, [] ]
+          end
+        end
+
         allow(Views::Static::Home).to receive(:new).and_call_original
       end
 
-      it "performs federated search on Page, Book, and Author models" do
+      it "performs search on all models (Page, Book, Author)" do # rubocop:disable RSpec/MultipleExpectations
         get root_path, params: params
 
-        expect(Meilisearch::Rails).to have_received(:federated_search).with(
-          queries: {
-            Page => {
-              q: "test query",
-              filter: "(hidden = false OR hidden NOT EXISTS)",
-              attributes_to_highlight: %i[content],
-              highlight_pre_tag: "<mark>",
-              highlight_post_tag: "</mark>"
-            },
-            Book => {
-              q: "test query",
-              filter: "(hidden = false OR hidden NOT EXISTS)",
-              attributes_to_highlight: %i[title],
-              highlight_pre_tag: "<mark>",
-              highlight_post_tag: "</mark>"
-            },
-            Author => {
-              q: "test query",
-              filter: "(hidden = false OR hidden NOT EXISTS)",
-              attributes_to_highlight: %i[name],
-              highlight_pre_tag: "<mark>",
-              highlight_post_tag: "</mark>"
-            }
-          },
-          federation: { offset: 0 }
+        expect(Page).to have_received(:pagy_search).with(
+          "test query",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
+          highlight_pre_tag: "<mark>",
+          highlight_post_tag: "</mark>"
+        )
+        expect(Book).to have_received(:pagy_search).with(
+          "test query",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
+          highlight_pre_tag: "<mark>",
+          highlight_post_tag: "</mark>"
+        )
+        expect(Author).to have_received(:pagy_search).with(
+          "test query",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
+          highlight_pre_tag: "<mark>",
+          highlight_post_tag: "</mark>"
         )
       end
 
-      it "renders home view with federated results" do
+      it "renders home view with tabs search results" do
         get root_path, params: params
 
         expect(Views::Static::Home).to have_received(:new).with(
-          results: mock_federated_results,
-          pagy: nil,
+          tabs_search_results: kind_of(TabsSearchResults),
           search_query_id: anything,
           carousels_books_ids: kind_of(Proc),
           libraries: kind_of(Proc),
@@ -137,267 +145,74 @@ RSpec.describe "Static" do
       end
 
       context "with library filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes library filter in Page and Book search but not Author search" do
+        it "includes library filter in Page and Book search but not Author search" do # rubocop:disable RSpec/MultipleExpectations
           get root_path, params: params.merge(l: library.id.to_s)
 
-          expect(Meilisearch::Rails).to have_received(:federated_search).with(
-            queries: {
-              Page => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
-                attributes_to_highlight: %i[content],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Book => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
-                attributes_to_highlight: %i[title],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Author => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[name],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              }
-            },
-            federation: { offset: 0 }
+          expect(Page).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          )
+          expect(Book).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          )
+          expect(Author).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS)",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
           )
         end
       end
 
       context "with category filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes category filter in Page and Book search but not Author search" do
+        it "includes category filter in Page and Book search but not Author search" do # rubocop:disable RSpec/MultipleExpectations
           get root_path, params: params.merge(c: "Fiction")
 
-          expect(Meilisearch::Rails).to have_received(:federated_search).with(
-            queries: {
-              Page => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
-                attributes_to_highlight: %i[content],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Book => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
-                attributes_to_highlight: %i[title],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Author => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[name],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              }
-            },
-            federation: { offset: 0 }
+          expect(Page).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          )
+          expect(Book).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND category = \"Fiction\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          )
+          expect(Author).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS)",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
           )
         end
       end
 
       context "with author filter" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes author filter in Page and Book search but not Author search" do
+        it "includes author filter in Page and Book search but not Author search" do # rubocop:disable RSpec/MultipleExpectations
           get root_path, params: params.merge(a: "John Doe")
 
-          expect(Meilisearch::Rails).to have_received(:federated_search).with(
-            queries: {
-              Page => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
-                attributes_to_highlight: %i[content],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Book => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
-                attributes_to_highlight: %i[title],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Author => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[name],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              }
-            },
-            federation: { offset: 0 }
+          expect(Page).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
           )
-        end
-      end
-
-      context "with both library and category filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes both filters in Page and Book search but not Author search" do
-          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction")
-
-          expect(Meilisearch::Rails).to have_received(:federated_search).with(
-            queries: {
-              Page => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\"",
-                attributes_to_highlight: %i[content],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Book => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\"",
-                attributes_to_highlight: %i[title],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Author => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[name],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              }
-            },
-            federation: { offset: 0 }
-          )
-        end
-      end
-
-      context "with library, category, and author filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes all filters in Page and Book search but not Author search" do
-          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
-
-          expect(Meilisearch::Rails).to have_received(:federated_search).with(
-            queries: {
-              Page => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
-                attributes_to_highlight: %i[content],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Book => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
-                attributes_to_highlight: %i[title],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Author => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[name],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              }
-            },
-            federation: { offset: 0 }
-          )
-        end
-      end
-
-      context "with pagination" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "calculates correct offset for federated search" do
-          get root_path, params: params.merge(page: "3")
-
-          expect(Meilisearch::Rails).to have_received(:federated_search).with(
-            queries: {
-              Page => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[content],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Book => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[title],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              },
-              Author => {
-                q: "test query",
-                filter: "(hidden = false OR hidden NOT EXISTS)",
-                attributes_to_highlight: %i[name],
-                highlight_pre_tag: "<mark>",
-                highlight_post_tag: "</mark>"
-              }
-            },
-            federation: { offset: 40 }
-          )
-        end
-      end
-    end
-
-    context "when search_scope is title" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
-      end
-
-      let(:mock_search_results) do
-        double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
-          allow(it).to receive_messages(
-            any?: true,
-            each_with_index: [ mock_book, 0 ],
-            size: 1,
-            respond_to?: false
-          )
-        end
-      end
-
-      let(:params) do
-        {
-          q: "test query",
-          s: "t",
-          l: "a",
-          c: "a",
-          a: "a"
-        }
-      end
-
-      before do
-        allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
-        allow(Views::Static::Home).to receive(:new).and_call_original
-      end
-
-      it "performs search on Book model only" do
-        get root_path, params: params
-
-        expect(Book).to have_received(:pagy_search).with(
-          "test query",
-          filter: "(hidden = false OR hidden NOT EXISTS)",
-          highlight_pre_tag: "<mark>",
-          highlight_post_tag: "</mark>"
-        )
-      end
-
-      it "renders home view with paginated results and carousel books" do
-        get root_path, params: params
-
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: mock_search_results,
-          pagy: mock_pagy,
-          search_query_id: anything,
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
-        )
-      end
-
-      context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "includes filters in book search" do
-          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
-
           expect(Book).to have_received(:pagy_search).with(
             "test query",
-            filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND author = \"John Doe\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          )
+          expect(Author).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS)",
             highlight_pre_tag: "<mark>",
             highlight_post_tag: "</mark>"
           )
@@ -405,26 +220,11 @@ RSpec.describe "Static" do
       end
     end
 
-    context "when search_scope is content" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
-      end
-
-      let(:mock_search_results) do
-        double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
-          allow(it).to receive_messages(
-            any?: true,
-            each_with_index: [ mock_book, 0 ],
-            size: 1,
-            respond_to?: false
-          )
-        end
-      end
-
+    context "when model param is 'page' (single model search)" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:params) do
         {
           q: "test query",
-          s: "c",
+          m: "page",
           l: "a",
           c: "a",
           a: "a"
@@ -432,9 +232,9 @@ RSpec.describe "Static" do
       end
 
       before do
-        allow(Page).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
-        allow(Views::Static::Home).to receive(:new).and_call_original
+        allow(Page).to receive(:pagy_search).and_return([ mock_page ])
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_page ] ]) # rubocop:disable RSpec/AnyInstance
+        allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
       end
 
       it "performs search on Page model only" do
@@ -448,16 +248,13 @@ RSpec.describe "Static" do
         )
       end
 
-      it "renders home view with paginated results and carousel books" do
-        get root_path, params: params
+      it "renders turbo stream with search results list" do
+        get root_path, params: params.merge(page: "2")
 
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: mock_search_results,
-          pagy: mock_pagy,
+        expect(Components::SearchResultsList).to have_received(:new).with(
+          search_results: kind_of(SearchResults),
           search_query_id: anything,
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
+          model: "page"
         )
       end
 
@@ -475,26 +272,11 @@ RSpec.describe "Static" do
       end
     end
 
-    context "when search_scope is name" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
-      end
-
-      let(:mock_search_results) do
-        double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
-          allow(it).to receive_messages(
-            any?: true,
-            each_with_index: [ mock_book, 0 ],
-            size: 1,
-            respond_to?: false
-          )
-        end
-      end
-
+    context "when model param is 'book' (single model search)" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:params) do
         {
           q: "test query",
-          s: "n",
+          m: "book",
           l: "a",
           c: "a",
           a: "a"
@@ -502,9 +284,61 @@ RSpec.describe "Static" do
       end
 
       before do
-        allow(Author).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
-        allow(Views::Static::Home).to receive(:new).and_call_original
+        allow(Book).to receive(:pagy_search).and_return([ mock_book ])
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
+        allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
+      end
+
+      it "performs search on Book model only" do
+        get root_path, params: params
+
+        expect(Book).to have_received(:pagy_search).with(
+          "test query",
+          filter: "(hidden = false OR hidden NOT EXISTS)",
+          highlight_pre_tag: "<mark>",
+          highlight_post_tag: "</mark>"
+        )
+      end
+
+      it "renders turbo stream with search results list" do
+        get root_path, params: params.merge(page: "2")
+
+        expect(Components::SearchResultsList).to have_received(:new).with(
+          search_results: kind_of(SearchResults),
+          search_query_id: anything,
+          model: "book"
+        )
+      end
+
+      context "with filters" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        it "includes filters in book search" do
+          get root_path, params: params.merge(l: library.id.to_s, c: "Fiction", a: "John Doe")
+
+          expect(Book).to have_received(:pagy_search).with(
+            "test query",
+            filter: "(hidden = false OR hidden NOT EXISTS) AND library = \"#{library.id}\" AND category = \"Fiction\" AND author = \"John Doe\"",
+            highlight_pre_tag: "<mark>",
+            highlight_post_tag: "</mark>"
+          )
+        end
+      end
+    end
+
+    context "when model param is 'author' (single model search)" do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:params) do
+        {
+          q: "test query",
+          m: "author",
+          l: "a",
+          c: "a",
+          a: "a"
+        }
+      end
+
+      before do
+        allow(Author).to receive(:pagy_search).and_return([ mock_author ])
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_author ] ]) # rubocop:disable RSpec/AnyInstance
+        allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
       end
 
       it "performs search on Author model only" do
@@ -518,16 +352,13 @@ RSpec.describe "Static" do
         )
       end
 
-      it "renders home view with paginated results and carousel books" do
-        get root_path, params: params
+      it "renders turbo stream with search results list" do
+        get root_path, params: params.merge(page: "2")
 
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: mock_search_results,
-          pagy: mock_pagy,
+        expect(Components::SearchResultsList).to have_received(:new).with(
+          search_results: kind_of(SearchResults),
           search_query_id: anything,
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
+          model: "author"
         )
       end
 
@@ -545,129 +376,49 @@ RSpec.describe "Static" do
       end
     end
 
-    context "with pagination" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
-      end
-
-      let(:mock_search_results) do
-        double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
-          allow(it).to receive_messages(
-            any?: true,
-            each_with_index: [ mock_book, 0 ],
-            size: 1,
-            respond_to?: false
-          )
-        end
-      end
-
-      let(:base_params) do
-        {
-          q: "test query",
-          s: "t",
-          l: "a",
-          c: "a",
-          a: "a"
-        }
-      end
-
-      before do
-        allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
-      end
-
-      context "when page is 1 or not provided" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "renders home view when page not provided" do
-          allow(Views::Static::Home).to receive(:new).and_call_original
-
-          get root_path, params: base_params
-
-          expect(Views::Static::Home).to have_received(:new).with(
-            results: mock_search_results,
-            pagy: mock_pagy,
-            search_query_id: anything,
-            carousels_books_ids: kind_of(Proc),
-            libraries: kind_of(Proc),
-            categories: kind_of(Proc)
-          )
-        end
-
-        it "renders home view for page 1" do
-          allow(Views::Static::Home).to receive(:new).and_call_original
-
-          get root_path, params: base_params.merge(page: "1")
-
-          expect(Views::Static::Home).to have_received(:new).with(
-            results: mock_search_results,
-            pagy: mock_pagy,
-            search_query_id: anything,
-            carousels_books_ids: kind_of(Proc),
-            libraries: kind_of(Proc),
-            categories: kind_of(Proc)
-          )
-        end
-      end
-
-      context "when page is greater than 1" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-        it "renders turbo stream for page 2" do
-          allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
-
-          get root_path, params: base_params.merge(page: "2")
-
-          expect(Components::SearchResultsList).to have_received(:new).with(
-            results: mock_search_results,
-            pagy: mock_pagy,
-            search_query_id: anything
-          )
-        end
-      end
-    end
-
     context "with filter edge cases" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:mock_pagy) do
-        double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
-      end
-
-      let(:mock_search_results) do
-        double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
-          allow(it).to receive_messages(
-            any?: true,
-            each_with_index: [ mock_book, 0 ],
-            size: 1,
-            respond_to?: false
-          )
-        end
-      end
-
       let(:params) do
         {
           q: "test query",
-          s: "t"
+          m: "book"
         }
       end
 
       before do
-        allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow(Book).to receive(:pagy_search).and_return([ mock_book ])
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
+        allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
       end
 
-      it "handles missing refinements gracefully" do
-        allow(Views::Static::Home).to receive(:new).and_call_original
+      it "handles missing refinements gracefully" do # rubocop:disable RSpec/ExampleLength
+        allow(Page).to receive(:pagy_search).and_return([ mock_page ])
+        allow(Book).to receive(:pagy_search).and_return([ mock_book ])
+        allow(Author).to receive(:pagy_search).and_return([ mock_author ])
+
+        call_count = 0
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch) do |*args| # rubocop:disable RSpec/AnyInstance
+          call_count += 1
+          case call_count
+          when 1
+            [ mock_pagy, [ mock_page ] ]
+          when 2
+            [ mock_pagy, [ mock_book ] ]
+          when 3
+            [ mock_pagy, [ mock_author ] ]
+          else
+            [ mock_pagy, [] ]
+          end
+        end
+
+        allow(Components::SearchResultsList).to receive(:new).and_call_original
 
         get root_path, params: { q: "test query" }
 
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: nil,
-          pagy: nil,
-          search_query_id: anything,
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
-        )
+        expect(response).to have_http_status(:success)
       end
 
       it "handles empty library filter" do
-        get root_path, params: params.merge(s: "t", l: "")
+        get root_path, params: params.merge(l: "")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -678,7 +429,7 @@ RSpec.describe "Static" do
       end
 
       it "handles empty category filter" do
-        get root_path, params: params.merge(s: "t", c: "")
+        get root_path, params: params.merge(c: "")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -689,7 +440,7 @@ RSpec.describe "Static" do
       end
 
       it "handles empty author filter" do
-        get root_path, params: params.merge(s: "t", a: "")
+        get root_path, params: params.merge(a: "")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -699,8 +450,8 @@ RSpec.describe "Static" do
         )
       end
 
-      it "ignores a value for library" do
-        get root_path, params: params.merge(s: "t", l: "a")
+      it "ignores 'a' value for library" do
+        get root_path, params: params.merge(l: "a")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -710,8 +461,8 @@ RSpec.describe "Static" do
         )
       end
 
-      it "ignores a value for category" do
-        get root_path, params: params.merge(s: "t", c: "a")
+      it "ignores 'a' value for category" do
+        get root_path, params: params.merge(c: "a")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
@@ -721,48 +472,14 @@ RSpec.describe "Static" do
         )
       end
 
-      it "ignores a value for author" do
-        get root_path, params: params.merge(s: "t", a: "a")
+      it "ignores 'a' value for author" do
+        get root_path, params: params.merge(a: "a")
 
         expect(Book).to have_received(:pagy_search).with(
           "test query",
           filter: "(hidden = false OR hidden NOT EXISTS)",
           highlight_pre_tag: "<mark>",
           highlight_post_tag: "</mark>"
-        )
-      end
-    end
-
-    context "with search scope edge cases" do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:base_params) { { q: "test query" } }
-
-      before do
-        allow(Views::Static::Home).to receive(:new).and_call_original
-      end
-
-      it "handles missing search_scope (defaults to nil case)" do
-        get root_path, params: base_params
-
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: nil,
-          pagy: nil,
-          search_query_id: anything,
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
-        )
-      end
-
-      it "handles unknown search_scope value" do
-        get root_path, params: base_params.merge(s: "unknown")
-
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: nil,
-          pagy: nil,
-          search_query_id: anything,
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
         )
       end
     end
@@ -770,28 +487,13 @@ RSpec.describe "Static" do
 
   describe "SearchQuery creation" do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:user) { create(:user) }
-    let(:params) { { q: "test query", s: "t", l: 1, c: 2, a: 3 } }
-
-    let(:mock_pagy) do
-      double("pagy").tap { allow(it).to receive_messages(page: 1, next: nil, count: 100) } # rubocop:disable RSpec/VerifiedDoubles
-    end
-
-    let(:mock_search_results) do
-      double("search_results").tap do # rubocop:disable RSpec/VerifiedDoubles
-        allow(it).to receive_messages(
-          any?: true,
-          each_with_index: [ mock_book, 0 ],
-          size: 1,
-          respond_to?: false
-        )
-      end
-    end
+    let(:params) { { q: "test query", m: "book", l: 1, c: 2, a: 3 } }
 
     before do
-      allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(StaticController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
-
-      allow(Book).to receive(:pagy_search).and_return(mock_search_results)
+      allow(Book).to receive(:pagy_search).and_return([ mock_book ])
+      allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
     end
 
     context "when conditions are met for SearchQuery creation" do # rubocop:disable RSpec/MultipleMemoizedHelpers
@@ -801,7 +503,6 @@ RSpec.describe "Static" do
         search_query = SearchQuery.last
         expect(search_query.query).to eq("test query")
         expect(search_query.refinements).to eq({
-          "search_scope" => "t",
           "library" => "1",
           "category" => "2",
           "author" => "3"
@@ -814,20 +515,11 @@ RSpec.describe "Static" do
 
         search_query = SearchQuery.last
         expect(search_query.refinements).to eq({
-          "search_scope" => "t",
           "library" => "",
           "author" => "3"
         })
       end
 
-      it "removes nil values from refinements" do
-        get root_path, params: { q: "test query", s: "t", l: nil, c: nil, a: nil }
-
-        search_query = SearchQuery.last
-        expect(search_query.refinements).to eq({
-          "search_scope" => "t"
-        })
-      end
 
       it "associates with current user when present" do
         get root_path, params: params
@@ -846,11 +538,10 @@ RSpec.describe "Static" do
       end
 
       it "handles 'select all' refinement values" do
-        get root_path, params: { q: "test query", s: "t", l: "a", c: "a", a: "a" }
+        get root_path, params: { q: "test query", m: "book", l: "a", c: "a", a: "a" }
 
         search_query = SearchQuery.last
         expect(search_query.refinements).to eq({
-          "search_scope" => "t",
           "library" => "a",
           "category" => "a",
           "author" => "a"
@@ -858,11 +549,10 @@ RSpec.describe "Static" do
       end
 
       it "mixes integer and 'select all' values" do
-        get root_path, params: { q: "test query", s: "t", l: 1, c: "a", a: 3 }
+        get root_path, params: { q: "test query", m: "book", l: 1, c: "a", a: 3 }
 
         search_query = SearchQuery.last
         expect(search_query.refinements).to eq({
-          "search_scope" => "t",
           "library" => "1",
           "category" => "a",
           "author" => "3"
@@ -872,8 +562,9 @@ RSpec.describe "Static" do
 
     context "when results are blank" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       before do
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
-        allow(mock_search_results).to receive_messages(any?: false, present?: false)
+        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [] ]) # rubocop:disable RSpec/AnyInstance
+        empty_search_results = instance_double(SearchResults, present?: false, pagy: mock_pagy, results: [])
+        allow(SearchResults).to receive(:new).and_return(empty_search_results)
       end
 
       it "does not create SearchQuery" do
@@ -881,17 +572,14 @@ RSpec.describe "Static" do
       end
 
       it "uses params[:qid] as search_query_id" do
-        allow(Views::Static::Home).to receive(:new).and_call_original
+        allow(Components::SearchResultsList).to receive(:new).and_call_original
 
         get root_path, params: params.merge(qid: "existing_id")
 
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: mock_search_results,
-          pagy: mock_pagy,
+        expect(Components::SearchResultsList).to have_received(:new).with(
+          search_results: anything,
           search_query_id: "existing_id",
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
+          model: "book"
         )
       end
     end
@@ -902,17 +590,14 @@ RSpec.describe "Static" do
       end
 
       it "uses existing qid" do
-        allow(Views::Static::Home).to receive(:new).and_call_original
+        allow(Components::SearchResultsList).to receive(:new).and_call_original
 
         get root_path, params: params.merge(qid: "existing_id")
 
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: mock_search_results,
-          pagy: mock_pagy,
+        expect(Components::SearchResultsList).to have_received(:new).with(
+          search_results: anything,
           search_query_id: "existing_id",
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
+          model: "book"
         )
       end
     end
@@ -925,19 +610,24 @@ RSpec.describe "Static" do
       end
 
       it "uses params[:qid] as search_query_id" do
-        allow(Views::Static::Home).to receive(:new).and_call_original
+        allow(Components::SearchResultsList).to receive(:new).and_call_original
 
         get root_path, params: params.merge(qid: "prefetch_id"), headers: { "X-Sec-Purpose" => "prefetch" }
 
-        expect(Views::Static::Home).to have_received(:new).with(
-          results: mock_search_results,
-          pagy: mock_pagy,
+        expect(Components::SearchResultsList).to have_received(:new).with(
+          search_results: anything,
           search_query_id: "prefetch_id",
-          carousels_books_ids: kind_of(Proc),
-          libraries: kind_of(Proc),
-          categories: kind_of(Proc)
+          model: "book"
         )
       end
+    end
+  end
+
+  describe "GET /privacy" do
+    it "returns http success" do
+      get "/privacy"
+
+      expect(response).to have_http_status(:success)
     end
   end
 end
