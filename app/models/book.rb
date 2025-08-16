@@ -42,6 +42,10 @@ class Book < ApplicationRecord
   validates :title, :volumes, :pages_count, presence: true
   validates_inclusion_of :hidden, in: [ true, false ]
 
+  scope :most_viewed, ->(limit = 10) { where(hidden: false).order(views_count: :desc).limit(limit) }
+
+  def increment_views! = increment!(:views_count)
+
   meilisearch enqueue: true do
     attribute :title, :hidden
 

@@ -2,9 +2,8 @@ class PagesController < ApplicationController
   before_action :set_page, :check_hidden
 
   def show
-    if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
-      SearchClick.create(index: params[:i].presence&.to_i || -1, search_query_id: params[:qid], result: @page)
-    end
+    @page.book.increment_views! if request.format.html?
+    SearchClick.create(index: params[:i].presence&.to_i || -1, search_query_id: params[:qid], result: @page) if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
 
     respond_to do |format|
       format.html { render Views::Pages::Show.new(page: @page) }
@@ -26,7 +25,5 @@ class PagesController < ApplicationController
 
   def set_page = @page = Page.find_by(book_file_id: params[:file_id], number: params[:page_number])
 
-  def check_hidden
-    redirect_to root_path if @page.hidden
-  end
+  def check_hidden = redirect_to root_path if @page.hidden
 end
