@@ -45,6 +45,7 @@
 #                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /\d+/}
+#                                  privacy GET      /privacy(.:format)                                                                                static#privacy
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
