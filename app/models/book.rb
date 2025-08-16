@@ -72,5 +72,5 @@ class Book < ApplicationRecord
     filterable_attributes %i[library author category hidden]
   end
 
-  def increment_views! = increment!(:views_count)
+  def increment_views! = self.class.increment_counter(:views_count, id)
 end

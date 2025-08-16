@@ -64,6 +64,32 @@ RSpec.describe Book do
     end
   end
 
+  describe "#increment_views!" do
+    it "increments the views count by 1" do
+      book = create(:book, views_count: 5)
+
+      expect { book.increment_views! }.to change { book.reload.views_count }.from(5).to(6)
+    end
+  end
+
+  describe ".most_viewed" do
+    it "returns books ordered by views_count descending" do
+      book_10 = create(:book, views_count: 10)
+      book_5 = create(:book, views_count: 5)
+      book_8 = create(:book, views_count: 8)
+
+      expect(described_class.most_viewed).to eq([ book_10, book_8, book_5 ])
+    end
+
+    it "excludes hidden books" do
+      create(:book, views_count: 10, hidden: true)
+      book_5 = create(:book, views_count: 5)
+      book_8 = create(:book, views_count: 8)
+
+      expect(described_class.most_viewed).to eq([ book_8, book_5 ])
+    end
+  end
+
   describe "factory" do
     it "has a valid factory" do
       expect(create(:book)).to be_valid

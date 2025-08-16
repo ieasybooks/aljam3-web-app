@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   before_action :set_page, :check_hidden
 
   def show
-    @page.book.increment_views! if request.format.html?
+    @page.file.book.increment_views! if request.format.html? && !request.format.turbo_stream?
 
     if params[:qid].present? && request.headers["X-Sec-Purpose"] != "prefetch"
       SearchClick.create(index: params[:i].presence&.to_i || -1, search_query_id: params[:qid], result: @page)
