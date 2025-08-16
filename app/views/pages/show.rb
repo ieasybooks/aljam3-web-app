@@ -88,7 +88,13 @@ class Views::Pages::Show < Views::Base
         end
       end
 
-      DialogContent(class: "p-4") do
+      DialogContent(
+        class: [
+          "p-4",
+          ("max-sm:border-x-0 max-sm:light:border-t max-sm:dark:border-y" unless hotwire_native_app?),
+          ("border-x-0 light:border-t dark:border-y" if hotwire_native_app?)
+        ]
+      ) do
         DialogHeader do
           DialogTitle { t(".share_page_dialog_title") }
         end

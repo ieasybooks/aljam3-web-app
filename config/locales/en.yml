@@ -140,7 +140,7 @@ en:
       hide_tashkeel: Hide Diacritics
       share_page: Share Page
       share_page_dialog_title: Share the page link with your friends!
-      share_text: Read "%{title}" book by "%{author}" on Aljam3
+      share_text: "Read 📖 \"%{title}\" book by 🪶 \"%{author}\" on 📚 الجامع"
       show_tashkeel: Show Diacritics
       title: "%{title} Book"
       المكتبة الشاملة الوقفية: Shamela Waqfeya Library
