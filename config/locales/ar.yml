@@ -237,4 +237,27 @@ ar:
     text_size_increase: تكبير حجم الخط
     txt_and_pdf_content: نص الكتاب والكتاب المُصوّر
     txt_content_only: نص الكتاب فقط
+  validation_messages:
+    bad_input: يرجى إدخال قيمة صحيحة.
+    pattern_mismatch: 'يرجى مطابقة التنسيق: %{pattern}.'
+    range_overflow: يجب أن تكون القيمة أقل من أو تساوي %{max}.
+    range_underflow: يجب أن تكون القيمة أكبر من أو تساوي %{min}.
+    step_mismatch: يرجى إدخال قيمة صحيحة بين %{min} و %{max} بخطوات %{step}.
+    too_long:
+      few: يرجى تقصير هذا النص إلى %{count} حروف أو أقل.
+      many: يرجى تقصير هذا النص إلى %{count} حرفًا أو أقل.
+      one: يرجى تقصير هذا النص إلى حرفٍ واحد أو أقل.
+      other: يرجى تقصير هذا النص إلى %{count} حرف أو أقل.
+      two: يرجى تقصير هذا النص إلى حرفين أو أقل.
+    too_short:
+      few: يرجى إطالة هذا النص إلى %{count} حروف أو أكثر.
+      many: يرجى إطالة هذا النص إلى %{count} حرفًا أو أكثر.
+      one: يرجى إطالة هذا النص إلى حرفٍ واحد أو أكثر.
+      other: يرجى إطالة هذا النص إلى %{count} حرف أو أكثر.
+      two: يرجى إطالة هذا النص إلى حرفين أو أكثر.
+    type_mismatch: يرجى إدخال قيمة صحيحة.
+    type_mismatch_email: يرجى تضمين '@' في عنوان البريد الإلكتروني.
+    type_mismatch_tel: يرجى إدخال رقم هاتف.
+    type_mismatch_url: يرجى إدخال رابط صحيح.
+    value_missing: يرجى ملء هذا الحقل.
   volumes: المجلدات

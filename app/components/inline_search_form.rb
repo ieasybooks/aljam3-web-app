@@ -27,7 +27,9 @@ class Components::InlineSearchForm < Components::Base
           maxlength: 255,
           data: {
             action: "input->search-auto-submit#submit",
-            search_auto_submit_target: "input"
+            search_auto_submit_target: "input",
+            too_short: t("validation_messages.too_short", count: 3),
+            too_long: t("validation_messages.too_long", count: 255)
           }
         )
 

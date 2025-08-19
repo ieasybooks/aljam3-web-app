@@ -46,8 +46,22 @@ export default class extends Controller {
 
     const { validity, dataset, validationMessage } = this.inputTarget
 
-    if (validity.tooLong) errorMessage = dataset.tooLong
-    if (validity.tooShort) errorMessage = dataset.tooShort
+    if (validity.tooLong)
+      errorMessage =
+        dataset.tooLong ||
+        dataset.tooLongOne ||
+        dataset.tooLongTwo ||
+        dataset.tooLongFew ||
+        dataset.tooLongMany ||
+        dataset.tooLongOther
+    if (validity.tooShort)
+      errorMessage =
+        dataset.tooShort ||
+        dataset.tooShortOne ||
+        dataset.tooShortTwo ||
+        dataset.tooShortFew ||
+        dataset.tooShortMany ||
+        dataset.tooShortOther
     if (validity.badInput) errorMessage = dataset.badInput
     if (validity.typeMismatch) errorMessage = dataset.typeMismatch
     if (validity.stepMismatch) errorMessage = dataset.stepMismatch

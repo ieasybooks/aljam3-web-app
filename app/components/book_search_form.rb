@@ -17,7 +17,12 @@ class Components::BookSearchForm < Components::Base
             placeholder: t(".search_input_placeholder"),
             required: true,
             minlength: 3,
-            maxlength: 255
+            maxlength: 255,
+            data: {
+              value_missing: t("validation_messages.value_missing"),
+              too_short: t("validation_messages.too_short", count: 3),
+              too_long: t("validation_messages.too_long", count: 255)
+            }
           )
 
           FormFieldError(class: "mt-2") { }

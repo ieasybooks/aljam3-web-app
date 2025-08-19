@@ -245,4 +245,21 @@ en:
     text_size_increase: Increase Text Size
     txt_and_pdf_content: Text and PDF Content
     txt_content_only: Text Content Only
+  validation_messages:
+    bad_input: Please enter a valid value.
+    pattern_mismatch: 'Please match the format: %{pattern}.'
+    range_overflow: Value must be less than or equal to %{max}.
+    range_underflow: Value must be greater than or equal to %{min}.
+    step_mismatch: Please enter a valid value between %{min} and %{max} in steps of %{step}.
+    too_long:
+      one: Please shorten this text to %{count} character or fewer.
+      other: Please shorten this text to %{count} characters or fewer.
+    too_short:
+      one: Please lengthen this text to %{count} character or more.
+      other: Please lengthen this text to %{count} characters or more.
+    type_mismatch: Please enter a valid value.
+    type_mismatch_email: Please include an '@' in the email address.
+    type_mismatch_tel: Please enter a phone number.
+    type_mismatch_url: Please enter a URL.
+    value_missing: Please fill out this field.
   volumes: Volumes
