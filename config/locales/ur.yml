@@ -132,6 +132,7 @@ ur:
       empty_page: یہ صفحہ خالی ہے
       error_in_loading_page: صفحہ لوڈ کرنے میں خرابی پیش آئی
       hide_tashkeel: اعراب چھپائیں
+      loading_pdf: فائل لوڈ ہو رہی ہے...
       share_page: صفحہ شیئر کریں
       share_page_dialog_title: صفحے کا لنک اپنے دوستوں سے شیئر کریں!
       share_text: "📖 \"%{title}\" کتاب کا صفحہ، 🪶 \"%{author}\" کے تألیف میں 📚 الجامع"

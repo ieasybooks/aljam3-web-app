@@ -138,6 +138,7 @@ en:
       empty_page: Empty Page
       error_in_loading_page: An error occurred while loading the page
       hide_tashkeel: Hide Diacritics
+      loading_pdf: Loading PDF...
       share_page: Share Page
       share_page_dialog_title: Share the page link with your friends!
       share_text: "Read 📖 \"%{title}\" book by 🪶 \"%{author}\" on 📚 الجامع"

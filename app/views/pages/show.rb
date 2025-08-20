@@ -203,21 +203,28 @@ class Views::Pages::Show < Views::Base
   end
 
   def pdf_content
+    turbo_frame_tag "pdf-frame-#{@page.id}", 
+                    loading: :lazy,
+                    src: book_file_page_pdf_path(@book.id, @file.id, @page.number) do
+      pdf_skeleton
+    end
+  end
+
+  private
+
+  def pdf_skeleton
     Card(
       class: "sm:max-w-1/2 flex-1 flex flex-col overflow-hidden",
       data: {
         top_controls_target: "pdfContent"
       }
     ) do
-      iframe(
-        src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
-        class: "w-full h-full",
-        data: {
-          pdf_viewer_target: "iframe",
-          top_controls_target: "iframe",
-          bottom_controls_target: "iframe"
-        }
-      )
+      div(class: "w-full h-full bg-muted animate-pulse flex items-center justify-center") do
+        div(class: "flex flex-col items-center gap-y-2") do
+          div(class: "h-8 w-32 bg-muted-foreground/20 rounded animate-pulse")
+          Text(size: "2", class: "text-muted-foreground") { t(".loading_pdf") }
+        end
+      end
     end
   end
 end

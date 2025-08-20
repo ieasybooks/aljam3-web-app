@@ -287,6 +287,56 @@ RSpec.describe "Books" do
     end
   end
 
+  describe "GET /pdf" do
+    let(:book) { create(:book, :with_files) }
+    let(:file) { book.files.first }
+    let(:page) { file.pages.first }
+
+    it "renders the PDF component" do
+      get book_file_page_pdf_path(book_id: book.id, file_id: file.id, page_number: page.number)
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "renders the PDF turbo frame" do
+      get book_file_page_pdf_path(book_id: book.id, file_id: file.id, page_number: page.number)
+
+      expect(response.body).to include("turbo-frame")
+      expect(response.body).to include("pdf-frame-#{page.id}")
+    end
+
+    it "includes the PDF iframe" do
+      get book_file_page_pdf_path(book_id: book.id, file_id: file.id, page_number: page.number)
+
+      expect(response.body).to include("iframe")
+      expect(response.body).to include("/pdfjs")
+    end
+
+    context "when page does not exist" do
+      it "raises RecordNotFound error" do
+        expect {
+          get book_file_page_pdf_path(book_id: book.id, file_id: file.id, page_number: 999)
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "when file does not exist" do
+      it "raises RecordNotFound error" do
+        expect {
+          get book_file_page_pdf_path(book_id: book.id, file_id: 999, page_number: page.number)
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "when book does not exist" do
+      it "raises RecordNotFound error" do
+        expect {
+          get book_file_page_pdf_path(book_id: 999, file_id: file.id, page_number: page.number)
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
   describe "GET /search" do
     let(:book) { create(:book, :with_files) }
 

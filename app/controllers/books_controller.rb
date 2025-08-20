@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [ :show, :search ]
+  before_action :set_book, only: [ :show, :search, :pdf ]
+  before_action :set_file_and_page, only: [ :pdf ]
 
   def index
     pagy, books = search_or_list
@@ -50,9 +51,18 @@ class BooksController < ApplicationController
     ]
   end
 
+  def pdf
+    render Components::PdfContent.new(file: @file, page: @page)
+  end
+
   private
 
   def set_book = @book = Book.find(params[:book_id])
+
+  def set_file_and_page
+    @file = @book.files.find(params[:file_id])
+    @page = @file.pages.find_by(number: params[:page_number])
+  end
 
   def search_or_list
     if params[:q].present?
