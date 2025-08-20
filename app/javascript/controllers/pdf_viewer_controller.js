@@ -11,6 +11,7 @@ export default class extends Controller {
     skeleton: String,
     loadingError: String,
     totalPages: Number,
+    cacheSize: { type: Number, default: 500 }
   }
 
   connect() {
@@ -18,12 +19,14 @@ export default class extends Controller {
     this.currentAbortController = null
     this.debounceTimeout = null
     this.currentObserver = null
-
+    
+    this.#initializePageCache()
     this.#registerPageChangingEvent()
   }
 
   disconnect() {
     this.#cleanup()
+    this.pageCache?.clear()
   }
 
   currentPageValueChanged() {
@@ -68,7 +71,67 @@ export default class extends Controller {
     iframeDocument.querySelector("#scrollModeButtons + .horizontalToolbarSeparator")?.classList.add("hidden")
   }
 
+  #initializePageCache() {
+    const cacheKey = `${this.bookIdValue}-${this.fileIdValue}`
+    
+    if (this.currentBookCacheKey !== cacheKey) {
+      this.pageCache?.clear()
+      this.currentBookCacheKey = cacheKey
+    }
+    
+    if (!this.pageCache) {
+      this.pageCache = new Map()
+      this.cacheOrder = []
+    }
+  }
+
+  #getCachedPage(pageNumber) {
+    const cacheKey = `${this.bookIdValue}-${this.fileIdValue}-${pageNumber}`
+    
+    if (this.pageCache.has(cacheKey)) {
+      const index = this.cacheOrder.indexOf(cacheKey)
+      if (index > -1) {
+        this.cacheOrder.splice(index, 1)
+        this.cacheOrder.push(cacheKey)
+      }
+      
+      return this.pageCache.get(cacheKey)
+    }
+    
+    return null
+  }
+
+  #setCachedPage(pageNumber, content) {
+    const cacheKey = `${this.bookIdValue}-${this.fileIdValue}-${pageNumber}`
+    
+    if (this.pageCache.has(cacheKey)) {
+      const index = this.cacheOrder.indexOf(cacheKey)
+      if (index > -1) {
+        this.cacheOrder.splice(index, 1)
+      }
+    }
+    
+    this.pageCache.set(cacheKey, content)
+    this.cacheOrder.push(cacheKey)
+    
+    while (this.cacheOrder.length > this.cacheSizeValue) {
+      const oldestKey = this.cacheOrder.shift()
+      this.pageCache.delete(oldestKey)
+    }
+  }
+
   async #fetchPageContent() {
+    const cachedContent = this.#getCachedPage(this.currentPageValue)
+    if (cachedContent) {
+      this.contentTarget.innerHTML = cachedContent
+      this.#updateShareDialogUrl()
+      this.#updateNativeShareUrl()
+      history.replaceState(null, "", this.#newPagePath())
+      
+      window.dispatchEvent(new CustomEvent("update-tashkeel-content"))
+      return
+    }
+
     this.currentAbortController = new AbortController()
 
     try {
@@ -79,6 +142,8 @@ export default class extends Controller {
           this.currentObserver.disconnect()
           this.currentObserver = null
 
+          this.#setCachedPage(this.currentPageValue, this.contentTarget.innerHTML)
+          
           window.dispatchEvent(new CustomEvent("update-tashkeel-content"))
         }
       })
