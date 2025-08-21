@@ -12,7 +12,11 @@ class Components::Head < Components::Base
       meta name: "description", content: @page_info.description if @page_info.description.present?
       meta name: "keywords", content: @page_info.keywords.join(", ") if @page_info.keywords.present?
 
-      meta name: "viewport", content: "width=device-width,initial-scale=1"
+      meta name: "viewport", content: [
+        "width=device-width,initial-scale=1",
+        ("viewport-fit=cover,maximum-scale=1.0,user-scalable=0" if hotwire_native_app?)
+      ].join(",")
+
       meta name: "apple-mobile-web-app-capable", content: "yes"
       meta name: "mobile-web-app-capable", content: "yes"
 

@@ -12,17 +12,9 @@ export default class extends Controller {
     const url = window.location.href
 
     if (this.#isRtlLanguage(url) && htmlElement.getAttribute("dir") !== "rtl") {
-      if (document.querySelector('meta[name="platform"]').content === "android") {
-        htmlElement.setAttribute("dir", "rtl")
-      } else if (document.querySelector('meta[name="platform"]').content === "ios") {
-        location.reload()
-      }
+      htmlElement.setAttribute("dir", "rtl")
     } else if (this.#isLtrLanguage(url) && htmlElement.getAttribute("dir") !== "ltr") {
-      if (document.querySelector('meta[name="platform"]').content === "android") {
-        htmlElement.setAttribute("dir", "ltr")
-      } else if (document.querySelector('meta[name="platform"]').content === "ios") {
-        location.reload()
-      }
+      htmlElement.setAttribute("dir", "ltr")
     }
   }
 

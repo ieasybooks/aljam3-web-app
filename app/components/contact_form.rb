@@ -99,7 +99,10 @@ class Components::ContactForm < Components::Base
         FormFieldError() { @contact.errors.full_messages_for(:message).first }
       end
 
-      CloudflareTurnstile(class: "mt-4")
+      CloudflareTurnstile(
+        class: "mt-4",
+        data: ({ delay: 1000 } if hotwire_native_app?)
+      )
     end
   end
 end

@@ -10,8 +10,8 @@ application.register("bottom-controls", BottomControlsController)
 import Bridge__FileDownloadController from "./bridge/file_download_controller"
 application.register("bridge--file-download", Bridge__FileDownloadController)
 
-import Bridge__LocaleController from "./bridge/locale_controller"
-application.register("bridge--locale", Bridge__LocaleController)
+import Bridge__LocalizeController from "./bridge/localize_controller"
+application.register("bridge--localize", Bridge__LocalizeController)
 
 import Bridge__MenuButtonController from "./bridge/menu_button_controller"
 application.register("bridge--menu-button", Bridge__MenuButtonController)

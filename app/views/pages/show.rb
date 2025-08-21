@@ -15,7 +15,11 @@ class Views::Pages::Show < Views::Base
 
   def view_template
     div(
-      class: "flex flex-col h-screen sm:container px-4 sm:px-4 py-4 space-y-4",
+      class: [
+        "flex flex-col sm:container px-4 sm:px-4 py-4 space-y-4",
+        ("h-screen" unless ios_native_app?),
+        ("h-[calc(100vh-env(safe-area-inset-top)-env(safe-area-inset-bottom))]" if ios_native_app?)
+      ],
       data: {
         controller: "pdf-viewer top-controls bottom-controls",
         action: "update-tashkeel-content@window->top-controls#updateTashkeelContent",

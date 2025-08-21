@@ -47,7 +47,7 @@ class Components::SearchRefinementsSheet < Components::Base
   end
 
   def sheet
-    cache [ browser.device.mobile?, I18n.locale ], expires_in: 1.week do
+    cache [ I18n.locale, browser.device.mobile?, hotwire_native_app?, android_native_app?, ios_native_app? ], expires_in: 1.week do
       Sheet do
         SheetTrigger do
           Button(variant: :outline, size: :xl, icon: true) do
@@ -55,7 +55,14 @@ class Components::SearchRefinementsSheet < Components::Base
           end
         end
 
-        SheetContent(side: browser.device.mobile? ? :bottom : side, with_close_button: false, class: "w-[350px] ltr:w-[375px] max-sm:w-full ltr:max-sm:w-full") do
+        SheetContent(
+          side: browser.device.mobile? ? :bottom : side,
+          with_close_button: false,
+          class: [
+            "w-[350px] ltr:w-[375px] max-sm:w-full ltr:max-sm:w-full",
+            ("pt-[calc(env(safe-area-inset-top)+24px)] pb-[calc(env(safe-area-inset-bottom)+24px)]" if ios_native_app?)
+          ]
+        ) do
           SheetHeader do
             SheetTitle { t(".title") }
           end

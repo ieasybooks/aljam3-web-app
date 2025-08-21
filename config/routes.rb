@@ -36,6 +36,7 @@
 #                              user_unlock GET      (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#show {locale: /ar|ur|en/}
 #                                          POST     (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#create {locale: /ar|ur|en/}
 #                                 contacts POST     (/:locale)/contacts(.:format)                                                                     contacts#create {locale: /ar|ur|en/}
+#                              new_contact GET      (/:locale)/contacts/new(.:format)                                                                 contacts#new {locale: /ar|ur|en/}
 #                               categories GET      (/:locale)/categories(.:format)                                                                   categories#index {locale: /ar|ur|en/}
 #                                 category GET      (/:locale)/categories/:id(.:format)                                                               categories#show {locale: /ar|ur|en/}
 #                                  authors GET      (/:locale)/authors(.:format)                                                                      authors#index {locale: /ar|ur|en/}
@@ -312,7 +313,7 @@ Rails.application.routes.draw do
 
     devise_for :users, skip: :omniauth_callbacks
 
-    resources :contacts, only: %i[create]
+    resources :contacts, only: %i[new create]
     resources :categories, only: %i[index show]
     resources :authors, only: %i[index show]
 
