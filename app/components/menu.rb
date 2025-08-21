@@ -11,23 +11,27 @@ class Components::Menu < Components::Base
       menu_link(path: root_path, text: t("navbar.home"), icon: Hero::Home.new(variant: :outline, class: "size-5")) unless hotwire_native_app?
       Separator(class: "my-2") unless hotwire_native_app?
 
-      menu_link(path: categories_path, text: t("navbar.categories"), icon: Lucide::LayoutGrid.new(variant: :outline, class: "size-5"))
-      Separator(class: "my-2")
-      menu_link(path: authors_path, text: t("navbar.authors"), icon: Bootstrap::Feather.new(class: "size-5"))
-      Separator(class: "my-2")
-      menu_link(path: books_path, text: t("navbar.books"), icon: Hero::BookOpen.new(variant: :outline, class: "size-5"))
-      Separator(class: "my-2")
+      unless ios_native_app?
+        menu_link(path: categories_path, text: t("navbar.categories"), icon: Lucide::LayoutGrid.new(variant: :outline, class: "size-5"))
+        Separator(class: "my-2")
+        menu_link(path: authors_path, text: t("navbar.authors"), icon: Bootstrap::Feather.new(class: "size-5"))
+        Separator(class: "my-2")
+        menu_link(path: books_path, text: t("navbar.books"), icon: Hero::BookOpen.new(variant: :outline, class: "size-5"))
+        Separator(class: "my-2")
+      end
 
       if hotwire_native_app? || (@controller_name == "pages" && @action_name == "show")
-        ContactDialog do
-          Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground text-xl") do
-            Bootstrap::Mailbox(class: "size-5 ltr:transform ltr:-scale-x-100")
+        unless ios_native_app?
+          ContactDialog do
+            Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground text-xl") do
+              Bootstrap::Mailbox(class: "size-5 ltr:transform ltr:-scale-x-100")
 
-            plain t("navbar.contact_us")
+              plain t("navbar.contact_us")
+            end
           end
-        end
 
-        Separator(class: "my-2")
+          Separator(class: "my-2")
+        end
 
         LanguageDropdown(placement: "bottom-start") do
           Button(variant: :link, class: "flex items-center gap-x-2 text-muted-foreground text-xl") do

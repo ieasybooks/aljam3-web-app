@@ -33,7 +33,7 @@ class Views::Static::Home < Views::Base
             search_examples
             most_viewed_books
             books_by_category
-            categories
+            categories unless ios_native_app?
           end
         end
       else
