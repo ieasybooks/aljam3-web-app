@@ -214,7 +214,7 @@ class Views::Pages::Show < Views::Base
       }
     ) do
       iframe(
-        src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
+        src: pdfjs_path(file: @file.pdf_url, locale: I18n.locale, anchor: "page=#{@page.number}"),
         class: "w-full h-full",
         data: {
           pdf_viewer_target: "iframe",
