@@ -213,15 +213,17 @@ class Views::Pages::Show < Views::Base
         top_controls_target: "pdfContent"
       }
     ) do
-      iframe(
-        src: pdfjs_path(file: @file.pdf_url, locale: I18n.locale, anchor: "page=#{@page.number}"),
-        class: "w-full h-full",
-        data: {
-          pdf_viewer_target: "iframe",
-          top_controls_target: "iframe",
-          bottom_controls_target: "iframe"
-        }
-      )
+      turbo_frame_tag(
+        :pdfjs_iframe,
+        src: pdfjs_iframe_path(
+          locale: nil,
+          src: pdfjs_path(file: @file.pdf_url, locale: I18n.locale, anchor: "page=#{@page.number}")
+        ),
+        loading: :lazy,
+        class: "w-full h-full flex justify-center items-center"
+      ) do
+        Tabler::Pdf(variant: :outline, class: "animate-pulse size-20")
+      end
     end
   end
 end

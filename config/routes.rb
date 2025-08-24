@@ -8,6 +8,7 @@
 #           user_google_omniauth_authorize GET|POST /users/auth/google(.:format)                                                                      devise/omniauth_callbacks#passthru
 #            user_google_omniauth_callback GET|POST /users/auth/google/callback(.:format)                                                             devise/omniauth_callbacks#google
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
+#                             pdfjs_iframe GET      /pdfjs/iframe(.:format)                                                                           pdfjs#iframe
 #                                                   /404(.:format)                                                                                    errors#not_found
 #                                                   /422(.:format)                                                                                    errors#unprocessable_content
 #                                                   /500(.:format)                                                                                    errors#internal_server_error
@@ -300,6 +301,7 @@ Rails.application.routes.draw do
   devise_for :users, only: :omniauth_callbacks
 
   get "pdfjs", to: "pdfjs#index"
+  get "pdfjs/iframe", to: "pdfjs#iframe"
 
   match "/404", to: "errors#not_found", via: :all
   match "/422", to: "errors#unprocessable_content", via: :all

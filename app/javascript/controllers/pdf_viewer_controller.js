@@ -18,8 +18,6 @@ export default class extends Controller {
     this.currentAbortController = null
     this.debounceTimeout = null
     this.currentObserver = null
-
-    this.#registerPageChangingEvent()
   }
 
   disconnect() {
@@ -39,6 +37,10 @@ export default class extends Controller {
       this.#fetchPageContent()
       this.internalCurrentPage = this.currentPageValue
     }, 100)
+  }
+
+  iframeTargetConnected() {
+    this.#registerPageChangingEvent()
   }
 
   #registerPageChangingEvent() {
