@@ -60,7 +60,8 @@ class Components::SearchRefinementsSheet < Components::Base
           with_close_button: false,
           class: [
             "w-[350px] ltr:w-[375px] max-sm:w-full ltr:max-sm:w-full",
-            ("pt-[calc(env(safe-area-inset-top)+24px)] pb-[calc(env(safe-area-inset-bottom)+24px)]" if ios_native_app?)
+            ("pt-[calc(env(safe-area-inset-top)+24px)]" if ios_native_app? && !browser.device.mobile?),
+            ("pb-[calc(env(safe-area-inset-bottom)+24px)]" if ios_native_app? && browser.device.mobile?)
           ]
         ) do
           SheetHeader do
