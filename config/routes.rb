@@ -8,6 +8,7 @@
 #           user_google_omniauth_authorize GET|POST /users/auth/google(.:format)                                                                      devise/omniauth_callbacks#passthru
 #            user_google_omniauth_callback GET|POST /users/auth/google/callback(.:format)                                                             devise/omniauth_callbacks#google
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
+#                             pdfjs_iframe GET      /pdfjs/iframe(.:format)                                                                           pdfjs#iframe
 #                                                   /404(.:format)                                                                                    errors#not_found
 #                                                   /422(.:format)                                                                                    errors#unprocessable_content
 #                                                   /500(.:format)                                                                                    errors#internal_server_error
@@ -36,6 +37,7 @@
 #                              user_unlock GET      (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#show {locale: /ar|ur|en/}
 #                                          POST     (/:locale)/users/unlock(.:format)                                                                 devise/unlocks#create {locale: /ar|ur|en/}
 #                                 contacts POST     (/:locale)/contacts(.:format)                                                                     contacts#create {locale: /ar|ur|en/}
+#                              new_contact GET      (/:locale)/contacts/new(.:format)                                                                 contacts#new {locale: /ar|ur|en/}
 #                               categories GET      (/:locale)/categories(.:format)                                                                   categories#index {locale: /ar|ur|en/}
 #                                 category GET      (/:locale)/categories/:id(.:format)                                                               categories#show {locale: /ar|ur|en/}
 #                                  authors GET      (/:locale)/authors(.:format)                                                                      authors#index {locale: /ar|ur|en/}
@@ -299,6 +301,7 @@ Rails.application.routes.draw do
   devise_for :users, only: :omniauth_callbacks
 
   get "pdfjs", to: "pdfjs#index"
+  get "pdfjs/iframe", to: "pdfjs#iframe"
 
   match "/404", to: "errors#not_found", via: :all
   match "/422", to: "errors#unprocessable_content", via: :all
@@ -312,7 +315,7 @@ Rails.application.routes.draw do
 
     devise_for :users, skip: :omniauth_callbacks
 
-    resources :contacts, only: %i[create]
+    resources :contacts, only: %i[new create]
     resources :categories, only: %i[index show]
     resources :authors, only: %i[index show]
 

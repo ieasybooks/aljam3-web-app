@@ -1,6 +1,14 @@
 require "rails_helper"
 
 RSpec.describe "Contacts" do
+  describe "GET /contacts/new" do
+    it "returns http success" do
+      get new_contact_path
+
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe "POST /contacts" do
     let(:valid_params) do
       {

@@ -28,12 +28,12 @@ class Views::Static::Home < Views::Base
       SearchForm(libraries: @libraries, categories: @categories)
 
       if params[:q].blank?
-        cache I18n.locale, expires_in: 1.hour do
+        cache [ I18n.locale, hotwire_native_app?, android_native_app?, ios_native_app? ], expires_in: 1.hour do
           div(class: "mb-10") do
             search_examples
             most_viewed_books
             books_by_category
-            categories
+            categories unless hotwire_native_app?
           end
         end
       else

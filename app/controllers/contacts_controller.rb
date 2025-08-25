@@ -4,6 +4,8 @@ class ContactsController < ApplicationController
 
   rescue_from RailsCloudflareTurnstile::Forbidden, with: :cloudflare_turnstile_handler
 
+  def new = render Views::Contacts::New.new
+
   def create
     if @contact.save
       response_with(contact: Contact.new, status: :created)

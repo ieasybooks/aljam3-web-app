@@ -15,7 +15,11 @@ class Views::Pages::Show < Views::Base
 
   def view_template
     div(
-      class: "flex flex-col h-screen sm:container px-4 sm:px-4 py-4 space-y-4",
+      class: [
+        "flex flex-col sm:container px-4 sm:px-4 py-4 space-y-4",
+        ("h-screen" unless ios_native_app?),
+        ("h-[calc(100vh-env(safe-area-inset-top)-env(safe-area-inset-bottom))]" if ios_native_app?)
+      ],
       data: {
         controller: "pdf-viewer top-controls bottom-controls",
         action: "update-tashkeel-content@window->top-controls#updateTashkeelContent",
@@ -209,15 +213,17 @@ class Views::Pages::Show < Views::Base
         top_controls_target: "pdfContent"
       }
     ) do
-      iframe(
-        src: pdfjs_path(file: @file.pdf_url, anchor: "page=#{@page.number}"),
-        class: "w-full h-full",
-        data: {
-          pdf_viewer_target: "iframe",
-          top_controls_target: "iframe",
-          bottom_controls_target: "iframe"
-        }
-      )
+      turbo_frame_tag(
+        :pdfjs_iframe,
+        src: pdfjs_iframe_path(
+          locale: nil,
+          src: pdfjs_path(file: @file.pdf_url, locale: I18n.locale, anchor: "page=#{@page.number}")
+        ),
+        loading: :lazy,
+        class: "w-full h-full flex justify-center items-center"
+      ) do
+        Tabler::Pdf(variant: :outline, class: "animate-pulse size-20")
+      end
     end
   end
 end

@@ -8,7 +8,7 @@ class Views::Categories::Index < Views::Base
   def keywords = t(".keywords")
 
   def view_template
-    cache I18n.locale, expires_in: 1.hour do
+    cache [ I18n.locale, hotwire_native_app?, android_native_app?, ios_native_app? ], expires_in: 1.hour do
       div(class: "px-4 sm:px-4 py-4 sm:container") do
         Heading(level: 1, class: "mb-4 font-[Cairo]") { page_title } unless hotwire_native_app?
 
