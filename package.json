@@ -2,12 +2,12 @@
   "name": "app",
   "private": true,
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.11",
+    "@tailwindcss/cli": "^4.1.12",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "esbuild": "^0.25.9",
     "prettier": "3.6.2",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.12"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
@@ -15,8 +15,8 @@
     "format:js": "npx prettier ./app/javascript/ --write"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.7.3",
-    "@hotwired/hotwire-native-bridge": "^1.2.1",
+    "@floating-ui/dom": "^1.7.4",
+    "@hotwired/hotwire-native-bridge": "^1.2.2",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.16",
     "@rails/request.js": "^0.0.12",
@@ -24,6 +24,6 @@
     "@stimulus-components/read-more": "^5.0.0",
     "embla-carousel": "^8.6.0",
     "tom-select": "^2.4.3",
-    "tw-animate-css": "^1.3.6"
+    "tw-animate-css": "^1.3.7"
   }
 }

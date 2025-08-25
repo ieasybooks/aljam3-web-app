@@ -88,7 +88,7 @@ GEM
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
     ast (2.4.3)
-    avo (3.23.0)
+    avo (3.23.1)
       actionview (>= 6.1)
       active_link_to
       activerecord (>= 6.1)
@@ -154,7 +154,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-i18n (1.14.0)
+    devise-i18n (1.15.0)
       devise (>= 4.9.0)
       rails-i18n
     diff-lcs (1.6.2)
@@ -166,7 +166,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.3.0)
       tzinfo
-    factory_bot (6.5.4)
+    factory_bot (6.5.5)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.5.0)
       factory_bot (~> 6.5)
@@ -186,7 +186,7 @@ GEM
     ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
-    fugit (1.11.1)
+    fugit (1.11.2)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
     get_process_mem (1.0.0)
@@ -197,22 +197,22 @@ GEM
     goldiloader (5.4.0)
       activerecord (>= 6.1, < 8.1)
       activesupport (>= 6.1, < 8.1)
-    google-protobuf (4.31.1)
+    google-protobuf (4.32.0)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-aarch64-linux-gnu)
+    google-protobuf (4.32.0-aarch64-linux-gnu)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-aarch64-linux-musl)
+    google-protobuf (4.32.0-aarch64-linux-musl)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-arm64-darwin)
+    google-protobuf (4.32.0-arm64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-x86_64-linux-gnu)
+    google-protobuf (4.32.0-x86_64-linux-gnu)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-x86_64-linux-musl)
+    google-protobuf (4.32.0-x86_64-linux-musl)
       bigdecimal
       rake (>= 13)
     hashdiff (1.2.0)
@@ -284,7 +284,7 @@ GEM
     loofah (2.24.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    lookbook (2.3.12)
+    lookbook (2.3.13)
       activemodel
       css_parser
       htmlbeautifier (~> 1.3)
@@ -402,7 +402,7 @@ GEM
       activerecord (>= 7.1)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.33.0)
+    phlex-icons (2.35.0)
       phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
@@ -463,7 +463,7 @@ GEM
     rails-html-sanitizer (1.6.2)
       loofah (~> 2.21)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
-    rails-i18n (8.0.1)
+    rails-i18n (8.0.2)
       i18n (>= 0.7, < 2)
       railties (>= 8.0.0, < 9)
     rails_cloudflare_turnstile (0.4.2)
@@ -519,8 +519,8 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
-    rspec-support (3.13.4)
-    rubocop (1.79.2)
+    rspec-support (3.13.5)
+    rubocop (1.80.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -636,13 +636,13 @@ GEM
       turbo-rails (>= 1.3.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (3.1.4)
+    unicode-display_width (3.1.5)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
     uri (1.0.3)
     useragent (0.16.11)
     version_gem (1.1.8)
-    view_component (4.0.1)
+    view_component (4.0.2)
       activesupport (>= 7.1.0, < 8.1)
       concurrent-ruby (~> 1)
     warden (1.2.9)
@@ -678,7 +678,7 @@ DEPENDENCIES
   active_record_doctor!
   addressable (~> 2.8, >= 2.8.7)
   annotaterb (~> 4.18)
-  avo (~> 3.23)
+  avo (~> 3.23, >= 3.23.1)
   better_errors (~> 2.10, >= 2.10.1)
   binding_of_caller (~> 1.0, >= 1.0.1)
   bootsnap
@@ -689,7 +689,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise (~> 4.9, >= 4.9.4)
-  devise-i18n (~> 1.14)
+  devise-i18n (~> 1.15)
   factory_bot_rails (~> 6.5)
   faker (~> 3.5, >= 3.5.2)
   get_process_mem (~> 1.0)
@@ -700,7 +700,7 @@ DEPENDENCIES
   jsbundling-rails
   kamal
   literal (~> 1.8, >= 1.8.1)
-  lookbook (~> 2.3, >= 2.3.12)
+  lookbook (~> 2.3, >= 2.3.13)
   meilisearch-rails (~> 0.16.0)
   memory_profiler (~> 1.0, >= 1.0.2)
   mission_control-jobs (~> 1.1)
@@ -713,14 +713,14 @@ DEPENDENCIES
   pg (~> 1.1)
   pg_query (~> 6.1)
   pghero (~> 3.7)
-  phlex-icons (~> 2.33)
+  phlex-icons (~> 2.35)
   phlex-rails (~> 2.3, >= 2.3.1)
   propshaft
   puma (>= 5.0)
   rack-attack (~> 6.7)
   rack-mini-profiler (~> 4.0, >= 4.0.1)
   rails (~> 8.0, >= 8.0.2.1)
-  rails-i18n (~> 8.0, >= 8.0.1)
+  rails-i18n (~> 8.0, >= 8.0.2)
   rails_cloudflare_turnstile (~> 0.4.2)
   rails_performance (~> 1.4, >= 1.4.2)
   rspec-rails (~> 8.0, >= 8.0.2)

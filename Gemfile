@@ -2,11 +2,11 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "avo", "~> 3.23"
+gem "avo", "~> 3.23", ">= 3.23.1"
 gem "browser", "~> 6.2"
 gem "cache_with_locale", "~> 0.0.3"
 gem "devise", "~> 4.9", ">= 4.9.4"
-gem "devise-i18n", "~> 1.14"
+gem "devise-i18n", "~> 1.15"
 gem "get_process_mem", "~> 1.0"
 gem "goldiloader", "~> 5.4"
 gem "literal", "~> 1.8", ">= 1.8.1"
@@ -20,11 +20,11 @@ gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.4"
 gem "pghero", "~> 3.7"
 gem "pg_query", "~> 6.1"
-gem "phlex-icons", "~> 2.33"
+gem "phlex-icons", "~> 2.35"
 gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.2"
-gem "rails-i18n", "~> 8.0", ">= 8.0.1"
+gem "rails-i18n", "~> 8.0", ">= 8.0.2"
 gem "rails_performance", "~> 1.4", ">= 1.4.2"
 gem "sitemap_generator", "~> 6.3"
 gem "solid_errors", "~> 0.7.0"
@@ -42,7 +42,7 @@ group :development do
   gem "faker", "~> 3.5", ">= 3.5.2", require: false
   gem "hotwire-spark", "~> 0.1.13"
   gem "i18n-tasks", "~> 1.0", ">= 1.0.15"
-  gem "lookbook", "~> 2.3", ">= 2.3.12"
+  gem "lookbook", "~> 2.3", ">= 2.3.13"
   gem "net-ssh", "~> 7.3"
   gem "rubocop-rake", "~> 0.7.1"
   gem "rubocop-rspec", "~> 3.6"
@@ -80,9 +80,9 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+# Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+# Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem "cssbundling-rails"
