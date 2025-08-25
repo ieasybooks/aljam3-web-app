@@ -230,6 +230,7 @@ class Components::TopControls < Components::Base
       end
 
       download_files_button(bar)
+      share_button(bar)
     end
   end
 
