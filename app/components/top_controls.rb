@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Components::TopControls < Components::Base
-  def initialize(book:, files:)
+  def initialize(book:, files:, page: nil, file: nil)
     @book = book
     @files = files
+    @page = page
+    @file = file
   end
 
   def view_template
@@ -58,6 +60,7 @@ class Components::TopControls < Components::Base
       download_image_button(bar)
       copy_image_button(bar)
       download_files_button(bar)
+      share_button(bar)
       bar.dummy_button
     end
   end
@@ -283,6 +286,78 @@ class Components::TopControls < Components::Base
       bar.tooltip(text: t(".download_files")) do
         bar.button do
           Lucide::Download(class: "size-5")
+        end
+      end
+    end
+  end
+
+  def share_button(bar)
+    if hotwire_native_app?
+      div(
+        class: "hidden",
+        data: {
+          controller: "bridge--share",
+          bridge__share_url_value: book_file_page_url(locale: I18n.locale, book_id: @book.id, file_id: @file.id, page_number: @page.number),
+          bridge__share_text_value: android_native_app? ? t(".share_text", title: @book.title, author: @book.author.name) : "\n\n#{t(".share_text", title: @book.title, author: @book.author.name)}",
+          pdf_viewer_target: "bridgeShare"
+        }
+      )
+    else
+      Dialog(data: { pdf_viewer_target: "shareDialog" }) do
+        DialogTrigger(class: "") do
+          Tooltip(placement: "bottom") do
+            TooltipTrigger do
+              Button(variant: :outline, icon: true, class: "") do
+                Lucide::Share2(class: "size-5")
+              end
+            end
+            TooltipContent(class: "delay-100 max-sm:hidden") do
+              Text { t(".share_page") }
+            end
+          end
+        end
+        DialogContent(
+          class: [
+            "p-4",
+            ("max-sm:border-x-0 max-sm:light:border-t max-sm:dark:border-y" unless hotwire_native_app?),
+            ("border-x-0 light:border-t dark:border-y" if hotwire_native_app?)
+          ]
+        ) do
+          DialogHeader do
+            DialogTitle { t(".share_page_dialog_title") }
+          end
+          DialogMiddle(class: "py-0") do
+            div(
+              class: "flex items-center",
+              data: {
+                controller: "clipboard",
+                clipboard_success_content_value: capture { render Lucide::Check(class: "size-5") }
+              }
+            ) do
+              Button(
+                variant: :outline,
+                size: :md,
+                icon: true,
+                class: "rounded-e-none border-e-0",
+                data: {
+                  action: "click->clipboard#copy",
+                  clipboard_target: "button"
+                }
+              ) do
+                Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
+              end
+              Input(
+                type: :text,
+                value: book_file_page_url(locale: I18n.locale, book_id: @book.id, file_id: @file.id, page_number: @page.number),
+                class: "ltr:rounded-s-none rtl:rounded-s-none text-end",
+                data: { clipboard_target: "source" },
+                readonly: true
+              )
+            end
+          end
+          DialogFooter do
+            Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { t("close") }
+          end
         end
       end
     end
