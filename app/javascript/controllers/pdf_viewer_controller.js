@@ -18,10 +18,13 @@ export default class extends Controller {
     this.currentAbortController = null
     this.debounceTimeout = null
     this.currentObserver = null
+
+    this.#initializePageCache()
   }
 
   disconnect() {
     this.#cleanup()
+    this.pageCache?.clear()
   }
 
   currentPageValueChanged() {
@@ -41,6 +44,23 @@ export default class extends Controller {
 
   iframeTargetConnected() {
     this.#registerPageChangingEvent()
+  }
+
+  #initializePageCache() {
+    const cacheKey = `${this.bookIdValue}-${this.fileIdValue}`
+
+    if (this.currentBookCacheKey !== cacheKey) {
+      this.pageCache?.clear()
+      this.currentBookCacheKey = cacheKey
+    }
+
+    if (!this.pageCache) {
+      this.pageCache = new Map()
+    }
+
+    if (this.contentTarget.innerHTML && this.contentTarget.innerHTML !== this.skeletonValue) {
+      this.#setCachedPage(this.currentPageValue, this.contentTarget.innerHTML)
+    }
   }
 
   #registerPageChangingEvent() {
@@ -71,6 +91,21 @@ export default class extends Controller {
   }
 
   async #fetchPageContent() {
+    const cachedContent = this.#getCachedPage(this.currentPageValue)
+
+    if (cachedContent) {
+      this.contentTarget.innerHTML = cachedContent
+
+      this.#updateShareDialogUrl()
+      this.#updateNativeShareUrl()
+
+      history.replaceState(null, "", this.#newPagePath())
+
+      window.dispatchEvent(new CustomEvent("update-tashkeel-content"))
+
+      return
+    }
+
     this.currentAbortController = new AbortController()
 
     try {
@@ -80,6 +115,8 @@ export default class extends Controller {
         if (this.contentTarget.innerHTML !== this.skeletonValue) {
           this.currentObserver.disconnect()
           this.currentObserver = null
+
+          this.#setCachedPage(this.currentPageValue, this.contentTarget.innerHTML)
 
           window.dispatchEvent(new CustomEvent("update-tashkeel-content"))
         }
@@ -104,6 +141,18 @@ export default class extends Controller {
         this.contentTarget.innerHTML = this.loadingErrorValue
       }
     }
+  }
+
+  #getCachedPage(pageNumber) {
+    const cacheKey = `${this.bookIdValue}-${this.fileIdValue}-${pageNumber}`
+
+    return this.pageCache.get(cacheKey) || null
+  }
+
+  #setCachedPage(pageNumber, content) {
+    const cacheKey = `${this.bookIdValue}-${this.fileIdValue}-${pageNumber}`
+
+    this.pageCache.set(cacheKey, content)
   }
 
   #newPagePath() {
