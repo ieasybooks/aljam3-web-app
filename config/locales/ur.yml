@@ -55,7 +55,9 @@ ur:
     book_files: کتاب کی فائلیں
     first_page: پہلا صفحہ
     last_page: آخری صفحہ
+    next_file: اگلی فائل
     next_page: اگلا صفحہ
+    previous_file: پچھلی فائل
     previous_page: پچھلا صفحہ
   categories:
     index:

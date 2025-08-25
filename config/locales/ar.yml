@@ -55,7 +55,9 @@ ar:
     book_files: ملفات الكتاب
     first_page: الصفحة الأولى
     last_page: الصفحة الأخيرة
+    next_file: الملف التالي
     next_page: الصفحة التالية
+    previous_file: الملف السابق
     previous_page: الصفحة السابقة
   categories:
     index:

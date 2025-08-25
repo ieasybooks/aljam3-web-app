@@ -59,7 +59,9 @@ en:
     book_files: Book Files
     first_page: First Page
     last_page: Last Page
+    next_file: Next File
     next_page: Next Page
+    previous_file: Previous File
     previous_page: Previous Page
   categories:
     index:

@@ -4,14 +4,20 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [
     "iframe",
+    "previousFileContainer",
+    "previousFileButtonTooltip",
+    "previousPageContainer",
     "firstPageButton",
     "firstPageButtonTooltip",
     "previousPageButton",
     "previousPageButtonTooltip",
+    "nextPageContainer",
     "nextPageButton",
     "nextPageButtonTooltip",
     "lastPageButton",
     "lastPageButtonTooltip",
+    "nextFileContainer",
+    "nextFileButtonTooltip",
   ]
 
   static values = {
@@ -80,11 +86,19 @@ export default class extends Controller {
     this.previousPageButtonTarget.disabled = isFirstPage
 
     if (isFirstPage) {
+      this.previousPageContainerTarget.classList.add("hidden")
       this.firstPageButtonTooltipTarget.classList.add("hidden")
       this.previousPageButtonTooltipTarget.classList.add("hidden")
+
+      this.previousFileContainerTarget.classList.remove("hidden")
+      this.previousFileButtonTooltipTarget.classList.remove("hidden")
     } else {
+      this.previousPageContainerTarget.classList.remove("hidden")
       this.firstPageButtonTooltipTarget.classList.remove("hidden")
       this.previousPageButtonTooltipTarget.classList.remove("hidden")
+
+      this.previousFileContainerTarget.classList.add("hidden")
+      this.previousFileButtonTooltipTarget.classList.add("hidden")
     }
 
     const isLastPage = this.currentPage === this.totalPagesValue
@@ -92,11 +106,19 @@ export default class extends Controller {
     this.lastPageButtonTarget.disabled = isLastPage
 
     if (isLastPage) {
+      this.nextPageContainerTarget.classList.add("hidden")
       this.nextPageButtonTooltipTarget.classList.add("hidden")
       this.lastPageButtonTooltipTarget.classList.add("hidden")
+
+      this.nextFileContainerTarget.classList.remove("hidden")
+      this.nextFileButtonTooltipTarget.classList.remove("hidden")
     } else {
+      this.nextPageContainerTarget.classList.remove("hidden")
       this.nextPageButtonTooltipTarget.classList.remove("hidden")
       this.lastPageButtonTooltipTarget.classList.remove("hidden")
+
+      this.nextFileContainerTarget.classList.add("hidden")
+      this.nextFileButtonTooltipTarget.classList.add("hidden")
     }
   }
 
