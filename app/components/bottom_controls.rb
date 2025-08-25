@@ -14,7 +14,7 @@ class Components::BottomControls < Components::Base
           previous_file_button(bar)
 
           div(
-            class: "flex items-center gap-x-2",
+            class: "hidden flex items-center gap-x-2",
             data: {
               bottom_controls_target: "previousPageContainer"
             }
@@ -28,7 +28,7 @@ class Components::BottomControls < Components::Base
 
         div(class: "flex items-center gap-x-2") do
           div(
-            class: "flex items-center gap-x-2",
+            class: "hidden flex items-center gap-x-2",
             data: {
               bottom_controls_target: "nextPageContainer"
             }
@@ -47,7 +47,7 @@ class Components::BottomControls < Components::Base
 
   def previous_file_button(bar)
     div(
-      class: "flex items-center gap-x-2",
+      class: "hidden flex items-center gap-x-2 max-sm:flex-row-reverse",
       data: {
         bottom_controls_target: "previousFileContainer"
       }
@@ -137,7 +137,7 @@ class Components::BottomControls < Components::Base
 
   def next_file_button(bar)
     div(
-      class: "flex items-center gap-x-2",
+      class: "hidden flex items-center gap-x-2 max-sm:flex-row-reverse",
       data: {
         bottom_controls_target: "nextFileContainer"
       }

@@ -35,7 +35,7 @@ class Components::ControlsBar < Components::Base
     end
   end
 
-  def dummy_button = Button(variant: :link, size: :md, icon: true, class: "max-sm:hidden pointer-events-none")
+  def dummy_button = Button(variant: :link, size: :md, icon: true, class: "pointer-events-none")
 
   private
 
