@@ -15,45 +15,45 @@ en:
     index:
       description: List of Aljam3 authors
       keywords:
-        - Islamic libraries
-        - Islamic books
-        - المكتبات الإسلامية
-        - الكتب الإسلامية
-        - المكتبة الشاملة
-        - المكتبة الوقفية
-        - المكتبة الشاملة الوقفية
-        - مكتبة المسجد النبوي
-        - PDF to Text
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
       title: Authors
     show:
       books: Books
   banner:
     texts:
-      - Islam in 200 Questions and Answers - Sound Beliefs Made Simple
-      - Baheth - AI in Service of Islamic Sciences
-      - Turath - Shamela with Modern Innovative Interface
-      - Shamela - Search in 8 Thousand Islamic Books
-      - Quranic Researcher - Everything You Need About the Quran
-      - Interactive Tafsir - Read and Listen to Interpretations
-      - Hadith Researcher - Instant Search in Dorar Encyclopedia
-      - Faidah - Daily Benefits and Readings
-      - Rawy - Listen to Thousands of Audio Books
-      - Al Minasa - Everything You Need About Prophetic Hadith
+    - Islam in 200 Questions and Answers - Sound Beliefs Made Simple
+    - Baheth - AI in Service of Islamic Sciences
+    - Turath - Shamela with Modern Innovative Interface
+    - Shamela - Search in 8 Thousand Islamic Books
+    - Quranic Researcher - Everything You Need About the Quran
+    - Interactive Tafsir - Read and Listen to Interpretations
+    - Hadith Researcher - Instant Search in Dorar Encyclopedia
+    - Faidah - Daily Benefits and Readings
+    - Rawy - Listen to Thousands of Audio Books
+    - Al Minasa - Everything You Need About Prophetic Hadith
   book_search_form:
     search_input_placeholder: Search in the book content
   books:
     index:
       description: List of Aljam3 books
       keywords:
-        - Islamic libraries
-        - Islamic books
-        - المكتبات الإسلامية
-        - الكتب الإسلامية
-        - المكتبة الشاملة
-        - المكتبة الوقفية
-        - المكتبة الشاملة الوقفية
-        - مكتبة المسجد النبوي
-        - PDF to Text
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
       title: Books
   bottom_controls:
     book_files: Book Files
@@ -67,15 +67,15 @@ en:
     index:
       description: List of Aljam3 categories
       keywords:
-        - Islamic libraries
-        - Islamic books
-        - المكتبات الإسلامية
-        - الكتب الإسلامية
-        - المكتبة الشاملة
-        - المكتبة الوقفية
-        - المكتبة الشاملة الوقفية
-        - مكتبة المسجد النبوي
-        - PDF to Text
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
       title: Categories
     show:
       books: Books
@@ -176,7 +176,7 @@ en:
     المكتبة الوقفية: Waqfeya Library (10.2K books)
     مكتبة المسجد النبوي: Prophet's Mosque Library (48.7K books)
   search_results_count:
-    results_count: "Search results: %{count}"
+    results_count: 'Search results: %{count}'
   search_tabs:
     authors: Authors Names
     pages: Pages
@@ -187,36 +187,36 @@ en:
       description: The library of Islamic libraries containing more than 63K books and 37M pages
       discover_books: Discover Books
       examples:
-        - ذلك الكتاب لا ريب فيه
-        - إنما الأعمال بالنيات
-        - إن في الدنيا جنة من لم يدخلها لم يدخل جنة الآخرة
-        - هذا التقيُّ النقيُّ الطاهر العلم
-        - نحن قوم أعزّنا الله بالإسلام
-        - العلم يرفع بيتا لا عماد له
-        - المشقة تجلب التيسير
-        - شروط الصلاة
-        - متن الآجرومية
-        - تفسير آية الكرسي
-        - أحكام البيوع
-        - تعلم كتاب اليهود
-        - تاريخ الأندلس
-        - لا إله إلا الله
-        - أعلام السنة المنشورة
+      - ذلك الكتاب لا ريب فيه
+      - إنما الأعمال بالنيات
+      - إن في الدنيا جنة من لم يدخلها لم يدخل جنة الآخرة
+      - هذا التقيُّ النقيُّ الطاهر العلم
+      - نحن قوم أعزّنا الله بالإسلام
+      - العلم يرفع بيتا لا عماد له
+      - المشقة تجلب التيسير
+      - شروط الصلاة
+      - متن الآجرومية
+      - تفسير آية الكرسي
+      - أحكام البيوع
+      - تعلم كتاب اليهود
+      - تاريخ الأندلس
+      - لا إله إلا الله
+      - أعلام السنة المنشورة
       faith: Faith
       fiqh: Fiqh
       hadith: Hadith
       history: History
       hundred_categories: 100 Categories
       keywords:
-        - Islamic libraries
-        - Islamic books
-        - المكتبات الإسلامية
-        - الكتب الإسلامية
-        - المكتبة الشاملة
-        - المكتبة الوقفية
-        - المكتبة الشاملة الوقفية
-        - مكتبة المسجد النبوي
-        - PDF to Text
+      - Islamic libraries
+      - Islamic books
+      - المكتبات الإسلامية
+      - الكتب الإسلامية
+      - المكتبة الشاملة
+      - المكتبة الوقفية
+      - المكتبة الشاملة الوقفية
+      - مكتبة المسجد النبوي
+      - PDF to Text
       language: Language
       most_viewed: Most Viewed
       one_place: One Place
@@ -241,7 +241,7 @@ en:
     search_in_book: Search in Book
     share_page: Share Page
     share_page_dialog_title: Share the page link with your friends!
-    share_text: 'Read 📖 "%{title}" book by 🪶 "%{author}" on 📚 الجامع'
+    share_text: "Read 📖 \"%{title}\" book by 🪶 \"%{author}\" on 📚 الجامع"
     text_size: Text Size
     text_size_decrease: Decrease Text Size
     text_size_increase: Increase Text Size
@@ -249,7 +249,7 @@ en:
     txt_content_only: Text Content Only
   validation_messages:
     bad_input: Please enter a valid value.
-    pattern_mismatch: "Please match the format: %{pattern}."
+    pattern_mismatch: 'Please match the format: %{pattern}.'
     range_overflow: Value must be less than or equal to %{max}.
     range_underflow: Value must be greater than or equal to %{min}.
     step_mismatch: Please enter a valid value between %{min} and %{max} in steps of %{step}.

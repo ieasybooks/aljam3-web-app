@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Components::TopControls < Components::Base
-  def initialize(book:, files:, page: nil, file: nil)
+  def initialize(book:, files:, file: nil, page: nil)
     @book = book
     @files = files
-    @page = page
     @file = file
+    @page = page
   end
 
   def view_template
@@ -61,7 +61,6 @@ class Components::TopControls < Components::Base
       copy_image_button(bar)
       download_files_button(bar)
       share_button(bar)
-      bar.dummy_button
     end
   end
 

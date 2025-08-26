@@ -38,8 +38,6 @@ class Views::Pages::Show < Views::Base
         bottom_controls_total_pages_value: @file.pages_count
       }
     ) do
-
-
       div(
         class: "absolute top-0 start-0 h-1 bg-primary transition-all duration-300 ease-out",
         data: { pdf_viewer_target: "progress" }
@@ -54,7 +52,6 @@ class Views::Pages::Show < Views::Base
 
   def header
     div(class: "relative") do
-      # removed share_button call
       div(class: "flex items-center justify-between") do
         div(class: "flex flex-col items-start gap-y-1") do
           breadcrumb
@@ -64,8 +61,6 @@ class Views::Pages::Show < Views::Base
       end
     end
   end
-
-  # removed share_button method
 
   def breadcrumb
     div(class: "flex items-center") do
@@ -99,7 +94,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def content
-    TopControls(book: @book, files: @files, page: @page, file: @file)
+    TopControls(book: @book, files: @files, file: @file, page: @page)
 
     div(class: "relative flex-1 flex justify-center gap-2 sm:gap-4 min-h-0", data: { top_controls_target: "contentContainer" }) do
       txt_content
