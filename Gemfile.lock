@@ -469,7 +469,7 @@ GEM
     rails_cloudflare_turnstile (0.4.2)
       faraday (>= 1.0, < 3.0)
       rails (>= 6.0, < 8.1)
-    rails_performance (1.4.2)
+    rails_performance (1.4.3)
       browser
       railties
       redis
@@ -722,7 +722,7 @@ DEPENDENCIES
   rails (~> 8.0, >= 8.0.2.1)
   rails-i18n (~> 8.0, >= 8.0.2)
   rails_cloudflare_turnstile (~> 0.4.2)
-  rails_performance (~> 1.4, >= 1.4.2)
+  rails_performance (~> 1.4)
   rspec-rails (~> 8.0, >= 8.0.2)
   rubocop-rails-omakase
   rubocop-rake (~> 0.7.1)
