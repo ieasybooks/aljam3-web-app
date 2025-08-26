@@ -38,18 +38,6 @@ class Views::Pages::Show < Views::Base
         bottom_controls_total_pages_value: @file.pages_count
       }
     ) do
-      if hotwire_native_app?
-        div(
-          class: "hidden",
-          data: {
-            controller: "bridge--share",
-            bridge__share_url_value: book_file_page_url(locale: I18n.locale, book_id: @book.id, file_id: @file.id, page_number: @page.number),
-            bridge__share_text_value: android_native_app? ? t(".share_text", title: @book.title, author: @book.author.name) : "\n\n#{t(".share_text", title: @book.title, author: @book.author.name)}",
-            pdf_viewer_target: "bridgeShare"
-          }
-        )
-      end
-
       div(
         class: "absolute top-0 start-0 h-1 bg-primary transition-all duration-300 ease-out",
         data: { pdf_viewer_target: "progress" }
@@ -64,78 +52,11 @@ class Views::Pages::Show < Views::Base
 
   def header
     div(class: "relative") do
-      share_button unless hotwire_native_app?
-
       div(class: "flex items-center justify-between") do
         div(class: "flex flex-col items-start gap-y-1") do
           breadcrumb
           title
           author
-        end
-      end
-    end
-  end
-
-  def share_button
-    Dialog(data: { pdf_viewer_target: "shareDialog" }) do
-      DialogTrigger(class: "absolute max-sm:-top-4 max-sm:-end-4 sm:-top-4 sm:end-0") do
-        Tooltip(placement: "bottom") do
-          TooltipTrigger do
-            Button(variant: :outline, icon: true, class: "border-t-0 max-sm:border-e-0 sm:rounded-t-none max-sm:rounded-none max-sm:rounded-es-md") do
-              Lucide::Share(class: "size-5")
-            end
-          end
-
-          TooltipContent(class: "delay-100 max-sm:hidden") do
-            Text { t(".share_page") }
-          end
-        end
-      end
-
-      DialogContent(
-        class: [
-          "p-4",
-          ("max-sm:border-x-0 max-sm:light:border-t max-sm:dark:border-y" unless hotwire_native_app?),
-          ("border-x-0 light:border-t dark:border-y" if hotwire_native_app?)
-        ]
-      ) do
-        DialogHeader do
-          DialogTitle { t(".share_page_dialog_title") }
-        end
-
-        DialogMiddle(class: "py-0") do
-          div(
-            class: "flex items-center",
-            data: {
-              controller: "clipboard",
-              clipboard_success_content_value: capture { render Lucide::Check(class: "size-5") }
-            }
-          ) do
-            Button(
-              variant: :outline,
-              size: :md,
-              icon: true,
-              class: "rounded-e-none border-e-0",
-              data: {
-                action: "click->clipboard#copy",
-                clipboard_target: "button"
-              }
-            ) do
-              Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
-            end
-
-            Input(
-              type: :text,
-              value: book_file_page_url(@book.id, @file.id, @page.number),
-              class: "ltr:rounded-s-none rtl:rounded-s-none text-end",
-              data: { clipboard_target: "source" },
-              readonly: true
-            )
-          end
-        end
-
-        DialogFooter do
-          Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { t("close") }
         end
       end
     end
@@ -173,7 +94,7 @@ class Views::Pages::Show < Views::Base
   end
 
   def content
-    TopControls(book: @book, files: @files)
+    TopControls(book: @book, files: @files, file: @file, page: @page)
 
     div(class: "relative flex-1 flex justify-center gap-2 sm:gap-4 min-h-0", data: { top_controls_target: "contentContainer" }) do
       txt_content

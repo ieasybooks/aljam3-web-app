@@ -140,9 +140,6 @@ en:
       empty_page: Empty Page
       error_in_loading_page: An error occurred while loading the page
       hide_tashkeel: Hide Diacritics
-      share_page: Share Page
-      share_page_dialog_title: Share the page link with your friends!
-      share_text: "Read 📖 \"%{title}\" book by 🪶 \"%{author}\" on 📚 الجامع"
       show_tashkeel: Show Diacritics
       title: "%{title} Book"
       المكتبة الشاملة الوقفية: Shamela Waqfeya Library
@@ -242,6 +239,9 @@ en:
     hide_tashkeel: Hide Diacritics
     pdf_content_only: PDF Content Only
     search_in_book: Search in Book
+    share_page: Share Page
+    share_page_dialog_title: Share the page link with your friends!
+    share_text: "Read 📖 \"%{title}\" book by 🪶 \"%{author}\" on 📚 الجامع"
     text_size: Text Size
     text_size_decrease: Decrease Text Size
     text_size_increase: Increase Text Size
