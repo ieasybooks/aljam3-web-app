@@ -304,18 +304,20 @@ class Components::TopControls < Components::Base
       )
     else
       Dialog(data: { pdf_viewer_target: "shareDialog" }) do
-        DialogTrigger(class: "") do
-          Tooltip(placement: "bottom") do
+        DialogTrigger do
+          Tooltip(placement: "top") do
             TooltipTrigger do
-              Button(variant: :outline, icon: true, class: "") do
+              Button(variant: :outline, icon: true) do
                 Lucide::Share2(class: "size-5")
               end
             end
+
             TooltipContent(class: "delay-100 max-sm:hidden") do
               Text { t(".share_page") }
             end
           end
         end
+
         DialogContent(
           class: [
             "p-4",
@@ -326,6 +328,7 @@ class Components::TopControls < Components::Base
           DialogHeader do
             DialogTitle { t(".share_page_dialog_title") }
           end
+
           DialogMiddle(class: "py-0") do
             div(
               class: "flex items-center",
@@ -346,6 +349,7 @@ class Components::TopControls < Components::Base
               ) do
                 Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
               end
+
               Input(
                 type: :text,
                 value: book_file_page_url(locale: I18n.locale, book_id: @book.id, file_id: @file.id, page_number: @page.number),
@@ -355,6 +359,7 @@ class Components::TopControls < Components::Base
               )
             end
           end
+
           DialogFooter do
             Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { t("close") }
           end
