@@ -6,6 +6,8 @@
 
 <p dir="rtl">مكتبة المكتبات الإسلامية</p>
 
+<p dir="rtl">🌐 <strong> رابط الموقع:</strong> <a href="https://aljam3.com/">https://aljam3.com/</a></p>
+
 <div dir="rtl">
   <img src="https://img.shields.io/badge/Ruby-3.4.4-red?style=for-the-badge&logo=ruby" alt="Ruby Version">
   <img src="https://img.shields.io/badge/Rails-8.0.2-red?style=for-the-badge&logo=rubyonrails" alt="Rails Version">

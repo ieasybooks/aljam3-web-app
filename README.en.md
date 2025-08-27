@@ -6,6 +6,8 @@
 
 The library of Islamic libraries
 
+🌐 **Live Website:** [https://aljam3.com/](https://aljam3.com/)
+
 ![Ruby Version](https://img.shields.io/badge/Ruby-3.4.4-red?style=for-the-badge&logo=ruby)
 ![Rails Version](https://img.shields.io/badge/Rails-8.0.2-red?style=for-the-badge&logo=rubyonrails)
 ![Node.js Version](https://img.shields.io/badge/Node.js-24.1.0-green?style=for-the-badge&logo=node.js)
