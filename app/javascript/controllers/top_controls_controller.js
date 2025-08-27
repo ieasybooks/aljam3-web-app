@@ -27,12 +27,18 @@ const SIZE_TO_LEADING_CLASS = {
 // Connects to data-controller="top-controls"
 export default class extends Controller {
   static targets = [
+    "header",
+    "topControlsBar",
     "contentContainer",
+    "bottomControlsBar",
 
     "txtIndicator",
     "txtContent",
     "content",
     "copyTextButton",
+
+    "fullscreenIcon",
+    "exitFullscreenIcon",
 
     "tashkeelToggleButton",
     "tashkeelToggleTooltip",
@@ -94,6 +100,26 @@ export default class extends Controller {
       this.copyTextButtonTarget.innerHTML = oldInnerHTML
       this.copyTextButtonTarget.removeAttribute("disabled")
     }, 1000)
+  }
+
+  fullscreen() {
+    this.headerTarget.classList.toggle("hidden")
+
+    const containerClasses = ["px-4", "sm:px-4", "py-4", "space-y-4"]
+    containerClasses.forEach((className) => {
+      this.element.classList.toggle(className)
+    })
+
+    const pageSectionsClasses = ["rounded-xl", "border"]
+    pageSectionsClasses.forEach((className) => {
+      this.topControlsBarTarget.classList.toggle(className)
+      this.txtContentTarget.classList.toggle(className)
+      this.pdfContentTarget.classList.toggle(className)
+      this.bottomControlsBarTarget.classList.toggle(className)
+    })
+
+    this.fullscreenIconTarget.classList.toggle("hidden")
+    this.exitFullscreenIconTarget.classList.toggle("hidden")
   }
 
   textSizeIncrease() {

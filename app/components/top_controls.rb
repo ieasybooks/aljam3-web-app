@@ -9,7 +9,13 @@ class Components::TopControls < Components::Base
   end
 
   def view_template
-    ControlsBar do |bar|
+    ControlsBar(
+      container_attrs: {
+        data: {
+          top_controls_target: "topControlsBar"
+        }
+      }
+    ) do |bar|
       txt_indicator
 
       div(class: "w-full flex justify-between sm:justify-center items-center gap-x-2") do
@@ -176,6 +182,26 @@ class Components::TopControls < Components::Base
               Lucide::Copy(class: "size-5 rtl:transform rtl:-scale-x-100")
 
               plain t(".copy_page_content")
+            end
+          end
+
+          DropdownMenuItem(
+            as: :button,
+            class: "w-full",
+            data_action: "click->top-controls#fullscreen"
+          ) do
+            div(class: "w-full flex items-center gap-x-2") do
+              Remix::FullscreenLine(
+                class: "size-5",
+                data: { top_controls_target: "fullscreenIcon" }
+              )
+
+              Remix::FullscreenExitLine(
+                class: "size-5 hidden",
+                data: { top_controls_target: "exitFullscreenIcon" }
+              )
+
+              plain t(".fullscreen")
             end
           end
 

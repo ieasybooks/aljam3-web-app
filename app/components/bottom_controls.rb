@@ -8,7 +8,14 @@ class Components::BottomControls < Components::Base
   end
 
   def view_template
-    ControlsBar(class: "justify-center") do |bar|
+    ControlsBar(
+      container_attrs: {
+        data: {
+          top_controls_target: "bottomControlsBar"
+        }
+      },
+      class: "justify-center"
+    ) do |bar|
       div(class: "max-sm:w-full flex items-center max-sm:justify-between gap-x-2") do
         div(class: "flex items-center gap-x-2") do
           previous_file_button(bar)
