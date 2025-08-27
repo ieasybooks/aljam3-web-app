@@ -89,17 +89,17 @@ class Views::Static::Home < Views::Base
       div(class: "flex-1 border-t border-border")
     end
 
-    Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: }) do
+    Carousel(class: "sm:border-r sm:border-l", options: { direction: }) do
       CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
         Book.most_viewed(10).each do |book|
-          CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
+          CarouselItem(class: "max-sm:basis-xs md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
             div(class: "pb-0.5") { BookCard(book:) }
           end
         end
       end
 
-      CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
-      CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+      CarouselPrevious(class: "max-sm:hidden sm:group-[.is-horizontal]:left-4")
+      CarouselNext(class: "max-sm:hidden sm:group-[.is-horizontal]:right-4")
     end
   end
 
@@ -119,17 +119,17 @@ class Views::Static::Home < Views::Base
         ]
       ) { t(".#{carousel_name}") }
 
-      Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: }) do
+      Carousel(class: "sm:border-r sm:border-l", options: { direction: }) do
         CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
           Book.where(id: books_ids).each do |book|
-            CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
+            CarouselItem(class: "max-sm:basis-xs md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
               div(class: "pb-0.5") { BookCard(book:) }
             end
           end
         end
 
-        CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
-        CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+        CarouselPrevious(class: "max-sm:hidden sm:group-[.is-horizontal]:left-4")
+        CarouselNext(class: "max-sm:hidden sm:group-[.is-horizontal]:right-4")
       end
     end
   end
