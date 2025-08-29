@@ -14,10 +14,10 @@ class Components::Navbar < Components::Base
 
           Aljam3Logo(class: "h-9 text-primary me-4 max-sm:ps-1")
 
-          Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
-          Link(href: categories_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".categories") }
-          Link(href: authors_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".authors") }
-          Link(href: books_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".books") }
+          nav_link(root_path, "static", "home") { t(".home") }
+          nav_link(categories_path, "categories") { t(".categories") }
+          nav_link(authors_path, "authors") { t(".authors") }
+          nav_link(books_path, "books") { t(".books") }
         end
 
         div(class: "flex items-center gap-x-1") do
@@ -75,6 +75,26 @@ class Components::Navbar < Components::Base
   end
 
   private
+
+  def active_link?(controller_name, action_name = nil)
+    if action_name
+      controller_name == self.controller_name && action_name == self.action_name
+    else
+      controller_name == self.controller_name
+    end
+  end
+
+  def nav_link(path, controller_name, action_name = nil)
+    Link(
+      href: path,
+      variant: :ghost,
+      size: :lg,
+              class: [
+          "hidden md:inline-block relative me-1",
+          ("after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-primary after:rounded-full" if active_link?(controller_name, action_name))
+        ]
+    ) { yield }
+  end
 
   def theme_toggle
     ThemeToggle do
