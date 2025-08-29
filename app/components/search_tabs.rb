@@ -1,19 +1,25 @@
 # frozen_string_literal: true
 
 class Components::SearchTabs < Components::Base
-  def initialize(tabs_search_results:, search_query_id:)
+  def initialize(tabs_search_results:, search_query_id:, libraries:, categories:)
     @tabs_search_results = tabs_search_results
     @search_query_id = search_query_id
+    @libraries = libraries
+    @categories = categories
   end
 
   def view_template
-    Tabs(default_value: "pages", class: "pt-2") do
-      TabsList(class: "w-full grid grid-cols-3") do
-        TabsTrigger(value: "pages") { t(".pages") }
-        TabsTrigger(value: "titles") { t(".titles") }
-        TabsTrigger(value: "authors") { t(".authors") }
+    Tabs(default_value: "titles", class: "pt-2") do
+      div(class: "flex gap-2 items-center") do
+        TabsList(class: "") do
+          TabsTrigger(value: "titles", icon: -> { Hero::BookOpen(class: "inline size-4 me-1") }) { t(".titles") }
+          TabsTrigger(value: "pages", icon: -> { Hero::DocumentMagnifyingGlass(class: "inline size-4 me-1") }) { t(".pages") }
+          TabsTrigger(value: "authors", icon: -> { Hero::User(class: "inline size-4 me-1") }) { t(".authors") }
+        end
+        SearchRefinementsSheet(libraries: @libraries, categories: @categories, trigger_size: :md, icon_size: "size-4.5")
       end
 
+      div(class: "my-6")
       TabsContent(value: "pages") do
         if @tabs_search_results.pages.results.any?
           SearchResultsCount(count: @tabs_search_results.pages.pagy.count)

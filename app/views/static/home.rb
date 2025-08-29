@@ -24,7 +24,6 @@ class Views::Static::Home < Views::Base
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
       header if params[:q].blank?
-
       SearchForm(libraries: @libraries, categories: @categories)
 
       if params[:q].blank?
@@ -37,7 +36,7 @@ class Views::Static::Home < Views::Base
           end
         end
       else
-        SearchTabs(tabs_search_results: @tabs_search_results, search_query_id: @search_query_id)
+          SearchTabs(tabs_search_results: @tabs_search_results, search_query_id: @search_query_id, libraries: @libraries, categories: @categories)
       end
     end
   end

@@ -9,7 +9,7 @@ class Components::SearchForm < Components::Base
   def view_template
     Form(action: root_path, method: :get, accept_charset: "UTF-8") do
       div(class: "flex items-top gap-x-4") do
-        SearchRefinementsSheet(libraries: @libraries, categories: @categories)
+        SearchRefinementsSheet(libraries: @libraries, categories: @categories) if params[:q].blank?
 
         FormField(class: "flex-grow") do
           Hero::MagnifyingGlass(class: "size-6 absolute translate-x-[-50%] translate-y-[50%] ltr:translate-x-[50%] ltr:transform ltr:-scale-x-100")

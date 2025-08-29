@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Components::SearchRefinementsSheet < Components::Base
-  def initialize(libraries:, categories:)
+  def initialize(libraries:, categories:, trigger_size: :xl, icon_size: "size-5.5")
     @libraries = libraries
     @categories = categories
+    @trigger_size = trigger_size
+    @icon_size = icon_size
   end
 
   def view_template
@@ -50,8 +52,8 @@ class Components::SearchRefinementsSheet < Components::Base
     cache [ I18n.locale, browser.device.mobile?, hotwire_native_app?, android_native_app?, ios_native_app? ], expires_in: 1.week do
       Sheet do
         SheetTrigger do
-          Button(variant: :outline, size: :xl, icon: true) do
-            Bootstrap::Sliders(class: "size-5.5")
+          Button(variant: :outline, size: @trigger_size, icon: true) do
+            Bootstrap::Sliders(class: @icon_size)
           end
         end
 
