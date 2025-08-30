@@ -12,7 +12,7 @@ class Components::Navbar < Components::Base
         div(class: "flex items-center") do
           MobileMenu(class: "md:hidden")
 
-          Link(href: root_path) do
+          a(href: root_path) do
             Aljam3Logo(class: "h-9 text-primary me-4 max-sm:ps-1")
           end
 
