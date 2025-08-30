@@ -12,9 +12,7 @@ class Components::Navbar < Components::Base
         div(class: "flex items-center") do
           MobileMenu(class: "md:hidden")
 
-          a(href: root_path) do
-            Aljam3Logo(class: "h-9 text-primary me-4 max-sm:ps-1")
-          end
+          a(href: root_path) { Aljam3Logo(class: "h-9 text-primary me-4 max-sm:ps-1") }
 
           nav_link(href: root_path, active_controller: "static", active_action: "home") { t(".home") }
           nav_link(href: categories_path, active_controller: "categories") { t(".categories") }
@@ -79,21 +77,18 @@ class Components::Navbar < Components::Base
   private
 
 
-  def nav_link(href:, active_controller:, active_action: nil, &block)
+  def nav_link(href:, active_controller:, active_action: nil, &)
     Link(
       href: href,
       variant: :ghost,
       size: :lg,
       class: [
         "hidden md:inline-block relative me-1",
-        (
-          "bg-accent text-accent-foreground" if active_link?(active_controller, active_action)
-        )
+        ("bg-accent text-accent-foreground" if active_link?(active_controller, active_action))
       ],
-      &block
+      &
     )
   end
-
 
   def theme_toggle
     ThemeToggle do
