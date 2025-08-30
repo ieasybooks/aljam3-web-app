@@ -84,30 +84,30 @@ class Views::Static::Home < Views::Base
 
   def most_viewed_books
     div(class: "py-16 sm:py-20 flex items-center") do
-      div(class: "flex-1 border-t border-border")
+      div(class: "flex-1 border-t border-border max-sm:-ms-4")
       Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".most_viewed") }
-      div(class: "flex-1 border-t border-border")
+      div(class: "flex-1 border-t border-border max-sm:-me-4")
     end
 
-    Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: }) do
+    Carousel(class: "sm:border-r sm:border-l max-sm:-mx-4", options: { direction: }) do
       CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
         Book.most_viewed(10).each do |book|
-          CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
+          CarouselItem(class: "max-sm:basis-xs md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
             div(class: "pb-0.5") { BookCard(book:) }
           end
         end
       end
 
-      CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
-      CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+      CarouselPrevious(class: "max-sm:hidden sm:group-[.is-horizontal]:left-4")
+      CarouselNext(class: "max-sm:hidden sm:group-[.is-horizontal]:right-4")
     end
   end
 
   def books_by_category
     div(class: "py-16 sm:py-20 flex items-center") do
-      div(class: "flex-1 border-t border-border")
+      div(class: "flex-1 border-t border-border max-sm:-ms-4")
       Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".discover_books") }
-      div(class: "flex-1 border-t border-border")
+      div(class: "flex-1 border-t border-border max-sm:-me-4")
     end
 
     @carousels_books_ids.call.each_with_index do |(carousel_name, books_ids), index|
@@ -119,26 +119,26 @@ class Views::Static::Home < Views::Base
         ]
       ) { t(".#{carousel_name}") }
 
-      Carousel(class: "sm:border-r sm:border-l max-sm:mx-10", options: { direction: }) do
+      Carousel(class: "sm:border-r sm:border-l max-sm:-mx-4", options: { direction: }) do
         CarouselContent(class: "max-sm:group-[.is-horizontal]:-ms-2") do
           Book.where(id: books_ids).each do |book|
-            CarouselItem(class: "md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
+            CarouselItem(class: "max-sm:basis-xs md:basis-1/2 lg:basis-1/4 max-sm:group-[.is-horizontal]:ps-2") do
               div(class: "pb-0.5") { BookCard(book:) }
             end
           end
         end
 
-        CarouselPrevious(class: "group-[.is-horizontal]:-left-10 sm:group-[.is-horizontal]:left-4")
-        CarouselNext(class: "group-[.is-horizontal]:-right-10 sm:group-[.is-horizontal]:right-4")
+        CarouselPrevious(class: "max-sm:hidden sm:group-[.is-horizontal]:left-4")
+        CarouselNext(class: "max-sm:hidden sm:group-[.is-horizontal]:right-4")
       end
     end
   end
 
   def categories
     div(class: "py-16 sm:py-20 flex items-center") do
-      div(class: "flex-1 border-t border-border")
+      div(class: "flex-1 border-t border-border max-sm:-ms-4")
       Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".categories") }
-      div(class: "flex-1 border-t border-border")
+      div(class: "flex-1 border-t border-border max-sm:-me-4")
     end
 
     div(class: "flex justify-center") do

@@ -51,7 +51,7 @@ class Views::Pages::Show < Views::Base
   private
 
   def header
-    div(class: "relative") do
+    div(class: "relative", data: { top_controls_target: "header" }) do
       div(class: "flex items-center justify-between") do
         div(class: "flex flex-col items-start gap-y-1") do
           breadcrumb

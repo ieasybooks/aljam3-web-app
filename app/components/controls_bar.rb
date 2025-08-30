@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class Components::ControlsBar < Components::Base
-  def initialize(**attrs)
+  def initialize(container_attrs: {}, **attrs)
     super(**attrs)
+
+    @container_attrs = container_attrs
   end
 
   def view_template
-    Card do
+    Card(**@container_attrs) do
       CardContent(**attrs) do
         yield
       end
