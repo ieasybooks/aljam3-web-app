@@ -5,11 +5,17 @@ on:
     paths-ignore:
       - '**/*.md'
       - '.github/**'
+      - '.stimulus-lsp'
+      - '.kamal/**'
+      - '.vscode/**'
   push:
     branches: [ main ]
     paths-ignore:
       - '**/*.md'
       - '.github/**'
+      - '.stimulus-lsp'
+      - '.kamal/**'
+      - '.vscode/**'
 
 jobs:
   scan_ruby:
