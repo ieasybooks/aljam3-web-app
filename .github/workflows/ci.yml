@@ -2,8 +2,20 @@ name: CI
 
 on:
   pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
+      - '.stimulus-lsp'
+      - '.kamal/**'
+      - '.vscode/**'
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
+      - '.stimulus-lsp'
+      - '.kamal/**'
+      - '.vscode/**'
 
 jobs:
   scan_ruby:
@@ -66,6 +78,7 @@ jobs:
 
   active_record_doctor:
     runs-on: ubuntu-latest
+    needs: [scan_ruby, i18n-tasks, lint]
 
     services:
       postgres:
@@ -102,6 +115,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    needs: [scan_ruby, i18n-tasks, lint]
 
     services:
       postgres:
