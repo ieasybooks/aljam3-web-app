@@ -19,6 +19,7 @@ permissions:
 jobs:
   claude-review:
     # Optional: Filter by PR author
+    if: github.event.pull_request.head.repo.full_name == github.repository
     # if: |
     #   github.event.pull_request.user.login == 'external-contributor' ||
     #   github.event.pull_request.user.login == 'new-developer' ||
@@ -40,8 +41,6 @@ jobs:
 
           # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4.1)
           # model: "claude-opus-4-1-20250805"
-
-          allowed_bots: "dependabot[bot]"
 
           # Direct prompt for automated review (no @claude mention needed)
           direct_prompt: |
