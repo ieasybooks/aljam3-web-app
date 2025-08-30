@@ -36,7 +36,7 @@ class Views::Static::Home < Views::Base
           end
         end
       else
-          SearchTabs(tabs_search_results: @tabs_search_results, search_query_id: @search_query_id)
+        SearchTabs(tabs_search_results: @tabs_search_results, search_query_id: @search_query_id)
       end
     end
   end

@@ -7,11 +7,20 @@ class Components::SearchTabs < Components::Base
   end
 
   def view_template
-    Tabs(default_value: "titles", class: "pt-2") do
+    Tabs(default: "pages", class: "pt-2") do
         TabsList do
-          TabsTrigger(value: "pages", icon: -> { Hero::DocumentMagnifyingGlass(class: "inline size-4 me-1") }) { t(".pages") }
-          TabsTrigger(value: "titles", icon: -> { Hero::BookOpen(class: "inline size-4 me-1") }) { t(".titles") }
-          TabsTrigger(value: "authors", icon: -> { Hero::User(class: "inline size-4 me-1") }) { t(".authors") }
+          TabsTrigger(value: "pages", class: "cursor-pointer") do
+            Hero::DocumentMagnifyingGlass(class: "inline size-4 me-1")
+            plain t(".pages")
+          end
+          TabsTrigger(value: "titles", class: "cursor-pointer") do
+            Hero::BookOpen(class: "inline size-4 me-1")
+            plain t(".titles")
+          end
+          TabsTrigger(value: "authors", class: "cursor-pointer") do
+            Hero::User(class: "inline size-4 me-1")
+            plain t(".authors")
+          end
       end
 
       div(class: "my-6")
