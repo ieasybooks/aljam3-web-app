@@ -20,12 +20,12 @@ gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.4"
 gem "pghero", "~> 3.7"
 gem "pg_query", "~> 6.1"
-gem "phlex-icons", "~> 2.35"
+gem "phlex-icons", "~> 2.36"
 gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.2"
 gem "rails-i18n", "~> 8.0", ">= 8.0.2"
-gem "rails_performance", "~> 1.4", ">= 1.4.2"
+gem "rails_performance", "~> 1.5", ">= 1.5.1"
 gem "sitemap_generator", "~> 6.3"
 gem "solid_errors", "~> 0.7.0"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
@@ -36,7 +36,7 @@ gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
   gem "addressable", "~> 2.8", ">= 2.8.7"
-  gem "annotaterb", "~> 4.18"
+  gem "annotaterb", "~> 4.19"
   gem "better_errors", "~> 2.10", ">= 2.10.1"
   gem "binding_of_caller", "~> 1.0", ">= 1.0.1"
   gem "faker", "~> 3.5", ">= 3.5.2", require: false

@@ -84,7 +84,7 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    annotaterb (4.18.0)
+    annotaterb (4.19.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
     ast (2.4.3)
@@ -328,7 +328,7 @@ GEM
     mutex_m (0.3.0)
     net-http (0.6.0)
       uri
-    net-imap (0.5.9)
+    net-imap (0.5.10)
       date
       net-protocol
     net-pop (0.1.2)
@@ -402,7 +402,7 @@ GEM
       activerecord (>= 7.1)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.35.0)
+    phlex-icons (2.36.0)
       phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
@@ -469,7 +469,7 @@ GEM
     rails_cloudflare_turnstile (0.4.2)
       faraday (>= 1.0, < 3.0)
       rails (>= 6.0, < 8.1)
-    rails_performance (1.4.2)
+    rails_performance (1.5.1)
       browser
       railties
       redis
@@ -501,7 +501,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.4.1)
+    rexml (3.4.2)
     rouge (4.6.0)
     rspec-core (3.13.5)
       rspec-support (~> 3.13.0)
@@ -520,7 +520,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.5)
-    rubocop (1.80.0)
+    rubocop (1.80.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -677,7 +677,7 @@ PLATFORMS
 DEPENDENCIES
   active_record_doctor!
   addressable (~> 2.8, >= 2.8.7)
-  annotaterb (~> 4.18)
+  annotaterb (~> 4.19)
   avo (~> 3.23, >= 3.23.1)
   better_errors (~> 2.10, >= 2.10.1)
   binding_of_caller (~> 1.0, >= 1.0.1)
@@ -713,7 +713,7 @@ DEPENDENCIES
   pg (~> 1.1)
   pg_query (~> 6.1)
   pghero (~> 3.7)
-  phlex-icons (~> 2.35)
+  phlex-icons (~> 2.36)
   phlex-rails (~> 2.3, >= 2.3.1)
   propshaft
   puma (>= 5.0)
@@ -722,7 +722,7 @@ DEPENDENCIES
   rails (~> 8.0, >= 8.0.2.1)
   rails-i18n (~> 8.0, >= 8.0.2)
   rails_cloudflare_turnstile (~> 0.4.2)
-  rails_performance (~> 1.4, >= 1.4.2)
+  rails_performance (~> 1.5, >= 1.5.1)
   rspec-rails (~> 8.0, >= 8.0.2)
   rubocop-rails-omakase
   rubocop-rake (~> 0.7.1)
