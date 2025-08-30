@@ -16,10 +16,10 @@ class Components::Navbar < Components::Base
             Aljam3Logo(class: "h-9 text-primary me-4 max-sm:ps-1")
           end
 
-          Link(href: root_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".home") }
-          Link(href: categories_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".categories") }
-          Link(href: authors_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".authors") }
-          Link(href: books_path, variant: :ghost, size: :lg, class: "hidden md:inline-block") { t(".books") }
+          nav_link(href: root_path, active_controller: "static", active_action: "home") { t(".home") }
+          nav_link(href: categories_path, active_controller: "categories") { t(".categories") }
+          nav_link(href: authors_path, active_controller: "authors") { t(".authors") }
+          nav_link(href: books_path, active_controller: "books") { t(".books") }
         end
 
         div(class: "flex items-center gap-x-1") do
@@ -78,10 +78,35 @@ class Components::Navbar < Components::Base
 
   private
 
+
+  def nav_link(href:, active_controller:, active_action: nil, &block)
+    Link(
+      href: href,
+      variant: :ghost,
+      size: :lg,
+      class: [
+        "hidden md:inline-block relative me-1",
+        (
+          "bg-accent text-accent-foreground" if active_link?(active_controller, active_action)
+        )
+      ],
+      &block
+    )
+  end
+
+
   def theme_toggle
     ThemeToggle do
       SetLightMode { Button(variant: :ghost, icon: true) { Lucide::Sun(class: "size-5") } }
       SetDarkMode { Button(variant: :ghost, icon: true) { Remix::MoonFill(class: "size-4.5") } }
+    end
+  end
+
+  def active_link?(active_controller, active_action = nil)
+    if active_action
+      active_controller == controller_name && active_action == action_name
+    else
+      active_controller == controller_name
     end
   end
 end
