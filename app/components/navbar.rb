@@ -91,7 +91,7 @@ class Components::Navbar < Components::Base
       size: :lg,
               class: [
           "hidden md:inline-block relative me-1",
-          ("after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-primary after:rounded-full" if active_link?(controller_name, action_name))
+          ("bg-accent text-accent-foreground" if active_link?(controller_name, action_name))
         ]
     ) { yield }
   end
