@@ -2,8 +2,14 @@ name: CI
 
 on:
   pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
 
 jobs:
   scan_ruby:
