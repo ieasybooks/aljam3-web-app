@@ -24,6 +24,7 @@ class Views::Static::Home < Views::Base
   def view_template
     div(class: "px-4 sm:px-4 py-4 sm:container") do
       header if params[:q].blank?
+
       SearchForm(libraries: @libraries, categories: @categories)
 
       if params[:q].blank?
