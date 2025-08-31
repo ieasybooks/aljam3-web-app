@@ -7,11 +7,20 @@ class Components::SearchTabs < Components::Base
   end
 
   def view_template
-    Tabs(default_value: "pages", class: "pt-2") do
-      TabsList(class: "w-full grid grid-cols-3") do
-        TabsTrigger(value: "pages") { t(".pages") }
-        TabsTrigger(value: "titles") { t(".titles") }
-        TabsTrigger(value: "authors") { t(".authors") }
+    Tabs(default: "pages", class: "pt-2") do
+      TabsList(class: "max-sm:w-full max-sm:grid max-sm:grid-cols-3") do
+          TabsTrigger(value: "pages", class: "cursor-pointer flex items-center gap-1") do
+            Lucide::File(class: "size-4 stroke-[1.5]")
+            plain t(".pages")
+          end
+          TabsTrigger(value: "titles", class: "cursor-pointer flex items-center gap-1") do
+            Hero::BookOpen(variant: :outline, class: "size-4")
+            plain t(".titles")
+          end
+          TabsTrigger(value: "authors", class: "cursor-pointer flex items-center gap-1") do
+            Hero::UserGroup(variant: :outline, class: "size-4")
+            plain t(".authors")
+          end
       end
 
       TabsContent(value: "pages") do
