@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "avo", "~> 3.23", ">= 3.23.1"
+gem "avo", "~> 3.24"
 gem "browser", "~> 6.2"
 gem "cache_with_locale", "~> 0.0.3"
 gem "devise", "~> 4.9", ">= 4.9.4"
