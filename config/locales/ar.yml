@@ -223,14 +223,17 @@ ar:
   top_controls:
     book_pdf: الكتاب المُصوّر
     book_txt: نص الكتاب
-    copy_image: نسخ الصورة
+    copy_image: نسخ صورة الصفحة
     copy_page_content: نسخ محتوى الصفحة
+    crop_image: قص صورة الصفحة
+    download_cropped_image: تحميل الصورة المقصوصة
     download_files: تحميل الملفات
-    download_image: تحميل الصورة
+    download_image: تحميل صورة الصفحة
     file_name: اسم الملف
     fullscreen: ملئ الشاشة
     hide_tashkeel: إخفاء التشكيل
     pdf_content_only: الكتاب المُصوّر فقط
+    rotate: 'تدوير:'
     search_in_book: البحث في الكتاب
     share_page: مشاركة الصفحة
     share_page_dialog_title: شارك رابط الصفحة مع أصدقاءك!
@@ -238,6 +241,7 @@ ar:
     text_size: حجم الخط
     text_size_decrease: تصغير حجم الخط
     text_size_increase: تكبير حجم الخط
+    try_again_after_the_pdf_file_is_loaded: يرجى المحاولة مرة أخرى بعد تحميل الملف المُصوّر
     txt_and_pdf_content: نص الكتاب والكتاب المُصوّر
     txt_content_only: نص الكتاب فقط
   validation_messages:

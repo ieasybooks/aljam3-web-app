@@ -44,6 +44,7 @@ class Components::TopControls < Components::Base
 
   def right_side_controls(bar)
     div(class: "max-sm:hidden flex items-center gap-x-2") do
+      bar.dummy_button
       search_button(bar)
       copy_text_button(bar)
       text_size_dropdown(bar)
@@ -65,6 +66,7 @@ class Components::TopControls < Components::Base
     div(class: "max-sm:hidden flex items-center gap-x-2") do
       download_image_button(bar)
       copy_image_button(bar)
+      crop_image_button(bar)
       download_files_button(bar)
       share_button(bar)
     end
@@ -303,6 +305,66 @@ class Components::TopControls < Components::Base
     bar.tooltip(text: t(".copy_image")) do
       bar.button(data: { action: "click->top-controls#copyImage", top_controls_target: "copyImageButton" }) do
         Lucide::Images(class: "size-5 ltr:transform ltr:-scale-x-100")
+      end
+    end
+  end
+
+  def crop_image_button(bar)
+    Dialog(data: { pdf_viewer_target: "shareDialog" }) do
+      DialogTrigger do
+        Tooltip(placement: "top") do
+          TooltipTrigger do
+            Button(variant: :outline, icon: true) do
+              Lucide::Crop(class: "size-5 ltr:transform ltr:-scale-x-100")
+            end
+          end
+
+          TooltipContent(class: "delay-100 max-sm:hidden") do
+            Text { t(".crop_image") }
+          end
+        end
+      end
+
+      DialogContent(
+        size: :xl,
+        class: [
+          "p-4 h-[calc(100dvh-4rem)]",
+          ("max-sm:border-x-0 max-sm:light:border-t max-sm:dark:border-y" unless hotwire_native_app?),
+          ("border-x-0 light:border-t dark:border-y" if hotwire_native_app?)
+        ]
+      ) do
+        DialogHeader do
+          DialogTitle { t(".crop_image") }
+        end
+
+        DialogMiddle(class: "py-0 h-full") do
+          div(class: "h-full", dir: "ltr", data: { cropperjs_target: "container", book_title: @book.title }) do
+            div(class: "h-full w-full flex items-center justify-center") do
+              Text(size: "xl", weight: "bold") { t(".try_again_after_the_pdf_file_is_loaded") }
+            end
+          end
+        end
+
+        DialogFooter(class: "justify-between!") do
+          div(class: "flex items-center gap-x-2") do
+            Text { t(".rotate") }
+
+            input(
+              type: :range,
+              min: "-180",
+              max: "180",
+              value: "0",
+              data: { action: "input->cropperjs#rotate" }
+            )
+
+            Text(class: "text-sm", data: { cropperjs_target: "rotationValue" }) { "(0)" }
+          end
+
+          div(class: "flex items-center gap-x-2") do
+            Button(variant: :primary, data: { action: "click->cropperjs#download" }) { t(".download_cropped_image") }
+            Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { t("close") }
+          end
+        end
       end
     end
   end

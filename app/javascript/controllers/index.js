@@ -25,6 +25,9 @@ application.register("bridge--theme", Bridge__ThemeController)
 import CloudflareTurnstileController from "./cloudflare_turnstile_controller"
 application.register("cloudflare-turnstile", CloudflareTurnstileController)
 
+import CropperjsController from "./cropperjs_controller"
+application.register("cropperjs", CropperjsController)
+
 import FileDownloadController from "./file_download_controller"
 application.register("file-download", FileDownloadController)
 

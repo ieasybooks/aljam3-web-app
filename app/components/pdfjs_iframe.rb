@@ -7,7 +7,8 @@ class Components::PdfjsIframe < Components::Base
         data: {
           pdf_viewer_target: "iframe",
           top_controls_target: "iframe",
-          bottom_controls_target: "iframe"
+          bottom_controls_target: "iframe",
+          cropperjs_target: "iframe"
         }
       )
     end

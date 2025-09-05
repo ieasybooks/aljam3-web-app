@@ -231,14 +231,17 @@ en:
   top_controls:
     book_pdf: PDF
     book_txt: Text
-    copy_image: Copy Image
+    copy_image: Copy Page Image
     copy_page_content: Copy Page Content
+    crop_image: Crop Page Image
+    download_cropped_image: Download Cropped Image
     download_files: Download Files
-    download_image: Download Image
+    download_image: Download Page Image
     file_name: File Name
     fullscreen: Full Screen
     hide_tashkeel: Hide Diacritics
     pdf_content_only: PDF Content Only
+    rotate: Rotate
     search_in_book: Search in Book
     share_page: Share Page
     share_page_dialog_title: Share the page link with your friends!
@@ -246,6 +249,7 @@ en:
     text_size: Text Size
     text_size_decrease: Decrease Text Size
     text_size_increase: Increase Text Size
+    try_again_after_the_pdf_file_is_loaded: Please try again after the PDF file is loaded
     txt_and_pdf_content: Text and PDF Content
     txt_content_only: Text Content Only
   validation_messages:

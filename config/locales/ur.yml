@@ -223,14 +223,17 @@ ur:
   top_controls:
     book_pdf: تصویری کتاب
     book_txt: کتاب کا متن
-    copy_image: تصویر کاپی کریں
+    copy_image: صفحہ کا تصویر کاپی کریں
     copy_page_content: صفحہ کا مواد کاپی کریں
+    crop_image: صفحہ کا تصویر قص کریں
+    download_cropped_image: تصویر قصوص کے لیے ڈاؤن لوڈ کریں
     download_files: فائلیں ڈاؤن لوڈ کریں
-    download_image: تصویر ڈاؤن لوڈ کریں
+    download_image: صفحہ کا تصویر ڈاؤن لوڈ کریں
     file_name: فائل کا نام
     fullscreen: مکمل اسکرین
     hide_tashkeel: اعراب چھپائیں
     pdf_content_only: صرف کتاب کی تصویری شکل
+    rotate: تدویر
     search_in_book: کتاب میں تلاش کریں
     share_page: صفحہ شیئر کریں
     share_page_dialog_title: صفحے کا لنک اپنے دوستوں سے شیئر کریں!
@@ -238,6 +241,7 @@ ur:
     text_size: فونٹ کا سائز
     text_size_decrease: فونٹ سائز کم کریں
     text_size_increase: فونٹ سائز بڑھائیں
+    try_again_after_the_pdf_file_is_loaded: براہ کرم پھر کوشش کریں پھر کوشش کریں جب تک کہ PDF فائل لوڈ نہیں ہو سکتی ہے۔
     txt_and_pdf_content: کتاب کا متن اور تصویری کتاب
     txt_content_only: صرف کتاب کا متن
   validation_messages:

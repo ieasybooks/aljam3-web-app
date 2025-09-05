@@ -16,6 +16,7 @@ class Components::Layout < Components::Base
         data: {
           controller: [
             "sync-value",
+            ("cropperjs" if controller_name == "pages" && action_name == "show"),
             ("sync-direction bridge--menu-button bridge--theme" if hotwire_native_app?),
             ("bridge--localize" if hotwire_native_app? && controller_name == "static" && action_name == "home")
           ],
