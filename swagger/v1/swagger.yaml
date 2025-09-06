@@ -1,0 +1,198 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/books.json":
+    get:
+      summary: get books
+      tags:
+      - Books
+      parameters:
+      - name: q
+        in: query
+        required: false
+        description: Search query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Limit the number of books to return
+        schema:
+          type: integer
+          default: 20
+          minimum: 1
+          maximum: 1000
+      - name: page
+        in: query
+        required: false
+        description: Page number to be returned
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      responses:
+        '200':
+          description: books found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/pagination"
+                  books:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/book"
+                required:
+                - pagination
+                - books
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
+- url: https://{productionHost}
+  variables:
+    productionHost:
+      default: aljam3.com
+components:
+  schemas:
+    pagination:
+      type: object
+      properties:
+        from:
+          type: integer
+          description: First record on the page
+        to:
+          type: integer
+          description: Last record on the page
+        count:
+          type: integer
+          description: Total number of records
+        current_page:
+          type: integer
+          description: Current page number
+        total_pages:
+          type: integer
+          description: Total number of pages
+        limit:
+          type: integer
+          description: Limit the number of books to return
+        next_page:
+          type: integer
+          description: Next page number, null if no next page
+          nullable: true
+        next_page_link:
+          type: string
+          description: API link to the next page, null if no next page
+          nullable: true
+        previous_page:
+          type: integer
+          description: Previous page number, null if no previous page
+          nullable: true
+        previous_page_link:
+          type: string
+          description: API link to the previous page, null if no previous page
+          nullable: true
+      required:
+      - from
+      - to
+      - count
+      - current_page
+      - total_pages
+      - limit
+      - next_page
+      - next_page_link
+      - previous_page
+      - previous_page_link
+    book:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Book ID
+        title:
+          type: string
+          description: Book title
+        author:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Author ID
+            name:
+              type: string
+              description: Author name
+            ui_link:
+              type: string
+              description: UI link to the author
+            api_link:
+              type: string
+              description: API link to the author
+          required:
+          - id
+          - name
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Category ID
+            name:
+              type: string
+              description: Category name
+            ui_link:
+              type: string
+              description: UI link to the category
+            api_link:
+              type: string
+              description: API link to the category
+          required:
+          - id
+          - name
+        library:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Library ID
+            name:
+              type: string
+              description: Library name
+          required:
+          - id
+          - name
+        pages_count:
+          type: integer
+          description: Number of pages
+        files_count:
+          type: integer
+          description: Number of files, -1 if not available
+        views_count:
+          type: integer
+          description: Number of views
+        volumes:
+          type: integer
+          description: Number of volumes
+        ui_link:
+          type: string
+          description: UI link to the book
+        api_link:
+          type: string
+          description: API link to the book
+      required:
+      - id
+      - title
+      - author
+      - category
+      - library
+      - pages_count
+      - files_count
+      - views_count
+      - volumes
+      - ui_link
+      - api_link

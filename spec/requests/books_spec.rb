@@ -70,6 +70,51 @@ RSpec.describe "Books" do
             expect(response.body).not_to include("Hidden Ruby Book")
           end
         end
+
+        context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+          let(:controller) { BooksController.new }
+
+          before do
+            allow(BooksController).to receive(:new).and_return(controller)
+            allow(controller).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ])
+          end
+
+          it "uses default limit of 20 when no limit specified" do
+            get books_path(q: "ruby"), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 20
+            )
+          end
+
+          it "uses custom limit when specified" do
+            get books_path(q: "ruby", limit: 50), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 50
+            )
+          end
+
+          it "caps limit at 1000 when higher value is provided" do
+            get books_path(q: "ruby", limit: 1500), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 1000
+            )
+          end
+
+          it "uses limit 0 when invalid limit is provided" do
+            get books_path(q: "ruby", limit: "invalid"), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 0
+            )
+          end
+        end
       end
 
       context "without query parameter" do
@@ -124,6 +169,51 @@ RSpec.describe "Books" do
             get books_path, as: :turbo_stream
 
             expect(Book).not_to have_received(:pagy_search)
+          end
+        end
+
+        context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+          let(:controller) { BooksController.new }
+
+          before do
+            allow(BooksController).to receive(:new).and_return(controller)
+            allow(controller).to receive(:pagy).and_return([ mock_pagy, mock_books_relation ])
+          end
+
+          it "uses default limit of 20 when no limit specified" do
+            get books_path, as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 20
+            )
+          end
+
+          it "uses custom limit when specified" do
+            get books_path(limit: 50), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 50
+            )
+          end
+
+          it "caps limit at 1000 when higher value is provided" do
+            get books_path(limit: 1500), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 1000
+            )
+          end
+
+          it "uses limit 0 when invalid limit is provided" do
+            get books_path(limit: "invalid"), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 0
+            )
           end
         end
       end
