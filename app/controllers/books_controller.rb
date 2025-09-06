@@ -2,19 +2,18 @@ class BooksController < ApplicationController
   before_action :set_book, only: [ :show, :search ]
 
   def index
-    pagy, books = search_or_list
+    @pagy, @books = search_or_list
 
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "results_list_#{pagy.page}",
-          Components::BooksList.new(books:, pagy:)
+          "results_list_#{@pagy.page}",
+          Components::BooksList.new(books: @books, pagy: @pagy)
         )
       end
 
-      format.html do
-        render Views::Books::Index.new(books:, pagy:)
-      end
+      format.html { render Views::Books::Index.new(books: @books, pagy: @pagy) }
+      format.json
     end
   end
 

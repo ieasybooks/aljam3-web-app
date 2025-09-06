@@ -26,6 +26,8 @@ gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.2"
 gem "rails-i18n", "~> 8.0", ">= 8.0.2"
 gem "rails_performance", "~> 1.5", ">= 1.5.1"
+gem "rswag-api", "~> 2.16"
+gem "rswag-ui", "~> 2.16"
 gem "sitemap_generator", "~> 6.3"
 gem "solid_errors", "~> 0.7.0"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
@@ -62,6 +64,7 @@ end
 group :development, :test do
   gem "active_record_doctor", github: "gregnavis/active_record_doctor"
   gem "rspec-rails", "~> 8.0", ">= 8.0.2"
+  gem "rswag-specs", "~> 2.16"
 end
 
 group :production do

@@ -48,6 +48,8 @@
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /\d+/}
 #                                  privacy GET      /privacy(.:format)                                                                                static#privacy
+#                                 rswag_ui          /api-docs                                                                                         Rswag::Ui::Engine
+#                                rswag_api          /api-docs                                                                                         Rswag::Api::Engine
 #                                      avo          /avo                                                                                              Avo::Engine
 #                     mission_control_jobs          /jobs                                                                                             MissionControl::Jobs::Engine
 #                                  pg_hero          /pghero                                                                                           PgHero::Engine
@@ -80,6 +82,12 @@
 #                       rails_disk_service GET      /rails/active_storage/disk/:encoded_key/*filename(.:format)                                       active_storage/disk#show
 #                update_rails_disk_service PUT      /rails/active_storage/disk/:encoded_token(.:format)                                               active_storage/disk#update
 #                     rails_direct_uploads POST     /rails/active_storage/direct_uploads(.:format)                                                    active_storage/direct_uploads#create
+#
+# Routes for Rswag::Ui::Engine:
+#
+#
+# Routes for Rswag::Api::Engine:
+#
 #
 # Routes for Avo::Engine:
 #                                root GET    /                                                                                                  avo/home#index
@@ -329,6 +337,9 @@ Rails.application.routes.draw do
   end
 
   get "/privacy", to: "static#privacy", as: :privacy
+
+  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
 
   authenticate :user, ->(user) { user.admin? } do
     mount_avo
