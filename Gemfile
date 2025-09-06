@@ -47,7 +47,7 @@ group :development do
   gem "lookbook", "~> 2.3", ">= 2.3.13"
   gem "net-ssh", "~> 7.3"
   gem "rubocop-rake", "~> 0.7.1"
-  gem "rubocop-rspec", "~> 3.6"
+  gem "rubocop-rspec", "~> 3.7"
   gem "rubocop-rspec_rails", "~> 2.31"
   gem "ruby_ui", "~> 1.0", ">= 1.0.1"
   gem "tqdm", "~> 0.4.1"
