@@ -47,13 +47,21 @@ RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
       tags "Books"
       produces "application/json"
 
-      parameter name: :id, in: :path, type: :string, required: true,
+      parameter name: :id, in: :path, type: :integer, required: true,
                 description: "Book ID"
 
       response "200", "book found" do
         schema "$ref" => "#/components/schemas/book"
 
         let(:id) { create(:book).id }
+
+        run_test!
+      end
+
+      response "404", "book not found" do
+        schema "$ref" => "#/components/schemas/not_found"
+
+        let(:id) { create(:book, hidden: true).id }
 
         run_test!
       end

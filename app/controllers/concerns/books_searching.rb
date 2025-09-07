@@ -1,7 +1,7 @@
 module BooksSearching
   extend ActiveSupport::Concern
 
-  def search_or_list
+  def search_or_list_books
     if params[:q].present?
       pagy_meilisearch(
         Book.pagy_search(
