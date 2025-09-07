@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   before_action :set_book, only: [ :show, :search ]
 
   def index
-    pagy, books = search_or_list
+    pagy, books = search_or_list_books
 
     respond_to do |format|
       format.turbo_stream do

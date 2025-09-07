@@ -77,6 +77,52 @@ RSpec.describe "Authors" do
               expect(response.body).not_to include("Hidden Ruby Book")
             end
           end
+
+          context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+            let(:controller) { AuthorsController.new }
+
+            before do
+              allow(AuthorsController).to receive(:new).and_return(controller)
+              allow(controller).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ])
+              allow(Book).to receive(:pagy_search).and_return(mock_search_results)
+            end
+
+            it "uses default limit of 20 when no limit specified" do
+              get author_path(id: author.id, q: "ruby"), as: :html
+
+              expect(controller).to have_received(:pagy_meilisearch).with(
+                anything,
+                limit: 20
+              )
+            end
+
+            it "uses custom limit when specified" do
+              get author_path(id: author.id, q: "ruby", limit: 50), as: :html
+
+              expect(controller).to have_received(:pagy_meilisearch).with(
+                anything,
+                limit: 50
+              )
+            end
+
+            it "caps limit at 1000 when higher value is provided" do
+              get author_path(id: author.id, q: "ruby", limit: 1500), as: :html
+
+              expect(controller).to have_received(:pagy_meilisearch).with(
+                anything,
+                limit: 1000
+              )
+            end
+
+            it "uses limit 0 when invalid limit is provided" do
+              get author_path(id: author.id, q: "ruby", limit: "invalid"), as: :html
+
+              expect(controller).to have_received(:pagy_meilisearch).with(
+                anything,
+                limit: 0
+              )
+            end
+          end
         end
 
         context "without query parameter" do # rubocop:disable RSpec/NestedGroups
@@ -136,6 +182,54 @@ RSpec.describe "Authors" do
               get author_path(id: author.id), as: :turbo_stream
 
               expect(Book).not_to have_received(:pagy_search)
+            end
+          end
+
+          context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+            let(:controller) { AuthorsController.new }
+
+            before do
+              allow(AuthorsController).to receive(:new).and_return(controller)
+              allow(controller).to receive(:pagy).and_return([ mock_pagy, mock_books_relation ])
+
+              allow(author).to receive(:books).and_return(double.tap { allow(it).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) }) # rubocop:disable RSpec/VerifiedDoubles
+              allow(Author).to receive(:find).with(author.id.to_s).and_return(author)
+            end
+
+            it "uses default limit of 20 when no limit specified" do
+              get author_path(id: author.id), as: :html
+
+              expect(controller).to have_received(:pagy).with(
+                anything,
+                limit: 20
+              )
+            end
+
+            it "uses custom limit when specified" do
+              get author_path(id: author.id, limit: 50), as: :html
+
+              expect(controller).to have_received(:pagy).with(
+                anything,
+                limit: 50
+              )
+            end
+
+            it "caps limit at 1000 when higher value is provided" do
+              get author_path(id: author.id, limit: 1500), as: :html
+
+              expect(controller).to have_received(:pagy).with(
+                anything,
+                limit: 1000
+              )
+            end
+
+            it "uses limit 0 when invalid limit is provided" do
+              get author_path(id: author.id, limit: "invalid"), as: :html
+
+              expect(controller).to have_received(:pagy).with(
+                anything,
+                limit: 0
+              )
             end
           end
         end
@@ -328,6 +422,51 @@ RSpec.describe "Authors" do
             expect(response.body).not_to include("Hidden Author")
           end
         end
+
+        context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+          let(:controller) { AuthorsController.new }
+
+          before do
+            allow(AuthorsController).to receive(:new).and_return(controller)
+            allow(controller).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ])
+          end
+
+          it "uses default limit of 20 when no limit specified" do
+            get authors_path(q: "john"), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 20
+            )
+          end
+
+          it "uses custom limit when specified" do
+            get authors_path(q: "john", limit: 50), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 50
+            )
+          end
+
+          it "caps limit at 1000 when higher value is provided" do
+            get authors_path(q: "john", limit: 1500), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 1000
+            )
+          end
+
+          it "uses limit 0 when invalid limit is provided" do
+            get authors_path(q: "john", limit: "invalid"), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 0
+            )
+          end
+        end
       end
 
       context "without query parameter" do
@@ -382,6 +521,51 @@ RSpec.describe "Authors" do
             get authors_path, as: :turbo_stream
 
             expect(Author).not_to have_received(:pagy_search)
+          end
+        end
+
+        context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+          let(:controller) { AuthorsController.new }
+
+          before do
+            allow(AuthorsController).to receive(:new).and_return(controller)
+            allow(controller).to receive(:pagy).and_return([ mock_pagy, mock_authors_relation ])
+          end
+
+          it "uses default limit of 20 when no limit specified" do
+            get authors_path, as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 20
+            )
+          end
+
+          it "uses custom limit when specified" do
+            get authors_path(limit: 50), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 50
+            )
+          end
+
+          it "caps limit at 1000 when higher value is provided" do
+            get authors_path(limit: 1500), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 1000
+            )
+          end
+
+          it "uses limit 0 when invalid limit is provided" do
+            get authors_path(limit: "invalid"), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 0
+            )
           end
         end
       end

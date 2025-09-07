@@ -49,15 +49,11 @@ RSpec.configure do |config|
             properties: {
               id: { type: :integer, description: "Book ID" },
               title: { type: :string, description: "Book title" },
-              author: {
-                type: :object,
-                properties: {
-                  id: { type: :integer, description: "Author ID" },
-                  name: { type: :string, description: "Author name" },
-                  link: { type: :string, description: "API link to the author" }
-                },
-                required: %w[id name link]
-              },
+              pages_count: { type: :integer, description: "Number of pages" },
+              files_count: { type: :integer, description: "Number of files, -1 if not available" },
+              views_count: { type: :integer, description: "Number of views" },
+              volumes: { type: :integer, description: "Number of volumes" },
+              author: { "$ref": "#/components/schemas/author" },
               category: {
                 type: :object,
                 properties: {
@@ -75,13 +71,26 @@ RSpec.configure do |config|
                 },
                 required: %w[id name]
               },
-              pages_count: { type: :integer, description: "Number of pages" },
-              files_count: { type: :integer, description: "Number of files, -1 if not available" },
-              views_count: { type: :integer, description: "Number of views" },
-              volumes: { type: :integer, description: "Number of volumes" },
               link: { type: :string, description: "API link to the book" }
             },
             required: %w[id title author category library pages_count files_count views_count volumes link]
+          },
+          author: {
+            type: :object,
+            properties: {
+              id: { type: :integer, description: "Author ID" },
+              name: { type: :string, description: "Author name" },
+              books_count: { type: :integer, description: "Number of books" },
+              link: { type: :string, description: "API link to the author" }
+            },
+            required: %w[id name books_count link]
+          },
+          not_found: {
+            type: :object,
+            properties: {
+              error: { type: :string, description: "Error message" }
+            },
+            required: %w[error]
           }
         }
       }

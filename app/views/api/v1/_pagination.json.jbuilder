@@ -1,3 +1,5 @@
+# locals: (json:, pagy:)
+
 json.pagination do
   json.from pagy.from
   json.to pagy.to

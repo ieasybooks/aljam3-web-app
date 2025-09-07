@@ -1,4 +1,6 @@
 class AuthorsController < ApplicationController
+  include AuthorsSearching
+
   before_action :set_author, only: :show
   before_action :check_hidden, only: :show
 
@@ -32,7 +34,7 @@ class AuthorsController < ApplicationController
       SearchClick.create(index: params[:i].presence&.to_i || -1, search_query_id: params[:qid], result: @author)
     end
 
-    pagy, books = search_or_list_books
+    pagy, books = search_or_list_author_books
 
     respond_to do |format|
       format.turbo_stream do
@@ -54,31 +56,5 @@ class AuthorsController < ApplicationController
 
   def check_hidden
     redirect_to root_path if @author.hidden
-  end
-
-  def search_or_list_authors
-    if params[:q].present?
-      pagy_meilisearch(Author.pagy_search(
-        params[:q],
-        filter: "hidden = false",
-        highlight_pre_tag: "<mark>",
-        highlight_post_tag: "</mark>"
-      ))
-    else
-      pagy(Author.where(hidden: false).order(:name))
-    end
-  end
-
-  def search_or_list_books
-    if params[:q].present?
-      pagy_meilisearch(Book.pagy_search(
-        params[:q],
-        filter: %(hidden = false AND author = "#{@author.id}"),
-        highlight_pre_tag: "<mark>",
-        highlight_post_tag: "</mark>"
-      ))
-    else
-      pagy(@author.books.where(hidden: false).order(:title))
-    end
   end
 end
