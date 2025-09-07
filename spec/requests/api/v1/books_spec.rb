@@ -1,8 +1,8 @@
 require "swagger_helper"
 
-RSpec.describe BooksController do # rubocop:disable RSpec/EmptyExampleGroup
-  path "/books.json" do
-    get "get books" do
+RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
+  path "/api/v1/books" do
+    get "List books" do
       tags "Books"
       produces "application/json"
 

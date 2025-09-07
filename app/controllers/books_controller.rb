@@ -1,19 +1,17 @@
 class BooksController < ApplicationController
+  include BooksSearching
+
   before_action :set_book, only: [ :show, :search ]
 
   def index
-    @pagy, @books = search_or_list
+    pagy, books = search_or_list
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          "results_list_#{@pagy.page}",
-          Components::BooksList.new(books: @books, pagy: @pagy)
-        )
+        render turbo_stream: turbo_stream.replace("results_list_#{pagy.page}", Components::BooksList.new(books:, pagy:))
       end
 
-      format.html { render Views::Books::Index.new(books: @books, pagy: @pagy) }
-      format.json
+      format.html { render Views::Books::Index.new(books:, pagy:) }
     end
   end
 
@@ -52,20 +50,4 @@ class BooksController < ApplicationController
   private
 
   def set_book = @book = Book.find(params[:book_id])
-
-  def search_or_list
-    if params[:q].present?
-      pagy_meilisearch(
-        Book.pagy_search(
-          params[:q],
-          filter: "hidden = false",
-          highlight_pre_tag: "<mark>",
-          highlight_post_tag: "</mark>"
-        ),
-        limit: [ params[:limit].presence&.to_i || 20, 1000 ].min
-      )
-    else
-      pagy(Book.where(hidden: false).order(:title), limit: [ params[:limit].presence&.to_i || 20, 1000 ].min)
-    end
-  end
 end

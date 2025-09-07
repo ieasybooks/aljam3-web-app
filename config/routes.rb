@@ -48,6 +48,12 @@
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /\d+/}
 #                                  privacy GET      /privacy(.:format)                                                                                static#privacy
+#                             api_v1_books GET      /api/v1/books(.:format)                                                                           api/v1/books#index
+#                              api_v1_book GET      /api/v1/books/:id(.:format)                                                                       api/v1/books#show
+#                           api_v1_authors GET      /api/v1/authors(.:format)                                                                         api/v1/authors#index
+#                            api_v1_author GET      /api/v1/authors/:id(.:format)                                                                     api/v1/authors#show
+#                        api_v1_categories GET      /api/v1/categories(.:format)                                                                      api/v1/categories#index
+#                          api_v1_category GET      /api/v1/categories/:id(.:format)                                                                  api/v1/categories#show
 #                                 rswag_ui          /api-docs                                                                                         Rswag::Ui::Engine
 #                                rswag_api          /api-docs                                                                                         Rswag::Api::Engine
 #                                      avo          /avo                                                                                              Avo::Engine
@@ -337,6 +343,14 @@ Rails.application.routes.draw do
   end
 
   get "/privacy", to: "static#privacy", as: :privacy
+
+  namespace :api do
+    namespace :v1 do
+      resources :books, only: %i[ index show ]
+      resources :authors, only: %i[ index show ]
+      resources :categories, only: %i[ index show ]
+    end
+  end
 
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"

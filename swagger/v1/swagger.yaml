@@ -1,12 +1,12 @@
 ---
 openapi: 3.0.1
 info:
-  title: API V1
+  title: Aljam3 API
   version: v1
 paths:
-  "/books.json":
+  "/api/v1/books":
     get:
-      summary: get books
+      summary: List books
       tags:
       - Books
       parameters:
@@ -51,14 +51,8 @@ paths:
                 - pagination
                 - books
 servers:
-- url: http://{defaultHost}
-  variables:
-    defaultHost:
-      default: localhost:3000
-- url: https://{productionHost}
-  variables:
-    productionHost:
-      default: aljam3.com
+- url: http://localhost:3000
+- url: https://aljam3.com
 components:
   schemas:
     pagination:
@@ -127,15 +121,13 @@ components:
             name:
               type: string
               description: Author name
-            ui_link:
-              type: string
-              description: UI link to the author
-            api_link:
+            link:
               type: string
               description: API link to the author
           required:
           - id
           - name
+          - link
         category:
           type: object
           properties:
@@ -145,15 +137,13 @@ components:
             name:
               type: string
               description: Category name
-            ui_link:
-              type: string
-              description: UI link to the category
-            api_link:
+            link:
               type: string
               description: API link to the category
           required:
           - id
           - name
+          - link
         library:
           type: object
           properties:
@@ -178,10 +168,7 @@ components:
         volumes:
           type: integer
           description: Number of volumes
-        ui_link:
-          type: string
-          description: UI link to the book
-        api_link:
+        link:
           type: string
           description: API link to the book
       required:
@@ -194,5 +181,4 @@ components:
       - files_count
       - views_count
       - volumes
-      - ui_link
-      - api_link
+      - link

@@ -18,27 +18,13 @@ RSpec.configure do |config|
     "v1/swagger.yaml" => {
       openapi: "3.0.1",
       info: {
-        title: "API V1",
+        title: "Aljam3 API",
         version: "v1"
       },
       paths: {},
       servers: [
-        {
-          url: "http://{defaultHost}",
-          variables: {
-            defaultHost: {
-              default: "localhost:3000"
-            }
-          }
-        },
-        {
-          url: "https://{productionHost}",
-          variables: {
-            productionHost: {
-              default: "aljam3.com"
-            }
-          }
-        }
+        { url: "http://localhost:3000" },
+        { url: "https://aljam3.com" }
       ],
       components: {
         schemas: {
@@ -68,20 +54,18 @@ RSpec.configure do |config|
                 properties: {
                   id: { type: :integer, description: "Author ID" },
                   name: { type: :string, description: "Author name" },
-                  ui_link: { type: :string, description: "UI link to the author" },
-                  api_link: { type: :string, description: "API link to the author" }
+                  link: { type: :string, description: "API link to the author" }
                 },
-                required: %w[id name]
+                required: %w[id name link]
               },
               category: {
                 type: :object,
                 properties: {
                   id: { type: :integer, description: "Category ID" },
                   name: { type: :string, description: "Category name" },
-                  ui_link: { type: :string, description: "UI link to the category" },
-                  api_link: { type: :string, description: "API link to the category" }
+                  link: { type: :string, description: "API link to the category" }
                 },
-                required: %w[id name]
+                required: %w[id name link]
               },
               library: {
                 type: :object,
@@ -95,10 +79,9 @@ RSpec.configure do |config|
               files_count: { type: :integer, description: "Number of files, -1 if not available" },
               views_count: { type: :integer, description: "Number of views" },
               volumes: { type: :integer, description: "Number of volumes" },
-              ui_link: { type: :string, description: "UI link to the book" },
-              api_link: { type: :string, description: "API link to the book" }
+              link: { type: :string, description: "API link to the book" }
             },
-            required: %w[id title author category library pages_count files_count views_count volumes ui_link api_link]
+            required: %w[id title author category library pages_count files_count views_count volumes link]
           }
         }
       }
