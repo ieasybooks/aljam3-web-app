@@ -50,6 +50,25 @@ paths:
                 required:
                 - pagination
                 - books
+  "/api/v1/books/{id}":
+    get:
+      summary: Get a book
+      tags:
+      - Books
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Book ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: book found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/book"
 servers:
 - url: http://localhost:3000
 - url: https://aljam3.com
