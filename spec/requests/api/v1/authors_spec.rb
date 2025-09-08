@@ -95,14 +95,31 @@ RSpec.describe "Api::V1::Authors" do # rubocop:disable RSpec/EmptyExampleGroup
         context "when expand is empty" do # rubocop:disable RSpec/EmptyExampleGroup
           let(:id) { create(:author).id }
 
-          run_test!
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data).not_to include("pagination", "books")
+          end
         end
 
         context "when expand is books" do # rubocop:disable RSpec/EmptyExampleGroup
           let(:id) { create(:author).id }
           let(:"expand[]") { %w[books] } # rubocop:disable RSpec/VariableName
 
-          run_test!
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data).to include("pagination", "books")
+          end
+        end
+
+        context "when limit is huge" do # rubocop:disable RSpec/EmptyExampleGroup
+          let(:id) { create(:author).id }
+          let(:"expand[]") { %w[books] } # rubocop:disable RSpec/VariableName
+          let(:limit) { 1500 }
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data['pagination']['limit']).to eq(1000)
+          end
         end
       end
 

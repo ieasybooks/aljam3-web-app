@@ -48,6 +48,8 @@
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /\d+/}
 #                                  privacy GET      /privacy(.:format)                                                                                static#privacy
+#                        api_v1_book_files GET      /api/v1/books/:book_id/files(.:format)                                                            api/v1/files#index
+#                         api_v1_book_file GET      /api/v1/books/:book_id/files/:id(.:format)                                                        api/v1/files#show
 #                             api_v1_books GET      /api/v1/books(.:format)                                                                           api/v1/books#index
 #                              api_v1_book GET      /api/v1/books/:id(.:format)                                                                       api/v1/books#show
 #                           api_v1_authors GET      /api/v1/authors(.:format)                                                                         api/v1/authors#index
@@ -346,7 +348,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :books, only: %i[ index show ]
+      resources :books, only: %i[ index show ] do
+        resources :files, only: %i[ index show ]
+      end
+
       resources :authors, only: %i[ index show ]
       resources :categories, only: %i[ index show ]
     end

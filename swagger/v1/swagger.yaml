@@ -278,6 +278,103 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/not_found"
+  "/api/v1/books/{book_id}/files":
+    get:
+      summary: List a book's files
+      tags:
+      - Books
+      - Files
+      parameters:
+      - name: book_id
+        in: path
+        required: true
+        description: Book ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: files found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/file"
+                required:
+                - files
+  "/api/v1/books/{book_id}/files/{id}":
+    get:
+      summary: Get a file
+      tags:
+      - Books
+      - Files
+      parameters:
+      - name: book_id
+        in: path
+        required: true
+        description: Book ID
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        description: File ID
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        required: false
+        description: Limit the number of file's pages to return
+        schema:
+          type: integer
+          default: 20
+          minimum: 1
+          maximum: 1000
+      - name: page
+        in: query
+        required: false
+        description: Page number to be returned
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      - name: expand[]
+        in: query
+        required: false
+        style: form
+        explode: true
+        description: What resources to expand in the response
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - pages
+      responses:
+        '200':
+          description: file found
+          content:
+            application/json:
+              schema:
+                allOf:
+                - "$ref": "#/components/schemas/file"
+                - type: object
+                  properties:
+                    pagination:
+                      "$ref": "#/components/schemas/pagination"
+                    pages:
+                      type: array
+                      items:
+                        "$ref": "#/components/schemas/page"
+        '404':
+          description: file not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/not_found"
 servers:
 - url: http://localhost:3000
 - url: https://aljam3.com
@@ -422,6 +519,59 @@ components:
       - name
       - books_count
       - link
+    file:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: File ID
+        name:
+          type: string
+          description: File name
+        pages_count:
+          type: integer
+          description: Number of pages
+        urls:
+          type: object
+          properties:
+            pdf:
+              type: string
+              description: PDF URL
+            docx:
+              type: string
+              description: DOCX URL
+            txt:
+              type: string
+              description: TXT URL
+          required:
+          - pdf
+          - docx
+          - txt
+        link:
+          type: string
+          description: API link to the file
+      required:
+      - id
+      - name
+      - pages_count
+      - urls
+      - link
+    page:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Page ID
+        content:
+          type: string
+          description: Page content
+        number:
+          type: integer
+          description: Page number
+      required:
+      - id
+      - content
+      - number
     not_found:
       type: object
       properties:

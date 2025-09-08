@@ -87,6 +87,34 @@ RSpec.configure do |config|
             },
             required: %w[id name books_count link]
           },
+          file: {
+            type: :object,
+            properties: {
+              id: { type: :integer, description: "File ID" },
+              name: { type: :string, description: "File name" },
+              pages_count: { type: :integer, description: "Number of pages" },
+              urls: {
+                type: :object,
+                properties: {
+                  pdf: { type: :string, description: "PDF URL" },
+                  docx: { type: :string, description: "DOCX URL" },
+                  txt: { type: :string, description: "TXT URL" }
+                },
+                required: %w[pdf docx txt]
+              },
+              link: { type: :string, description: "API link to the file" }
+            },
+            required: %w[id name pages_count urls link]
+          },
+          page: {
+            type: :object,
+            properties: {
+              id: { type: :integer, description: "Page ID" },
+              content: { type: :string, description: "Page content" },
+              number: { type: :integer, description: "Page number" }
+            },
+            required: %w[id content number]
+          },
           not_found: {
             type: :object,
             properties: {
