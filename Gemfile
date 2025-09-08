@@ -33,7 +33,7 @@ gem "solid_errors", "~> 0.7.0"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
 gem "sys-cpu", "~> 1.1"
-gem "sys-filesystem", "~> 1.5", ">= 1.5.3"
+gem "sys-filesystem", "~> 1.5"
 gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
