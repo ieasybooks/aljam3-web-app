@@ -419,6 +419,88 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/not_found"
+  "/api/v1/search":
+    get:
+      summary: Search pages across all books
+      tags:
+      - Search
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: Search query
+        schema:
+          type: string
+      - name: library
+        in: query
+        required: false
+        description: Filter by library ID
+        schema:
+          type: integer
+      - name: books[]
+        in: query
+        required: false
+        style: form
+        explode: true
+        description: Filter by book IDs
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: authors[]
+        in: query
+        required: false
+        style: form
+        explode: true
+        description: Filter by author IDs
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: categories[]
+        in: query
+        required: false
+        style: form
+        explode: true
+        description: Filter by category IDs
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: limit
+        in: query
+        required: false
+        description: Limit the number of pages to return
+        schema:
+          type: integer
+          default: 20
+          minimum: 1
+          maximum: 1000
+      - name: page
+        in: query
+        required: false
+        description: Page number to be returned
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      responses:
+        '200':
+          description: search results found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    "$ref": "#/components/schemas/pagination"
+                  pages:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/page"
+                required:
+                - pagination
+                - pages
 servers:
 - url: http://localhost:3000
 - url: https://aljam3.com
