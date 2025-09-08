@@ -375,6 +375,50 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/not_found"
+  "/api/v1/libraries":
+    get:
+      summary: List libraries
+      tags:
+      - Libraries
+      responses:
+        '200':
+          description: libraries found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  libraries:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/library"
+                required:
+                - libraries
+  "/api/v1/libraries/{id}":
+    get:
+      summary: Get a library
+      tags:
+      - Libraries
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Library ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: library found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/library"
+        '404':
+          description: library not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/not_found"
 servers:
 - url: http://localhost:3000
 - url: https://aljam3.com
@@ -428,6 +472,26 @@ components:
       - next_page_link
       - previous_page
       - previous_page_link
+    library:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Library ID
+        name:
+          type: string
+          description: Library name
+        books_count:
+          type: integer
+          description: Number of books
+        link:
+          type: string
+          description: API link to the library
+      required:
+      - id
+      - name
+      - books_count
+      - link
     book:
       type: object
       properties:

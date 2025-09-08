@@ -44,6 +44,16 @@ RSpec.configure do |config|
             },
             required: %w[from to count current_page total_pages limit next_page next_page_link previous_page previous_page_link]
           },
+          library: {
+            type: :object,
+            properties: {
+              id: { type: :integer, description: "Library ID" },
+              name: { type: :string, description: "Library name" },
+              books_count: { type: :integer, description: "Number of books" },
+              link: { type: :string, description: "API link to the library" }
+            },
+            required: %w[id name books_count link]
+          },
           book: {
             type: :object,
             properties: {

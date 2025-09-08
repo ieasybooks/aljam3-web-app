@@ -16,8 +16,7 @@ if exclude.exclude?(:category)
 end
 
 json.library do
-  json.id book.library.id
-  json.name book.library.name
+  json.partial! "api/v1/libraries/library", library: book.library
 end
 
 json.pages_count book.pages_count
