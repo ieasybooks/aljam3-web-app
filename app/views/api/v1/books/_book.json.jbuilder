@@ -9,10 +9,10 @@ if exclude.exclude?(:author)
   end
 end
 
-json.category do
-  json.id book.category.id
-  json.name book.category.name
-  json.link api_v1_category_url(id: book.category.id)
+if exclude.exclude?(:category)
+  json.category do
+    json.partial!("api/v1/categories/category", category: book.category)
+  end
 end
 
 json.library do

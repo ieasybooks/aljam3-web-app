@@ -54,15 +54,7 @@ RSpec.configure do |config|
               views_count: { type: :integer, description: "Number of views" },
               volumes: { type: :integer, description: "Number of volumes" },
               author: { "$ref": "#/components/schemas/author" },
-              category: {
-                type: :object,
-                properties: {
-                  id: { type: :integer, description: "Category ID" },
-                  name: { type: :string, description: "Category name" },
-                  link: { type: :string, description: "API link to the category" }
-                },
-                required: %w[id name link]
-              },
+              category: { "$ref": "#/components/schemas/category" },
               library: {
                 type: :object,
                 properties: {
@@ -82,6 +74,16 @@ RSpec.configure do |config|
               name: { type: :string, description: "Author name" },
               books_count: { type: :integer, description: "Number of books" },
               link: { type: :string, description: "API link to the author" }
+            },
+            required: %w[id name books_count link]
+          },
+          category: {
+            type: :object,
+            properties: {
+              id: { type: :integer, description: "Category ID" },
+              name: { type: :string, description: "Category name" },
+              books_count: { type: :integer, description: "Number of books" },
+              link: { type: :string, description: "API link to the category" }
             },
             required: %w[id name books_count link]
           },

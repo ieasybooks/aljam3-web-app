@@ -78,6 +78,51 @@ RSpec.describe "Categories" do
             expect(response.body).not_to include("Hidden Book")
           end
         end
+
+        context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+          let(:controller) { CategoriesController.new }
+
+          before do
+            allow(CategoriesController).to receive(:new).and_return(controller)
+            allow(controller).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ])
+          end
+
+          it "uses default limit of 20 when no limit specified" do
+            get category_path(id: category.id, q: "ruby"), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 20
+            )
+          end
+
+          it "uses custom limit when specified" do
+            get category_path(id: category.id, q: "ruby", limit: 50), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 50
+            )
+          end
+
+          it "caps limit at 1000 when higher value is provided" do
+            get category_path(id: category.id, q: "ruby", limit: 1500), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 1000
+            )
+          end
+
+          it "uses limit 0 when invalid limit is provided" do
+            get category_path(id: category.id, q: "ruby", limit: "invalid"), as: :html
+
+            expect(controller).to have_received(:pagy_meilisearch).with(
+              anything,
+              limit: 0
+            )
+          end
+        end
       end
 
       context "without query parameter" do
@@ -137,6 +182,54 @@ RSpec.describe "Categories" do
             get category_path(id: category.id), as: :turbo_stream
 
             expect(Book).not_to have_received(:pagy_search)
+          end
+        end
+
+        context "with limit parameter" do # rubocop:disable RSpec/NestedGroups,RSpec/MultipleMemoizedHelpers
+          let(:controller) { CategoriesController.new }
+
+          before do
+            allow(CategoriesController).to receive(:new).and_return(controller)
+            allow(controller).to receive(:pagy).and_return([ mock_pagy, mock_books_relation ])
+
+            allow(category).to receive(:books).and_return(double.tap { allow(it).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) }) # rubocop:disable RSpec/VerifiedDoubles
+            allow(Category).to receive(:find).with(category.id.to_s).and_return(category)
+          end
+
+          it "uses default limit of 20 when no limit specified" do
+            get category_path(id: category.id), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 20
+            )
+          end
+
+          it "uses custom limit when specified" do
+            get category_path(id: category.id, limit: 50), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 50
+            )
+          end
+
+          it "caps limit at 1000 when higher value is provided" do
+            get category_path(id: category.id, limit: 1500), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 1000
+            )
+          end
+
+          it "uses limit 0 when invalid limit is provided" do
+            get category_path(id: category.id, limit: "invalid"), as: :html
+
+            expect(controller).to have_received(:pagy).with(
+              anything,
+              limit: 0
+            )
           end
         end
       end
