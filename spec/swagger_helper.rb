@@ -65,17 +65,10 @@ RSpec.configure do |config|
               volumes: { type: :integer, description: "Number of volumes" },
               author: { "$ref": "#/components/schemas/author" },
               category: { "$ref": "#/components/schemas/category" },
-              library: {
-                type: :object,
-                properties: {
-                  id: { type: :integer, description: "Library ID" },
-                  name: { type: :string, description: "Library name" }
-                },
-                required: %w[id name]
-              },
+              library: { "$ref": "#/components/schemas/library" },
               link: { type: :string, description: "API link to the book" }
             },
-            required: %w[id title author category library pages_count files_count views_count volumes link]
+            required: %w[id title pages_count files_count views_count volumes link]
           },
           author: {
             type: :object,

@@ -5,18 +5,20 @@ json.title book.title
 
 if exclude.exclude?(:author)
   json.author do
-    json.partial!("api/v1/authors/author", author: book.author)
+    json.partial! "api/v1/authors/author", author: book.author
   end
 end
 
 if exclude.exclude?(:category)
   json.category do
-    json.partial!("api/v1/categories/category", category: book.category)
+    json.partial! "api/v1/categories/category", category: book.category
   end
 end
 
-json.library do
-  json.partial! "api/v1/libraries/library", library: book.library
+if exclude.exclude?(:library)
+  json.library do
+    json.partial! "api/v1/libraries/library", library: book.library
+  end
 end
 
 json.pages_count book.pages_count

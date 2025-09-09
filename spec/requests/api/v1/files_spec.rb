@@ -3,7 +3,7 @@ require "swagger_helper"
 RSpec.describe "Api::V1::Files" do # rubocop:disable RSpec/EmptyExampleGroup
   path "/api/v1/books/{book_id}/files" do
     get "List a book's files" do
-      tags "Books", "Files"
+      tags "Books"
       produces "application/json"
 
       parameter name: :book_id, in: :path, type: :integer, required: true,
@@ -25,7 +25,7 @@ RSpec.describe "Api::V1::Files" do # rubocop:disable RSpec/EmptyExampleGroup
 
   path "/api/v1/books/{book_id}/files/{id}" do
     get "Get a file" do
-      tags "Books", "Files"
+      tags "Books"
       produces "application/json"
 
       parameter name: :book_id, in: :path, type: :integer, required: true,
