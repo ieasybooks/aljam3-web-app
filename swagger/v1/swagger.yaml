@@ -178,7 +178,7 @@ paths:
       summary: Get a book
       tags:
       - Books
-      description: Returns a book by ID
+      description: Returns a book by ID, with an optional list of files by that book
       parameters:
       - name: id
         in: path
@@ -466,6 +466,39 @@ paths:
                         "$ref": "#/components/schemas/book"
         '404':
           description: library not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/not_found"
+  "/api/v1/files/{file_id}/pages":
+    get:
+      summary: Get all pages of a file
+      tags:
+      - Files
+      description: Returns all pages of a file
+      parameters:
+      - name: file_id
+        in: path
+        required: true
+        description: File ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: pages found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/page"
+                required:
+                - pages
+        '404':
+          description: file not found
           content:
             application/json:
               schema:

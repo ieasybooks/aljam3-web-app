@@ -56,6 +56,7 @@
 #                            api_v1_author GET      /api/v1/authors/:id(.:format)                                                                     api/v1/authors#show
 #                        api_v1_categories GET      /api/v1/categories(.:format)                                                                      api/v1/categories#index
 #                          api_v1_category GET      /api/v1/categories/:id(.:format)                                                                  api/v1/categories#show
+#                        api_v1_file_pages GET      /api/v1/files/:file_id/pages(.:format)                                                            api/v1/pages#index
 #                              api_v1_file GET      /api/v1/files/:id(.:format)                                                                       api/v1/files#show
 #                            api_v1_search GET      /api/v1/search(.:format)                                                                          api/v1/search#index
 #                                 rswag_ui          /api-docs                                                                                         Rswag::Ui::Engine
@@ -354,7 +355,10 @@ Rails.application.routes.draw do
       resources :books, only: %i[ index show ]
       resources :authors, only: %i[ index show ]
       resources :categories, only: %i[ index show ]
-      resources :files, only: %i[ show ]
+
+      resources :files, only: %i[ show ] do
+        resources :pages, only: %i[ index ]
+      end
 
       get :search, to: "search#index"
     end
