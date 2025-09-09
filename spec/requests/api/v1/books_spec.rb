@@ -5,12 +5,13 @@ RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
     get "List books" do
       tags "Books"
       produces "application/json"
+      description "Returns a paginated list of books available in the database ordered by title"
 
       parameter name: :q, in: :query, type: :string, required: false,
-                description: "Search query"
+                description: "Search query to search books by title"
 
       parameter name: :limit, in: :query, required: false,
-                description: "Limit the number of books to return",
+                description: "Limit the number of books to return (default: 20, maximum: 1000)",
                 schema: {
                   type: :integer,
                   default: 20,
@@ -19,7 +20,7 @@ RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
                 }
 
       parameter name: :page, in: :query, required: false,
-                description: "Page number to be returned",
+                description: "Page number to be returned (default: 1)",
                 schema: {
                   type: :integer,
                   default: 1,
@@ -46,16 +47,50 @@ RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
     get "Get a book" do
       tags "Books"
       produces "application/json"
+      description "Returns a book by ID, with an optional list of files by that book"
 
       parameter name: :id, in: :path, type: :integer, required: true,
                 description: "Book ID"
 
+      parameter name: "expand[]", in: :query, required: false, style: :form, explode: true,
+                description: "What resources to expand in the response (default: none)",
+                schema: {
+                  type: :array,
+                  items: {
+                    type: :string,
+                    enum: %w[files]
+                  }
+                }
+
       response "200", "book found" do
-        schema "$ref" => "#/components/schemas/book"
+        schema allOf: [
+                 { "$ref" => "#/components/schemas/book" },
+                 {
+                   type: :object,
+                   properties: {
+                     files: { type: :array, items: { "$ref" => "#/components/schemas/file" } }
+                   }
+                 }
+               ]
 
-        let(:id) { create(:book).id }
+        context "when expand is empty" do # rubocop:disable RSpec/EmptyExampleGroup
+          let(:id) { create(:book).id }
 
-        run_test!
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data).not_to include("files")
+          end
+        end
+
+        context "when expand is files" do # rubocop:disable RSpec/EmptyExampleGroup
+          let(:id) { create(:book).id }
+          let(:"expand[]") { %w[files] } # rubocop:disable RSpec/VariableName
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data).to include("files")
+          end
+        end
       end
 
       response "404", "book not found" do

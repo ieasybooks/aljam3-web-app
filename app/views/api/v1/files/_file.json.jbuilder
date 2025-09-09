@@ -10,4 +10,4 @@ json.urls do
   json.txt file.txt_url
 end
 
-json.link api_v1_book_file_url(book_id: file.book_id, id: file.id)
+json.link api_v1_file_url(id: file.id)

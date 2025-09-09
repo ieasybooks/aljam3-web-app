@@ -5,9 +5,10 @@ RSpec.describe "Api::V1::Search" do
     get "Search pages across all books" do
       tags "Search"
       produces "application/json"
+      description "Returns a paginated list of pages across all books that match the search query and filters"
 
       parameter name: :q, in: :query, type: :string, required: true,
-                description: "Search query"
+                description: "Search query to search pages by content"
 
       parameter name: :library, in: :query, type: :integer, required: false,
                 description: "Filter by library ID"
@@ -34,7 +35,7 @@ RSpec.describe "Api::V1::Search" do
                 }
 
       parameter name: :limit, in: :query, required: false,
-                description: "Limit the number of pages to return",
+                description: "Limit the number of pages to return (default: 20, maximum: 1000)",
                 schema: {
                   type: :integer,
                   default: 20,
@@ -43,7 +44,7 @@ RSpec.describe "Api::V1::Search" do
                 }
 
       parameter name: :page, in: :query, required: false,
-                description: "Page number to be returned",
+                description: "Page number to be returned (default: 1)",
                 schema: {
                   type: :integer,
                   default: 1,

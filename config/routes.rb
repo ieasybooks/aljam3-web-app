@@ -50,14 +50,13 @@
 #                                  privacy GET      /privacy(.:format)                                                                                static#privacy
 #                         api_v1_libraries GET      /api/v1/libraries(.:format)                                                                       api/v1/libraries#index
 #                           api_v1_library GET      /api/v1/libraries/:id(.:format)                                                                   api/v1/libraries#show
-#                        api_v1_book_files GET      /api/v1/books/:book_id/files(.:format)                                                            api/v1/files#index
-#                         api_v1_book_file GET      /api/v1/books/:book_id/files/:id(.:format)                                                        api/v1/files#show
 #                             api_v1_books GET      /api/v1/books(.:format)                                                                           api/v1/books#index
 #                              api_v1_book GET      /api/v1/books/:id(.:format)                                                                       api/v1/books#show
 #                           api_v1_authors GET      /api/v1/authors(.:format)                                                                         api/v1/authors#index
 #                            api_v1_author GET      /api/v1/authors/:id(.:format)                                                                     api/v1/authors#show
 #                        api_v1_categories GET      /api/v1/categories(.:format)                                                                      api/v1/categories#index
 #                          api_v1_category GET      /api/v1/categories/:id(.:format)                                                                  api/v1/categories#show
+#                              api_v1_file GET      /api/v1/files/:id(.:format)                                                                       api/v1/files#show
 #                            api_v1_search GET      /api/v1/search(.:format)                                                                          api/v1/search#index
 #                                 rswag_ui          /api-docs                                                                                         Rswag::Ui::Engine
 #                                rswag_api          /api-docs                                                                                         Rswag::Api::Engine
@@ -352,13 +351,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :libraries, only: %i[ index show ]
-
-      resources :books, only: %i[ index show ] do
-        resources :files, only: %i[ index show ]
-      end
-
+      resources :books, only: %i[ index show ]
       resources :authors, only: %i[ index show ]
       resources :categories, only: %i[ index show ]
+      resources :files, only: %i[ show ]
 
       get :search, to: "search#index"
     end

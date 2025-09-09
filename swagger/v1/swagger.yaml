@@ -9,17 +9,20 @@ paths:
       summary: List authors
       tags:
       - Authors
+      description: Returns a paginated list of authors available in the database ordered
+        by name
       parameters:
       - name: q
         in: query
         required: false
-        description: Search query
+        description: Search query to search authors by name
         schema:
           type: string
       - name: limit
         in: query
         required: false
-        description: Limit the number of authors to return
+        description: 'Limit the number of authors to return (default: 20, maximum:
+          1000)'
         schema:
           type: integer
           default: 20
@@ -28,7 +31,7 @@ paths:
       - name: page
         in: query
         required: false
-        description: Page number to be returned
+        description: 'Page number to be returned (default: 1)'
         schema:
           type: integer
           default: 1
@@ -55,6 +58,8 @@ paths:
       summary: Get an author
       tags:
       - Authors
+      description: Returns an author by ID, with an optional paginated list of books
+        by that author
       parameters:
       - name: id
         in: path
@@ -65,13 +70,14 @@ paths:
       - name: q
         in: query
         required: false
-        description: Search query
+        description: Search query to search books by title
         schema:
           type: string
       - name: limit
         in: query
         required: false
-        description: Limit the number of author's books to return
+        description: 'Limit the number of author''s books to return (default: 20,
+          maximum: 1000)'
         schema:
           type: integer
           default: 20
@@ -80,7 +86,7 @@ paths:
       - name: page
         in: query
         required: false
-        description: Page number to be returned
+        description: 'Page number to be returned (default: 1)'
         schema:
           type: integer
           default: 1
@@ -90,7 +96,7 @@ paths:
         required: false
         style: form
         explode: true
-        description: What resources to expand in the response
+        description: 'What resources to expand in the response (default: none)'
         schema:
           type: array
           items:
@@ -124,17 +130,19 @@ paths:
       summary: List books
       tags:
       - Books
+      description: Returns a paginated list of books available in the database ordered
+        by title
       parameters:
       - name: q
         in: query
         required: false
-        description: Search query
+        description: Search query to search books by title
         schema:
           type: string
       - name: limit
         in: query
         required: false
-        description: Limit the number of books to return
+        description: 'Limit the number of books to return (default: 20, maximum: 1000)'
         schema:
           type: integer
           default: 20
@@ -143,7 +151,7 @@ paths:
       - name: page
         in: query
         required: false
-        description: Page number to be returned
+        description: 'Page number to be returned (default: 1)'
         schema:
           type: integer
           default: 1
@@ -170,6 +178,7 @@ paths:
       summary: Get a book
       tags:
       - Books
+      description: Returns a book by ID
       parameters:
       - name: id
         in: path
@@ -177,13 +186,32 @@ paths:
         description: Book ID
         schema:
           type: integer
+      - name: expand[]
+        in: query
+        required: false
+        style: form
+        explode: true
+        description: 'What resources to expand in the response (default: none)'
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - files
       responses:
         '200':
           description: book found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/book"
+                allOf:
+                - "$ref": "#/components/schemas/book"
+                - type: object
+                  properties:
+                    files:
+                      type: array
+                      items:
+                        "$ref": "#/components/schemas/file"
         '404':
           description: book not found
           content:
@@ -195,6 +223,8 @@ paths:
       summary: List categories
       tags:
       - Categories
+      description: Returns a list of categories available in the database ordered
+        by name
       responses:
         '200':
           description: categories found
@@ -214,6 +244,8 @@ paths:
       summary: Get a category
       tags:
       - Categories
+      description: Returns a category by ID, with an optional paginated list of books
+        by that category
       parameters:
       - name: id
         in: path
@@ -224,13 +256,14 @@ paths:
       - name: q
         in: query
         required: false
-        description: Search query
+        description: Search query to search books by title
         schema:
           type: string
       - name: limit
         in: query
         required: false
-        description: Limit the number of category's books to return
+        description: 'Limit the number of category''s books to return (default: 20,
+          maximum: 1000)'
         schema:
           type: integer
           default: 20
@@ -239,7 +272,7 @@ paths:
       - name: page
         in: query
         required: false
-        description: Page number to be returned
+        description: 'Page number to be returned (default: 1)'
         schema:
           type: integer
           default: 1
@@ -249,7 +282,7 @@ paths:
         required: false
         style: form
         explode: true
-        description: What resources to expand in the response
+        description: 'What resources to expand in the response (default: none)'
         schema:
           type: array
           items:
@@ -278,44 +311,14 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/not_found"
-  "/api/v1/books/{book_id}/files":
-    get:
-      summary: List a book's files
-      tags:
-      - Books
-      parameters:
-      - name: book_id
-        in: path
-        required: true
-        description: Book ID
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: files found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  files:
-                    type: array
-                    items:
-                      "$ref": "#/components/schemas/file"
-                required:
-                - files
-  "/api/v1/books/{book_id}/files/{id}":
+  "/api/v1/files/{id}":
     get:
       summary: Get a file
       tags:
-      - Books
+      - Files
+      description: Returns a file by ID, with an optional paginated list of pages
+        by that file
       parameters:
-      - name: book_id
-        in: path
-        required: true
-        description: Book ID
-        schema:
-          type: integer
       - name: id
         in: path
         required: true
@@ -325,7 +328,8 @@ paths:
       - name: limit
         in: query
         required: false
-        description: Limit the number of file's pages to return
+        description: 'Limit the number of file''s pages to return (default: 20, maximum:
+          1000)'
         schema:
           type: integer
           default: 20
@@ -334,7 +338,7 @@ paths:
       - name: page
         in: query
         required: false
-        description: Page number to be returned
+        description: 'Page number to be returned (default: 1)'
         schema:
           type: integer
           default: 1
@@ -344,7 +348,7 @@ paths:
         required: false
         style: form
         explode: true
-        description: What resources to expand in the response
+        description: 'What resources to expand in the response (default: none)'
         schema:
           type: array
           items:
@@ -378,6 +382,8 @@ paths:
       summary: List libraries
       tags:
       - Libraries
+      description: Returns a list of libraries available in the database ordered by
+        name
       responses:
         '200':
           description: libraries found
@@ -397,6 +403,8 @@ paths:
       summary: Get a library
       tags:
       - Libraries
+      description: Returns a library by ID, with an optional paginated list of books
+        by that library
       parameters:
       - name: id
         in: path
@@ -407,13 +415,14 @@ paths:
       - name: q
         in: query
         required: false
-        description: Search query
+        description: Search query to search books by title
         schema:
           type: string
       - name: limit
         in: query
         required: false
-        description: Limit the number of library's books to return
+        description: 'Limit the number of library''s books to return (default: 20,
+          maximum: 1000)'
         schema:
           type: integer
           default: 20
@@ -422,7 +431,7 @@ paths:
       - name: page
         in: query
         required: false
-        description: Page number to be returned
+        description: 'Page number to be returned (default: 1)'
         schema:
           type: integer
           default: 1
@@ -432,7 +441,7 @@ paths:
         required: false
         style: form
         explode: true
-        description: What resources to expand in the response
+        description: 'What resources to expand in the response (default: none)'
         schema:
           type: array
           items:
@@ -466,11 +475,13 @@ paths:
       summary: Search pages across all books
       tags:
       - Search
+      description: Returns a paginated list of pages across all books that match the
+        search query and filters
       parameters:
       - name: q
         in: query
         required: true
-        description: Search query
+        description: Search query to search pages by content
         schema:
           type: string
       - name: library
@@ -512,7 +523,7 @@ paths:
       - name: limit
         in: query
         required: false
-        description: Limit the number of pages to return
+        description: 'Limit the number of pages to return (default: 20, maximum: 1000)'
         schema:
           type: integer
           default: 20
@@ -521,7 +532,7 @@ paths:
       - name: page
         in: query
         required: false
-        description: Page number to be returned
+        description: 'Page number to be returned (default: 1)'
         schema:
           type: integer
           default: 1

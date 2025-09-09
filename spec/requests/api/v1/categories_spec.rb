@@ -5,6 +5,7 @@ RSpec.describe "Api::V1::Categories" do # rubocop:disable RSpec/EmptyExampleGrou
     get "List categories" do
       tags "Categories"
       produces "application/json"
+      description "Returns a list of categories available in the database ordered by name"
 
       response "200", "categories found" do
         schema type: :object,
@@ -22,15 +23,16 @@ RSpec.describe "Api::V1::Categories" do # rubocop:disable RSpec/EmptyExampleGrou
     get "Get a category" do
       tags "Categories"
       produces "application/json"
+      description "Returns a category by ID, with an optional paginated list of books by that category"
 
       parameter name: :id, in: :path, type: :integer, required: true,
                 description: "Category ID"
 
       parameter name: :q, in: :query, type: :string, required: false,
-                description: "Search query"
+                description: "Search query to search books by title"
 
       parameter name: :limit, in: :query, required: false,
-                description: "Limit the number of category's books to return",
+                description: "Limit the number of category's books to return (default: 20, maximum: 1000)",
                 schema: {
                   type: :integer,
                   default: 20,
@@ -39,7 +41,7 @@ RSpec.describe "Api::V1::Categories" do # rubocop:disable RSpec/EmptyExampleGrou
                 }
 
       parameter name: :page, in: :query, required: false,
-                description: "Page number to be returned",
+                description: "Page number to be returned (default: 1)",
                 schema: {
                   type: :integer,
                   default: 1,
@@ -47,7 +49,7 @@ RSpec.describe "Api::V1::Categories" do # rubocop:disable RSpec/EmptyExampleGrou
                 }
 
       parameter name: "expand[]", in: :query, required: false, style: :form, explode: true,
-                description: "What resources to expand in the response",
+                description: "What resources to expand in the response (default: none)",
                 schema: {
                   type: :array,
                   items: {
