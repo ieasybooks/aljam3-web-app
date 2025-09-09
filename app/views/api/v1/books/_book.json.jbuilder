@@ -1,7 +1,7 @@
 # locals: (json:, book:, exclude: [])
 
 json.id book.id
-json.title book.title
+json.title process_meilisearch_highlights(book.formatted&.[]("title")) || book.title
 
 if exclude.exclude?(:author)
   json.author do
