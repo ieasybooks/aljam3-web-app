@@ -58,14 +58,11 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, description: "Book ID" },
-              title: { type: :string, description: "Book title" },
+              title: { type: :string, description: "Book title, in case of search, it will be the highlighted title with &lt;mark&gt; tags" },
               pages_count: { type: :integer, description: "Number of pages" },
               files_count: { type: :integer, description: "Number of files, -1 if not available" },
               views_count: { type: :integer, description: "Number of views" },
               volumes: { type: :integer, description: "Number of volumes" },
-              author: { "$ref": "#/components/schemas/author" },
-              category: { "$ref": "#/components/schemas/category" },
-              library: { "$ref": "#/components/schemas/library" },
               link: { type: :string, description: "API link to the book" }
             },
             required: %w[id title pages_count files_count views_count volumes link]
@@ -74,7 +71,7 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, description: "Author ID" },
-              name: { type: :string, description: "Author name" },
+              name: { type: :string, description: "Author name, in case of search, it will be the highlighted name with &lt;mark&gt; tags" },
               books_count: { type: :integer, description: "Number of books" },
               link: { type: :string, description: "API link to the author" }
             },
@@ -113,7 +110,7 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, description: "Page ID" },
-              content: { type: :string, description: "Page content" },
+              content: { type: :string, description: "Page content, in case of search, it will be the highlighted content with &lt;mark&gt; tags" },
               number: { type: :integer, description: "Page number" }
             },
             required: %w[id content number]

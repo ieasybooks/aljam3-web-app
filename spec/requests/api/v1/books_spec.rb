@@ -31,7 +31,21 @@ RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
         schema type: :object,
                properties: {
                  pagination: { "$ref" => "#/components/schemas/pagination" },
-                 books: { type: :array, items: { "$ref" => "#/components/schemas/book" } }
+                 books: {
+                   type: :array, items: {
+                     allOf: [
+                       { "$ref" => "#/components/schemas/book" },
+                       {
+                         type: :object,
+                         properties: {
+                           library: { "$ref" => "#/components/schemas/library" },
+                           category: { "$ref" => "#/components/schemas/category" },
+                           author: { "$ref" => "#/components/schemas/author" }
+                         }
+                       }
+                     ]
+                   }
+                 }
                },
                required: %w[pagination books]
 
@@ -64,7 +78,19 @@ RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
 
       response "200", "book found" do
         schema allOf: [
-                 { "$ref" => "#/components/schemas/book" },
+                 {
+                   allOf: [
+                     { "$ref" => "#/components/schemas/book" },
+                     {
+                       type: :object,
+                       properties: {
+                         library: { "$ref" => "#/components/schemas/library" },
+                         category: { "$ref" => "#/components/schemas/category" },
+                         author: { "$ref" => "#/components/schemas/author" }
+                       }
+                     }
+                   ]
+                 },
                  {
                    type: :object,
                    properties: {

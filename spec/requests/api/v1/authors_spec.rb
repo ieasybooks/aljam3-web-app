@@ -89,7 +89,21 @@ RSpec.describe "Api::V1::Authors" do # rubocop:disable RSpec/EmptyExampleGroup
                    type: :object,
                    properties: {
                      pagination: { "$ref" => "#/components/schemas/pagination" },
-                     books: { type: :array, items: { "$ref" => "#/components/schemas/book" } }
+                     books: {
+                       type: :array,
+                       items: {
+                         allOf: [
+                           { "$ref" => "#/components/schemas/book" },
+                           {
+                             type: :object,
+                             properties: {
+                               library: { "$ref" => "#/components/schemas/library" },
+                               category: { "$ref" => "#/components/schemas/category" }
+                             }
+                           }
+                         ]
+                       }
+                     }
                    }
                  }
                ]

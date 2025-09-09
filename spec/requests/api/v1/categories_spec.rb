@@ -65,7 +65,18 @@ RSpec.describe "Api::V1::Categories" do # rubocop:disable RSpec/EmptyExampleGrou
                    type: :object,
                    properties: {
                      pagination: { "$ref" => "#/components/schemas/pagination" },
-                     books: { type: :array, items: { "$ref" => "#/components/schemas/book" } }
+                     books: { type: :array, items: {
+                       allOf: [
+                         { "$ref" => "#/components/schemas/book" },
+                         {
+                           type: :object,
+                           properties: {
+                             library: { "$ref" => "#/components/schemas/library" },
+                             author: { "$ref" => "#/components/schemas/author" }
+                           }
+                         }
+                       ]
+                     } }
                    }
                  }
                ]
