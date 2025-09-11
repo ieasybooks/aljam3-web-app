@@ -11,6 +11,7 @@ class Components::Base < RubyUI::Base
   include ::Devise::OmniAuth::UrlHelpers
 
   # Include any helpers you want to be available across all components
+  include Phlex::Rails::Helpers::ButtonTo
   include Phlex::Rails::Helpers::Flash
   include Phlex::Rails::Helpers::Request
   include Phlex::Rails::Helpers::Routes

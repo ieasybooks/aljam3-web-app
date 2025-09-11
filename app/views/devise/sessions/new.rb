@@ -67,6 +67,18 @@ class Views::Devise::Sessions::New < Views::Base
               t(".sign_up_now")
             end
           end
+
+          TextSeparator(text: t("or"), class: "mb-2.5 mt-2")
+
+          button_to(
+            omniauth_authorize_path(resource_name, :google_oauth2),
+            class: "inline-flex justify-center items-center py-2 px-5 w-full text-sm text-white rounded-md font-medium focus:outline-hidden bg-[#4285F4] hover:bg-[#4285F4]/90 gap-x-2 cursor-pointer",
+            data: { turbo: "false" }
+          ) do
+            Bootstrap::Google(class: "size-4")
+
+            plain t("devise.shared.links.sign_in_with_provider", provider: "Google")
+          end
         end
       end
     end

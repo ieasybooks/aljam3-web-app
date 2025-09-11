@@ -135,6 +135,7 @@ ar:
         sign_in: تسجيل الدخول
         sign_in_with_provider: تسجيل الدخول باستخدام %{provider}
         sign_up: التسجيل
+        sign_up_with_provider: التسجيل باستخدام %{provider}
       minimum_password_length:
         few: "(%{count} أحرف كحد أدنى)"
         many: "(%{count} حرفاً كحد أدنى)"

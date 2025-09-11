@@ -131,6 +131,7 @@ ur:
         sign_in: سائن ان کریں
         sign_in_with_provider: کے ساتھ سائن ان کریں %{provider}
         sign_up: سائن اپ کریں
+        sign_up_with_provider: کے ساتھ سائن اپ کریں %{provider}
       minimum_password_length:
         one:
         other:

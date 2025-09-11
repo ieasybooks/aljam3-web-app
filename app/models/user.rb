@@ -14,12 +14,14 @@
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  locked_at              :datetime
+#  provider               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  role                   :integer          default("user"), not null
 #  sign_in_count          :integer          default(0), not null
 #  suspended_at           :datetime
+#  uid                    :string
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -34,13 +36,14 @@
 #
 class User < ApplicationRecord
   include DeviseOverrides
+  include OmniauthAuthenticatable
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
-         :omniauthable, omniauth_providers: %i[google]
+         :omniauthable, omniauth_providers: %i[google_oauth2]
 
   has_many :search_queries, dependent: :destroy
   has_many :search_clicks, through: :search_queries

@@ -5,8 +5,8 @@
 #                       rails_health_check GET      /up(.:format)                                                                                     rails/health#show
 #                             pwa_manifest GET      /manifest-v2(.:format)                                                                            rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
-#           user_google_omniauth_authorize GET|POST /users/auth/google(.:format)                                                                      devise/omniauth_callbacks#passthru
-#            user_google_omniauth_callback GET|POST /users/auth/google/callback(.:format)                                                             devise/omniauth_callbacks#google
+#    user_google_oauth2_omniauth_authorize GET|POST /users/auth/google_oauth2(.:format)                                                               users/omniauth_callbacks#passthru
+#     user_google_oauth2_omniauth_callback GET|POST /users/auth/google_oauth2/callback(.:format)                                                      users/omniauth_callbacks#google_oauth2
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
 #                             pdfjs_iframe GET      /pdfjs/iframe(.:format)                                                                           pdfjs#iframe
 #                                                   /404(.:format)                                                                                    errors#not_found
@@ -317,7 +317,7 @@ Rails.application.routes.draw do
   get "manifest-v2" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  devise_for :users, only: :omniauth_callbacks
+  devise_for :users, only: :omniauth_callbacks, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   get "pdfjs", to: "pdfjs#index"
   get "pdfjs/iframe", to: "pdfjs#iframe"
