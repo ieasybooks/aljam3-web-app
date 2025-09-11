@@ -12,7 +12,7 @@ class PagesController < ApplicationController
       format.html { render Views::Pages::Show.new(page: @page) }
 
       format.turbo_stream do
-        if @page.content.blank?
+        if @page.content.blank? || @page.number != params[:page_number].to_i
           render turbo_stream: turbo_stream.update(
             "txt-content",
             Components::TxtMessage.new(variant: :info, text: t("pages.show.empty_page"))
@@ -26,7 +26,10 @@ class PagesController < ApplicationController
 
   private
 
-  def set_page = @page = Page.find_by(book_file_id: params[:file_id], number: params[:page_number])
+  def set_page
+    @page = Page.find_by(book_file_id: params[:file_id], number: params[:page_number])
+    @page = BookFile.find(params[:file_id]).pages.last if @page.blank?
+  end
 
   def check_hidden
     redirect_to root_path if @page.hidden
