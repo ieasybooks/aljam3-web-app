@@ -26,6 +26,14 @@ RSpec.configure do |config|
         { url: "http://localhost:3000" },
         { url: "https://aljam3.com" }
       ],
+      tags: [
+        { name: "Libraries", description: "Operations on libraries" },
+        { name: "Books", description: "Operations on books" },
+        { name: "Authors", description: "Operations on authors" },
+        { name: "Categories", description: "Operations on categories" },
+        { name: "Files", description: "Operations on files" },
+        { name: "Search", description: "Global search operations" }
+      ],
       components: {
         schemas: {
           pagination: {
