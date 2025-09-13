@@ -81,6 +81,7 @@ ar:
         subject: تعليمات إلغاء القفل
     omniauth_callbacks:
       failure: تعذر التحقق منك من %{kind} بسبب "%{reason}".
+      reason: لا يمكننا التحقق من عنوان بريدك الإلكتروني %{email}.
       success: تمت المصادقة بنجاح من حساب %{kind}.
     passwords:
       edit:

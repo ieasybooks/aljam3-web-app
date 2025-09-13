@@ -77,6 +77,7 @@ en:
         subject: Unlock instructions
     omniauth_callbacks:
       failure: Could not authenticate you from %{kind} because "%{reason}".
+      reason: We can't verify the email %{email}.
       success: Successfully authenticated from %{kind} account.
     passwords:
       edit:

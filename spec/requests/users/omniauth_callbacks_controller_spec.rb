@@ -40,7 +40,7 @@ RSpec.describe Users::OmniauthCallbacksController do
         expect(flash[:notice]).to eq(I18n.t("devise.omniauth_callbacks.success", kind: "Google"))
       end
 
-      it "does not set flash[:notice] when format is non-navigational" do
+      it "does not set flash[:notice] when format is non-navigational" do # rubocop:disable RSpec/MultipleExpectations
         allow(User).to receive(:from_omniauth).and_return(user)
         allow_any_instance_of(described_class).to receive(:is_navigational_format?).and_return(false) # rubocop:disable RSpec/AnyInstance
 

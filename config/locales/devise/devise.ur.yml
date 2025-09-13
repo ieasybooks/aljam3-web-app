@@ -77,6 +77,7 @@ ur:
         subject: غیر مقفل کرنے کی ہدایات
     omniauth_callbacks:
       failure: سے نہیں ھو سکی۔ %{kind} ،%{reason} آپ کی شناخت بوجہ
+      reason: ہم نے آپ کا ای میل ایڈریس %{email} تصدیق نہیں کی سکا۔
       success: اکاونٹ سے کامیابی سے شناخت ھو گی ھے۔ %{kind}
     passwords:
       edit:
