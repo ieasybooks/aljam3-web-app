@@ -21,6 +21,14 @@ class Components::Menu < Components::Base
       end
 
       if hotwire_native_app? || (@controller_name == "pages" && @action_name == "show")
+        if user_signed_in?
+          menu_link(path: destroy_user_session_path, text: t("navbar.sign_out"), icon: Hero::ArrowLeftStartOnRectangle.new(variant: :outline, class: "size-5 ltr:transform ltr:-scale-x-100"))
+          Separator(class: "my-2")
+        else
+          menu_link(path: new_user_session_path, text: t("navbar.sign_in"), icon: Hero::ArrowLeftStartOnRectangle.new(variant: :outline, class: "size-5 ltr:transform ltr:-scale-x-100"))
+          Separator(class: "my-2")
+        end
+
         if hotwire_native_app?
           menu_link(
             path: new_contact_path,

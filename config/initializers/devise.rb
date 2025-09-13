@@ -273,6 +273,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
+  OmniAuth.config.allowed_request_methods = %i[get post]
+
   if ENV["DEPLOY"].blank? && (!Rails.env.local? || Rails.application.credentials.google.present?)
     config.omniauth :google_oauth2,
                     Rails.application.credentials.google.oauth.client_id,

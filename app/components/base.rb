@@ -18,6 +18,7 @@ class Components::Base < RubyUI::Base
   include Phlex::Rails::Helpers::NumberWithDelimiter
   include Phlex::Rails::Helpers::SimpleFormat
   include Phlex::Rails::Helpers::T
+  include Phlex::Rails::Helpers::LinkTo
   include Phlex::Rails::Helpers::TurboFrameTag
   include Phlex::Rails::Layout
 
