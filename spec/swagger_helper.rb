@@ -28,9 +28,9 @@ RSpec.configure do |config|
       ],
       tags: [
         { name: "Libraries", description: "Operations on libraries" },
-        { name: "Books", description: "Operations on books" },
-        { name: "Authors", description: "Operations on authors" },
         { name: "Categories", description: "Operations on categories" },
+        { name: "Authors", description: "Operations on authors" },
+        { name: "Books", description: "Operations on books" },
         { name: "Files", description: "Operations on files" },
         { name: "Search", description: "Global search operations" }
       ],
