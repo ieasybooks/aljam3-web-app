@@ -131,6 +131,19 @@ RSpec.describe "Pages" do
       end
     end
 
+    context "when requested page number does not exist for the file" do
+      it "falls back to the last page of the file and renders it (HTML)" do # rubocop:disable RSpec/MultipleExpectations,RSpec/ExampleLength
+        book_file = create(:book_file, :with_pages, pages_count: 3)
+        last_page = book_file.pages.order(:number).last
+
+        get book_file_page_path(book_id: book_file.book.id, file_id: book_file.id, page_number: last_page.number + 100)
+
+        expect(response).to have_http_status(:success)
+        expect(response.media_type).to eq("text/html")
+        expect(response.body).to include(last_page.content)
+      end
+    end
+
     context "when page is hidden" do
       let(:book) { create(:book, :with_files, hidden: true) }
       let(:page) { book.pages.first }
