@@ -2,12 +2,12 @@
   "name": "app",
   "private": true,
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.12",
+    "@tailwindcss/cli": "^4.1.13",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "esbuild": "^0.25.9",
     "prettier": "3.6.2",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.13"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
@@ -25,6 +25,6 @@
     "cropperjs": "^2.0.1",
     "embla-carousel": "^8.6.0",
     "tom-select": "^2.4.3",
-    "tw-animate-css": "^1.3.7"
+    "tw-animate-css": "^1.3.8"
   }
 }

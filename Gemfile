@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "avo", "~> 3.23", ">= 3.23.1"
+gem "avo", "~> 3.24"
 gem "browser", "~> 6.2"
 gem "cache_with_locale", "~> 0.0.3"
 gem "devise", "~> 4.9", ">= 4.9.4"
@@ -20,7 +20,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0", ">= 1.0.2"
 gem "pagy", "~> 9.4"
 gem "pghero", "~> 3.7"
 gem "pg_query", "~> 6.1"
-gem "phlex-icons", "~> 2.36"
+gem "phlex-icons", "~> 2.38"
 gem "phlex-rails", "~> 2.3", ">= 2.3.1"
 gem "rack-attack", "~> 6.7"
 gem "rails_cloudflare_turnstile", "~> 0.4.2"
@@ -33,7 +33,7 @@ gem "solid_errors", "~> 0.7.0"
 gem "stackprof", "~> 0.2.27" # rack-mini-profiler dependency to generate flamegraphs.
 gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
 gem "sys-cpu", "~> 1.1"
-gem "sys-filesystem", "~> 1.5", ">= 1.5.3"
+gem "sys-filesystem", "~> 1.5", ">= 1.5.4"
 gem "tailwind_merge", "~> 1.3", ">= 1.3.1"
 
 group :development do
@@ -47,14 +47,14 @@ group :development do
   gem "lookbook", "~> 2.3", ">= 2.3.13"
   gem "net-ssh", "~> 7.3"
   gem "rubocop-rake", "~> 0.7.1"
-  gem "rubocop-rspec", "~> 3.6"
+  gem "rubocop-rspec", "~> 3.7"
   gem "rubocop-rspec_rails", "~> 2.31"
-  gem "ruby_ui", "~> 1.0", ">= 1.0.1"
+  gem "ruby_ui", "~> 1.0", ">= 1.0.2"
   gem "tqdm", "~> 0.4.1"
 end
 
 group :test do
-  gem "factory_bot_rails", "~> 6.5"
+  gem "factory_bot_rails", "~> 6.5", ">= 6.5.1"
   gem "shoulda-matchers", "~> 6.5"
   gem "simplecov", "~> 0.22.0", require: false
   gem "simplecov-json", "~> 0.2.3"
