@@ -71,7 +71,7 @@ class Views::Devise::Sessions::New < Views::Base
           TextSeparator(text: t("or"), class: "mb-2.5 mt-2")
 
           link_to(
-            omniauth_authorize_path(resource_name, :google_oauth2),
+            omniauth_authorize_path(resource_name, :google_oauth2, native: hotwire_native_app? ? 1 : 0),
             class: "inline-flex justify-center items-center py-2 px-5 w-full text-sm text-white rounded-md font-medium focus:outline-hidden bg-[#4285F4] hover:bg-[#4285F4]/90 gap-x-2 cursor-pointer",
             data: { turbo: "false" }
           ) do

@@ -49,6 +49,7 @@
 #                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /\d+/}
+#                   handoff_native_session GET      /native/session/handoff(.:format)                                                                 native/sessions#handoff
 #                                  privacy GET      /privacy(.:format)                                                                                static#privacy
 #                         api_v1_libraries GET      /api/v1/libraries(.:format)                                                                       api/v1/libraries#index
 #                           api_v1_library GET      /api/v1/libraries/:id(.:format)                                                                   api/v1/libraries#show
@@ -352,6 +353,12 @@ Rails.application.routes.draw do
     get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }
     get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
     get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
+  end
+
+  namespace :native do
+    resource :session, only: [] do
+      get :handoff
+    end
   end
 
   get "/privacy", to: "static#privacy", as: :privacy

@@ -1,7 +1,5 @@
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    skip_before_action :verify_authenticity_token, only: [ :google_oauth2 ]
-
     def google_oauth2 = process_oauth_callback("Google")
 
     private
@@ -18,8 +16,17 @@ module Users
 
     def handle_successful_authentication(user, provider)
       sign_out_all_scopes
-      flash[:notice] = t("devise.omniauth_callbacks.success", kind: provider) if is_navigational_format?
-      sign_in_and_redirect user, event: :authentication
+      sign_in(user)
+
+      if native_oauth_request?
+        token = user.signed_id(purpose: "native_handoff", expires_in: 5.minutes)
+
+        redirect_to handoff_native_session_url(token:)
+      else
+        flash[:notice] = t("devise.omniauth_callbacks.success", kind: provider) if is_navigational_format?
+
+        redirect_to after_sign_in_path_for(user)
+      end
     end
 
     def handle_failed_authentication(provider)
@@ -31,5 +38,10 @@ module Users
     end
 
     def auth = @auth ||= request.env["omniauth.auth"]
+
+    def native_oauth_request?
+      p = request.env["omniauth.params"] || {}
+      p["native"] == "1"
+    end
   end
 end
