@@ -29,6 +29,14 @@ module Rails
       end
     end
 
+    def android_assetlinks
+      respond_to do |format|
+        format.any do
+          render json: android_assetlinks_payload, content_type: "application/json", layout: false
+        end
+      end
+    end
+
     private
 
     def apple_association_payload
@@ -39,6 +47,19 @@ module Rails
           ]
         }
       }
+    end
+
+    def android_assetlinks_payload
+      [
+        {
+          relation: [ "delegate_permission/common.handle_all_urls" ],
+          target: {
+            namespace: "android_app",
+            package_name: "com.ieasybooks.aljam3",
+            sha256_cert_fingerprints: [ "9D:E6:FD:8C:3C:3D:93:57:A5:F4:32:DA:EF:B2:49:2C:E8:46:64:45:BB:B3:77:3F:8A:BA:98:0B:8E:11:7B:4A" ]
+          }
+        }
+      ]
     end
   end
 end

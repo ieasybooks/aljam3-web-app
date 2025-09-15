@@ -6,9 +6,12 @@
 #                             pwa_manifest GET      /manifest-v2(.:format)                                                                            rails/pwa#manifest
 #                       pwa_service_worker GET      /service-worker(.:format)                                                                         rails/pwa#service_worker
 #               apple_app_site_association GET      /.well-known/apple-app-site-association(.:format)                                                 rails/pwa#apple_app_site_association
+#                               assetlinks GET      /.well-known/assetlinks(.:format)                                                                 rails/pwa#android_assetlinks
 #                                          GET      /apple-app-site-association(.:format)                                                             rails/pwa#apple_app_site_association
+#                                          GET      /assetlinks(.:format)                                                                             rails/pwa#android_assetlinks
 #    user_google_oauth2_omniauth_authorize GET|POST /users/auth/google_oauth2(.:format)                                                               users/omniauth_callbacks#passthru
 #     user_google_oauth2_omniauth_callback GET|POST /users/auth/google_oauth2/callback(.:format)                                                      users/omniauth_callbacks#google_oauth2
+#                                reset_app GET      /reset_app(.:format)                                                                              site#reset_app
 #                                    pdfjs GET      /pdfjs(.:format)                                                                                  pdfjs#index
 #                             pdfjs_iframe GET      /pdfjs/iframe(.:format)                                                                           pdfjs#iframe
 #                                                   /404(.:format)                                                                                    errors#not_found
@@ -50,7 +53,9 @@
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
 #                                     book GET      (/:locale)/:book_id(.:format)                                                                     books#show {locale: /ar|ur|en/, book_id: /\d+/}
 #                   handoff_native_session GET      /native/session/handoff(.:format)                                                                 native/sessions#handoff
+#           hotwire_ios_path_configuration GET      /hotwire/ios/path_configuration(.:format)                                                         hotwire/ios/path_configurations#show
 #                                  privacy GET      /privacy(.:format)                                                                                static#privacy
+#                              api_v1_auth DELETE   /api/v1/auth(.:format)                                                                            api/v1/auths#destroy
 #                         api_v1_libraries GET      /api/v1/libraries(.:format)                                                                       api/v1/libraries#index
 #                           api_v1_library GET      /api/v1/libraries/:id(.:format)                                                                   api/v1/libraries#show
 #                             api_v1_books GET      /api/v1/books(.:format)                                                                           api/v1/books#index
@@ -322,10 +327,15 @@ Rails.application.routes.draw do
 
   scope "/.well-known" do
     get "apple-app-site-association" => "rails/pwa#apple_app_site_association"
+    get "assetlinks" => "rails/pwa#android_assetlinks"
   end
+
   get "/apple-app-site-association" => "rails/pwa#apple_app_site_association"
+  get "/assetlinks" => "rails/pwa#android_assetlinks"
 
   devise_for :users, only: :omniauth_callbacks, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+
+  get "reset_app", to: "site#reset_app"
 
   get "pdfjs", to: "pdfjs#index"
   get "pdfjs/iframe", to: "pdfjs#iframe"
@@ -361,10 +371,18 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :hotwire do
+    namespace :ios do
+      resource :path_configuration, only: :show
+    end
+  end
+
   get "/privacy", to: "static#privacy", as: :privacy
 
   namespace :api do
     namespace :v1 do
+      resource :auth, only: [ :destroy ]
+
       resources :libraries, only: %i[ index show ]
       resources :books, only: %i[ index show ]
       resources :authors, only: %i[ index show ]

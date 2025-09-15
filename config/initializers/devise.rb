@@ -1,5 +1,23 @@
 # frozen_string_literal: true
 
+# Required to handle tabs that require authentication to present /unauthorized.
+class TurboFailureApp < Devise::FailureApp
+  # Compatibility for Turbo::Native::Navigation
+  class << self
+    def helper_method(*methods)
+    end
+  end
+
+  include Turbo::Native::Navigation
+
+  # Intercept for Hotwire Native:
+  # Return a 401 for any :authenticate_user before actions
+  # Return a 422 for any login failures
+  def http_auth?
+    (hotwire_native_app? && !params["hotwire_native_form"]) || super
+  end
+end
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -285,10 +303,11 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |manager|
-  #   manager.intercept_401 = false
-  #   manager.default_strategies(scope: :user).unshift :some_external_strategy
-  # end
+  config.warden do |manager|
+    manager.failure_app = TurboFailureApp
+    # manager.intercept_401 = false
+    # manager.default_strategies(scope: :user).unshift :some_external_strategy
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine

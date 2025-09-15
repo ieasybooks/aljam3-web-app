@@ -1,4 +1,6 @@
 class StaticController < ApplicationController
+  include Devise::Controllers::Rememberable
+
   CATEGORY_IDS = {
     faith: [ 24, 34, 35, 36, 37, 38, 39, 40, 54 ],
     quran: [ 1, 17, 20, 21, 22, 88, 101 ],
@@ -10,6 +12,15 @@ class StaticController < ApplicationController
   }
 
   def home
+    if params[:sign_in_token].present?
+      user = User.find_signed(params[:sign_in_token], purpose: "native_handoff")
+
+      if user.present?
+        sign_in(user)
+        remember_me(user)
+      end
+    end
+
     results = search
 
     if results.present? && params[:qid].blank? && request.headers["X-Sec-Purpose"] != "prefetch"

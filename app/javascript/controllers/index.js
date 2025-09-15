@@ -19,6 +19,9 @@ application.register("bridge--menu-button", Bridge__MenuButtonController)
 import Bridge__ShareController from "./bridge/share_controller"
 application.register("bridge--share", Bridge__ShareController)
 
+import Bridge__SignOutController from "./bridge/sign_out_controller"
+application.register("bridge--sign-out", Bridge__SignOutController)
+
 import Bridge__ThemeController from "./bridge/theme_controller"
 application.register("bridge--theme", Bridge__ThemeController)
 
