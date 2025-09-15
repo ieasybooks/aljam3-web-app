@@ -1,5 +1,7 @@
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    include Devise::Controllers::Rememberable
+
     def google_oauth2 = process_oauth_callback("Google")
 
     private
@@ -16,13 +18,15 @@ module Users
 
     def handle_successful_authentication(user, provider)
       sign_out_all_scopes
-      sign_in(user)
 
       if native_oauth_request?
-        token = user.signed_id(purpose: "native_handoff", expires_in: 5.minutes)
+        token = user.signed_id(purpose: "native_handoff", expires_in: 30.seconds)
 
-        redirect_to handoff_native_session_url(token:)
+        redirect_to root_path(sign_in_token: token, locale: nil)
       else
+        sign_in(user)
+        remember_me(user)
+
         flash[:notice] = t("devise.omniauth_callbacks.success", kind: provider) if is_navigational_format?
 
         redirect_to after_sign_in_path_for(user)

@@ -8,6 +8,6 @@ class Native::SessionsController < ApplicationController
 
     sign_in(user)
 
-    redirect_to after_sign_in_path_for(user)
+    redirect_to "/reset_app"
   end
 end

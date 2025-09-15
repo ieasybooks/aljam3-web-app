@@ -22,12 +22,33 @@ class Components::Menu < Components::Base
 
       if hotwire_native_app? || (@controller_name == "pages" && @action_name == "show")
         if user_signed_in?
-          menu_link(path: destroy_user_session_path, text: t("navbar.sign_out"), icon: Hero::ArrowLeftStartOnRectangle.new(variant: :outline, class: "size-5 ltr:transform ltr:-scale-x-100"))
-          Separator(class: "my-2")
+          Link(
+            variant: :link,
+            href: destroy_user_session_path,
+            class: "flex items-center justify-start gap-x-2 text-xl text-muted-foreground",
+            data: {
+              controller: "bridge--sign-out",
+              bridge__sign_out_path_value: api_v1_auth_path,
+              action: [
+                ("click->ruby-ui--sheet-content#close" if hotwire_native_app?),
+                "bridge--sign-out#signOut"
+              ],
+              turbo_method: :delete
+            }
+          ) do
+            Hero::ArrowLeftStartOnRectangle(variant: :outline, class: "size-5 ltr:transform ltr:-scale-x-100")
+
+            plain t("navbar.sign_out")
+          end
         else
-          menu_link(path: new_user_session_path, text: t("navbar.sign_in"), icon: Hero::ArrowLeftStartOnRectangle.new(variant: :outline, class: "size-5 ltr:transform ltr:-scale-x-100"))
-          Separator(class: "my-2")
+          menu_link(
+            path: new_user_session_path,
+            text: t("navbar.sign_in"),
+            icon: Hero::ArrowLeftOnRectangle.new(variant: :outline, class: "size-5 ltr:transform ltr:-scale-x-100"),
+          )
         end
+
+        Separator(class: "my-2")
 
         if hotwire_native_app?
           menu_link(
