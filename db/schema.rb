@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_19_173403) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_20_103850) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -75,7 +75,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_173403) do
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_favorites_on_book_id"
     t.index ["user_id", "book_id"], name: "index_favorites_on_user_id_and_book_id", unique: true
-    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "libraries", force: :cascade do |t|

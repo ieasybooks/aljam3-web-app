@@ -40,7 +40,7 @@ class Book < ApplicationRecord
   has_many :files, -> { order(:id) }, class_name: "BookFile", dependent: :destroy
   has_many :pages, -> { order(:id, :number) }, through: :files
   has_many :search_clicks, as: :result, dependent: :delete_all
-  has_many :favorites, dependent: :destroy
+  has_many :favorites, dependent: :delete_all
   has_many :favorited_by_users, through: :favorites, source: :user
 
   validates :title, :volumes, :pages_count, :views_count, presence: true
