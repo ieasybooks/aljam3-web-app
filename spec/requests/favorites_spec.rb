@@ -41,6 +41,10 @@ RSpec.describe "Favorites" do
       it 'responds with turbo stream' do
         post book_favorites_path(book_id: book.id), as: :turbo_stream
         expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns correct content type for turbo stream' do
+        post book_favorites_path(book_id: book.id), as: :turbo_stream
         expect(response.content_type).to eq('text/vnd.turbo-stream.html; charset=utf-8')
       end
 
@@ -53,6 +57,11 @@ RSpec.describe "Favorites" do
         post book_favorites_path(book_id: book.id)
         favorite = Favorite.last
         expect(favorite.user).to eq(user)
+      end
+
+      it 'associates the favorite with the correct book' do
+        post book_favorites_path(book_id: book.id)
+        favorite = Favorite.last
         expect(favorite.book).to eq(book)
       end
 
@@ -77,8 +86,10 @@ RSpec.describe "Favorites" do
       end
 
       context 'when favorite save fails' do
+        let(:favorite_double) { instance_double(Favorite, save: false, persisted?: false) }
+
         before do
-          allow_any_instance_of(Favorite).to receive(:save).and_return(false)
+          allow(user.favorites).to receive(:find_or_initialize_by).and_return(favorite_double)
         end
 
         it 'responds with unprocessable content for turbo stream' do
@@ -89,6 +100,10 @@ RSpec.describe "Favorites" do
         it 'redirects with alert for HTML format' do
           post book_favorites_path(book_id: book.id)
           expect(response).to redirect_to(books_path)
+        end
+
+        it 'sets alert flash message for HTML format' do
+          post book_favorites_path(book_id: book.id)
           expect(flash[:alert]).to be_present
         end
       end
@@ -125,6 +140,10 @@ RSpec.describe "Favorites" do
         it 'responds with turbo stream' do
           delete book_favorite_path(book_id: book.id, id: favorite.id), as: :turbo_stream
           expect(response).to have_http_status(:ok)
+        end
+
+        it 'returns correct content type for turbo stream' do
+          delete book_favorite_path(book_id: book.id, id: favorite.id), as: :turbo_stream
           expect(response.content_type).to eq('text/vnd.turbo-stream.html; charset=utf-8')
         end
 
@@ -149,6 +168,10 @@ RSpec.describe "Favorites" do
         it 'redirects with alert for HTML format when favorite not found' do
           delete book_favorite_path(book_id: book.id, id: 999)
           expect(response).to redirect_to(books_path)
+        end
+
+        it 'sets alert flash message when favorite not found' do
+          delete book_favorite_path(book_id: book.id, id: 999)
           expect(flash[:alert]).to be_present
         end
       end
