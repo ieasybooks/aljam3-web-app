@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_11_211716) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_19_173403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -66,6 +66,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_211716) do
     t.text "message", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "book_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_favorites_on_book_id"
+    t.index ["user_id", "book_id"], name: "index_favorites_on_user_id_and_book_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "libraries", force: :cascade do |t|
@@ -180,6 +190,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_211716) do
   add_foreign_key "books", "authors"
   add_foreign_key "books", "categories"
   add_foreign_key "books", "libraries"
+  add_foreign_key "favorites", "books"
+  add_foreign_key "favorites", "users"
   add_foreign_key "pages", "book_files"
   add_foreign_key "search_clicks", "search_queries"
   add_foreign_key "search_queries", "users"

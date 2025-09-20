@@ -47,7 +47,10 @@
 #                                 category GET      (/:locale)/categories/:id(.:format)                                                               categories#show {locale: /ar|ur|en/}
 #                                  authors GET      (/:locale)/authors(.:format)                                                                      authors#index {locale: /ar|ur|en/}
 #                                   author GET      (/:locale)/authors/:id(.:format)                                                                  authors#show {locale: /ar|ur|en/}
+#                                favorites GET      (/:locale)/favorites(.:format)                                                                    favorites#index {locale: /ar|ur|en/}
 #                              book_search GET      (/:locale)/books/:book_id/search(.:format)                                                        books#search {locale: /ar|ur|en/}
+#                           book_favorites POST     (/:locale)/books/:book_id/favorites(.:format)                                                     favorites#create {locale: /ar|ur|en/}
+#                            book_favorite DELETE   (/:locale)/books/:book_id/favorites/:id(.:format)                                                 favorites#destroy {locale: /ar|ur|en/}
 #                                    books GET      (/:locale)/books(.:format)                                                                        books#index {locale: /ar|ur|en/}
 #                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
@@ -172,6 +175,15 @@
 #                                     PATCH  /resources/libraries/:id(.:format)                                                                 avo/libraries#update
 #                                     PUT    /resources/libraries/:id(.:format)                                                                 avo/libraries#update
 #                                     DELETE /resources/libraries/:id(.:format)                                                                 avo/libraries#destroy
+#          preview_resources_favorite GET    /resources/favorites/:id/preview(.:format)                                                         avo/favorites#preview
+#                 resources_favorites GET    /resources/favorites(.:format)                                                                     avo/favorites#index
+#                                     POST   /resources/favorites(.:format)                                                                     avo/favorites#create
+#              new_resources_favorite GET    /resources/favorites/new(.:format)                                                                 avo/favorites#new
+#             edit_resources_favorite GET    /resources/favorites/:id/edit(.:format)                                                            avo/favorites#edit
+#                  resources_favorite GET    /resources/favorites/:id(.:format)                                                                 avo/favorites#show
+#                                     PATCH  /resources/favorites/:id(.:format)                                                                 avo/favorites#update
+#                                     PUT    /resources/favorites/:id(.:format)                                                                 avo/favorites#update
+#                                     DELETE /resources/favorites/:id(.:format)                                                                 avo/favorites#destroy
 #           preview_resources_contact GET    /resources/contacts/:id/preview(.:format)                                                          avo/contacts#preview
 #                  resources_contacts GET    /resources/contacts(.:format)                                                                      avo/contacts#index
 #                                     POST   /resources/contacts(.:format)                                                                      avo/contacts#create
@@ -355,9 +367,11 @@ Rails.application.routes.draw do
     resources :contacts, only: %i[new create]
     resources :categories, only: %i[index show]
     resources :authors, only: %i[index show]
+    resources :favorites, only: [ :index ]
 
     resources :books, only: :index do
       get :search
+      resources :favorites, only: [ :create, :destroy ]
     end
 
     get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }

@@ -39,6 +39,23 @@ ar:
     - المنصة الحديثية - كل ما تحتاجه عن الحديث النبوي
   book_search_form:
     search_input_placeholder: ابحث في محتوى الكتاب
+  components:
+    favorite_button:
+      sign_in_to_favorite: سجل دخولك لإضافة هذا الكتاب للمفضلة
+    favorites_toggle:
+      button_text: المفضلة
+  favorites:
+    create:
+      error: تعذر إضافة الكتاب للمفضلة
+    destroy:
+      error: تعذر إزالة الكتاب من المفضلة
+    index:
+      title: كتبي المفضلة
+      description: مجموعتك الشخصية من الكتب المفضلة
+      back_to_books: العودة إلى الكتب
+      empty_title: لا توجد مفضلة حتى الآن
+      empty_description: لم تضف أي كتب إلى مفضلتك بعد. ابدأ في استكشاف مجموعتنا!
+      browse_books: تصفح الكتب
   books:
     index:
       description: قائمة كتب الجامع

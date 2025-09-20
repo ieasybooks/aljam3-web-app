@@ -31,6 +31,7 @@ class Components::Base < RubyUI::Base
   register_value_helper :browser
   register_value_helper :cloudflare_turnstile
   register_value_helper :controller_name
+  register_value_helper :current_user
   register_value_helper :devise_mapping
   register_value_helper :hotwire_native_app?
   register_value_helper :params

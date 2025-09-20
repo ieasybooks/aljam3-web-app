@@ -9,6 +9,23 @@ en:
         topic: Topic
   aljam3: الجامع
   apply: Apply
+  components:
+    favorite_button:
+      sign_in_to_favorite: Sign in to favorite this book
+    favorites_toggle:
+      button_text: Favorites
+  favorites:
+    create:
+      error: Unable to add book to favorites
+    destroy:
+      error: Unable to remove book from favorites
+    index:
+      title: My Favorite Books
+      description: Your personal collection of favorite books
+      back_to_books: Back to Books
+      empty_title: No favorites yet
+      empty_description: You haven't added any books to your favorites yet. Start exploring our collection!
+      browse_books: Browse Books
   author_card:
     books: Books
   authors:

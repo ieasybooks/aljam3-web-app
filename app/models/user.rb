@@ -47,6 +47,8 @@ class User < ApplicationRecord
 
   has_many :search_queries, dependent: :destroy
   has_many :search_clicks, through: :search_queries
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_books, through: :favorites, source: :book
 
   validates :role, :encrypted_password, :sign_in_count, :failed_attempts, presence: true
 

@@ -39,6 +39,24 @@ ur:
     - الحدیثی پلیٹ فارم - حدیث نبوی کے بارے میں سب کچھ
   book_search_form:
     search_input_placeholder: کتاب کے مواد میں تلاش کریں
+  components:
+    favorite_button:
+      sign_in_to_favorite: اس کتاب کو پسندیدہ کرنے کے لیے لاگ ان کریں
+    favorites_toggle:
+      button_text: پسندیدہ
+      active: فعال
+  favorites:
+    create:
+      error: کتاب کو پسندیدہ میں شامل نہیں کیا جا سکا
+    destroy:
+      error: کتاب کو پسندیدہ سے ہٹایا نہیں جا سکا
+    index:
+      title: میری پسندیدہ کتابیں
+      description: آپ کی پسندیدہ کتابوں کا ذاتی مجموعہ
+      back_to_books: کتابوں پر واپس
+      empty_title: ابھی کوئی پسندیدہ نہیں
+      empty_description: آپ نے ابھی تک کوئی کتاب اپنی پسندیدہ میں شامل نہیں کی۔ ہمارے مجموعے کی تلاش شروع کریں!
+      browse_books: کتابیں دیکھیں
   books:
     index:
       description: الجامع کی کتابوں کی فہرست
