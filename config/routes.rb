@@ -47,7 +47,10 @@
 #                                 category GET      (/:locale)/categories/:id(.:format)                                                               categories#show {locale: /ar|ur|en/}
 #                                  authors GET      (/:locale)/authors(.:format)                                                                      authors#index {locale: /ar|ur|en/}
 #                                   author GET      (/:locale)/authors/:id(.:format)                                                                  authors#show {locale: /ar|ur|en/}
+#                                favorites GET      (/:locale)/favorites(.:format)                                                                    favorites#index {locale: /ar|ur|en/}
 #                              book_search GET      (/:locale)/books/:book_id/search(.:format)                                                        books#search {locale: /ar|ur|en/}
+#                           book_favorites POST     (/:locale)/books/:book_id/favorites(.:format)                                                     favorites#create {locale: /ar|ur|en/}
+#                            book_favorite DELETE   (/:locale)/books/:book_id/favorites/:id(.:format)                                                 favorites#destroy {locale: /ar|ur|en/}
 #                                    books GET      (/:locale)/books(.:format)                                                                        books#index {locale: /ar|ur|en/}
 #                           book_file_page GET      (/:locale)/:book_id/:file_id/:page_number(.:format)                                               pages#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/, page_number: /\d+/}
 #                                book_file GET      (/:locale)/:book_id/:file_id(.:format)                                                            files#show {locale: /ar|ur|en/, book_id: /\d+/, file_id: /\d+/}
@@ -172,6 +175,15 @@
 #                                     PATCH  /resources/libraries/:id(.:format)                                                                 avo/libraries#update
 #                                     PUT    /resources/libraries/:id(.:format)                                                                 avo/libraries#update
 #                                     DELETE /resources/libraries/:id(.:format)                                                                 avo/libraries#destroy
+#          preview_resources_favorite GET    /resources/favorites/:id/preview(.:format)                                                         avo/favorites#preview
+#                 resources_favorites GET    /resources/favorites(.:format)                                                                     avo/favorites#index
+#                                     POST   /resources/favorites(.:format)                                                                     avo/favorites#create
+#              new_resources_favorite GET    /resources/favorites/new(.:format)                                                                 avo/favorites#new
+#             edit_resources_favorite GET    /resources/favorites/:id/edit(.:format)                                                            avo/favorites#edit
+#                  resources_favorite GET    /resources/favorites/:id(.:format)                                                                 avo/favorites#show
+#                                     PATCH  /resources/favorites/:id(.:format)                                                                 avo/favorites#update
+#                                     PUT    /resources/favorites/:id(.:format)                                                                 avo/favorites#update
+#                                     DELETE /resources/favorites/:id(.:format)                                                                 avo/favorites#destroy
 #           preview_resources_contact GET    /resources/contacts/:id/preview(.:format)                                                          avo/contacts#preview
 #                  resources_contacts GET    /resources/contacts(.:format)                                                                      avo/contacts#index
 #                                     POST   /resources/contacts(.:format)                                                                      avo/contacts#create
@@ -303,7 +315,7 @@
 #   rails_performance_resources GET  /resources(.:format)   rails_performance/rails_performance#resources
 #
 # Routes for Lookbook::Engine:
-#                 cable      /cable                   #<ActionCable::Server::Base:0x0000000149c32900 @config=#<ActionCable::Server::Configuration:0x000000013b61f148 @log_tags=[], @connection_class=#<Proc:0x0000000148870228 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/lookbook-2.3.12/lib/lookbook/cable/cable.rb:48 (lambda)>, @worker_pool_size=4, @disable_request_forgery_protection=false, @allow_same_origin_as_host=true, @filter_parameters=[], @health_check_application=#<Proc:0x0000000148870408 /Users/aliosm/.local/share/mise/installs/ruby/3.4.4/lib/ruby/gems/3.4.0/gems/actioncable-8.0.2/lib/action_cable/server/configuration.rb:32 (lambda)>, @cable={"adapter" => "async"}, @mount_path=nil, @logger=#<ActiveSupport::BroadcastLogger:0x000000013fa57748 @broadcasts=[#<ActiveSupport::Logger:0x000000013f9f3900 @level=0, @progname=nil, @default_formatter=#<Logger::Formatter:0x000000013fa57bd0 @datetime_format=nil>, @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x000000013fa579c8 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13816">, @logdev=#<Logger::LogDevice:0x000000013fa36a48 @shift_period_suffix="%Y%m%d", @shift_size=104857600, @shift_age=1, @filename="/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log", @dev=#<File:/Users/aliosm/Desktop/repositories/aljam3-web-app/log/development.log>, @binmode=false, @reraise_write_errors=[], @skip_header=false, @mon_data=#<Monitor:0x000000013fa57b58>, @mon_data_owner_object_id=4064>, @level_override={}, @local_level_key=:logger_thread_safe_level_13808>], @progname="Broadcast", @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x000000013fa579c8 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:13816">>>, @mutex=#<Monitor:0x00000001488700e8>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
+#                 cable      /cable                   #<ActionCable::Server::Base:0x000000015ff7c870 @config=#<ActionCable::Server::Configuration:0x000000015fc356f8 @log_tags=[], @connection_class=#<Proc:0x000000015b3da520 /opt/homebrew/lib/ruby/gems/3.4.0/gems/lookbook-2.3.13/lib/lookbook/cable/cable.rb:48 (lambda)>, @worker_pool_size=4, @disable_request_forgery_protection=false, @allow_same_origin_as_host=true, @filter_parameters=[], @health_check_application=#<Proc:0x000000015b3da728 /opt/homebrew/lib/ruby/gems/3.4.0/gems/actioncable-8.0.2.1/lib/action_cable/server/configuration.rb:32 (lambda)>, @cable={"adapter" => "async"}, @mount_path=nil, @logger=#<ActiveSupport::BroadcastLogger:0x000000015c9c27c0 @broadcasts=[#<ActiveSupport::Logger:0x000000015c9a0288 @level=0, @progname=nil, @default_formatter=#<Logger::Formatter:0x000000015c9c4d18 @datetime_format=nil>, @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x000000015c9c2b80 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:14616">, @logdev=#<Logger::LogDevice:0x0000000122e30b48 @shift_period_suffix="%Y%m%d", @shift_size=104857600, @shift_age=1, @filename="/Users/saidzain/aljam3-web-app/log/development.log", @dev=#<File:/Users/saidzain/aljam3-web-app/log/development.log>, @binmode=false, @reraise_write_errors=[], @skip_header=false, @mon_data=#<Monitor:0x000000015c9c4ca0>, @mon_data_owner_object_id=4240>, @level_override={}, @local_level_key=:logger_thread_safe_level_14608>], @progname="Broadcast", @formatter=#<ActiveSupport::Logger::SimpleFormatter:0x000000015c9c2b80 @datetime_format=nil, @thread_key="activesupport_tagged_logging_tags:14616">>>, @mutex=#<Monitor:0x000000015b3da3e0>, @pubsub=nil, @worker_pool=nil, @event_loop=nil, @remote_connections=nil>
 #         lookbook_home GET  /                        lookbook/application#index
 #   lookbook_page_index GET  /pages(.:format)         lookbook/pages#index
 #         lookbook_page GET  /pages/*path(.:format)   lookbook/pages#show
@@ -355,9 +367,11 @@ Rails.application.routes.draw do
     resources :contacts, only: %i[new create]
     resources :categories, only: %i[index show]
     resources :authors, only: %i[index show]
+    resources :favorites, only: [ :index ]
 
     resources :books, only: :index do
       get :search
+      resources :favorites, only: [ :create, :destroy ]
     end
 
     get "/:book_id/:file_id/:page_number", to: "pages#show", as: :book_file_page, constraints: { book_id: /\d+/, file_id: /\d+/, page_number: /\d+/ }

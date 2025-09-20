@@ -60,7 +60,7 @@ RSpec.describe Book do
     end
 
     it "has the correct filterable attributes" do
-      expect(described_class.index.filterable_attributes).to match_array(%w[library author category hidden])
+      expect(described_class.index.filterable_attributes).to match_array(%w[id library author category hidden])
     end
   end
 

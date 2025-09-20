@@ -8,12 +8,17 @@ class Components::InlineSearchForm < Components::Base
       action: @action,
       method: :get,
       accept_charset: "UTF-8",
-      class: "sm:w-1/3",
+      class: "w-full",
       data: {
         turbo_stream: "true",
         controller: "search-auto-submit"
       }
     ) do
+      # Hidden field to preserve favorites filter
+      if params[:favorites] == "true"
+        input(type: :hidden, name: "favorites", value: "true")
+      end
+
       FormField(class: "space-y-0") do
         Hero::MagnifyingGlass(class: "size-6 absolute translate-x-[-50%] translate-y-[50%] ltr:translate-x-[50%] ltr:transform ltr:-scale-x-100")
 

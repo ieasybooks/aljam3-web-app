@@ -74,6 +74,11 @@ ar:
     show:
       books: الكتب
   close: إغلاق
+  components:
+    favorite_button:
+      sign_in_to_favorite: سجل دخولك لإضافة هذا الكتاب للمفضلة
+    favorites_toggle:
+      button_text: المفضلة
   contact_dialog:
     contact_us_description: هل تواجه أي مشاكل؟ ترغب في اقتراح بعض المميزات؟ أو لديك أي استفسارات أخرى؟ راسلنا الآن!
     contact_us_title: تواصل معنا!
@@ -107,6 +112,18 @@ ar:
       description: إصدار متصفحك غير مدعوم من هذا التطبيق. يُرجى التحديث إلى متصفح أحدث للحصول على أفضل تجربة.
       error_code: 406 | متصفح غير مدعوم
       title: متصفح غير مدعوم
+  favorites:
+    create:
+      error: تعذر إضافة الكتاب للمفضلة
+    destroy:
+      error: تعذر إزالة الكتاب من المفضلة
+    index:
+      back_to_books: العودة إلى الكتب
+      browse_books: تصفح الكتب
+      description: مجموعتك الشخصية من الكتب المفضلة
+      empty_description: لم تضف أي كتب إلى مفضلتك بعد. ابدأ في استكشاف مجموعتنا!
+      empty_title: لا توجد مفضلة حتى الآن
+      title: كتبي المفضلة
   files: الملفات
   inline_search_form:
     search_input_placeholder: أدخل 3 حروف على الأقل

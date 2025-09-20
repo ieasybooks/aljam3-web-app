@@ -40,6 +40,8 @@ class Book < ApplicationRecord
   has_many :files, -> { order(:id) }, class_name: "BookFile", dependent: :destroy
   has_many :pages, -> { order(:id, :number) }, through: :files
   has_many :search_clicks, as: :result, dependent: :delete_all
+  has_many :favorites, dependent: :delete_all
+  has_many :favorited_by_users, through: :favorites, source: :user
 
   validates :title, :volumes, :pages_count, :views_count, presence: true
   validates_inclusion_of :hidden, in: [ true, false ]
@@ -69,7 +71,7 @@ class Book < ApplicationRecord
 
     attributes_to_highlight %i[title]
     searchable_attributes %i[title]
-    filterable_attributes %i[library author category hidden]
+    filterable_attributes %i[id library author category hidden]
   end
 
   def increment_views! = self.class.increment_counter(:views_count, id)

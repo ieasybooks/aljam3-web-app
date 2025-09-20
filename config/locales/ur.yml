@@ -74,6 +74,11 @@ ur:
     show:
       books: کتب
   close: بند کریں
+  components:
+    favorite_button:
+      sign_in_to_favorite: اس کتاب کو پسندیدہ کرنے کے لیے لاگ ان کریں
+    favorites_toggle:
+      button_text: پسندیدہ
   contact_dialog:
     contact_us_description: کوئی مسئلہ درپیش ہے؟ کوئی فیچر تجویز کرنا چاہتے ہیں؟ یا کوئی اور سوال ہے؟ ابھی ہم سے رابطہ کریں!
     contact_us_title: ہم سے رابطہ کریں!
@@ -107,6 +112,18 @@ ur:
       description: آپ کے براؤزر کا ورژن اس ایپ کے لیے معاون نہیں ہے۔ بہتر تجربے کے لیے نیا براؤزر اپ ڈیٹ کریں۔
       error_code: 406 | غیر معاون براؤزر
       title: غیر معاون براؤزر
+  favorites:
+    create:
+      error: کتاب کو پسندیدہ میں شامل نہیں کیا جا سکا
+    destroy:
+      error: کتاب کو پسندیدہ سے ہٹایا نہیں جا سکا
+    index:
+      back_to_books: کتابوں پر واپس
+      browse_books: کتابیں دیکھیں
+      description: آپ کی پسندیدہ کتابوں کا ذاتی مجموعہ
+      empty_description: آپ نے ابھی تک کوئی کتاب اپنی پسندیدہ میں شامل نہیں کی۔ ہمارے مجموعے کی تلاش شروع کریں!
+      empty_title: ابھی کوئی پسندیدہ نہیں
+      title: میری پسندیدہ کتابیں
   files: فائلیں
   inline_search_form:
     search_input_placeholder: کم از کم 3 حروف درج کریں
