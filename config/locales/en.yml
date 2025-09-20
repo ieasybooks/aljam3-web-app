@@ -9,23 +9,6 @@ en:
         topic: Topic
   aljam3: الجامع
   apply: Apply
-  components:
-    favorite_button:
-      sign_in_to_favorite: Sign in to favorite this book
-    favorites_toggle:
-      button_text: Favorites
-  favorites:
-    create:
-      error: Unable to add book to favorites
-    destroy:
-      error: Unable to remove book from favorites
-    index:
-      title: My Favorite Books
-      description: Your personal collection of favorite books
-      back_to_books: Back to Books
-      empty_title: No favorites yet
-      empty_description: You haven't added any books to your favorites yet. Start exploring our collection!
-      browse_books: Browse Books
   author_card:
     books: Books
   authors:
@@ -97,6 +80,12 @@ en:
     show:
       books: Books
   close: Close
+  components:
+    favorite_button:
+      sign_in_to_favorite: Sign in to favorite this book
+    favorites_toggle:
+      active: Active
+      button_text: Favorites
   contact_dialog:
     contact_us_description: Have any faced any problems? Want to suggest some features? Or do you have any other questions? Contact us now!
     contact_us_title: Contact Us!
@@ -130,6 +119,18 @@ en:
       description: Your browser version is not supported by this application. Please update to a modern browser for the best experience.
       error_code: 406 | Unsupported Browser
       title: Unsupported Browser
+  favorites:
+    create:
+      error: Unable to add book to favorites
+    destroy:
+      error: Unable to remove book from favorites
+    index:
+      back_to_books: Back to Books
+      browse_books: Browse Books
+      description: Your personal collection of favorite books
+      empty_description: You haven't added any books to your favorites yet. Start exploring our collection!
+      empty_title: No favorites yet
+      title: My Favorite Books
   files: Files
   inline_search_form:
     search_input_placeholder: Enter at least 3 characters
