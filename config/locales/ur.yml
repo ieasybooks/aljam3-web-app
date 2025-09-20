@@ -78,7 +78,6 @@ ur:
     favorite_button:
       sign_in_to_favorite: اس کتاب کو پسندیدہ کرنے کے لیے لاگ ان کریں
     favorites_toggle:
-      active: فعال
       button_text: پسندیدہ
   contact_dialog:
     contact_us_description: کوئی مسئلہ درپیش ہے؟ کوئی فیچر تجویز کرنا چاہتے ہیں؟ یا کوئی اور سوال ہے؟ ابھی ہم سے رابطہ کریں!

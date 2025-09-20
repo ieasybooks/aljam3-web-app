@@ -84,7 +84,6 @@ en:
     favorite_button:
       sign_in_to_favorite: Sign in to favorite this book
     favorites_toggle:
-      active: Active
       button_text: Favorites
   contact_dialog:
     contact_us_description: Have any faced any problems? Want to suggest some features? Or do you have any other questions? Contact us now!
