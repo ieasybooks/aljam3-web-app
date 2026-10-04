@@ -118,10 +118,11 @@ RSpec.configure do |config|
             type: :object,
             properties: {
               id: { type: :integer, description: "Page ID" },
+              file_id: { type: :integer, description: "File (volume) ID containing this page" },
               content: { type: :string, description: "Page content, in case of search, it will be the highlighted content with &lt;mark&gt; tags" },
               number: { type: :integer, description: "Page number" }
             },
-            required: %w[id content number]
+            required: %w[id file_id content number]
           },
           not_found: {
             type: :object,

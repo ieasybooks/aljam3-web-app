@@ -17,9 +17,16 @@ RSpec.describe "Api::V1::Pages" do # rubocop:disable RSpec/EmptyExampleGroup
                },
                required: %w[pages]
 
-        let(:file_id) { create(:book_file).id }
+        let(:book_file) { create(:book_file) }
+        let(:file_id) { book_file.id }
+        let!(:file_page) { create(:page, file: book_file, number: 7) }
 
-        run_test!
+        run_test! do |response|
+          expect(JSON.parse(response.body).fetch("pages")).to contain_exactly(
+            include("id" => file_page.id, "file_id" => book_file.id,
+                    "number" => 7, "content" => file_page.content)
+          )
+        end
       end
 
       response "404", "file not found" do
