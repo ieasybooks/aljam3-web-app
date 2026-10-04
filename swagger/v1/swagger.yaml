@@ -829,6 +829,9 @@ components:
         id:
           type: integer
           description: Page ID
+        file_id:
+          type: integer
+          description: File (volume) ID containing this page
         content:
           type: string
           description: Page content, in case of search, it will be the highlighted
@@ -838,6 +841,7 @@ components:
           description: Page number
       required:
       - id
+      - file_id
       - content
       - number
     not_found:
