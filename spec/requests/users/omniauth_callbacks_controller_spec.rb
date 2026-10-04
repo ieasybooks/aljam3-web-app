@@ -97,5 +97,25 @@ RSpec.describe Users::OmniauthCallbacksController do
         expect(flash[:alert]).to include("Google")
       end
     end
+
+    context "when returning to a native app" do
+      before do
+        allow(User).to receive(:from_omniauth).and_return(user)
+        post "/users/auth/google_oauth2?native=1"
+        follow_redirect!
+      end
+
+      it "hands off a signed token for this user" do
+        token = Rack::Utils.parse_query(URI.parse(response.location).query).fetch("sign_in_token")
+        expect(User.find_signed(token, purpose: "native_handoff")).to eq(user)
+      end
+
+      it "establishes and remembers the native session", :aggregate_failures do
+        follow_redirect!
+        expect(response).to have_http_status(:ok)
+        expect(request.env["warden"].user).to eq(user)
+        expect(user.reload.remember_created_at).to be_present
+      end
+    end
   end
 end

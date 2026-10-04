@@ -8,7 +8,7 @@ gem "cache_with_locale", "~> 0.0.3"
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "devise-i18n", "~> 1.15"
 gem "get_process_mem", "~> 1.0"
-gem "goldiloader", "~> 5.4"
+gem "goldiloader", "~> 6.0"
 gem "literal", "~> 1.8", ">= 1.8.1"
 gem "meilisearch-rails", "~> 0.16.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
@@ -68,13 +68,13 @@ group :development, :test do
 end
 
 group :production do
-  gem "cloudflare-rails", "~> 6.2"
+  gem "cloudflare-rails", "~> 7.0"
 end
 
 # Template gems ↓
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0", ">= 8.0.2.1"
+gem "rails", "~> 8.1", ">= 8.1.4"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgresql as the database for Active Record

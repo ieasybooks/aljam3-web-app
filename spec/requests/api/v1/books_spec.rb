@@ -10,6 +10,11 @@ RSpec.describe "Api::V1::Books" do # rubocop:disable RSpec/EmptyExampleGroup
       parameter name: :q, in: :query, type: :string, required: false,
                 description: "Search query to search books by title"
 
+      %i[library author category].each do |scope|
+        parameter name: scope, in: :query, type: :integer, required: false,
+                  description: "Filter by #{scope} ID; all supplied filters are combined"
+      end
+
       parameter name: :limit, in: :query, required: false,
                 description: "Limit the number of books to return (default: 20, maximum: 1000)",
                 schema: {
