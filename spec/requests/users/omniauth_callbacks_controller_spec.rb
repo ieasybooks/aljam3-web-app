@@ -28,7 +28,6 @@ RSpec.describe Users::OmniauthCallbacksController do
       OmniAuth.config.mock_auth[:google_oauth2] = nil
       Rails.application.env_config["devise.mapping"] = nil
       Rails.application.env_config["omniauth.auth"] = nil
-      Rails.application.env_config["omniauth.params"] = nil
     end
 
     context "when authentication is successful" do
@@ -102,8 +101,8 @@ RSpec.describe Users::OmniauthCallbacksController do
     context "when returning to a native app" do
       before do
         allow(User).to receive(:from_omniauth).and_return(user)
-        Rails.application.env_config["omniauth.params"] = { "native" => "1" }
-        get "/users/auth/google_oauth2/callback"
+        post "/users/auth/google_oauth2?native=1"
+        follow_redirect!
       end
 
       it "hands off a signed token for this user" do

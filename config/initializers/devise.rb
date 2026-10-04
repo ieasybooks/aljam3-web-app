@@ -293,7 +293,9 @@ Devise.setup do |config|
 
   OmniAuth.config.allowed_request_methods = %i[get post]
 
-  if ENV["DEPLOY"].blank? && (!Rails.env.local? || Rails.application.credentials.google.present?)
+  if Rails.env.test?
+    config.omniauth :google_oauth2, "test-client-id", "test-client-secret"
+  elsif ENV["DEPLOY"].blank? && (!Rails.env.local? || Rails.application.credentials.google.present?)
     config.omniauth :google_oauth2,
                     Rails.application.credentials.google.oauth.client_id,
                     Rails.application.credentials.google.oauth.client_secret
