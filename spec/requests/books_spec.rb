@@ -136,7 +136,7 @@ RSpec.describe "Books" do
         end
 
         before do
-          allow(Book).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title).and_return(mock_books_relation) }) # rubocop:disable RSpec/VerifiedDoubles
+          allow(Book).to receive(:where).with(hidden: false).and_return(double.tap { allow(it).to receive(:order).with(:title, :id).and_return(mock_books_relation) }) # rubocop:disable RSpec/VerifiedDoubles
           allow_any_instance_of(BooksController).to receive(:pagy).and_return([ mock_pagy, mock_books_relation ]) # rubocop:disable RSpec/AnyInstance
         end
 
