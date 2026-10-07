@@ -81,6 +81,24 @@ ar:
   contact_form:
     captcha_error: لم يتم التحقق من أنك إنسان.
     contact_received_successfully: تلّقينا رسالتك وسنتواصل معك بخصوصها حسب الحاجة.
+  desktop_download:
+    description: نزّل الكتب والتصنيفات، واقرأ وابحث في مكتبتك على الكمبيوتر.
+    download_macos: تنزيل DMG
+    download_windows: تنزيل المثبّت
+    free_latest: أحدث إصدار · مجاني
+    home_action: تنزيل تطبيق الكمبيوتر
+    home_title: الجامع معك، دون إنترنت
+    install_help: مساعدة التثبيت
+    macos_help: 'ماك: افتح ملف DMG واسحب الجامع إلى مجلد التطبيقات، ثم افتحه من هناك. إذا منع النظام تشغيله لأنه غير موثّق لدى Apple، افتح «إعدادات النظام ← الخصوصية والأمان» واختر «فتح على أي حال».'
+    macos_requirements: macOS 13+ · Apple silicon
+    nav_label: تطبيق الكمبيوتر
+    reader_action: تعرّف على تطبيق الكمبيوتر ←
+    reader_description: احتفظ بكتبك على جهازك مع تطبيق الجامع للكمبيوتر.
+    reader_title: اقرأ وابحث دون إنترنت
+    release_notes: تفاصيل الإصدار
+    title: الجامع للكمبيوتر
+    windows_help: 'ويندوز: شغّل المثبّت واتبع الخطوات. إذا ظهر تنبيه SmartScreen لأن التطبيق غير موقّع بشهادة مطوّر، اختر «معلومات إضافية» ثم «تشغيل على أي حال».'
+    windows_requirements: Windows 10 / 11 (x64) · Windows 11 ARM
   errors:
     bad_request:
       contact_us: إذا كنت مالك التطبيق، يرجى التحقق من السجلات للحصول على معلومات أكثر.

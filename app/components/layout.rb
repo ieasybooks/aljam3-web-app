@@ -16,10 +16,12 @@ class Components::Layout < Components::Base
         data: {
           controller: [
             "sync-value",
+            ("desktop-download" unless hotwire_native_app?),
             ("cropperjs" if controller_name == "pages" && action_name == "show"),
             ("sync-direction bridge--menu-button bridge--theme" if hotwire_native_app?),
             ("bridge--localize" if hotwire_native_app? && controller_name == "static" && action_name == "home")
           ],
+          action: ("turbo:before-cache@document->desktop-download#beforeCache" unless hotwire_native_app?),
           sync_direction_rtl_languages_value: (RTL_LANGUAGES.to_json if hotwire_native_app?),
           sync_direction_ltr_languages_value: (LTR_LANGUAGES.to_json if hotwire_native_app?),
           bridge__localize_translations_value: ({
@@ -35,6 +37,7 @@ class Components::Layout < Components::Base
         Flash(flash:)
 
         yield
+        DesktopDownloadDialog() unless hotwire_native_app?
       end
     end
   end

@@ -350,6 +350,8 @@ Rails.application.routes.draw do
     # Defines the root path route ("/")
     root "static#home"
 
+    get "desktop/:platform", to: "desktop_downloads#show", as: :desktop_download, constraints: { platform: /windows|macos/ }
+
     devise_for :users, skip: :omniauth_callbacks
 
     resources :contacts, only: %i[new create]

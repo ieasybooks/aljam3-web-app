@@ -18,6 +18,11 @@ class Components::Menu < Components::Base
         Separator(class: "my-2")
         menu_link(path: books_path, text: t("navbar.books"), icon: Hero::BookOpen.new(variant: :outline, class: "size-5"))
         Separator(class: "my-2")
+        DesktopDownloadButton(variant: :link, class: "flex items-center justify-start gap-x-2 text-xl text-muted-foreground h-12") do
+          Lucide::MonitorDown(class: "size-5 shrink-0")
+          plain t("desktop_download.nav_label")
+        end
+        Separator(class: "my-2")
       end
 
       if hotwire_native_app? || (@controller_name == "pages" && @action_name == "show")
