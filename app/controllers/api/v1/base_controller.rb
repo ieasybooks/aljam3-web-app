@@ -11,9 +11,9 @@ class Api::V1::BaseController < ActionController::API
   def set_default_response_format = request.format = :json
   def not_found = render json: { error: "Resource not found" }, status: :not_found
 
-  # :nocov:
+  # simplecov:disable
   def process_meilisearch_highlights(content) = merge_consecutive_marks(remove_definite_articles_marks(content))
   def remove_definite_articles_marks(content) = content&.gsub(/<mark>(ال|أل|إل|آل)<\/mark>(?!<mark>)/, '\1')
   def merge_consecutive_marks(content) = content&.gsub(/<\/mark>(\s*)<mark>/) { Regexp.last_match(1).empty? ? "" : "&nbsp;" }
-  # :nocov:
+  # simplecov:enable
 end

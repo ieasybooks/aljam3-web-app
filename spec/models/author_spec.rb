@@ -23,7 +23,8 @@ RSpec.describe Author do
 
   describe "Meilisearch configuration" do
     before do
-      described_class.index.number_of_documents
+      described_class.index
+      described_class.ms_set_settings(true)
     end
 
     it "includes Meilisearch::Rails" do

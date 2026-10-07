@@ -45,4 +45,8 @@ ActiveRecordDoctor.configure do
 
   detector :incorrect_length_validation,
     ignore_attributes: %w[Contact.message SearchQuery.query]
+
+  # Keep the existing Rails UTC timestamp convention. Converting stored timestamps
+  # to timestamptz requires a separate, deliberate data migration.
+  detector :postgres_timestamps_without_time_zone, enabled: false
 end
