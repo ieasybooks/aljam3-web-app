@@ -2,29 +2,32 @@
   "name": "app",
   "private": true,
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.13",
-    "@tailwindcss/forms": "^0.5.10",
-    "@tailwindcss/typography": "^0.5.16",
-    "esbuild": "^0.25.9",
-    "prettier": "3.6.2",
-    "tailwindcss": "^4.1.13"
+    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.20",
+    "esbuild": "^0.28.2",
+    "prettier": "3.9.9",
+    "tailwindcss": "^4.3.3"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
     "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "format:js": "npx prettier ./app/javascript/ --write"
   },
+  "resolutions": {
+    "@tailwindcss/typography/postcss-selector-parser": "^7.1.6"
+  },
   "dependencies": {
-    "@floating-ui/dom": "^1.7.4",
+    "@floating-ui/dom": "^1.8.0",
     "@hotwired/hotwire-native-bridge": "^1.2.2",
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.16",
-    "@rails/request.js": "^0.0.12",
+    "@hotwired/turbo-rails": "^8.0.23",
+    "@rails/request.js": "^0.0.13",
     "@stimulus-components/clipboard": "^5.0.0",
     "@stimulus-components/read-more": "^5.0.0",
-    "cropperjs": "^2.0.1",
+    "cropperjs": "^2.3.0",
     "embla-carousel": "^8.6.0",
-    "tom-select": "^2.4.3",
-    "tw-animate-css": "^1.3.8"
+    "tom-select": "^2.6.2",
+    "tw-animate-css": "^1.4.0"
   }
 }
