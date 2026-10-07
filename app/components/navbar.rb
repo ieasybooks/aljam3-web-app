@@ -10,7 +10,7 @@ class Components::Navbar < Components::Base
     ) do
       div(class: "px-2 sm:px-4 sm:container flex h-14 items-center justify-between") do
         div(class: "flex items-center") do
-          MobileMenu(class: "md:hidden")
+          MobileMenu(class: "lg:hidden")
 
           a(href: root_path) { Aljam3Logo(class: "h-9 text-primary me-4 max-sm:ps-1") }
 
@@ -18,6 +18,9 @@ class Components::Navbar < Components::Base
           nav_link(href: categories_path, active_controller: "categories") { t(".categories") }
           nav_link(href: authors_path, active_controller: "authors") { t(".authors") }
           nav_link(href: books_path, active_controller: "books") { t(".books") }
+          unless hotwire_native_app?
+            DesktopDownloadButton(class: "max-lg:hidden ms-4 text-primary border-primary/25 shadow-none dark:text-foreground dark:border-border") { t("desktop_download.nav_label") }
+          end
         end
 
         div(class: "flex items-center gap-x-1") do
@@ -83,7 +86,7 @@ class Components::Navbar < Components::Base
       variant: :ghost,
       size: :lg,
       class: [
-        "hidden md:inline-block relative me-1",
+        "hidden lg:inline-block relative me-1",
         ("bg-accent text-accent-foreground" if active_link?(active_controller, active_action))
       ],
       &

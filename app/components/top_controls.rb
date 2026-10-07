@@ -557,6 +557,14 @@ class Components::TopControls < Components::Base
           end
         end
 
+        unless hotwire_native_app?
+          div(class: "border-t border-border pt-4 flex flex-col gap-2") do
+            h3(class: "font-semibold") { t("desktop_download.reader_title") }
+            p(class: "text-muted-foreground text-base sm:text-sm text-pretty") { t("desktop_download.reader_description") }
+            DesktopDownloadButton(variant: :link, class: "self-start px-0 h-12 sm:h-9 whitespace-normal text-start dark:text-foreground") { t("desktop_download.reader_action") }
+          end
+        end
+
         DialogFooter do
           Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { t("close") }
         end

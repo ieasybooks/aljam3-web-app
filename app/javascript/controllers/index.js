@@ -31,6 +31,9 @@ application.register("cloudflare-turnstile", CloudflareTurnstileController)
 import CropperjsController from "./cropperjs_controller"
 application.register("cropperjs", CropperjsController)
 
+import DesktopDownloadController from "./desktop_download_controller"
+application.register("desktop-download", DesktopDownloadController)
+
 import FileDownloadController from "./file_download_controller"
 application.register("file-download", FileDownloadController)
 

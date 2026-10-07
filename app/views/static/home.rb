@@ -31,6 +31,7 @@ class Views::Static::Home < Views::Base
         cache [ I18n.locale, hotwire_native_app?, android_native_app?, ios_native_app? ], expires_in: 1.hour do
           div(class: "mb-10") do
             search_examples
+            desktop_download unless hotwire_native_app?
             most_viewed_books
             books_by_category
             categories unless hotwire_native_app?
@@ -82,8 +83,18 @@ class Views::Static::Home < Views::Base
     end
   end
 
+  def desktop_download
+    section(class: "mt-7 flex flex-col gap-4 rounded-md border border-primary/20 bg-primary/5 p-6 dark:bg-background dark:border-border sm:flex-row sm:items-center sm:justify-between") do
+      div(class: "min-w-0 flex flex-col gap-2") do
+        h2(class: "text-xl font-semibold font-[Cairo] text-balance") { t("desktop_download.home_title") }
+        p(class: "text-base text-muted-foreground text-pretty") { t("desktop_download.description") }
+      end
+      DesktopDownloadButton(class: "h-12 sm:h-9 shrink-0 text-primary border-primary/25 shadow-none dark:text-foreground dark:border-border") { t("desktop_download.home_action") }
+    end
+  end
+
   def most_viewed_books
-    div(class: "py-16 sm:py-20 flex items-center") do
+    div(class: [ "flex items-center", (hotwire_native_app? ? "py-16 sm:py-20" : "py-10") ]) do
       div(class: "flex-1 border-t border-border max-sm:-ms-4")
       Text(size: "9", class: "px-4 text-center font-[Cairo] max-sm:text-3xl") { t(".most_viewed") }
       div(class: "flex-1 border-t border-border max-sm:-me-4")

@@ -81,6 +81,24 @@ ur:
   contact_form:
     captcha_error: اس بات کی تصدیق نہیں ہو سکی کہ آپ انسان ہیں۔
     contact_received_successfully: ہمیں آپ کا پیغام موصول ہو گیا ہے اور ضرورت پڑنے پر ہم آپ سے رابطہ کریں گے۔
+  desktop_download:
+    description: کتابیں اور زمرے ڈاؤن لوڈ کریں، پھر اپنے کمپیوٹر پر کتب خانہ پڑھیں اور تلاش کریں۔
+    download_macos: DMG ڈاؤن لوڈ کریں
+    download_windows: انسٹالر ڈاؤن لوڈ کریں
+    free_latest: تازہ ترین ورژن · مفت
+    home_action: کمپیوٹر ایپ ڈاؤن لوڈ کریں
+    home_title: الجامع آپ کے ساتھ، انٹرنیٹ کے بغیر بھی
+    install_help: انسٹال کرنے میں مدد
+    macos_help: 'میک: DMG فائل کھولیں اور الجامع کو Applications فولڈر میں منتقل کریں، پھر وہاں سے کھولیں۔ اگر Apple کی تصدیق نہ ہونے کی وجہ سے macOS اسے روکے تو System Settings ← Privacy & Security میں جا کر Open Anyway منتخب کریں۔'
+    macos_requirements: macOS 13+ · Apple silicon
+    nav_label: کمپیوٹر ایپ
+    reader_action: کمپیوٹر ایپ کے بارے میں جانیں ←
+    reader_description: الجامع کمپیوٹر ایپ کے ساتھ اپنی کتابیں اپنے کمپیوٹر پر محفوظ رکھیں۔
+    reader_title: انٹرنیٹ کے بغیر پڑھیں اور تلاش کریں
+    release_notes: ورژن کی تفصیلات
+    title: الجامع برائے کمپیوٹر
+    windows_help: 'ونڈوز: انسٹالر چلائیں اور ہدایات پر عمل کریں۔ اگر ڈویلپر سرٹیفکیٹ سے دستخط نہ ہونے کی وجہ سے SmartScreen تنبیہ دکھائے تو More info اور پھر Run anyway منتخب کریں۔'
+    windows_requirements: Windows 10 / 11 (x64) · Windows 11 ARM
   errors:
     bad_request:
       contact_us: اگر آپ ایپ کے مالک ہیں تو مزید معلومات کے لیے لاگز چیک کریں۔

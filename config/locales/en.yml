@@ -87,6 +87,24 @@ en:
   contact_form:
     captcha_error: We couldn't verify that you're human.
     contact_received_successfully: We received your message and we will contact you regarding it.
+  desktop_download:
+    description: Download books and categories, then read and search your library on your computer.
+    download_macos: Download DMG
+    download_windows: Download installer
+    free_latest: Latest release · Free
+    home_action: Download the desktop app
+    home_title: Aljam3 with you, even offline
+    install_help: Installation help
+    macos_help: 'Mac: Open the DMG and drag Aljam3 into Applications, then open it from there. If macOS blocks it because it is not notarized by Apple, go to System Settings → Privacy & Security and choose Open Anyway.'
+    macos_requirements: macOS 13+ · Apple silicon
+    nav_label: Desktop app
+    reader_action: Explore the desktop app →
+    reader_description: Keep your books on your computer with Aljam3 Desktop.
+    reader_title: Read and search offline
+    release_notes: Release notes
+    title: Aljam3 Desktop
+    windows_help: 'Windows: Run the installer and follow the steps. If SmartScreen warns that the app is not signed with a developer certificate, choose More info, then Run anyway.'
+    windows_requirements: Windows 10 / 11 (x64) · Windows 11 ARM
   errors:
     bad_request:
       contact_us: If you're the application owner, check the logs for more information.
