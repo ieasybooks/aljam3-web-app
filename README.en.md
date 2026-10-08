@@ -6,6 +6,8 @@
 
 The library of Islamic libraries
 
+AI assistants can search books and read cited source pages through the [public MCP server](docs/mcp.md).
+
 ![Ruby Version](https://img.shields.io/badge/Ruby-3.4.4-red?style=for-the-badge&logo=ruby)
 ![Rails Version](https://img.shields.io/badge/Rails-8.0.2-red?style=for-the-badge&logo=rubyonrails)
 ![Node.js Version](https://img.shields.io/badge/Node.js-24.1.0-green?style=for-the-badge&logo=node.js)

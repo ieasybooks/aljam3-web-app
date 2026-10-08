@@ -7,10 +7,22 @@ RSpec.describe "Internationalization" do
     def index = render plain: "Locale: #{I18n.locale}"
   end
 
-  before do
+  around do |example|
+    original_locales = I18n.available_locales
+    original_default = I18n.default_locale
+    original_locale = I18n.locale
     I18n.available_locales = [ :en, :fr, :de ]
     I18n.default_locale = :en
+    I18n.locale = :en
 
+    example.run
+  ensure
+    I18n.available_locales = original_locales
+    I18n.default_locale = original_default
+    I18n.locale = original_locale
+  end
+
+  before do
     routes.draw { get "index" => "anonymous#index" }
   end
 

@@ -6,6 +6,8 @@
 
 <p dir="rtl">مكتبة المكتبات الإسلامية</p>
 
+<p dir="rtl">يمكن للمساعدات الذكية البحث في الكتب وقراءة صفحاتها مع توثيق المصادر عبر <a href="docs/mcp.md">خادم MCP العام</a>.</p>
+
 <div dir="rtl">
   <img src="https://img.shields.io/badge/Ruby-3.4.4-red?style=for-the-badge&logo=ruby" alt="Ruby Version">
   <img src="https://img.shields.io/badge/Rails-8.0.2-red?style=for-the-badge&logo=rubyonrails" alt="Rails Version">

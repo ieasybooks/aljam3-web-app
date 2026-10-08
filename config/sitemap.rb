@@ -29,6 +29,9 @@ SitemapGenerator::Sitemap.create do
   add categories_path, priority: 0.9, lastmod: Category.maximum(:updated_at)
   add authors_path, priority: 0.9, lastmod: Author.maximum(:updated_at)
   add books_path, priority: 0.9, lastmod: Book.maximum(:updated_at)
+  I18n.available_locales.each do |locale|
+    add mcp_docs_path(locale:), priority: 0.6
+  end
 
   Category.find_each do |category|
     add category_path(id: category.id), priority: 0.7, lastmod: category.updated_at

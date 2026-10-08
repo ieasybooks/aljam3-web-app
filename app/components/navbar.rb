@@ -18,6 +18,7 @@ class Components::Navbar < Components::Base
           nav_link(href: categories_path, active_controller: "categories") { t(".categories") }
           nav_link(href: authors_path, active_controller: "authors") { t(".authors") }
           nav_link(href: books_path, active_controller: "books") { t(".books") }
+          nav_link(href: mcp_docs_path, active_controller: "mcp_docs") { t("mcp_docs.nav_label") }
           unless hotwire_native_app?
             DesktopDownloadButton(class: "max-lg:hidden ms-4 text-primary border-primary/25 shadow-none dark:text-foreground dark:border-border") { t("desktop_download.nav_label") }
           end
