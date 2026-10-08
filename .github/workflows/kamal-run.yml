@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Ruby v3.4.4
         uses: ruby/setup-ruby@v1.245.0
@@ -32,15 +32,15 @@ jobs:
           bundler-cache: true
 
       - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.9.1
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v3.11.1
+        uses: docker/setup-buildx-action@v4
 
       - name: Expose GitHub Runtime for cache
-        uses: crazy-max/ghaction-github-runtime@v3.1.0
+        uses: crazy-max/ghaction-github-runtime@v4
 
       - name: Run bundle exec kamal ${{ github.event.inputs.command }}
         env:
