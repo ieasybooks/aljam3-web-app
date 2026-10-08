@@ -26,7 +26,7 @@ class Components::Head < Components::Base
         meta name: "platform", content: "web"
       end
 
-      @page_info.head if @page_info.head.present?
+      render @page_info.head if @page_info.head.present?
 
       csrf_meta_tags
       csp_meta_tag

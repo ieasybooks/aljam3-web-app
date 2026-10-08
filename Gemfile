@@ -10,6 +10,7 @@ gem "devise-i18n", ">= 1.16.1"
 gem "get_process_mem", "~> 1.0"
 gem "goldiloader", "~> 6.0"
 gem "literal", ">= 1.9"
+gem "mcp", "~> 1.6", ">= 1.6.1"
 gem "meilisearch-rails", "~> 0.16.0"
 gem "memory_profiler", "~> 1.0", ">= 1.0.2" # rack-mini-profiler dependency to profile memory usage.
 gem "mission_control-jobs", ">= 1.3.1"

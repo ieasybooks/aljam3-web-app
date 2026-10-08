@@ -1,0 +1,67 @@
+---
+en:
+  mcp_docs:
+    authentication_label: Authentication
+    authentication_value: None
+    capabilities:
+    - title: Find a source
+      body: Search book titles and passages, or explore the works of an author and books on a subject.
+    - title: Read in context
+      body: Ask your assistant to read a passage and its surrounding pages before explaining it.
+    - title: Keep the reference
+      body: Get the book, author, file and page with a direct link to Aljam3 and the original PDF.
+    capabilities_title: From a question to its source
+    clients:
+      chatgpt:
+        note: Use ChatGPT on the web. Access depends on your account and workspace permissions.
+        steps:
+        - Open ChatGPT Plugins, select +, then Add custom MCP server.
+        - Name it Aljam3, enter %{endpoint} as the Server URL, and choose No authentication.
+        - Review the connection notice, choose Create as a plugin, and install it from your personal plugins.
+        - Start a Work chat, type @, select Aljam3, and ask your question.
+      claude:
+        note: Team and Enterprise members need an owner to add the connector first. Free accounts allow one custom connector.
+        steps:
+        - Open Customize → Connectors → Add custom connector.
+        - Name it Aljam3 and enter %{endpoint}.
+        - If prompted, choose No sign-in. Leave credentials and request headers blank, then select Add.
+        - In your chat, open + → Connectors and enable Aljam3.
+    connection_note: Read-only access to public books. No Aljam3 account or API key is needed.
+    connection_title: One link to connect
+    connection_url: MCP server URL
+    copied: Copied
+    copy_prompt: Copy question
+    copy_url: Copy connection link
+    description: Search Islamic books, read passages in context, and follow the references with your AI assistant. Connect once, then ask in your own words.
+    eyebrow: Aljam3 for AI assistants
+    get_started: Connect your assistant
+    heading: Bring Aljam3 to your AI assistant
+    limits:
+    - Search queries accept up to 500 characters.
+    - Lists return 10 items by default, up to 20 per request and 100 result pages. Narrow your search when the limit is reached; the search index also has its own result window.
+    - Search excerpts contain up to 1,000 characters. Read the source page for the full context.
+    - Page text returns 6,000 characters by default, up to 12,000 per request. Your assistant can follow the continuation offset to read the rest.
+    - The server accepts 300 requests per minute per IP and request bodies up to 4 MiB. A rate-limited client should wait 60 seconds before retrying.
+    - Links support Arabic, Urdu and English. This does not translate the book text.
+    limits_title: Usage limits
+    nav_label: AI assistants
+    official_docs: Official setup guide
+    prompts:
+    - Use Aljam3 to find passages about intention in worship. Read the surrounding pages, explain the text simply, and cite the book, author and page with a source link.
+    - Find books on the principles of Islamic jurisprudence in Aljam3. Show their authors and source libraries, then help me choose a passage to study with references.
+    prompts_intro: Mention Aljam3 in your question and ask for references you can open and check.
+    prompts_title: Start with a study question
+    reference_title: Tools and usage limits
+    setup_intro: Choose your assistant and add the connection link. It gives your assistant tools to search and read Aljam3's public library.
+    setup_title: Connect your assistant
+    source_note: Check important quotations against the PDF. Extracted text may contain errors, and file page numbers can differ from printed page numbers. Your assistant's explanation should stay distinct from the author's words.
+    title: Connect your AI assistant
+    tools:
+      get_book: Read book metadata and browse its files, first page numbers and download links.
+      get_page: Read an exact file page, with citation links and neighboring page numbers.
+      list_authors: Browse or search author names and find IDs for filtering their works.
+      list_books: Browse books or search their titles with author, subject and library filters.
+      list_categories: Browse or search subjects to narrow a research question.
+      list_libraries: Browse the source collections available in Aljam3.
+      search: Find passages by topic or quotation; filter by book, author, subject or library.
+    transport_label: Connection type

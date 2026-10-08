@@ -347,6 +347,9 @@ Rails.application.routes.draw do
   match "/400", to: "errors#bad_request", via: :all
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+    get "mcp", to: "mcp_docs#index", as: :mcp_docs, format: false,
+      constraints: ->(request) { request.get_header("HTTP_ACCEPT").blank? || %w[text/html application/xhtml+xml */*].include?(request.accepts.first.to_s) }
+
     # Defines the root path route ("/")
     root "static#home"
 
@@ -366,6 +369,8 @@ Rails.application.routes.draw do
     get "/:book_id/:file_id", to: "files#show", as: :book_file, constraints: { book_id: /\d+/, file_id: /\d+/ }
     get "/:book_id", to: "books#show", as: :book, constraints: { book_id: /\d+/ }
   end
+
+  match "/mcp", to: ->(env) { McpEndpoint.call(env) }, via: :all, format: false
 
   namespace :native do
     resource :session, only: [] do
