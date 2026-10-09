@@ -1,0 +1,9 @@
+/AGENTS.md @AliOsm
+/.github/ @AliOsm
+/t3.json @AliOsm
+/.agent/ @AliOsm
+/bin/agent-* @AliOsm
+/bin/release-* @AliOsm
+/config/deploy.yml @AliOsm
+/.kamal/ @AliOsm
+/config/database.yml @AliOsm

@@ -33,6 +33,18 @@ run = "bundle exec rails db:create db:migrate"
 description = "Run linters"
 run = "bundle exec rubocop -a && yarn format:js"
 
+[tasks."agent:setup"]
+description = "Prepare disposable services and dependencies for this worktree"
+run = "python3 bin/agent-workspace setup"
+
+[tasks."agent:check"]
+description = "Run non-mutating CI checks against disposable services"
+run = "python3 bin/agent-workspace run bin/agent-check"
+
+[tasks."agent:cleanup"]
+description = "Remove only this worktree's disposable Docker services"
+run = "python3 bin/agent-workspace cleanup"
+
 [tasks.dev]
 description = "Start development environment"
 run = '''

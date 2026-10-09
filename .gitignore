@@ -303,3 +303,6 @@ $RECYCLE.BIN/
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,rails,windows,yarn,node
+/.agent-workspace/
+
+__pycache__/
