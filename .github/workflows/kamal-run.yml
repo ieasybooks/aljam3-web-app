@@ -58,7 +58,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ieasybooks/aljam3-product
-          ref: 102e3dccd60397c87a81c216cc058d4721c30f22
+          ref: 6ee660975875e1e4c53439486bf08379028aa5b1
           token: ${{ secrets.ALJAM3_PRODUCT_READ_TOKEN }}
           persist-credentials: false
       - name: Validate current release permit
