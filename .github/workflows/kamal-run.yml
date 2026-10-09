@@ -1,49 +1,100 @@
 name: Kamal Run
-
+run-name: ${{ inputs.delivery == 'agent' && format('Aljam3 delivery {0}', inputs.delivery_id) || format('Manual Kamal {0}', inputs.command) }}
 on:
   workflow_dispatch:
     inputs:
       command:
-        description: 'Command to run'
+        description: Deployment operation
         required: true
+        type: choice
+        options: [deploy, rollback]
+        default: deploy
+      delivery:
+        description: Human owner or governed product delivery
+        type: choice
+        options: [manual, agent]
+        default: manual
+      product_issue:
+        description: Product issue for agent delivery
         type: string
-        default: 'deploy'
-
+      release_sha:
+        description: Exact release commit (required for agents and rollback)
+        type: string
+      delivery_id:
+        description: Unique permit issued by the product gate
+        type: string
 permissions:
   contents: read
-  packages: write
-
+concurrency:
+  group: kamal-run
+  cancel-in-progress: false
 jobs:
-  kamal-run:
+  authorize:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
-    concurrency:
-      group: kamal-run
-      cancel-in-progress: false
-
+    environment: aljam3-read-policy
+    outputs:
+      sha: ${{ steps.validate.outputs.sha }}
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v7
-
-      - name: Setup Ruby v3.4.4
-        uses: ruby/setup-ruby@v1.245.0
+      - name: Check dispatch identity and immutable revision
+        id: validate
+        env:
+          DELIVERY: ${{ inputs.delivery }}
+          ACTOR_ID: ${{ github.actor_id }}
+          SHA: ${{ inputs.release_sha || github.sha }}
+          DISPATCH_SHA: ${{ github.sha }}
+          COMMAND: ${{ inputs.command }}
+        run: |
+          [[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          case "$COMMAND" in deploy|rollback) ;; *) exit 1 ;; esac
+          case "$DELIVERY" in
+            manual) test "$ACTOR_ID" = 7662492 ;;
+            agent) test "$SHA" = "$DISPATCH_SHA" && test "$COMMAND" = deploy ;;
+            *) exit 1 ;;
+          esac
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+      - name: Read trusted product gate
+        if: inputs.delivery == 'agent'
+        uses: actions/checkout@v4
+        with:
+          repository: ieasybooks/aljam3-product
+          ref: 6ee660975875e1e4c53439486bf08379028aa5b1
+          token: ${{ secrets.ALJAM3_PRODUCT_READ_TOKEN }}
+          persist-credentials: false
+      - name: Validate current release permit
+        if: inputs.delivery == 'agent'
+        env:
+          GH_TOKEN: ${{ secrets.ALJAM3_PRODUCT_READ_TOKEN }}
+          ISSUE: ${{ inputs.product_issue }}
+          SHA: ${{ steps.validate.outputs.sha }}
+          DELIVERY_ID: ${{ inputs.delivery_id }}
+        run: python3 bin/productctl authorize-release --issue "$ISSUE" --repository ieasybooks/aljam3-web-app --sha "$SHA" --delivery-id "$DELIVERY_ID"
+  kamal-run:
+    needs: authorize
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: aljam3-production
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.authorize.outputs.sha }}
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.245.0
         with:
           ruby-version: 3.4.4
           bundler-cache: true
-
-      - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.10.0
+      - uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Expose GitHub Runtime for cache
-        uses: crazy-max/ghaction-github-runtime@v4
-
-      - name: Run bundle exec kamal ${{ github.event.inputs.command }}
+      - uses: docker/setup-buildx-action@v4
+      - uses: crazy-max/ghaction-github-runtime@v4
+      - name: Deploy the authorized revision
         env:
+          COMMAND: ${{ inputs.command }}
+          RELEASE_SHA: ${{ needs.authorize.outputs.sha }}
           SERVER_IP: ${{ secrets.SERVER_IP }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
@@ -52,4 +103,13 @@ jobs:
           SHIPYRD_HOST: ${{ secrets.SHIPYRD_HOST }}
           SHIPYRD_API_KEY: ${{ secrets.SHIPYRD_API_KEY }}
         run: |
-          bundle exec kamal ${{ github.event.inputs.command }}
+          case "$COMMAND" in
+            deploy) bundle exec kamal deploy --version="$RELEASE_SHA" ;;
+            rollback) bundle exec kamal rollback "$RELEASE_SHA" ;;
+            *) exit 1 ;;
+          esac
+      - name: Verify public health and catalog API
+        run: |
+          curl --fail --retry 5 --retry-delay 5 --retry-all-errors --max-time 30 https://aljam3.com/up
+          curl --fail --retry 3 --retry-delay 5 --max-time 30 https://aljam3.com/api/v1/libraries -o /tmp/catalog.json
+          python3 -c 'import json; data=json.load(open("/tmp/catalog.json")); assert isinstance(data, (dict, list)) and data'

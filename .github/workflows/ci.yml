@@ -2,22 +2,28 @@ name: CI
 
 on:
   pull_request:
-    paths-ignore:
-      - "**/*.md"
-      - ".github/**"
-      - ".stimulus-lsp"
-      - ".kamal/**"
-      - ".vscode/**"
   push:
     branches: [main]
-    paths-ignore:
-      - "**/*.md"
-      - ".github/**"
-      - ".stimulus-lsp"
-      - ".kamal/**"
-      - ".vscode/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  required:
+    name: Aljam3 / CI
+    if: always()
+    needs: [scan_ruby, lint, i18n-tasks, active_record_doctor, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every check to succeed
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+        run: python3 -c 'import json, os; assert all(r == "success" for r in json.loads(os.environ["RESULTS"]))'
+
   scan_ruby:
     runs-on: ubuntu-latest
 
@@ -116,6 +122,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: [scan_ruby, i18n-tasks, lint]
+    permissions:
+      contents: read
+      checks: write
 
     services:
       postgres:
@@ -137,9 +146,6 @@ jobs:
         image: valkey/valkey:8.1
         ports:
           - "6380:6379"
-
-    env:
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 
     steps:
       - name: Checkout code

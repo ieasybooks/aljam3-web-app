@@ -1,0 +1,10 @@
+{
+  "$schema": "https://t3.codes/schema/t3.json",
+  "defaultThreadEnvMode": "worktree",
+  "scripts": [
+    {"name": "Prepare isolated agent workspace", "command": "mise run agent:setup", "icon": "configure", "runOnWorktreeCreate": true, "async": false},
+    {"name": "Check agent workspace", "command": "mise run agent:check", "icon": "test"},
+    {"name": "Start isolated preview", "command": "python3 bin/agent-workspace run bin/rails server -b 127.0.0.1", "icon": "play"},
+    {"name": "Clean up owned services", "command": "mise run agent:cleanup", "icon": "configure", "runOnSettle": true}
+  ]
+}

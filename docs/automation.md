@@ -1,0 +1,13 @@
+# Product agents
+
+The product mandate, CPO/CTO/QA/CEO roles, proposal approvals and runbooks live in [aljam3-product](https://github.com/ieasybooks/aljam3-product). Automation starts disabled. Do not run a pilot or enable production delivery until the owner starts the pilot runbook.
+
+Use an isolated worktree and `mise run agent:setup` after trusting/installing this repository's mise tools. Setup creates a uniquely named Docker Compose project with loopback-only random ports, separate PostgreSQL/Meilisearch volumes and Redis, installs dependencies, and prepares development databases. It does not copy production credentials or start a server. If setup fails, keep its output; do not fall back to shared services.
+
+Run database/search commands with `python3 bin/agent-workspace run <command>`. `mise run agent:check` checks security, lint, translations, database health and the test suite without rewriting source files. `python3 bin/agent-workspace status` shows the assigned preview port. Start the preview with the checked-in T3 action or `python3 bin/agent-workspace run bin/rails server -b 127.0.0.1`. Build assets first. Use controlled fixtures or permissioned sample books; database preparation alone does not create a realistic book corpus.
+
+T3's setup hook has `async: false`, so a new agent waits for setup. Import the `t3.json` actions into the T3 project. The settle hook removes only this checkout's Docker resources; stop the preview and upload redacted evidence before settling. Artifacts under `tmp/agent-evidence/` are preserved. A settle hook is cleanup, not a QA or release gate. For a manually created child workspace, the coordinator must explicitly run setup there; creating it through shell does not change a T3 thread's workspace binding.
+
+The CI aggregate `Aljam3 / CI` must succeed for every PR and main commit, including workflow/documentation changes. Branch protection will require the dedicated delivery App's `Aljam3 / delivery` status for autonomous delivery after bootstrap. See the product repo's GitHub runbook for identity separation and CODEOWNERS requirements.
+
+The `Kamal Run` workflow keeps an owner-only manual route and adds an agent route with a product issue, exact commit and one-time delivery ID. Agent dispatch requires a current permit and the live product policy. Production credentials belong only in the `aljam3-production` environment restricted to `main`; fork/PR jobs never receive them. A read-only `ALJAM3_PRODUCT_READ_TOKEN` is required for the private policy repository. No secrets are installed by this PR. A failed deployment smoke test must leave the proposal open for recovery.
