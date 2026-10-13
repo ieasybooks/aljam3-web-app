@@ -2,20 +2,15 @@ name: CI
 
 on:
   pull_request:
-    paths-ignore:
-      - "**/*.md"
-      - ".github/**"
-      - ".stimulus-lsp"
-      - ".kamal/**"
-      - ".vscode/**"
   push:
     branches: [main]
-    paths-ignore:
-      - "**/*.md"
-      - ".github/**"
-      - ".stimulus-lsp"
-      - ".kamal/**"
-      - ".vscode/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   required:
@@ -151,9 +146,6 @@ jobs:
         image: valkey/valkey:8.1
         ports:
           - "6380:6379"
-
-    env:
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 
     steps:
       - name: Checkout code

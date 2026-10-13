@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+test -n "${ALJAM3_DB_PREFIX:-}" || { echo 'Use mise run agent:check for isolated services.' >&2; exit 1; }
+bin/brakeman --no-pager
+bin/rubocop
+yarn exec prettier ./app/javascript/ --check
+bin/i18n-tasks health
+bundle exec rake active_record_doctor
+yarn build
+yarn build:css
+RAILS_ENV=test bin/rails db:prepare
+CI=true RAILS_ENV=test bin/rspec

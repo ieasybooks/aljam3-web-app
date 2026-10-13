@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+"""Disposable services for one checkout; never uses the shared development ports."""
+
+import hashlib
+import json
+import os
+from pathlib import Path
+import socket
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+STATE = ROOT / ".agent-workspace" / "state.json"
+PROJECT = "aljam3-agent-" + hashlib.sha256(str(ROOT).encode()).hexdigest()[:12]
+COMPOSE = ["docker", "compose", "--project-name", PROJECT, "-f", str(ROOT / ".agent/compose.yml")]
+
+
+def run(command, **options):
+    return subprocess.run(command, cwd=ROOT, check=True, **options)
+
+
+def environment(state):
+    env = dict(os.environ)
+    for key in ("DATABASE_URL", "PRIMARY_DATABASE_URL", "CACHE_DATABASE_URL", "QUEUE_DATABASE_URL", "CABLE_DATABASE_URL", "RAILS_MASTER_KEY", "MEILI_MASTER_KEY", "DEPLOY"):
+        env.pop(key, None)
+    env.update(state["environment"])
+    return env
+
+
+def load():
+    state = json.loads(STATE.read_text())
+    if state["project"] != PROJECT or state["root"] != str(ROOT):
+        raise ValueError("Workspace identity changed; rerun setup in this checkout")
+    return state
+
+
+def setup():
+    run(COMPOSE + ["up", "-d", "--wait", "--wait-timeout", "90"])
+    ports = {}
+    for service, port in (("postgres", "5432"), ("meilisearch", "7700"), ("redis", "6379")):
+        binding = run(COMPOSE + ["port", service, port], text=True, capture_output=True).stdout.strip()
+        if not binding.startswith("127.0.0.1:"):
+            raise ValueError("Services must bind only to loopback")
+        ports[service] = int(binding.rsplit(":", 1)[1])
+    with socket.socket() as listener:
+        listener.bind(("127.0.0.1", 0))
+        app_port = listener.getsockname()[1]
+    state = {"root": str(ROOT), "project": PROJECT, "environment": {
+        "RAILS_ENV": "development", "ALJAM3_DB_PORT": str(ports["postgres"]),
+        "ALJAM3_DB_PREFIX": PROJECT.replace("-", "_"), "MEILISEARCH_HOST": f"http://127.0.0.1:{ports['meilisearch']}",
+        "REDIS_URL": f"redis://127.0.0.1:{ports['redis']}/0", "PORT": str(app_port)}}
+    STATE.parent.mkdir(exist_ok=True)
+    STATE.write_text(json.dumps(state, indent=2) + "\n")
+    env = environment(state)
+    run(["mise", "exec", "--", "bundle", "install"], env=env)
+    run(["mise", "exec", "--", "yarn", "install", "--immutable"], env=env)
+    run(["mise", "exec", "--", "bin/rails", "db:prepare"], env=env)
+    print(json.dumps(state, indent=2))
+
+
+def main():
+    command, *args = sys.argv[1:]
+    if command == "setup":
+        setup()
+    elif command == "run":
+        if not args:
+            raise ValueError("Supply a command to run in the isolated environment")
+        env = environment(load())
+        os.chdir(ROOT)
+        os.execvpe("mise", ["mise", "exec", "--", *args], env)
+    elif command == "status":
+        print(json.dumps(load(), indent=2))
+    elif command == "cleanup":
+        if STATE.exists():
+            load()
+        run(COMPOSE + ["down", "--volumes", "--remove-orphans"])
+        STATE.unlink(missing_ok=True)
+    else:
+        raise ValueError("Use setup, run, status or cleanup")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (ValueError, FileNotFoundError, subprocess.CalledProcessError) as error:
+        sys.exit(f"Workspace error: {error}")

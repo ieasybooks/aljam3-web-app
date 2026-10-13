@@ -23,7 +23,7 @@ default: &default
 development:
   primary: &primary_development
     <<: *default
-    database: aljam3_development
+    database: <%= ENV.fetch("ALJAM3_DB_PREFIX", "aljam3") %>_development
 
     # The specified database role being used to connect to PostgreSQL.
     # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -41,14 +41,14 @@ development:
 
     # The TCP port the server listens on. Defaults to 5432.
     # If your server runs on a different port number, change accordingly.
-    port: 5433
+    port: <%= ENV.fetch("ALJAM3_DB_PORT", 5433) %>
   cache:
     <<: *primary_development
-    database: aljam3_development_cache
+    database: <%= ENV.fetch("ALJAM3_DB_PREFIX", "aljam3") %>_development_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_development
-    database: aljam3_development_queue
+    database: <%= ENV.fetch("ALJAM3_DB_PREFIX", "aljam3") %>_development_queue
     migrations_paths: db/queue_migrate
 
   # Schema search path. The server defaults to $user,public
@@ -65,11 +65,11 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: aljam3_test
+  database: <%= ENV.fetch("ALJAM3_DB_PREFIX", "aljam3") %>_test
   username: aljam3
   password: aljam3
   host: localhost
-  port: 5433
+  port: <%= ENV.fetch("ALJAM3_DB_PORT", 5433) %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

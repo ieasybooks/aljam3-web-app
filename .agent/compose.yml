@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:17.5
+    ports: ["127.0.0.1::5432"]
+    environment:
+      POSTGRES_USER: aljam3
+      POSTGRES_PASSWORD: aljam3
+    command: postgres -c shared_preload_libraries=pg_stat_statements
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aljam3"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    volumes: ["postgres:/var/lib/postgresql/data"]
+  meilisearch:
+    image: getmeili/meilisearch:v1.15.1
+    ports: ["127.0.0.1::7700"]
+    environment:
+      MEILI_NO_ANALYTICS: 'true'
+    volumes: ["meilisearch:/meili_data"]
+  redis:
+    image: valkey/valkey:8.1
+    ports: ["127.0.0.1::6379"]
+volumes:
+  postgres:
+  meilisearch:
