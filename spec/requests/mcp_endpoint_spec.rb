@@ -33,6 +33,33 @@ RSpec.describe "MCP transport", :aggregate_failures do
     end
   end
 
+  %w[search list_books list_authors list_categories].each do |name|
+    context "with the #{name} query schema" do
+      let(:query_schema) do
+        mcp_post
+        tool = response.parsed_body.dig("result", "tools").find { |entry| entry.fetch("name") == name }
+        tool.fetch("inputSchema").fetch("properties").fetch("q")
+      end
+
+      it "accepts nonblank queries even when clients match the whole string" do
+        schema = JSONSchemer.schema(query_schema)
+        full_pattern = Regexp.new("\\A(?:#{query_schema.fetch('pattern')})\\z")
+        [ "a", "ف", "logic", "المنطق", "علم المنطق", '"علم المنطق"', " \tlogic\n ", "علم\nالمنطق", "a" * 500, "أ" * 500 ].each do |query|
+          expect(schema.valid?(query)).to be(true)
+          expect(query).to match(full_pattern)
+        end
+      end
+
+      it "rejects blank and oversized queries" do
+        schema = JSONSchemer.schema(query_schema)
+        [ "", " ", "\t\r\n", "a" * 501, "أ" * 501 ].each do |query|
+          expect(schema.valid?(query)).to be(false)
+          expect(mcp_call(name, q: query)).to include("isError" => true)
+        end
+      end
+    end
+  end
+
   it "accepts initialization notifications with an empty body" do
     mcp_post("notifications/initialized", id: nil)
     expect(response).to have_http_status(:accepted)

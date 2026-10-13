@@ -18,6 +18,17 @@ on:
       - ".vscode/**"
 
 jobs:
+  required:
+    name: Aljam3 / CI
+    if: always()
+    needs: [scan_ruby, lint, i18n-tasks, active_record_doctor, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every check to succeed
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+        run: python3 -c 'import json, os; assert all(r == "success" for r in json.loads(os.environ["RESULTS"]))'
+
   scan_ruby:
     runs-on: ubuntu-latest
 

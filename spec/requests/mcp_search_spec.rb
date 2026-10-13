@@ -66,6 +66,19 @@ RSpec.describe "MCP research", :aggregate_failures do
     expect(mcp_data("list_categories", q: "أصول").fetch("categories").pluck("id")).to eq([ book.category_id ])
   end
 
+  [ "logic", "المنطق", "علم المنطق" ].each do |query|
+    it "searches passages, titles, authors and subjects for #{query}" do
+      book = create(:book, title: query, author: create(:author, name: query), category: create(:category, name: query))
+      page = create(:page, content: query, file: create(:book_file, book:))
+      [ book, book.author, book.category, page ].each { |record| record.class.index_documents([ record ], true) }
+
+      expect(mcp_data("search", q: query).fetch("results").pluck("id")).to eq([ page.id ])
+      expect(mcp_data("list_books", q: query).fetch("books").pluck("id")).to eq([ book.id ])
+      expect(mcp_data("list_authors", q: query).fetch("authors").pluck("id")).to eq([ book.author_id ])
+      expect(mcp_data("list_categories", q: query).fetch("categories").pluck("id")).to eq([ book.category_id ])
+    end
+  end
+
   it "rechecks database visibility when search documents are stale" do
     visible = create(:page, content: "الطهارة")
     hidden_book = create(:page, content: "الطهارة")
