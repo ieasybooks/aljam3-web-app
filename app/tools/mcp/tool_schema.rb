@@ -1,7 +1,8 @@
 module Mcp
   class ToolSchema
     ID = { type: "integer", minimum: 1, maximum: 9_223_372_036_854_775_807 }.freeze
-    QUERY = { type: "string", minLength: 1, maxLength: 500, pattern: "\\S", description: "Search terms, usually in Arabic. Use concise terms or a quoted phrase for an exact phrase search." }.freeze
+    # Consume the full query for clients that validate patterns with whole-string matching.
+    QUERY = { type: "string", minLength: 1, maxLength: 500, pattern: "^[\\s\\S]*\\S[\\s\\S]*$", description: "Search terms, usually in Arabic. Use concise terms or a quoted phrase for an exact phrase search." }.freeze
     LOCALE = { type: "string", enum: %w[ar ur en], default: "ar", description: "Language of Aljam3 links; does not translate source text or change search relevance." }.freeze
     PAGINATION = {
       page: { type: "integer", minimum: 1, maximum: 100, default: 1, description: "Result page, not a book's page number." },
