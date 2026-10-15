@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,rails,windows,yarn,node
-# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,rails,windows,yarn,node
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,rails,windows,bun
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,rails,windows,bun
 
 ### Linux ###
 *~
@@ -49,13 +49,11 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-### Node ###
+### JavaScript tooling ###
 # Logs
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
@@ -121,9 +119,6 @@ web_modules/
 # Output of 'npm pack'
 *.tgz
 
-# Yarn Integrity file
-.yarn-integrity
-
 # dotenv environment variable files
 .env
 .env.development.local
@@ -172,13 +167,6 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
-
-# yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
 
 ### Node Patch ###
 # Serverless Webpack directories
@@ -251,9 +239,6 @@ bower.json
 /public/packs-test
 /public/assets
 
-# Ignore yarn files
-/yarn-error.log
-
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
@@ -285,21 +270,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-### yarn ###
-# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
-
-.yarn/*
-!.yarn/releases
-!.yarn/patches
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-
-# if you are NOT using Zero-installs, then:
-# comment the following lines
-!.yarn/cache
-
-# and uncomment the following lines
-# .pnp.*
-
-# End of https://www.toptal.com/developers/gitignore/api/linux,macos,rails,windows,yarn,node
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,rails,windows,bun

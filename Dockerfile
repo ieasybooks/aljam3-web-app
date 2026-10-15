@@ -1,13 +1,15 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
+ARG RUBY_VERSION=3.4.4
+FROM oven/bun:1.4.3 AS bun
+
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
 # docker build -t aljam3 .
 # docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name aljam3 aljam3
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
-ARG RUBY_VERSION=3.4.4
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
@@ -27,19 +29,13 @@ ENV RAILS_ENV="production" \
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
-# Install packages needed to build gems and node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev node-gyp pkg-config python-is-python3 && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+# Install Bun for JavaScript dependencies and asset builds
+COPY --from=bun /usr/local/bin/bun /usr/local/bin/bun
 
-# Install JavaScript dependencies
-ARG NODE_VERSION=24.1.0
-ARG YARN_VERSION=4.9.1
-ENV PATH=/usr/local/node/bin:$PATH
-RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-    rm -rf /tmp/node-build-master
-RUN corepack enable && yarn set version $YARN_VERSION
+# Install packages needed to build gems and JavaScript dependencies
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config python-is-python3 && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -47,9 +43,9 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
-# Install node modules
-COPY package.json yarn.lock ./
-RUN yarn install --immutable
+# Install JavaScript dependencies
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
 # Copy application code
 COPY . .
@@ -57,8 +53,8 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN DEPLOY=1 SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Precompile assets for production without requiring secret RAILS_MASTER_KEY
+RUN DEPLOY=1 SECRET_KEY_BASE_DUMMY=1 SKIP_BUN_INSTALL=1 ./bin/rails assets:precompile
 
 RUN rm -rf node_modules
 
