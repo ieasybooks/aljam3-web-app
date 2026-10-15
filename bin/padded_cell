@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+APP_ROOT = File.expand_path("..", __dir__)
+Dir.chdir(APP_ROOT) do
+  ENV["BUNDLE_GEMFILE"] ||= File.expand_path("Gemfile", APP_ROOT)
+  require "bundler/setup"
+  load Gem.bin_path("padded_cell", "padded_cell")
+end

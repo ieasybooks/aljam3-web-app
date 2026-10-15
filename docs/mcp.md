@@ -89,8 +89,8 @@ This mirrors Faqieh's endpoint → SDK tools → readers → queries structure. 
 Run with the repository's PostgreSQL and Meilisearch services available:
 
 ```sh
-mise exec -- bundle exec rspec spec/requests/mcp_{endpoint,catalog,search,docs}_spec.rb
-CI=true mise exec -- bundle exec rspec
+mise exec -- bundle exec padded_cell test/requests/mcp_{endpoint,catalog,search,docs}_test.rb
+CI=true mise exec -- bundle exec padded_cell
 mise exec -- bundle exec rails zeitwerk:check
 mise exec -- bundle exec rubocop
 ```
