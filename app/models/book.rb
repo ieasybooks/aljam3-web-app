@@ -50,21 +50,21 @@ class Book < ApplicationRecord
     attribute :title, :hidden
 
     attribute :library do
-      # simplecov:disable
+      # :nocov:
       library_id
-      # simplecov:enable
+      # :nocov:
     end
 
     attribute :author do
-      # simplecov:disable
+      # :nocov:
       author_id
-      # simplecov:enable
+      # :nocov:
     end
 
     attribute :category do
-      # simplecov:disable
+      # :nocov:
       category_id
-      # simplecov:enable
+      # :nocov:
     end
 
     attributes_to_highlight %i[title]

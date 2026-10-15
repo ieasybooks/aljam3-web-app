@@ -48,24 +48,21 @@ group :development do
   gem "lookbook", ">= 2.3.15"
   gem "net-ssh", ">= 7.3.6"
   gem "rubocop-rake", "~> 0.7.1"
-  gem "rubocop-rspec", ">= 3.10.2"
-  gem "rubocop-rspec_rails", ">= 2.33"
   gem "ruby_ui", ">= 1.6"
   gem "tqdm", "~> 0.4.1"
 end
 
 group :test do
   gem "factory_bot_rails", "~> 6.5", ">= 6.5.1"
+  gem "minitest", "~> 6.0"
+  gem "mocha", "~> 3.1"
+  gem "padded_cell", "~> 0.2"
   gem "shoulda-matchers", ">= 8.0.1"
-  gem "simplecov", ">= 1.3.2", require: false
-  gem "simplecov-json", "~> 0.2.3"
   gem "webmock", ">= 3.34.0"
 end
 
 group :development, :test do
   gem "active_record_doctor", github: "gregnavis/active_record_doctor"
-  gem "rspec-rails", ">= 8.0.4"
-  gem "rswag-specs", "~> 2.16"
 end
 
 group :production do

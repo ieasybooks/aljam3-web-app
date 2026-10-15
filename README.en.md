@@ -145,14 +145,12 @@ All the settings for these extensions are already present in the [`.vscode/setti
 - [hotwire-spark](https://github.com/hotwired/spark)
 - [i18n-tasks](https://github.com/glebm/i18n-tasks)
 - [literal](https://github.com/yippee-fun/literal)
+- [minitest](https://github.com/minitest/minitest)
+- [mocha](https://github.com/freerange/mocha)
 - [net-ssh](https://github.com/net-ssh/net-ssh)
-- [rspec-rails](https://github.com/rspec/rspec-rails)
+- [padded_cell](https://github.com/seuros/padded_cell)
 - [rubocop-rake](https://github.com/rubocop/rubocop-rake)
-- [rubocop-rspec](https://github.com/rubocop/rubocop-rspec)
-- [rubocop-rspec_rails](https://github.com/rubocop/rubocop-rspec_rails)
 - [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers)
-- [simplecov-json](https://github.com/vicentllongo/simplecov-json)
-- [simplecov](https://github.com/simplecov-ruby/simplecov)
 - [tqdm](https://github.com/powerpak/tqdm-ruby)
 - [webmock](https://github.com/bblimke/webmock)
 
@@ -197,8 +195,8 @@ In addition to the core Ruby on Rails framework libraries.
 *Note: We strive in this project to maintain complete (100%) code coverage with accurate and useful test cases.*
 
 1. Start the development server by running the `mise dev` command or start the project's Docker services by running the `mise docker:start` command
-2. Run the `CI=1 bundle exec rspec` command to run the test cases
-3. You will get a report of the source code coverage percentage and you can browse the detailed report found in `coverage/index.html`
+2. Run the `CI=1 bin/padded_cell --coverage` command to run the Minitest suite
+3. You will get a report of the source code coverage percentage in `coverage/coverage.md`
 4. Stop the development server or stop the Docker services if you started them by running the `mise docker:stop` command 
 
 <p align="center">

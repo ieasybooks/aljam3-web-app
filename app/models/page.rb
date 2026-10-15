@@ -34,27 +34,27 @@ class Page < ApplicationRecord
     attribute :content, :hidden
 
     attribute :library do
-      # simplecov:disable
+      # :nocov:
       file.book.library_id
-      # simplecov:enable
+      # :nocov:
     end
 
     attribute :book do
-      # simplecov:disable
+      # :nocov:
       file.book_id
-      # simplecov:enable
+      # :nocov:
     end
 
     attribute :author do
-      # simplecov:disable
+      # :nocov:
       file.book.author_id
-      # simplecov:enable
+      # :nocov:
     end
 
     attribute :category do
-      # simplecov:disable
+      # :nocov:
       file.book.category_id
-      # simplecov:enable
+      # :nocov:
     end
 
     attributes_to_highlight %i[content]

@@ -156,14 +156,12 @@
   <li><a href="https://github.com/hotwired/spark">hotwire-spark</a></li>
   <li><a href="https://github.com/glebm/i18n-tasks">i18n-tasks</a></li>
   <li><a href="https://github.com/yippee-fun/literal">literal</a></li>
+  <li><a href="https://github.com/minitest/minitest">minitest</a></li>
+  <li><a href="https://github.com/freerange/mocha">mocha</a></li>
   <li><a href="https://github.com/net-ssh/net-ssh">net-ssh</a></li>
-  <li><a href="https://github.com/rspec/rspec-rails">rspec-rails</a></li>
+  <li><a href="https://github.com/seuros/padded_cell">padded_cell</a></li>
   <li><a href="https://github.com/rubocop/rubocop-rake">rubocop-rake</a></li>
-  <li><a href="https://github.com/rubocop/rubocop-rspec">rubocop-rspec</a></li>
-  <li><a href="https://github.com/rubocop/rubocop-rspec_rails">rubocop-rspec_rails</a></li>
   <li><a href="https://github.com/thoughtbot/shoulda-matchers">shoulda-matchers</a></li>
-  <li><a href="https://github.com/vicentllongo/simplecov-json">simplecov-json</a></li>
-  <li><a href="https://github.com/simplecov-ruby/simplecov">simplecov</a></li>
   <li><a href="https://github.com/powerpak/tqdm-ruby">tqdm</a></li>
   <li><a href="https://github.com/bblimke/webmock">webmock</a></li>
 </ul>
@@ -214,8 +212,8 @@
 
 <ol dir="rtl">
   <li>شغّل خادم التطوير من خلال تنفيذ الأمر <code dir="ltr">mise dev</code> أو ابدأ تشغيل خدمات Docker الخاصة بالمشروع من خلال تنفيذ الأمر <code dir="ltr">mise docker:start</code></li>
-  <li>نفّذ الأمر <code dir="ltr">CI=1 bundle exec rspec</code> لتشغيل حالات الاختبار</li>
-  <li>ستحصل على تقرير بنسبة تغطية الشيفرة المصدرية بحالات الاختبار ويمكنك تصفّح التقرير المُفصّل الموجود في <code dir="ltr">coverage/index.html</code></li>
+  <li>نفّذ الأمر <code dir="ltr">CI=1 bin/padded_cell --coverage</code> لتشغيل حالات اختبار Minitest</li>
+  <li>ستحصل على تقرير بنسبة تغطية الشيفرة المصدرية في <code dir="ltr">coverage/coverage.md</code></li>
   <li>أوقف تشغيل خادم التطوير أو أوقف خدمات Docker إذا كنت شغّلتها من خلال تنفيذ الأمر <code dir="ltr">mise docker:stop</code></li>
 </ol>
 

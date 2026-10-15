@@ -1,7 +1,5 @@
 plugins:
   - rubocop-rake
-  - rubocop-rspec
-  - rubocop-rspec_rails
 
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
@@ -28,9 +26,3 @@ Metrics/ClassLength:
 
 Metrics/MethodLength:
   CountAsOne: ['array', 'method_call']
-
-RSpec/ExampleLength:
-  CountAsOne: ['array', 'method_call']
-
-RSpec/NestedGroups:
-  Max: 4
