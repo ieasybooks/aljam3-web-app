@@ -51,11 +51,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24.1.0
-          cache: "yarn"
+          bun-version: 1.4.3
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -64,13 +63,13 @@ jobs:
           bundler-cache: true
 
       - name: Install JS dependencies
-        run: yarn install
+        run: bun install --frozen-lockfile
 
       - name: Run Rubocop
         run: bin/rubocop -f github
 
       - name: Run Prettier
-        run: npx prettier ./app/javascript/ --check
+        run: bun run format:js:check
 
   i18n-tasks:
     runs-on: ubuntu-latest
@@ -162,11 +161,10 @@ jobs:
       - name: Install libpq-dev
         run: sudo apt-get -yqq install libpq-dev
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24.1.0
-          cache: "yarn"
+          bun-version: 1.4.3
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -175,12 +173,12 @@ jobs:
           bundler-cache: true
 
       - name: Install JS dependencies
-        run: yarn install
+        run: bun install --frozen-lockfile
 
       - name: Build JS/CSS assets
         run: |
-          yarn build
-          yarn run build:css
+          bun run build
+          bun run build:css
 
       - name: Create database
         run: bin/rails db:create

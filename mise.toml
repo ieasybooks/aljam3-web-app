@@ -5,8 +5,7 @@ PROJECT_NAME = "{{ config_root | basename }}"
 
 [tools]
 ruby = "3.4.4"
-node = "24.1.0"
-yarn = "4.9.1"
+bun = "1.4.3"
 gh = "latest"
 
 [tasks."docker:start"]
@@ -19,7 +18,7 @@ run = "docker compose -f dev-docker-compose.yml down"
 
 [tasks."deps:js"]
 description = "Install JavaScript dependencies"
-run = "yarn install"
+run = "bun install"
 
 [tasks."deps:ruby"]
 description = "Install Ruby gems"
@@ -31,7 +30,7 @@ run = "bundle exec rails db:create db:migrate"
 
 [tasks.lint]
 description = "Run linters"
-run = "bundle exec rubocop -a && yarn format:js"
+run = "bundle exec rubocop -a && bun run format:js"
 
 [tasks.dev]
 description = "Start development environment"

@@ -11,8 +11,7 @@
 <div dir="rtl">
   <img src="https://img.shields.io/badge/Ruby-3.4.4-red?style=for-the-badge&logo=ruby" alt="Ruby Version">
   <img src="https://img.shields.io/badge/Rails-8.0.2-red?style=for-the-badge&logo=rubyonrails" alt="Rails Version">
-  <img src="https://img.shields.io/badge/Node.js-24.1.0-green?style=for-the-badge&logo=node.js" alt="Node.js Version">
-  <img src="https://img.shields.io/badge/Yarn-4.9.1-blue?style=for-the-badge&logo=yarn" alt="Yarn Version">
+  <img src="https://img.shields.io/badge/Bun-1.4.3-f9f1e1?style=for-the-badge&logo=bun&logoColor=black" alt="Bun Version">
   <img src="https://img.shields.io/badge/PostgreSQL-17.5-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Version">
   <img src="https://img.shields.io/badge/Meilisearch-1.15.1-deeppink?style=for-the-badge&logo=meilisearch" alt="Meilisearch Version">
 </div>
@@ -64,8 +63,7 @@
   <li><a href="https://postgresql.org/docs/current/libpq.html">libpq</a></li>
   <li><a href="https://ruby-lang.org">Ruby</a> (3.4.4)</li>
   <li><a href="https://rubyonrails.org">Rails</a> (8.0.2)</li>
-  <li><a href="https://nodejs.org">Node.js</a> (24.1.0)</li>
-  <li><a href="https://yarnpkg.com">Yarn</a> (4.9.1)</li>
+  <li><a href="https://bun.sh">Bun</a> (1.4.3)</li>
   <li><a href="https://postgresql.org">PostgreSQL</a> (17.5)</li>
   <li><a href="https://meilisearch.com">Meilisearch</a> (1.15.1)</li>
 </ul>
