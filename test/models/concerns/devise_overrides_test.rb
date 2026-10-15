@@ -1,82 +1,67 @@
 require "test_helper"
 
-describe DeviseOverrides do
-  let(:user) { create(:user) }
-
-  describe "#send_devise_notification" do
-    let(:mailer) { class_double(Devise::Mailer) }
-    let(:delivery) { instance_double(ActionMailer::MessageDelivery) }
-
-    before do
-      allow(user).to receive(:devise_mailer).and_return(mailer)
-      allow(mailer).to receive(:confirmation_instructions).and_return(delivery)
-      allow(delivery).to receive(:deliver_later)
-    end
-
-    it "uses deliver_later for devise mailers" do
-      user.send_devise_notification(:confirmation_instructions)
-
-      expect(delivery).to have_received(:deliver_later)
-    end
+class DeviseOverridesTest < ModelTest
+  setup do
+    @user = create(:user)
+    @mailer = mock("Devise::Mailer")
+    @delivery = mock("ActionMailer::MessageDelivery")
+    @user.stubs(:devise_mailer).returns(@mailer)
+    @mailer.stubs(:send).returns(@delivery)
+    @delivery.stubs(:deliver_later)
   end
 
-  describe "#active_for_authentication?" do
-    it "returns true when user is not suspended" do
-      expect(user.active_for_authentication?).to be true
-    end
+  test "delivers Devise notifications later" do
+    @delivery.expects(:deliver_later)
 
-    it "returns false when user is suspended" do
-      user.update(suspended_at: Time.current)
-
-      expect(user.active_for_authentication?).to be false
-    end
+    @user.send_devise_notification(:confirmation_instructions)
   end
 
-  describe "#access_suspended?" do
-    it "returns false when suspended_at is nil" do
-      expect(user.access_suspended?).to be false
-    end
-
-    it "returns true when suspended_at is set" do
-      user.update(suspended_at: Time.current)
-
-      expect(user.access_suspended?).to be true
-    end
+  test "authenticates users who are not suspended" do
+    assert @user.active_for_authentication?
   end
 
-  describe "#inactive_message" do
-    it "returns :locked_html when user is locked" do
-      user.lock_access!
+  test "does not authenticate suspended users" do
+    @user.update!(suspended_at: Time.current)
 
-      expect(user.inactive_message).to eq(:locked_html)
-    end
-
-    it "returns :unconfirmed_html when user is unconfirmed" do
-      user.update(confirmed_at: nil)
-
-      expect(user.inactive_message).to eq(:unconfirmed_html)
-    end
-
-    it "calls super when user is neither locked nor unconfirmed" do
-      # Verify it's not returning our custom messages.
-      expect(user.inactive_message).not_to be_in([ :locked_html, :unconfirmed_html ])
-    end
+    refute @user.active_for_authentication?
   end
 
-  describe "#unauthenticated_message" do
-    it "returns :locked_html when user is locked and not in paranoid mode" do
-      allow(Devise).to receive(:paranoid).and_return(false)
+  test "reports an unsuspended user" do
+    refute @user.access_suspended?
+  end
 
-      user.lock_access!
+  test "reports a suspended user" do
+    @user.update!(suspended_at: Time.current)
 
-      expect(user.unauthenticated_message).to eq(:locked_html)
-    end
+    assert @user.access_suspended?
+  end
 
-    it "calls super in other cases" do
-      # Make sure it doesn't return :locked_html.
-      allow(Devise).to receive(:paranoid).and_return(true)
+  test "uses the locked message for locked users" do
+    @user.lock_access!
 
-      expect(user.unauthenticated_message).not_to eq(:locked_html)
-    end
+    assert_equal :locked_html, @user.inactive_message
+  end
+
+  test "uses the unconfirmed message for unconfirmed users" do
+    @user.update!(confirmed_at: nil)
+
+    assert_equal :unconfirmed_html, @user.inactive_message
+  end
+
+  test "uses Devise's inactive message for other users" do
+    refute_includes [ :locked_html, :unconfirmed_html ], @user.inactive_message
+  end
+
+  test "uses the locked message for locked users outside paranoid mode" do
+    Devise.stubs(:paranoid).returns(false)
+    @user.lock_access!
+
+    assert_equal :locked_html, @user.unauthenticated_message
+  end
+
+  test "does not expose the locked message in paranoid mode" do
+    Devise.stubs(:paranoid).returns(true)
+
+    refute_equal :locked_html, @user.unauthenticated_message
   end
 end

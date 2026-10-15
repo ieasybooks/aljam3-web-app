@@ -1,21 +1,21 @@
 require "test_helper"
 
-describe Api::V1::BaseController do
-  subject(:formatted) { described_class.new.send(:process_meilisearch_highlights, content) }
+class ApiV1BaseControllerTest < ModelTest
+  test "joins adjacent highlighted fragments" do
+    content = "<mark>علم</mark><mark>اء</mark>"
 
-  context "when highlighted fragments touch" do
-    let(:content) { "<mark>علم</mark><mark>اء</mark>" }
-
-    it "keeps a single uninterrupted highlight" do
-      expect(formatted).to eq("<mark>علماء</mark>")
-    end
+    assert_equal "<mark>علماء</mark>", format_highlights(content)
   end
 
-  context "when highlighted words are separated" do
-    let(:content) { "<mark>ال</mark>علم <mark>نور</mark> <mark>وهدى</mark>" }
+  test "preserves spaces between separated highlighted words" do
+    content = "<mark>ال</mark>علم <mark>نور</mark> <mark>وهدى</mark>"
 
-    it "preserves word spacing and leaves a lone definite article unmarked" do
-      expect(formatted).to eq("العلم <mark>نور&nbsp;وهدى</mark>")
-    end
+    assert_equal "العلم <mark>نور&nbsp;وهدى</mark>", format_highlights(content)
+  end
+
+  private
+
+  def format_highlights(content)
+    Api::V1::BaseController.new.send(:process_meilisearch_highlights, content)
   end
 end

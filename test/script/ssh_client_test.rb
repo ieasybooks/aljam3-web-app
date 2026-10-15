@@ -1,35 +1,31 @@
 require "test_helper"
 require_relative "../../script/ssh_client"
 
-describe SshClient do
-  subject(:ssh_client) { described_class.new }
+class SshClientTest < ScriptTest
+  test "executes a command and yields standard and extended output" do
+    channel = mock("channel")
+    ssh = mock("ssh")
+    channel.stubs(:on_data).yields(channel, "stdout")
+    channel.stubs(:on_extended_data).yields(channel, 1, "stderr")
+    channel.expects(:exec).with("ls").yields(channel, true)
+    ssh.expects(:open_channel).yields(channel)
+    ssh.expects(:loop)
+    Net::SSH.expects(:start).with("host", "user", password: nil).yields(ssh)
 
-  describe "#execute_with_output" do
-    let(:ssh_session) { instance_double(Net::SSH::Connection::Session) }
-    let(:channel) { instance_double(Net::SSH::Connection::Channel) }
+    output = []
+    SshClient.new.execute_with_output("host", "user", "ls") { |data| output << data }
 
-    before do
-      allow(Net::SSH).to receive(:start).and_yield(ssh_session)
-      allow(ssh_session).to receive(:open_channel).and_yield(channel)
-      allow(ssh_session).to receive(:loop)
-      allow(channel).to receive(:exec).and_yield(channel, true)
-      allow(channel).to receive(:on_data)
-      allow(channel).to receive(:on_extended_data)
-    end
+    assert_equal [ "stdout", "stderr" ], output
+  end
 
-    it "executes command via SSH" do
-      expect { |b| ssh_client.execute_with_output("127.0.0.1", "root", "test command", &b) }.not_to raise_error
-    end
+  test "raises when SSH cannot execute the command" do
+    channel = mock("channel")
+    ssh = mock("ssh")
+    channel.expects(:exec).with("bad").yields(channel, false)
+    ssh.expects(:open_channel).yields(channel)
+    Net::SSH.expects(:start).yields(ssh)
 
-    context "when command execution fails" do
-      before do
-        allow(channel).to receive(:exec).and_yield(channel, false)
-      end
-
-      it "raises RuntimeError" do
-        expect { ssh_client.execute_with_output("127.0.0.1", "root", "test command") }
-          .to raise_error(RuntimeError)
-      end
-    end
+    error = assert_raises(RuntimeError) { SshClient.new.execute_with_output("host", "user", "bad") }
+    assert_includes error.message, "Could not execute command"
   end
 end

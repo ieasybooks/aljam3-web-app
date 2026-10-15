@@ -1,59 +1,71 @@
 require "test_helper"
 
-describe "Native sessions", :aggregate_failures do
-  let(:user) { create(:user) }
-  let(:native_headers) { { "User-Agent" => "Hotwire Native iOS" } }
-  let(:invalid_tokens) { [ "invalid", user.signed_id(purpose: "native_handoff", expires_in: -1.second), user.signed_id(purpose: "other") ] }
+class NativeSessionsTest < ApplicationTest
+  setup do
+    @user = create(:user)
+    @native_headers = { "User-Agent" => "Hotwire Native iOS" }
+  end
 
-  it "returns the native navigation configuration" do
+  test "returns the native navigation configuration" do
     get "/hotwire/ios/path_configuration"
-    expect(response).to have_http_status(:ok)
-    expect(response.parsed_body.dig("settings", "tabs").pluck("path")).to eq(%w[/ /categories /authors /books])
+
+    assert_response :ok
+    assert_equal %w[/ /categories /authors /books], response.parsed_body.dig("settings", "tabs").pluck("path")
   end
 
-  it "signs in through the native form and resets the native screen" do
-    post user_session_path, params: { user: { email: user.email, password: "password" } }, headers: native_headers
-    expect(response).to redirect_to("/reset_app")
-    expect(request.env["warden"].user).to eq(user)
+  test "signs in through the native form and resets the native screen" do
+    post user_session_path, params: { user: { email: @user.email, password: "password" } }, headers: @native_headers
+
+    assert_redirected_to "/reset_app"
+    assert_equal @user, request.env["warden"].user
   end
 
-  context "with a valid handoff token" do
-    before do
-      token = user.signed_id(purpose: "native_handoff", expires_in: 30.seconds)
-      get "/native/session/handoff", params: { token: }, headers: native_headers
-    end
+  test "establishes a session from a valid handoff token" do
+    token = @user.signed_id(purpose: "native_handoff", expires_in: 30.seconds)
 
-    it "establishes the session and resets the native screen" do
-      expect(response).to redirect_to("/reset_app")
-      expect(request.env["warden"].user).to eq(user)
-    end
+    get "/native/session/handoff", params: { token: }, headers: @native_headers
 
-    it "renders the reset page with its JavaScript" do
-      follow_redirect!
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("<script")
+    assert_redirected_to "/reset_app"
+    assert_equal @user, request.env["warden"].user
+  end
+
+  test "renders the reset page after a valid handoff" do
+    token = @user.signed_id(purpose: "native_handoff", expires_in: 30.seconds)
+    get "/native/session/handoff", params: { token: }, headers: @native_headers
+    follow_redirect!
+
+    assert_response :ok
+    assert_includes response.body, "<script"
+  end
+
+  test "rejects invalid handoff tokens" do
+    tokens = [
+      "invalid",
+      @user.signed_id(purpose: "native_handoff", expires_in: -1.second),
+      @user.signed_id(purpose: "other")
+    ]
+
+    tokens.each do |token|
+      get "/native/session/handoff", params: { token: }, headers: @native_headers
+      assert_response :unauthorized
+      assert_nil request.env["warden"].user
     end
   end
 
-  it "rejects tampered, expired, and wrong-purpose handoff tokens" do
-    invalid_tokens.each do |token|
-      get "/native/session/handoff", params: { token: }, headers: native_headers
-      expect(response).to have_http_status(:unauthorized)
-      expect(request.env["warden"].user).to be_nil
-    end
-  end
-
-  it "keeps the home page anonymous when its sign-in token is invalid" do
+  test "keeps the home page anonymous when its sign-in token is invalid" do
     get root_path, params: { sign_in_token: "invalid" }
-    expect(response).to have_http_status(:ok)
-    expect(request.env["warden"].user).to be_nil
+
+    assert_response :ok
+    assert_nil request.env["warden"].user
   end
 
-  it "signs out the authenticated API session" do
-    sign_in user
+  test "signs out the authenticated API session" do
+    sign_in @user
+
     delete "/api/v1/auth"
-    expect(response).to have_http_status(:ok)
-    expect(response.parsed_body).to eq({})
-    expect(request.env["warden"].user).to be_nil
+
+    assert_response :ok
+    assert_equal({}, response.parsed_body)
+    assert_nil request.env["warden"].user
   end
 end

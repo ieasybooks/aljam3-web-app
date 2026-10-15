@@ -1,7 +1,7 @@
 require "test_helper"
 
-describe "API v1 libraries" do
-  it "lists libraries" do
+class ApiV1LibrariesTest < ApplicationTest
+  test "lists libraries" do
     library = create(:library)
 
     get "/api/v1/libraries"
@@ -10,7 +10,7 @@ describe "API v1 libraries" do
     assert_includes body.fetch("libraries").pluck("id"), library.id
   end
 
-  it "returns a library without expansions" do
+  test "returns a library without expansions" do
     library = create(:library)
 
     get "/api/v1/libraries/#{library.id}"
@@ -21,7 +21,7 @@ describe "API v1 libraries" do
     refute body.key?("books")
   end
 
-  it "expands a library's books" do
+  test "expands a library's books" do
     library = create(:library)
     create(:book, library:)
 
@@ -30,21 +30,26 @@ describe "API v1 libraries" do
     assert_response :success
     assert body.key?("pagination")
     assert body.key?("books")
+
+    get "/api/v1/libraries/#{library.id}", params: { expand: [ "books" ], q: "ruby" }
+
+    assert_response :success
+    assert body.key?("pagination")
   end
 
-  it "expands a library's books through search" do
+  test "searches expanded library books" do
     library = create(:library)
     book = create(:book, library:, title: "Ruby Library Book")
     Book.index_documents([ book ], true)
 
-    get "/api/v1/libraries/#{library.id}", params: { expand: [ "books" ], q: "ruby" }
+    get "/api/v1/libraries/#{library.id}", params: { expand: [ "books" ], q: "ruby", limit: 50 }
 
     assert_response :success
     assert body.key?("pagination")
     assert body.key?("books")
   end
 
-  it "caps the library books limit at 1000" do
+  test "caps expanded book limits at 1000" do
     library = create(:library)
 
     get "/api/v1/libraries/#{library.id}", params: { expand: [ "books" ], limit: 1500 }
@@ -53,16 +58,7 @@ describe "API v1 libraries" do
     assert_equal 1000, body.dig("pagination", "limit")
   end
 
-  it "caps the library search limit at 1000" do
-    library = create(:library)
-
-    get "/api/v1/libraries/#{library.id}", params: { expand: [ "books" ], limit: 1500, q: "ruby" }
-
-    assert_response :success
-    assert_equal 1000, body.dig("pagination", "limit")
-  end
-
-  it "returns not found for a missing library" do
+  test "returns not found for a missing library" do
     get "/api/v1/libraries/0"
 
     assert_response :not_found

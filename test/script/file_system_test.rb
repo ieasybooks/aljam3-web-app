@@ -1,26 +1,16 @@
 require "test_helper"
 require_relative "../../script/file_system"
 
-describe FileSystem do
-  subject(:file_system) { described_class.new }
+class FileSystemTest < ScriptTest
+  test "reads CSV files with the requested options" do
+    CSV.expects(:read).with("books.tsv", headers: true).returns([ { "title" => "Book" } ])
 
-  describe "#read_csv" do
-    it "delegates to CSV.read" do
-      allow(CSV).to receive(:read)
-
-      file_system.read_csv("test.csv", headers: true)
-
-      expect(CSV).to have_received(:read).with("test.csv", headers: true)
-    end
+    assert_equal [ { "title" => "Book" } ], FileSystem.new.read_csv("books.tsv", headers: true)
   end
 
-  describe "#file_exists?" do
-    it "delegates to File.exist?" do
-      allow(File).to receive(:exist?)
+  test "checks whether a file exists" do
+    File.expects(:exist?).with("books.tsv").returns(true)
 
-      file_system.file_exists?("test.txt")
-
-      expect(File).to have_received(:exist?).with("test.txt")
-    end
+    assert FileSystem.new.file_exists?("books.tsv")
   end
 end

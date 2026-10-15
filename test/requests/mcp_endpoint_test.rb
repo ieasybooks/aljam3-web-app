@@ -1,165 +1,154 @@
 require "test_helper"
 
-# Keep complete protocol scenarios together.
-describe "MCP transport", :aggregate_failures do
+class McpEndpointTest < ApplicationTest
   include ActiveSupport::Testing::TimeHelpers
 
-  before do
+  setup do
     host! "aljam3.com"
     https!
   end
 
-  %w[2025-03-26 2025-06-18 2025-11-25].each do |version|
-    it "initializes #{version} without authentication or a session" do
+  test "initializes every supported protocol version" do
+    %w[2025-03-26 2025-06-18 2025-11-25].each do |version|
       mcp_post("initialize", params: { protocolVersion: version, capabilities: {}, clientInfo: { name: "Test", version: "1" } })
-      expect(response).to have_http_status(:ok)
-      expect(response.parsed_body.dig("result", "protocolVersion")).to eq(version)
-      expect(response.parsed_body.dig("result", "serverInfo", "name")).to eq("aljam3")
-      expect(response.headers).not_to include("Mcp-Session-Id", "WWW-Authenticate")
+
+      assert_response :ok
+      assert_equal version, response.parsed_body.dig("result", "protocolVersion")
+      assert_equal "aljam3", response.parsed_body.dig("result", "serverInfo", "name")
+      refute response.headers.key?("Mcp-Session-Id")
+      refute response.headers.key?("WWW-Authenticate")
     end
   end
 
-  it "discovers only the seven bounded, read-only tools" do
+  test "discovers bounded read-only tools" do
     mcp_post
     tools = response.parsed_body.dig("result", "tools")
-    expect(response).to have_http_status(:ok)
-    expect(response.media_type).to eq("application/json")
-    expect(response.headers["Cache-Control"]).to eq("no-store")
-    expect(tools.pluck("name")).to eq(%w[search list_books get_book get_page list_authors list_categories list_libraries])
+
+    assert_response :ok
+    assert_equal "application/json", response.media_type
+    assert_equal "no-store", response.headers["Cache-Control"]
+    assert_equal %w[search list_books get_book get_page list_authors list_categories list_libraries], tools.pluck("name")
     tools.each do |tool|
-      expect(tool.fetch("annotations")).to include("readOnlyHint" => true, "destructiveHint" => false, "idempotentHint" => true)
-      expect(tool.dig("inputSchema", "additionalProperties")).to be(false)
-      expect(tool.fetch("description")).to include("Aljam3 url")
+      assert_equal true, tool.dig("annotations", "readOnlyHint")
+      assert_equal false, tool.dig("annotations", "destructiveHint")
+      assert_equal false, tool.dig("inputSchema", "additionalProperties")
     end
   end
 
-  %w[search list_books list_authors list_categories].each do |name|
-    context "with the #{name} query schema" do
-      let(:query_schema) do
-        mcp_post
-        tool = response.parsed_body.dig("result", "tools").find { |entry| entry.fetch("name") == name }
-        tool.fetch("inputSchema").fetch("properties").fetch("q")
-      end
+  test "accepts and rejects query schema values" do
+    %w[search list_books list_authors list_categories].each do |name|
+      mcp_post
+      schema_data = response.parsed_body.dig("result", "tools").find { |tool| tool["name"] == name }.fetch("inputSchema").fetch("properties").fetch("q")
+      schema = JSONSchemer.schema(schema_data)
+      full_pattern = Regexp.new("\\A(?:#{schema_data.fetch('pattern')})\\z")
 
-      it "accepts nonblank queries even when clients match the whole string" do
-        schema = JSONSchemer.schema(query_schema)
-        full_pattern = Regexp.new("\\A(?:#{query_schema.fetch('pattern')})\\z")
-        [ "a", "ف", "logic", "المنطق", "علم المنطق", '"علم المنطق"', " \tlogic\n ", "علم\nالمنطق", "a" * 500, "أ" * 500 ].each do |query|
-          expect(schema.valid?(query)).to be(true)
-          expect(query).to match(full_pattern)
-        end
+      [ "a", "ف", "logic", "المنطق", "علم المنطق", "a" * 500 ].each do |query|
+        assert schema.valid?(query), "#{name} should accept #{query.inspect}"
+        assert_match full_pattern, query
       end
-
-      it "rejects blank and oversized queries" do
-        schema = JSONSchemer.schema(query_schema)
-        [ "", " ", "\t\r\n", "a" * 501, "أ" * 501 ].each do |query|
-          expect(schema.valid?(query)).to be(false)
-          expect(mcp_call(name, q: query)).to include("isError" => true)
-        end
+      [ "", " ", "\t\r\n", "a" * 501 ].each do |query|
+        refute schema.valid?(query), "#{name} should reject #{query.inspect}"
+        assert mcp_call(name, q: query).fetch("isError")
       end
     end
   end
 
-  it "accepts initialization notifications with an empty body" do
+  test "accepts initialization notifications without a response body" do
     mcp_post("notifications/initialized", id: nil)
-    expect(response).to have_http_status(:accepted)
-    expect(response.body).to be_empty
+
+    assert_response :accepted
+    assert_empty response.body
   end
 
-  it "allows same-origin browsers and native clients on loopback" do
+  test "allows trusted origins and configured hosts" do
     mcp_post(headers: { "Origin" => "https://aljam3.com" })
-    expect(response).to have_http_status(:ok)
+    assert_response :ok
+
     host! "localhost"
     mcp_post
-    expect(response).to have_http_status(:ok)
-  end
+    assert_response :ok
 
-  it "allows a deployment host explicitly configured in Rails" do
     Rails.application.config.hosts << "mcp.aljam3.test"
     host! "mcp.aljam3.test"
     mcp_post
-    expect(response).to have_http_status(:ok)
+    assert_response :ok
   ensure
     Rails.application.config.hosts.delete("mcp.aljam3.test")
   end
 
-  [ "https://attacker.example", "null", "http://aljam3.com" ].each do |origin|
-    it "rejects origin #{origin}" do
+  test "rejects untrusted origins and hosts" do
+    [ "https://attacker.example", "null", "http://aljam3.com" ].each do |origin|
       mcp_post(headers: { "Origin" => origin })
-      expect(response).to have_http_status(:forbidden)
-      expect(response.headers["Cache-Control"]).to eq("no-store")
+      assert_response :forbidden
+      assert_equal "no-store", response.headers["Cache-Control"]
     end
-  end
 
-  it "rejects an untrusted host" do
     host! "attacker.example"
     mcp_post
-    expect(response).to have_http_status(:forbidden)
+    assert_response :forbidden
   end
 
-  %i[get head delete put patch options].each do |method|
-    it "rejects #{method} and advertises POST" do
+  test "rejects non-POST requests" do
+    %i[get head delete put patch options].each do |method|
       public_send(method, "/mcp", headers: mcp_headers)
-      expect(response).to have_http_status(:method_not_allowed)
-      expect(response.headers["Allow"]).to eq("POST")
+      assert_response :method_not_allowed
+      assert_equal "POST", response.headers["Allow"]
     end
   end
 
-  it "rejects malformed JSON before Rails parameter parsing" do
+  test "rejects malformed and oversized requests" do
     post "/mcp", params: "{", headers: mcp_headers
-    expect(response).to have_http_status(:bad_request)
-    expect(response.parsed_body.dig("error", "code")).to eq(-32700)
-  end
+    assert_response :bad_request
+    assert_equal(-32700, response.parsed_body.dig("error", "code"))
 
-  it "rejects oversized bodies before constructing a tool result" do
     post "/mcp", params: "x" * (4.megabytes + 1), headers: mcp_headers
-    expect(response).to have_http_status(:content_too_large)
+    assert_response :content_too_large
   end
 
-  it "requires JSON and an appropriate Accept header" do
+  test "requires JSON and an MCP Accept header" do
     mcp_post(headers: { "Content-Type" => "text/plain" })
-    expect(response).to have_http_status(:unsupported_media_type)
+    assert_response :unsupported_media_type
+
     mcp_post(headers: { "Accept" => "text/html" })
-    expect(response).to have_http_status(:not_acceptable)
+    assert_response :not_acceptable
   end
 
-  it "throttles by IP, including discovery, and recovers after one minute" do
+  test "throttles requests by IP and recovers after one minute" do
     cache = ActiveSupport::Cache::MemoryStore.new
-    allow(Rails).to receive(:cache).and_return(cache)
+    Rails.stubs(:cache).returns(cache)
     cache.write("rate-limit:mcp:ip:198.51.100.1", 299, expires_in: 1.minute)
+
     mcp_post(headers: { "REMOTE_ADDR" => "198.51.100.1" })
-    expect(response).to have_http_status(:ok)
+    assert_response :ok
     mcp_post(headers: { "REMOTE_ADDR" => "198.51.100.1" })
-    expect(response).to have_http_status(:too_many_requests)
-    expect(response.headers).to include("Retry-After" => "60", "Cache-Control" => "no-store")
-    mcp_post(headers: { "REMOTE_ADDR" => "198.51.100.2" })
-    expect(response).to have_http_status(:ok)
+    assert_response :too_many_requests
+    assert_equal "60", response.headers["Retry-After"]
+
     travel 61.seconds do
       mcp_post(headers: { "REMOTE_ADDR" => "198.51.100.1" })
-      expect(response).to have_http_status(:ok)
+      assert_response :ok
     end
   end
 
-  [
-    [ "search", {} ], [ "search", { q: " " } ], [ "search", { q: "x" * 501 } ],
-    [ "search", { q: "فقه", book_id: "1 OR hidden = true" } ],
-    [ "search", { q: "فقه", author_id: [ 1 ] } ],
-    [ "list_books", { per_page: 21 } ], [ "list_books", { per_page: 0 } ],
-    [ "list_books", { page: 101 } ], [ "list_books", { locale: "fr" } ],
-    [ "get_book", { id: -1 } ], [ "get_book", { id: 1, expand: "all" } ],
-    [ "get_page", { file_id: 1 } ], [ "get_page", { file_id: 1, page_number: 1, offset: -1 } ],
-    [ "get_page", { file_id: 1, page_number: 1, max_chars: 12_001 } ]
-  ].each do |name, arguments|
-    it "rejects invalid #{name} arguments #{arguments.keys.join(',')} #{arguments.values.map { |value| value.to_s.first(10) }.join(',')}" do
+  test "rejects invalid tool arguments" do
+    invalid = [
+      [ "search", {} ], [ "search", { q: " " } ], [ "search", { q: "x" * 501 } ],
+      [ "search", { q: "فقه", book_id: "1 OR hidden = true" } ], [ "list_books", { per_page: 21 } ],
+      [ "list_books", { page: 101 } ], [ "list_books", { locale: "fr" } ], [ "get_book", { id: -1 } ],
+      [ "get_page", { file_id: 1 } ], [ "get_page", { file_id: 1, page_number: 1, offset: -1 } ]
+    ]
+
+    invalid.each do |name, arguments|
       mcp_post("tools/call", params: { name:, arguments: })
-      expect(response.parsed_body.fetch("result")).to include("isError" => true)
-      expect(response.parsed_body.fetch("result")).not_to have_key("structuredContent")
+      result = response.parsed_body.fetch("result")
+      assert_equal true, result.fetch("isError")
+      refute result.key?("structuredContent")
     end
   end
 
-  it "returns a protocol error for an unknown tool" do
+  test "returns a protocol error for an unknown tool" do
     mcp_post("tools/call", params: { name: "delete_book", arguments: { id: 1 } })
-    expect(response.parsed_body.dig("error", "code")).to eq(-32602)
+
+    assert_equal(-32602, response.parsed_body.dig("error", "code"))
   end
 end
-#

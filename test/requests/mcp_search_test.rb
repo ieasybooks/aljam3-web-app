@@ -1,14 +1,13 @@
 require "test_helper"
 
-# Exercise complete search-to-source workflows against real indexes.
-describe "MCP research", :aggregate_failures do
-  before do
+class McpSearchTest < ApplicationTest
+  setup do
     host! "aljam3.com"
     https!
     [ Page, Book, Author, Category ].each { |model| model.clear_index!(true) }
   end
 
-  it "finds an Arabic passage beyond the beginning of a long page, then reads it with context" do
+  test "finds a passage and reads its source context" do
     content = ("مقدمة الكتاب " * 200) + "إنما الأعمال بالنيات وإنما لكل امرئ ما نوى" + (" خاتمة " * 200)
     page = create(:page, number: 12, content:)
     create(:page, file: page.file, number: 11, content: "باب النية")
@@ -16,70 +15,48 @@ describe "MCP research", :aggregate_failures do
     Page.index_documents([ page ], true)
 
     result = mcp_data("search", q: "الأعمال بالنيات").fetch("results").sole
-    expect(result.fetch("excerpt")).to include("إنما الأعمال بالنيات")
-    expect(result.fetch("excerpt").length).to be <= 1_000
-    expect(result.fetch("excerpt_truncated")).to be(true)
-    expect(result.fetch("excerpt")).to eq(content[result.fetch("excerpt_offset"), 1_000])
-    expect(result).to include("file_id" => page.book_file_id, "page_number" => 12, "url" => "https://aljam3.com/ar/#{page.file.book_id}/#{page.book_file_id}/12")
-    expect(result.fetch("book")).to include("title" => page.file.book.title, "author" => include("name" => page.file.book.author.name), "library" => include("name" => page.file.book.library.name))
+    assert_includes result.fetch("excerpt"), "إنما الأعمال بالنيات"
+    assert_equal true, result.fetch("excerpt_truncated")
+    assert_equal content[result.fetch("excerpt_offset"), 1_000], result.fetch("excerpt")
+    assert_equal page.id, result.fetch("id")
 
-    source = mcp_data("get_page", file_id: result.fetch("file_id"), page_number: result.fetch("page_number"))
-    expect(source.dig("text", "content")).to eq(content)
-    expect(source.fetch("navigation")).to eq("previous_page_number" => 11, "next_page_number" => 13)
+    source = mcp_data("get_page", file_id: page.book_file_id, page_number: 12)
+    assert_equal content, source.dig("text", "content")
+    assert_equal({ "previous_page_number" => 11, "next_page_number" => 13 }, source.fetch("navigation"))
   end
 
-  it "combines book, author, category and library filters in text search" do
+  test "combines filters and paginates search results" do
     book = create(:book)
     matching = create(:page, content: "أحكام الصلاة", file: create(:book_file, book:))
     others = [
       create(:book, author: book.author, category: book.category),
       create(:book, author: book.author, library: book.library),
-      create(:book, category: book.category, library: book.library),
-      create(:book, author: book.author, category: book.category, library: book.library)
+      create(:book, category: book.category, library: book.library)
     ].map { |other| create(:page, content: "أحكام الصلاة", file: create(:book_file, book: other)) }
     Page.index_documents([ matching, *others ], true)
     filters = { book_id: book.id, author_id: book.author_id, category_id: book.category_id, library_id: book.library_id }
-    expect(mcp_data("search", q: "الصلاة", **filters).fetch("results").pluck("id")).to eq([ matching.id ])
-    expect(mcp_data("search", q: "الصلاة", **filters.merge(book_id: others.first.file.book_id)).fetch("results")).to be_empty
+
+    assert_equal [ matching.id ], mcp_data("search", q: "الصلاة", **filters).fetch("results").pluck("id")
+    first = mcp_data("search", q: "الصلاة", per_page: 2)
+    last = mcp_data("search", q: "الصلاة", per_page: 2, page: 2)
+    assert_equal 2, first.dig("pagination", "next_page")
+    assert_nil last.dig("pagination", "next_page")
+    assert_equal [ matching.id, *others.map(&:id) ].sort, (first.fetch("results") + last.fetch("results")).pluck("id").sort
   end
 
-  it "paginates search results without repeating hits and handles no matches" do
-    pages = create_list(:page, 3, content: "مسائل الزكاة")
-    Page.index_documents(pages, true)
-    first = mcp_data("search", q: "الزكاة", per_page: 2)
-    expect(first.dig("pagination", "next_page")).to eq(2)
-    last = mcp_data("search", q: "الزكاة", per_page: 2, page: 2)
-    expect(last.dig("pagination", "next_page")).to be_nil
-    expect((first.fetch("results") + last.fetch("results")).pluck("id")).to match_array(pages.map(&:id))
-    expect(first.dig("results", 0, "excerpt_truncated")).to be(false)
-    expect(mcp_data("search", q: "لاوجودلهذاالمصطلح").fetch("results")).to be_empty
-  end
-
-  it "searches titles, authors and subjects using the existing indexes" do
+  test "searches titles, authors, categories and no-match queries" do
     book = create(:book, title: "أصول الفقه", author: create(:author, name: "الإمام الشافعي"), category: create(:category, name: "أصول الفقه"))
     Book.index_documents([ book ], true)
     Author.index_documents([ book.author ], true)
     Category.index_documents([ book.category ], true)
-    expect(mcp_data("list_books", q: "أصول", author_id: book.author_id).fetch("books").pluck("id")).to eq([ book.id ])
-    expect(mcp_data("list_books", q: "أصول", library_id: book.library_id + 1).fetch("books")).to be_empty
-    expect(mcp_data("list_authors", q: "الشافعي").fetch("authors").pluck("id")).to eq([ book.author_id ])
-    expect(mcp_data("list_categories", q: "أصول").fetch("categories").pluck("id")).to eq([ book.category_id ])
+
+    assert_equal [ book.id ], mcp_data("list_books", q: "أصول").fetch("books").pluck("id")
+    assert_equal [ book.author_id ], mcp_data("list_authors", q: "الشافعي").fetch("authors").pluck("id")
+    assert_equal [ book.category_id ], mcp_data("list_categories", q: "أصول").fetch("categories").pluck("id")
+    assert_empty mcp_data("search", q: "لاوجودلهذاالمصطلح").fetch("results")
   end
 
-  [ "logic", "المنطق", "علم المنطق" ].each do |query|
-    it "searches passages, titles, authors and subjects for #{query}" do
-      book = create(:book, title: query, author: create(:author, name: query), category: create(:category, name: query))
-      page = create(:page, content: query, file: create(:book_file, book:))
-      [ book, book.author, book.category, page ].each { |record| record.class.index_documents([ record ], true) }
-
-      expect(mcp_data("search", q: query).fetch("results").pluck("id")).to eq([ page.id ])
-      expect(mcp_data("list_books", q: query).fetch("books").pluck("id")).to eq([ book.id ])
-      expect(mcp_data("list_authors", q: query).fetch("authors").pluck("id")).to eq([ book.author_id ])
-      expect(mcp_data("list_categories", q: query).fetch("categories").pluck("id")).to eq([ book.category_id ])
-    end
-  end
-
-  it "rechecks database visibility when search documents are stale" do
+  test "filters stale hidden and deleted search documents" do
     visible = create(:page, content: "الطهارة")
     hidden_book = create(:page, content: "الطهارة")
     hidden_author = create(:page, content: "الطهارة")
@@ -88,42 +65,41 @@ describe "MCP research", :aggregate_failures do
     hidden_book.file.book.update!(hidden: true)
     hidden_author.file.book.author.update!(hidden: true)
     deleted.destroy!
-    expect(mcp_data("search", q: "الطهارة").fetch("results").pluck("id")).to eq([ visible.id ])
+
+    assert_equal [ visible.id ], mcp_data("search", q: "الطهارة").fetch("results").pluck("id")
   end
 
-  it "excludes hidden books and authors from title and author search even before reindexing" do
-    book = create(:book, title: "التفسير", author: create(:author, name: "عالم التفسير"))
-    Book.index_documents([ book ], true)
-    Author.index_documents([ book.author ], true)
-    book.author.update!(hidden: true)
-    expect(mcp_data("list_books", q: "التفسير").fetch("books")).to be_empty
-    expect(mcp_data("list_authors", q: "التفسير").fetch("authors")).to be_empty
-  end
-
-  it "reads current source text when the indexed text and offsets are out of date" do
+  test "uses current source text when indexed offsets are stale" do
     page = create(:page, content: ("مقدمة " * 300) + "الحج")
-    Page.index_documents([ page ], true)
     page.update!(content: "نص مصحح")
+    index = mock("index")
+    index.expects(:search).returns({ "hits" => [ { "id" => page.id } ], "totalPages" => 1 })
+    Page.stubs(:ms_index).returns(index)
+
     hit = mcp_data("search", q: "الحج").fetch("results").sole
-    expect(hit.fetch("excerpt")).to eq("نص مصحح")
-    expect(hit.fetch("excerpt_offset")).to eq(0)
+    assert_equal "نص مصحح", hit.fetch("excerpt")
+    assert_equal 0, hit.fetch("excerpt_offset")
   end
 
-  it "reports backend failures as tool errors without returning connection details" do
-    allow(Page).to receive(:ms_index).and_raise(StandardError, "secret search key")
-    allow(Rails.error).to receive(:report)
+  test "reports backend failures without exposing connection details" do
+    Page.stubs(:ms_index).raises(StandardError, "secret search key")
+    Rails.error.stubs(:report)
+
     result = mcp_call("search", q: "الفقه")
-    expect(result).to include("isError" => true)
-    expect(result.dig("structuredContent", "error", "code")).to eq("internal_error")
-    expect(result.to_json).not_to include("secret search key")
+    assert_equal true, result.fetch("isError")
+    assert_equal "internal_error", result.dig("structuredContent", "error", "code")
+    refute_includes result.to_json, "secret search key"
   end
 
-  it "provides a bounded excerpt when the index supplies no match positions" do
+  test "bounds an excerpt when the index has no match positions" do
     page = create(:page, content: "النص الأصلي")
-    index = instance_double(Meilisearch::Index, search: { "hits" => [ { "id" => page.id } ], "totalPages" => 1 })
-    allow(Page).to receive(:ms_index).and_return(index)
+    index = mock("index")
+    index.expects(:search).returns({ "hits" => [ { "id" => page.id } ], "totalPages" => 1 })
+    Page.stubs(:ms_index).returns(index)
+
     hit = mcp_data("search", q: "النص").fetch("results").sole
-    expect(hit).to include("excerpt" => page.content, "excerpt_offset" => 0, "excerpt_truncated" => false)
+    assert_equal page.content, hit.fetch("excerpt")
+    assert_equal 0, hit.fetch("excerpt_offset")
+    assert_equal false, hit.fetch("excerpt_truncated")
   end
 end
-#

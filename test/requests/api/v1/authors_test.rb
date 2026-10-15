@@ -1,7 +1,7 @@
 require "test_helper"
 
-describe "API v1 authors" do
-  it "lists authors with pagination" do
+class ApiV1AuthorsTest < ApplicationTest
+  test "lists authors with pagination" do
     author = create(:author, name: "Ruby Author")
     Author.index_documents([ author ], true)
 
@@ -12,7 +12,7 @@ describe "API v1 authors" do
     assert body.key?("pagination")
   end
 
-  it "returns an author without expansions" do
+  test "returns an author without expansions" do
     author = create(:author)
 
     get "/api/v1/authors/#{author.id}"
@@ -23,7 +23,7 @@ describe "API v1 authors" do
     refute body.key?("books")
   end
 
-  it "expands an author's books" do
+  test "expands an author's books" do
     author = create(:author)
     create(:book, author:)
 
@@ -34,7 +34,7 @@ describe "API v1 authors" do
     assert body.key?("books")
   end
 
-  it "caps the author books limit at 1000" do
+  test "caps the author books limit at 1000" do
     author = create(:author)
 
     get "/api/v1/authors/#{author.id}", params: { expand: [ "books" ], limit: 1500 }
@@ -43,7 +43,7 @@ describe "API v1 authors" do
     assert_equal 1000, body.dig("pagination", "limit")
   end
 
-  it "returns not found for hidden authors" do
+  test "returns not found for hidden authors" do
     author = create(:author, hidden: true)
 
     get "/api/v1/authors/#{author.id}"

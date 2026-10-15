@@ -1,150 +1,103 @@
 require "test_helper"
 
-describe "rake db:import_book", type: :task do
-  include TaskExampleGroup
+class BooksTaskTest < ActiveSupport::TestCase
+  include FactoryBot::Syntax::Methods
+  include TaskSupport
 
-  let(:library) { create(:library) }
-  let(:valid_argv) { build_argv }
-
-  def build_argv(library_id: nil, txt_urls: nil)
-    library_id ||= library.id.to_s
-    txt_urls ||= "https://example.com/file with spaces.txt;https://example.com/another file.txt"
-
-    new_argv = []
-
-    new_argv << "db:import_book"
-    new_argv << "--"
-    new_argv << "--title"
-    new_argv << "صحيح البخاري"
-    new_argv << "--author"
-    new_argv << "محمد بن اسماعيل البخاري"
-    new_argv << "--category"
-    new_argv << "الحديث"
-    new_argv << "--pages"
-    new_argv << "180"
-    new_argv << "--volumes"
-    new_argv << "1"
-    new_argv << "--library-id"
-    new_argv << library_id
-    new_argv << "--pdf-urls"
-    new_argv << "https://example.com/file with spaces.pdf;https://example.com/another file.pdf"
-    new_argv << "--txt-urls"
-    new_argv << txt_urls
-    new_argv << "--docx-urls"
-    new_argv << "https://example.com/file with spaces.docx;https://example.com/another file.docx"
-
-    new_argv
+  setup do
+    @library = create(:library)
+    @original_argv = ARGV.dup
   end
 
-  context "with valid arguments" do
-    it "imports the book" do
-      original_argv = ARGV.dup
-      ARGV.replace(valid_argv)
-
-      allow(URI).to receive(:open).and_yield(StringIO.new("First page.\nPAGE_SEPARATOR\nSecond page."))
-
-      expect { task.invoke }.to change(Book, :count).by(1)
-                            .and change(BookFile, :count).by(2)
-                            .and change(Page, :count).by(2)
-
-      expect(Page.pluck(:content)).to eq([ "First page.", "Second page." ])
-      expect(Page.pluck(:number)).to eq([ 1, 2 ])
-    ensure
-      ARGV.replace(original_argv)
-    end
+  def teardown
+    ARGV.replace(@original_argv)
+    super
   end
 
-  context "with --help" do
-    it "shows the help and exits" do
-      original_argv = ARGV.dup
-      ARGV.replace([ "--help" ])
+  test "imports the book and its pages" do
+    ARGV.replace(build_argv)
+    URI.stubs(:open).yields(StringIO.new("First page.\nPAGE_SEPARATOR\nSecond page."))
 
-      expect { task.invoke }.to raise_error(SystemExit).and output(/Usage: rake db:import_book/).to_stdout
-    ensure
-      ARGV.replace(original_argv)
+    assert_difference("Book.count", 1) do
+      assert_difference("BookFile.count", 2) do
+        assert_difference("Page.count", 2) { task("db:import_book").invoke }
+      end
     end
+
+    assert_equal [ "First page.", "Second page." ], Page.order(:number).pluck(:content)
   end
 
-  context "with missing arguments" do
-    it "shows the error and exits" do
-      original_argv = ARGV.dup
-      ARGV.replace(valid_argv[0..-3])
+  test "reports missing arguments" do
+    ARGV.replace(build_argv[0..-3])
 
-      expect { task.invoke }.to raise_error(SystemExit).and output(/Error: Missing required arguments: docx_urls/).to_stdout
-    ensure
-      ARGV.replace(original_argv)
-    end
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "Error: Missing required arguments: docx_urls"
   end
 
-  context "with non-existing library" do
-    it "shows the error and exits" do
-      original_argv = ARGV.dup
-      ARGV.replace(build_argv(library_id: "999999"))
+  test "reports an unknown library" do
+    ARGV.replace(build_argv(library_id: "999999"))
 
-      expect { task.invoke }.to raise_error(SystemExit).and output(/Error: Library with ID '999999' not found/).to_stdout
-    ensure
-      ARGV.replace(original_argv)
-    end
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "Error: Library with ID '999999' not found"
   end
 
-  context "with un-equal number of URLs" do
-    it "shows the error and exits" do
-      original_argv = ARGV.dup
-      ARGV.replace(build_argv(txt_urls: "https://example.com/file with spaces.txt"))
+  test "reports mismatched file URL counts" do
+    ARGV.replace(build_argv(txt_urls: "https://example.com/only.txt"))
 
-      expect { task.invoke }.to raise_error(SystemExit)
-                            .and output(/Error: The number of URLs must be the same for all file types/).to_stdout
-    ensure
-      ARGV.replace(original_argv)
-    end
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "The number of URLs must be the same"
   end
 
-  context "when OptionParser raises an error" do
-    it "shows the error and exits" do
-      allow_any_instance_of(OptionParser).to receive(:parse!).and_raise(OptionParser::InvalidOption)
+  test "reports download failures" do
+    ARGV.replace(build_argv)
+    URI.stubs(:open).raises(URI::InvalidURIError)
 
-      expect { task.invoke }.to raise_error(SystemExit).and output(/Error:/).to_stdout
-    end
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "An error occurred while downloading or processing TXT file"
   end
 
-  context "when URI.open raises an error" do
-    it "shows the error and exits" do
-      original_argv = ARGV.dup
-      ARGV.replace(valid_argv)
+  test "reports option parsing errors" do
+    ARGV.replace(build_argv)
+    OptionParser.any_instance.stubs(:parse!).raises(OptionParser::InvalidOption, "invalid option")
 
-      allow(URI).to receive(:open).and_raise(URI::InvalidURIError)
-
-      expect { task.invoke }.to raise_error(SystemExit).and output(/An error occurred while downloading or processing TXT file from/).to_stdout
-    ensure
-      ARGV.replace(original_argv)
-    end
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "Error: invalid option"
   end
 
-  context "when Book.create! raises an error" do
-    it "shows the error and exits" do
-      original_argv = ARGV.dup
-      ARGV.replace(valid_argv)
+  test "reports a book creation failure" do
+    ARGV.replace(build_argv)
+    Book.stubs(:create!).raises(StandardError, "database is unavailable")
 
-      allow_any_instance_of(Book).to receive(:save!).and_raise(ActiveRecord::RecordInvalid)
-
-      expect { task.invoke }.to raise_error(SystemExit).and output(/An error occurred while creating the book/).to_stdout
-    ensure
-      ARGV.replace(original_argv)
-    end
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "An error occurred while creating the book"
   end
 
-  context "when BookFile.create! raises an error" do
-    it "shows the error and exits" do
-      original_argv = ARGV.dup
-      ARGV.replace(valid_argv)
+  test "reports a book file creation failure" do
+    ARGV.replace(build_argv)
+    files = mock("book files")
+    files.expects(:create!).raises(StandardError, "invalid file")
+    Book.any_instance.stubs(:files).returns(files)
 
-      allow_any_instance_of(Book).to receive_message_chain(:files, :create!).and_raise(ActiveRecord::RecordInvalid)
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "An error occurred while creating BookFile"
+  end
 
-      expect { task.invoke }.to raise_error(SystemExit).and output { |output|
-        expect(output.scan(/An error occurred while creating BookFile for/).length).to eq(1)
-      }.to_stdout
-    ensure
-      ARGV.replace(original_argv)
-    end
+  test "shows help" do
+    ARGV.replace([ "--help" ])
+
+    output = capture_io { assert_raises(SystemExit) { task("db:import_book").invoke } }.first
+    assert_includes output, "Usage: rake db:import_book"
+  end
+
+  private
+
+  def build_argv(library_id: @library.id.to_s, txt_urls: "https://example.com/file.txt;https://example.com/another.txt")
+    [
+      "db:import_book", "--", "--title", "صحيح البخاري", "--author", "محمد بن اسماعيل البخاري",
+      "--category", "الحديث", "--pages", "180", "--volumes", "1", "--library-id", library_id,
+      "--pdf-urls", "https://example.com/file.pdf;https://example.com/another.pdf",
+      "--txt-urls", txt_urls,
+      "--docx-urls", "https://example.com/file.docx;https://example.com/another.docx"
+    ]
   end
 end

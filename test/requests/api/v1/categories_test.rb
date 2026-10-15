@@ -1,7 +1,7 @@
 require "test_helper"
 
-describe "API v1 categories" do
-  it "lists categories" do
+class ApiV1CategoriesTest < ApplicationTest
+  test "lists categories" do
     category = create(:category)
 
     get "/api/v1/categories"
@@ -10,7 +10,7 @@ describe "API v1 categories" do
     assert_includes body.fetch("categories").pluck("id"), category.id
   end
 
-  it "returns a category without expansions" do
+  test "returns a category without expansions" do
     category = create(:category)
 
     get "/api/v1/categories/#{category.id}"
@@ -21,7 +21,7 @@ describe "API v1 categories" do
     refute body.key?("books")
   end
 
-  it "expands a category's books" do
+  test "expands a category's books" do
     category = create(:category)
     create(:book, category:)
 
@@ -32,7 +32,7 @@ describe "API v1 categories" do
     assert body.key?("books")
   end
 
-  it "caps the category books limit at 1000" do
+  test "caps the category books limit at 1000" do
     category = create(:category)
 
     get "/api/v1/categories/#{category.id}", params: { expand: [ "books" ], limit: 1500 }
@@ -41,7 +41,7 @@ describe "API v1 categories" do
     assert_equal 1000, body.dig("pagination", "limit")
   end
 
-  it "returns not found for a missing category" do
+  test "returns not found for a missing category" do
     get "/api/v1/categories/0"
 
     assert_response :not_found

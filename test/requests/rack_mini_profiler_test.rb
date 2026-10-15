@@ -1,33 +1,24 @@
 require "test_helper"
 
-describe "RackMiniProfiler" do
-  describe "check_rack_mini_profiler" do
-    let(:user) { double }
+class RackMiniProfilerTest < ApplicationTest
+  setup do
+    @user = mock("user")
+    ApplicationController.any_instance.stubs(:current_user).returns(@user)
+    Rack::MiniProfiler.stubs(:authorize_request)
+  end
 
-    before do
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
-    end
+  test "does not authorize non-admin users" do
+    @user.stubs(:admin?).returns(false)
 
-    context "when user is not admin" do
-      it "does not authorize the request" do
-        allow(Rack::MiniProfiler).to receive(:authorize_request)
-        allow(user).to receive(:admin?).and_return(false)
+    get "/"
 
-        get "/"
+    Rack::MiniProfiler.expects(:authorize_request).never
+  end
 
-        expect(Rack::MiniProfiler).not_to have_received(:authorize_request)
-      end
-    end
+  test "authorizes admin users" do
+    @user.stubs(:admin?).returns(true)
+    Rack::MiniProfiler.expects(:authorize_request)
 
-    context "when user is admin" do
-      it "authorizes the request" do
-        allow(Rack::MiniProfiler).to receive(:authorize_request)
-        allow(user).to receive(:admin?).and_return(true)
-
-        get "/"
-
-        expect(Rack::MiniProfiler).to have_received(:authorize_request)
-      end
-    end
+    get "/"
   end
 end

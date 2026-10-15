@@ -1,7 +1,7 @@
 require "test_helper"
 
-describe "API v1 files" do
-  it "returns a file without page expansion" do
+class ApiV1FilesTest < ApplicationTest
+  test "returns a file without page expansion" do
     file = create(:book_file)
 
     get "/api/v1/files/#{file.id}"
@@ -12,7 +12,7 @@ describe "API v1 files" do
     refute body.key?("pages")
   end
 
-  it "expands a file's pages" do
+  test "expands a file's pages" do
     file = create(:book_file)
     create(:page, file:, number: 7)
 
@@ -23,7 +23,7 @@ describe "API v1 files" do
     assert body.key?("pages")
   end
 
-  it "caps the file pages limit at 1000" do
+  test "caps the file pages limit at 1000" do
     file = create(:book_file)
 
     get "/api/v1/files/#{file.id}", params: { expand: [ "pages" ], limit: 1500 }
@@ -32,14 +32,14 @@ describe "API v1 files" do
     assert_equal 1000, body.dig("pagination", "limit")
   end
 
-  it "returns not found for a missing file" do
+  test "returns not found for a missing file" do
     get "/api/v1/files/0"
 
     assert_response :not_found
     assert_equal "Resource not found", body.fetch("error")
   end
 
-  it "returns not found for a file belonging to a hidden book" do
+  test "returns not found for a file belonging to a hidden book" do
     file = create(:book_file, book: create(:book, hidden: true))
 
     get "/api/v1/files/#{file.id}"

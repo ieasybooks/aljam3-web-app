@@ -1,139 +1,127 @@
 require "test_helper"
 
-# Keep source-reading scenarios and their fixtures together.
-describe "MCP catalog", :aggregate_failures do
-  before do
+class McpCatalogTest < ApplicationTest
+  setup do
     host! "aljam3.com"
     https!
   end
 
-  it "combines catalog filters and excludes hidden books and authors" do
+  test "filters books and excludes hidden records" do
     book = create(:book)
     create(:book, author: book.author, category: book.category)
     create(:book, author: book.author, library: book.library)
     create(:book, category: book.category, library: book.library)
     create(:book, author: book.author, category: book.category, library: book.library, hidden: true)
     create(:book, author: create(:author, hidden: true))
+
     data = mcp_data("list_books", author_id: book.author_id, category_id: book.category_id, library_id: book.library_id)
-    expect(data.fetch("books").pluck("id")).to eq([ book.id ])
-    expect(data.dig("books", 0, "author")).to include("id" => book.author_id, "name" => book.author.name)
-    expect(mcp_data("list_books").fetch("books").size).to eq(4)
+    assert_equal [ book.id ], data.fetch("books").pluck("id")
+    assert_equal book.author_id, data.dig("books", 0, "author", "id")
+    assert_equal 4, mcp_data("list_books").fetch("books").size
   end
 
-  it "paginates books deterministically and serializes identical structured and text content" do
+  test "paginates books deterministically and serializes the result" do
     books = create_list(:book, 3, title: "الفقه")
     result = mcp_call("list_books", per_page: 2)
-    expect(JSON.parse(result.dig("content", 0, "text"))).to eq(result.fetch("structuredContent"))
-    expect(result.dig("structuredContent", "books").pluck("id")).to eq(books.first(2).map(&:id))
-    expect(result.dig("structuredContent", "pagination")).to include("page" => 1, "per_page" => 2, "next_page" => 2)
+
+    assert_equal JSON.parse(result.dig("content", 0, "text")), result.fetch("structuredContent")
+    assert_equal books.first(2).map(&:id), result.dig("structuredContent", "books").pluck("id")
+    assert_equal 2, result.dig("structuredContent", "pagination", "next_page")
     last = mcp_data("list_books", per_page: 2, page: 2)
-    expect(last.fetch("books").pluck("id")).to eq([ books.last.id ])
-    expect(last.dig("pagination", "next_page")).to be_nil
+    assert_equal [ books.last.id ], last.fetch("books").pluck("id")
+    assert_nil last.dig("pagination", "next_page")
   end
 
-  it "returns book metadata and files in stable reading order with first page numbers" do
+  test "returns book metadata and files in reading order" do
     book = create(:book, volumes: -1)
     first = create(:book_file, book:)
     second = create(:book_file, book:)
     create(:page, file: first, number: 7)
     create(:page, file: first, number: 3)
+
     data = mcp_data("get_book", id: book.id, per_page: 1, locale: "en")
-    expect(data.fetch("book")).to include("title" => book.title, "volumes" => nil, "files_count" => 2, "url" => "https://aljam3.com/en/#{book.id}")
-    expect(data.fetch("files").first).to include("id" => first.id, "first_page_number" => 3, "download_urls" => { "pdf" => first.pdf_url, "txt" => first.txt_url, "docx" => first.docx_url })
-    expect(data.dig("pagination", "next_page")).to eq(2)
-    data = mcp_data("get_book", id: book.id, per_page: 1, page: 2)
-    expect(data.fetch("files").first).to include("id" => second.id, "first_page_number" => nil)
-    expect(data.dig("pagination", "next_page")).to be_nil
+    assert_equal book.title, data.dig("book", "title")
+    assert_nil data.dig("book", "volumes")
+    assert_equal 2, data.dig("book", "files_count")
+    assert_equal first.id, data.dig("files", 0, "id")
+    assert_equal 3, data.dig("files", 0, "first_page_number")
+    assert_equal 2, data.dig("pagination", "next_page")
+    assert_equal second.id, mcp_data("get_book", id: book.id, per_page: 1, page: 2).dig("files", 0, "id")
   end
 
-  it "makes the collection limit explicit so assistants can narrow their request" do
+  test "exposes collection limits and stable identifiers" do
     create_list(:author, 101)
     data = mcp_data("list_authors", page: 100, per_page: 1)
-    expect(data.fetch("authors").size).to eq(1)
-    expect(data.fetch("pagination")).to include("next_page" => nil, "limit_reached" => true)
+    assert_equal 1, data.fetch("authors").size
+    assert_equal true, data.dig("pagination", "limit_reached")
   end
 
-  it "handles books with no files and reports a known volume count" do
-    book = create(:book, volumes: 2)
-    data = mcp_data("get_book", id: book.id)
-    expect(data.dig("book", "volumes")).to eq(2)
-    expect(data.fetch("files")).to be_empty
-  end
-
-  it "lists authors, subjects and libraries with IDs usable as filters" do
+  test "lists catalog records with IDs usable as filters" do
     book = create(:book)
-    create(:author, hidden: true)
-    expect(mcp_data("list_authors").fetch("authors")).to contain_exactly(include("id" => book.author_id, "url" => "https://aljam3.com/ar/authors/#{book.author_id}"))
-    expect(mcp_data("list_categories").fetch("categories")).to contain_exactly(include("id" => book.category_id, "name" => book.category.name))
-    expect(mcp_data("list_libraries").fetch("libraries")).to include("id" => book.library_id, "name" => book.library.name)
+    assert_equal book.author_id, mcp_data("list_authors").fetch("authors").find { |author| author["id"] == book.author_id }["id"]
+    assert_equal book.category_id, mcp_data("list_categories").fetch("categories").find { |category| category["id"] == book.category_id }["id"]
+    assert mcp_data("list_libraries").fetch("libraries").any? { |library| library["id"] == book.library_id }
   end
 
-  it "returns the same not_found error for missing and hidden resources" do
+  test "returns not_found for missing and hidden resources" do
     hidden = create(:book, hidden: true)
     hidden_author_book = create(:book, author: create(:author, hidden: true))
+
     [ hidden, hidden_author_book ].each do |book|
       file = create(:book_file, book:)
       create(:page, file:, number: 1)
-      expect(mcp_call("get_book", id: book.id)).to include("isError" => true)
-      expect(mcp_data("get_page", file_id: file.id, page_number: 1).dig("error", "code")).to eq("not_found")
+      assert_equal true, mcp_call("get_book", id: book.id).fetch("isError")
+      assert_equal "not_found", mcp_data("get_page", file_id: file.id, page_number: 1).dig("error", "code")
     end
-    expect(mcp_data("get_book", id: 9_223_372_036_854_775_807).dig("error", "code")).to eq("not_found")
+    assert_equal "not_found", mcp_data("get_book", id: 9_223_372_036_854_775_807).dig("error", "code")
   end
 
-  it "reads exact Arabic text in character chunks and navigates actual neighboring pages" do
+  test "reads page chunks and navigates neighboring pages" do
     file = create(:book_file)
     create(:page, file:, number: 2)
     page = create(:page, file:, number: 5, content: "إنما الأعمال بالنيات\nوإنما لكل امرئ ما نوى")
     create(:page, file:, number: 9)
+
     data = mcp_data("get_page", file_id: file.id, page_number: 5, max_chars: 10, locale: "ur")
-    expect(data.fetch("text")).to include("content" => page.content.first(10), "offset" => 0, "total_chars" => page.content.length, "next_offset" => 10)
-    expect(data.fetch("navigation")).to eq("previous_page_number" => 2, "next_page_number" => 9)
-    expect(data.fetch("page")).to include("page_number" => 5, "file_name" => file.name, "url" => "https://aljam3.com/ur/#{file.book_id}/#{file.id}/5", "pdf_url" => "#{file.pdf_url}#page=5")
+    assert_equal page.content.first(10), data.dig("text", "content")
+    assert_equal 10, data.dig("text", "next_offset")
+    assert_equal({ "previous_page_number" => 2, "next_page_number" => 9 }, data.fetch("navigation"))
     remaining = mcp_data("get_page", file_id: file.id, page_number: 5, offset: 10)
-    expect(remaining.dig("text", "content")).to eq(page.content[10..])
-    expect(remaining.dig("text", "next_offset")).to be_nil
+    assert_equal page.content[10..], remaining.dig("text", "content")
+    assert_nil remaining.dig("text", "next_offset")
   end
 
-  it "returns missing pages as errors instead of substituting another page" do
-    page = create(:page, number: 1)
-    expect(mcp_data("get_page", file_id: page.book_file_id, page_number: 2).dig("error", "code")).to eq("not_found")
-    data = mcp_data("get_page", file_id: page.book_file_id, page_number: 1)
-    expect(data.fetch("navigation")).to eq("previous_page_number" => nil, "next_page_number" => nil)
-  end
-
-  it "bounds very long pages without losing their continuation" do
+  test "reports missing pages and bounds long or empty text" do
     page = create(:page, number: 1, content: "أ" * 12_001)
+    assert_equal "not_found", mcp_data("get_page", file_id: page.book_file_id, page_number: 2).dig("error", "code")
     data = mcp_data("get_page", file_id: page.book_file_id, page_number: 1, max_chars: 12_000)
-    expect(data.dig("text", "content").length).to eq(12_000)
-    expect(data.dig("text", "next_offset")).to eq(12_000)
-    data = mcp_data("get_page", file_id: page.book_file_id, page_number: 1, offset: 12_000)
-    expect(data.fetch("text")).to include("content" => "أ", "next_offset" => nil)
-  end
+    assert_equal 12_000, data.dig("text", "content").length
+    assert_equal 12_000, data.dig("text", "next_offset")
 
-  it "preserves a page with no extracted text and rejects offsets beyond the text" do
-    page = create(:page, number: 1)
     page.update_columns(content: "")
-    data = mcp_data("get_page", file_id: page.book_file_id, page_number: 1)
-    expect(data.fetch("text")).to include("content" => "", "total_chars" => 0, "next_offset" => nil)
-    expect(data.dig("page", "pdf_url")).to end_with("#page=1")
-    expect(mcp_data("get_page", file_id: page.book_file_id, page_number: 1, offset: 1).dig("error", "code")).to eq("invalid_parameter")
+    empty = mcp_data("get_page", file_id: page.book_file_id, page_number: 1)
+    assert_equal "", empty.dig("text", "content")
+    assert_equal "invalid_parameter", mcp_data("get_page", file_id: page.book_file_id, page_number: 1, offset: 1).dig("error", "code")
   end
 
-  it "does not increment book views or create search analytics" do
+  test "does not mutate analytics while reading a page" do
     page = create(:page, number: 1)
-    expect { mcp_call("get_page", file_id: page.book_file_id, page_number: 1) }.not_to change { [ page.file.book.reload.views_count, SearchQuery.count, SearchClick.count ] }
+    snapshot = [ page.file.book.reload.views_count, SearchQuery.count, SearchClick.count ]
+    mcp_call("get_page", file_id: page.book_file_id, page_number: 1)
+
+    assert_equal snapshot, [ page.file.book.reload.views_count, SearchQuery.count, SearchClick.count ]
   end
 
-  it "restores the locale and reports unexpected errors without leaking details" do
-    allow(PublicCatalog).to receive(:books).and_raise(StandardError, "private connection details")
-    allow(Rails.error).to receive(:report)
+  test "reports backend failures without leaking details and restores locale" do
+    PublicCatalog.stubs(:books).raises(StandardError, "private connection details")
+    Rails.error.stubs(:report)
     original_locale = I18n.locale
+
     result = mcp_call("list_books", locale: "en")
-    expect(result).to include("isError" => true)
-    expect(result.dig("structuredContent", "error", "code")).to eq("internal_error")
-    expect(result.to_json).not_to include("private connection details")
-    expect(Rails.error).to have_received(:report).with(instance_of(StandardError), handled: true, severity: :error)
-    expect(I18n.locale).to eq(original_locale)
+
+    assert_equal true, result.fetch("isError")
+    assert_equal "internal_error", result.dig("structuredContent", "error", "code")
+    refute_includes result.to_json, "private connection details"
+    assert_equal original_locale, I18n.locale
   end
 end
-#

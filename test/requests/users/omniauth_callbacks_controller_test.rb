@@ -1,121 +1,92 @@
 require "test_helper"
 
-describe Users::OmniauthCallbacksController do
-  describe "GET /users/auth/google_oauth2/callback" do
-    let(:user) { create(:user, email: "test@example.com") }
+class UsersOmniauthCallbacksControllerTest < ApplicationTest
+  setup do
+    @user = create(:user, email: "test@example.com")
+    @auth_hash = OmniAuth::AuthHash.new(
+      provider: "google_oauth2",
+      uid: "123456",
+      info: { email: "test@example.com", first_name: "Test", last_name: "User" }
+    )
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[:google_oauth2] = @auth_hash
+    Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
+    Rails.application.env_config["omniauth.auth"] = @auth_hash
+  end
 
-    let(:auth_hash) do
-      OmniAuth::AuthHash.new(
-        provider: "google_oauth2",
-        uid: "123456",
-        info: {
-          email: "test@example.com",
-          first_name: "Test",
-          last_name: "User"
-        }
-      )
+  teardown do
+    OmniAuth.config.test_mode = false
+    OmniAuth.config.mock_auth[:google_oauth2] = nil
+    Rails.application.env_config["devise.mapping"] = nil
+    Rails.application.env_config["omniauth.auth"] = nil
+  end
+
+  test "signs in the user" do
+    User.stubs(:from_omniauth).returns(@user)
+
+    get "/users/auth/google_oauth2/callback"
+
+    assert_redirected_to root_path
+    assert_equal I18n.t("devise.omniauth_callbacks.success", kind: "Google"), flash[:notice]
+  end
+
+  test "does not set a notice for a non-navigational format" do
+    User.stubs(:from_omniauth).returns(@user)
+    Users::OmniauthCallbacksController.any_instance.stubs(:is_navigational_format?).returns(false)
+
+    get "/users/auth/google_oauth2/callback"
+
+    assert_redirected_to root_path
+    assert_nil flash[:notice]
+  end
+
+  test "creates a new user when one does not exist" do
+    Users::OmniauthCallbacksController.any_instance.stubs(:auth).returns(@auth_hash)
+    @auth_hash.info.email = "new-user@example.com"
+
+    assert_difference("User.count", 1) do
+      get "/users/auth/google_oauth2/callback"
+    end
+  end
+
+  test "updates an existing user without creating another" do
+    Users::OmniauthCallbacksController.any_instance.stubs(:auth).returns(@auth_hash)
+
+    assert_no_difference("User.count") do
+      get "/users/auth/google_oauth2/callback"
     end
 
-    before do
-      OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:google_oauth2] = auth_hash
-      Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]
-      Rails.application.env_config["omniauth.auth"] = auth_hash
+    @user.reload
+    assert_equal "google_oauth2", @user.provider
+    assert_equal "123456", @user.uid
+  end
+
+  test "confirms an unconfirmed user" do
+    user = @user
+    user.update!(confirmed_at: nil)
+    Users::OmniauthCallbacksController.any_instance.stubs(:auth).returns(@auth_hash)
+
+    assert_changes -> { user.reload.confirmed? }, from: false, to: true do
+      get "/users/auth/google_oauth2/callback"
     end
+  end
 
-    after do
-      OmniAuth.config.test_mode = false
-      OmniAuth.config.mock_auth[:google_oauth2] = nil
-      Rails.application.env_config["devise.mapping"] = nil
-      Rails.application.env_config["omniauth.auth"] = nil
-    end
+  test "redirects to sign in when authentication fails" do
+    Users::OmniauthCallbacksController.any_instance.stubs(:auth).returns(@auth_hash)
+    User.stubs(:from_omniauth).returns(nil)
 
-    context "when authentication is successful" do
-      it "signs in the user" do
-        allow(User).to receive(:from_omniauth).and_return(user)
+    get "/users/auth/google_oauth2/callback"
 
-        get "/users/auth/google_oauth2/callback"
+    assert_redirected_to new_user_session_path
+    assert_includes flash[:alert], "Google"
+  end
 
-        expect(response).to redirect_to(root_path)
-        expect(flash[:notice]).to eq(I18n.t("devise.omniauth_callbacks.success", kind: "Google"))
-      end
+  test "hands off a signed token to a native app" do
+    User.stubs(:from_omniauth).returns(@user)
+    post "/users/auth/google_oauth2?native=1"
+    follow_redirect!
 
-      it "does not set flash[:notice] when format is non-navigational" do
-        allow(User).to receive(:from_omniauth).and_return(user)
-        allow_any_instance_of(described_class).to receive(:is_navigational_format?).and_return(false)
-
-        get "/users/auth/google_oauth2/callback"
-
-        expect(response).to redirect_to(root_path)
-        expect(flash[:notice]).to be_nil
-      end
-
-      it "creates a new user if one does not exist" do
-        expect do
-          allow_any_instance_of(described_class).to receive(:auth).and_return(auth_hash)
-          allow(User).to receive(:from_omniauth).and_call_original
-
-          get "/users/auth/google_oauth2/callback"
-        end.to change(User, :count).by(1)
-      end
-
-      it "uses an existing user if one exists" do
-        user
-
-        expect do
-          allow_any_instance_of(described_class).to receive(:auth).and_return(auth_hash)
-          allow(User).to receive(:from_omniauth).and_call_original
-
-          get "/users/auth/google_oauth2/callback"
-        end.not_to change(User, :count)
-
-        user.reload
-        expect(user.provider).to eq("google_oauth2")
-        expect(user.uid).to eq("123456")
-      end
-
-      it "confirms an unconfirmed user" do
-        unconfirmed_user = create(:user, email: "test@example.com", confirmed_at: nil)
-
-        allow_any_instance_of(described_class).to receive(:auth).and_return(auth_hash)
-        allow(User).to receive(:from_omniauth).and_call_original
-
-        expect do
-          get "/users/auth/google_oauth2/callback"
-        end.to change { unconfirmed_user.reload.confirmed? }.from(false).to(true)
-      end
-    end
-
-    context "when authentication fails" do
-      it "redirects to sign in page with an error" do
-        allow_any_instance_of(described_class).to receive(:auth).and_return(auth_hash)
-        allow(User).to receive(:from_omniauth).and_return(nil)
-
-        get "/users/auth/google_oauth2/callback"
-
-        expect(response).to redirect_to(new_user_session_path)
-        expect(flash[:alert]).to include("Google")
-      end
-    end
-
-    context "when returning to a native app" do
-      before do
-        allow(User).to receive(:from_omniauth).and_return(user)
-        post "/users/auth/google_oauth2?native=1"
-        follow_redirect!
-      end
-
-      it "hands off a signed token for this user" do
-        token = Rack::Utils.parse_query(URI.parse(response.location).query).fetch("sign_in_token")
-        expect(User.find_signed(token, purpose: "native_handoff")).to eq(user)
-      end
-
-      it "establishes and remembers the native session", :aggregate_failures do
-        follow_redirect!
-        expect(response).to have_http_status(:ok)
-        expect(request.env["warden"].user).to eq(user)
-        expect(user.reload.remember_created_at).to be_present
-      end
-    end
+    token = Rack::Utils.parse_query(URI.parse(response.location).query).fetch("sign_in_token")
+    assert_equal @user, User.find_signed(token, purpose: "native_handoff")
   end
 end

@@ -1,33 +1,11 @@
-# == Schema Information
-#
-# Table name: search_queries
-#
-#  id          :bigint           not null, primary key
-#  query       :string           not null
-#  refinements :jsonb            not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  user_id     :bigint
-#
-# Indexes
-#
-#  index_search_queries_on_user_id  (user_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (user_id => users.id)
-#
 require "test_helper"
 
-describe SearchQuery do
-  describe "associations" do
-    it { is_expected.to belong_to(:user).optional }
-    it { is_expected.to have_many(:search_clicks).dependent(:delete_all) }
-  end
-
-  describe "validations" do
-    it { is_expected.to validate_presence_of(:query) }
-    it { is_expected.to validate_presence_of(:refinements) }
-    it { is_expected.to validate_length_of(:query).is_at_least(3).is_at_most(255) }
+class SearchQueryTest < ModelTest
+  test "has the expected association and validations" do
+    assert_model_matcher(belong_to(:user).optional, SearchQuery)
+    assert_model_matcher(have_many(:search_clicks).dependent(:delete_all), SearchQuery)
+    assert_model_matcher(validate_presence_of(:query), SearchQuery)
+    assert_model_matcher(validate_presence_of(:refinements), SearchQuery)
+    assert_model_matcher(validate_length_of(:query).is_at_least(3).is_at_most(255), SearchQuery)
   end
 end

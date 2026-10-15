@@ -1,7 +1,7 @@
 require "test_helper"
 
-describe "API v1 books" do
-  it "lists books with pagination and filters" do
+class ApiV1BooksTest < ApplicationTest
+  test "lists books with pagination and filters" do
     book = create(:book, title: "Ruby Book")
     Book.index_documents([ book ], true)
 
@@ -13,7 +13,7 @@ describe "API v1 books" do
     assert body.key?("pagination")
   end
 
-  it "returns a book without file expansion" do
+  test "returns a book without file expansion" do
     book = create(:book)
 
     get "/api/v1/books/#{book.id}"
@@ -23,7 +23,7 @@ describe "API v1 books" do
     refute body.key?("files")
   end
 
-  it "expands a book's files" do
+  test "expands a book's files" do
     book = create(:book)
     create(:book_file, book:)
 
@@ -33,7 +33,7 @@ describe "API v1 books" do
     assert body.key?("files")
   end
 
-  it "returns not found for hidden books" do
+  test "returns not found for hidden books" do
     book = create(:book, hidden: true)
 
     get "/api/v1/books/#{book.id}"
