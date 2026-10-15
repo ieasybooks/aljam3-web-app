@@ -1,5 +1,5 @@
 class Api::V1::BaseController < ActionController::API
-  include Pagy::Backend
+  include Pagy::Method
 
   before_action :set_default_response_format
   helper_method :process_meilisearch_highlights

@@ -59,13 +59,13 @@ class StaticController < ApplicationController
     if valid_model?
       model = params[:m].classify.constantize
 
-      pagy, results = pagy_meilisearch(model.pagy_search(query, filter: filter(model), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      pagy, results = pagy(:meilisearch, model.pagy_search(query, filter: filter(model), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
 
       SearchResults.new(pagy:, results:)
     else
-      page_pagy, page_results = pagy_meilisearch(Page.pagy_search(query, filter: filter(Page), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
-      book_pagy, book_results = pagy_meilisearch(Book.pagy_search(query, filter: filter(Book), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
-      author_pagy, author_results = pagy_meilisearch(Author.pagy_search(query, filter: filter(Author), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      page_pagy, page_results = pagy(:meilisearch, Page.pagy_search(query, filter: filter(Page), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      book_pagy, book_results = pagy(:meilisearch, Book.pagy_search(query, filter: filter(Book), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
+      author_pagy, author_results = pagy(:meilisearch, Author.pagy_search(query, filter: filter(Author), highlight_pre_tag: "<mark>", highlight_post_tag: "</mark>"))
 
       TabsSearchResults.new(
         pages: SearchResults.new(pagy: page_pagy, results: page_results),

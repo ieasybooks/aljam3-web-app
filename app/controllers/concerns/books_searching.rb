@@ -3,7 +3,7 @@ module BooksSearching
 
   def search_or_list_books(filters: {})
     if params[:q].present?
-      pagy_meilisearch(
+      pagy(:meilisearch,
         Book.pagy_search(
           params[:q],
           filter: ([ "hidden = false" ] + filters.map { |key, id| "#{key} = #{id}" }).join(" AND "),

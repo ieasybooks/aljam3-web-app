@@ -31,8 +31,8 @@
 class Book < ApplicationRecord
   include Meilisearch::Rails
 
-  extend Pagy::Meilisearch
-  ActiveRecord_Relation.include Pagy::Meilisearch
+  extend Pagy::Search
+  ActiveRecord_Relation.include Pagy::Search
 
   belongs_to :library, counter_cache: true
   belongs_to :author, counter_cache: true

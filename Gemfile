@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 # Added gems ↓
 
-gem "avo", ">= 3.32.4"
+gem "avo", ">= 4.0.0"
 gem "browser", "~> 6.2"
 gem "cache_with_locale", "~> 0.0.3"
 gem "devise", ">= 5.0.4"
@@ -18,7 +18,7 @@ gem "oj", ">= 3.17.7"
 gem "omniauth", ">= 2.1.4"
 gem "omniauth-google-oauth2", ">= 1.2.3"
 gem "omniauth-rails_csrf_protection", ">= 2.0.1"
-gem "pagy", "~> 9.4"
+gem "pagy", "~> 43.7"
 gem "pghero", ">= 4.0.1"
 gem "pg_query", ">= 6.2.5"
 gem "phlex-icons", ">= 2.56"
@@ -59,7 +59,7 @@ group :test do
   gem "shoulda-matchers", ">= 8.0.1"
   gem "simplecov", ">= 1.3.2", require: false
   gem "simplecov-json", "~> 0.2.3"
-  gem "webmock", ">= 3.26.4"
+  gem "webmock", ">= 3.34.0"
 end
 
 group :development, :test do

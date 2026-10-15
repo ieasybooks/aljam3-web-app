@@ -35,7 +35,7 @@ RSpec.describe "Authors" do
 
           before do
             allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-            allow_any_instance_of(AuthorsController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+            allow_any_instance_of(AuthorsController).to receive(:pagy).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
           end
 
           context "with HTML format" do # rubocop:disable RSpec/NestedGroups
@@ -83,14 +83,15 @@ RSpec.describe "Authors" do
 
             before do
               allow(AuthorsController).to receive(:new).and_return(controller)
-              allow(controller).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ])
+              allow(controller).to receive(:pagy).and_return([ mock_pagy, mock_search_results ])
               allow(Book).to receive(:pagy_search).and_return(mock_search_results)
             end
 
             it "uses default limit of 20 when no limit specified" do
               get author_path(id: author.id, q: "ruby"), as: :html
 
-              expect(controller).to have_received(:pagy_meilisearch).with(
+              expect(controller).to have_received(:pagy).with(
+                :meilisearch,
                 anything,
                 limit: 20
               )
@@ -99,7 +100,8 @@ RSpec.describe "Authors" do
             it "uses custom limit when specified" do
               get author_path(id: author.id, q: "ruby", limit: 50), as: :html
 
-              expect(controller).to have_received(:pagy_meilisearch).with(
+              expect(controller).to have_received(:pagy).with(
+                :meilisearch,
                 anything,
                 limit: 50
               )
@@ -108,7 +110,8 @@ RSpec.describe "Authors" do
             it "caps limit at 1000 when higher value is provided" do
               get author_path(id: author.id, q: "ruby", limit: 1500), as: :html
 
-              expect(controller).to have_received(:pagy_meilisearch).with(
+              expect(controller).to have_received(:pagy).with(
+                :meilisearch,
                 anything,
                 limit: 1000
               )
@@ -117,7 +120,8 @@ RSpec.describe "Authors" do
             it "uses limit 0 when invalid limit is provided" do
               get author_path(id: author.id, q: "ruby", limit: "invalid"), as: :html
 
-              expect(controller).to have_received(:pagy_meilisearch).with(
+              expect(controller).to have_received(:pagy).with(
+                :meilisearch,
                 anything,
                 limit: 0
               )
@@ -378,7 +382,7 @@ RSpec.describe "Authors" do
 
         before do
           allow(Author).to receive(:pagy_search).and_return(mock_search_results)
-          allow_any_instance_of(AuthorsController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+          allow_any_instance_of(AuthorsController).to receive(:pagy).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
         end
 
         context "with HTML format" do # rubocop:disable RSpec/NestedGroups
@@ -428,13 +432,14 @@ RSpec.describe "Authors" do
 
           before do
             allow(AuthorsController).to receive(:new).and_return(controller)
-            allow(controller).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ])
+            allow(controller).to receive(:pagy).and_return([ mock_pagy, mock_search_results ])
           end
 
           it "uses default limit of 20 when no limit specified" do
             get authors_path(q: "john"), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 20
             )
@@ -443,7 +448,8 @@ RSpec.describe "Authors" do
           it "uses custom limit when specified" do
             get authors_path(q: "john", limit: 50), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 50
             )
@@ -452,7 +458,8 @@ RSpec.describe "Authors" do
           it "caps limit at 1000 when higher value is provided" do
             get authors_path(q: "john", limit: 1500), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 1000
             )
@@ -461,7 +468,8 @@ RSpec.describe "Authors" do
           it "uses limit 0 when invalid limit is provided" do
             get authors_path(q: "john", limit: "invalid"), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 0
             )

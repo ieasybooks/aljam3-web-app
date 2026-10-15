@@ -16,7 +16,7 @@ RSpec.describe "Static" do
   end
 
   let(:mock_pagy) do
-    Pagy.new(count: 100, page: 1)
+    Pagy::Offset.new(count: 100, page: 1)
   end
 
   before do
@@ -92,7 +92,7 @@ RSpec.describe "Static" do
         allow(Author).to receive(:pagy_search).and_return([ mock_author ])
 
         call_count = 0
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch) do |*args| # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy) do |*args| # rubocop:disable RSpec/AnyInstance
           call_count += 1
           case call_count
           when 1
@@ -233,7 +233,7 @@ RSpec.describe "Static" do
 
       before do
         allow(Page).to receive(:pagy_search).and_return([ mock_page ])
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_page ] ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy).and_return([ mock_pagy, [ mock_page ] ]) # rubocop:disable RSpec/AnyInstance
         allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
       end
 
@@ -285,7 +285,7 @@ RSpec.describe "Static" do
 
       before do
         allow(Book).to receive(:pagy_search).and_return([ mock_book ])
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
         allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
       end
 
@@ -337,7 +337,7 @@ RSpec.describe "Static" do
 
       before do
         allow(Author).to receive(:pagy_search).and_return([ mock_author ])
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_author ] ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy).and_return([ mock_pagy, [ mock_author ] ]) # rubocop:disable RSpec/AnyInstance
         allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
       end
 
@@ -386,7 +386,7 @@ RSpec.describe "Static" do
 
       before do
         allow(Book).to receive(:pagy_search).and_return([ mock_book ])
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
         allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
       end
 
@@ -396,7 +396,7 @@ RSpec.describe "Static" do
         allow(Author).to receive(:pagy_search).and_return([ mock_author ])
 
         call_count = 0
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch) do |*args| # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy) do |*args| # rubocop:disable RSpec/AnyInstance
           call_count += 1
           case call_count
           when 1
@@ -490,7 +490,7 @@ RSpec.describe "Static" do
     let(:params) { { q: "test query", m: "book", l: 1, c: 2, a: 3 } }
 
     before do
-      allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(StaticController).to receive(:pagy).and_return([ mock_pagy, [ mock_book ] ]) # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(StaticController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
       allow(Book).to receive(:pagy_search).and_return([ mock_book ])
       allow(Components::SearchResultsList).to receive(:new).and_return(double(to_s: "component")) # rubocop:disable RSpec/VerifiedDoubles
@@ -562,7 +562,7 @@ RSpec.describe "Static" do
 
     context "when results are blank" do # rubocop:disable RSpec/MultipleMemoizedHelpers
       before do
-        allow_any_instance_of(StaticController).to receive(:pagy_meilisearch).and_return([ mock_pagy, [] ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(StaticController).to receive(:pagy).and_return([ mock_pagy, [] ]) # rubocop:disable RSpec/AnyInstance
         empty_search_results = instance_double(SearchResults, present?: false, pagy: mock_pagy, results: [])
         allow(SearchResults).to receive(:new).and_return(empty_search_results)
       end
