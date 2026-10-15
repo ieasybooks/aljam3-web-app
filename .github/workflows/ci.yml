@@ -39,7 +39,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.4
+          ruby-version: 4.0.7
           bundler-cache: true
 
       - name: Scan for common Rails security vulnerabilities using static analysis
@@ -59,7 +59,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.4
+          ruby-version: 4.0.7
           bundler-cache: true
 
       - name: Install JS dependencies
@@ -80,7 +80,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.4
+          ruby-version: 4.0.7
           bundler-cache: true
 
       - name: Run i18n-tasks check
@@ -111,7 +111,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.4
+          ruby-version: 4.0.7
           bundler-cache: true
 
       - name: Create database
@@ -169,7 +169,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.4
+          ruby-version: 4.0.7
           bundler-cache: true
 
       - name: Install JS dependencies

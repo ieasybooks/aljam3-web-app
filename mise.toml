@@ -4,7 +4,7 @@ min_version = "2025.5.11"
 PROJECT_NAME = "{{ config_root | basename }}"
 
 [tools]
-ruby = "3.4.4"
+ruby = "4.0.7"
 bun = "1.4.3"
 gh = "latest"
 
