@@ -20,8 +20,8 @@
 class Page < ApplicationRecord
   include Meilisearch::Rails
 
-  extend Pagy::Meilisearch
-  ActiveRecord_Relation.include Pagy::Meilisearch
+  extend Pagy::Search
+  ActiveRecord_Relation.include Pagy::Search
 
   belongs_to :file, class_name: "BookFile", foreign_key: "book_file_id", counter_cache: true
   has_many :search_clicks, as: :result, dependent: :delete_all

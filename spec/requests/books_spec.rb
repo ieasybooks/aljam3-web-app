@@ -28,7 +28,7 @@ RSpec.describe "Books" do
 
         before do
           allow(Book).to receive(:pagy_search).and_return(mock_search_results)
-          allow_any_instance_of(BooksController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+          allow_any_instance_of(BooksController).to receive(:pagy).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
         end
 
         context "with HTML format" do # rubocop:disable RSpec/NestedGroups
@@ -76,13 +76,14 @@ RSpec.describe "Books" do
 
           before do
             allow(BooksController).to receive(:new).and_return(controller)
-            allow(controller).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ])
+            allow(controller).to receive(:pagy).and_return([ mock_pagy, mock_search_results ])
           end
 
           it "uses default limit of 20 when no limit specified" do
             get books_path(q: "ruby"), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 20
             )
@@ -91,7 +92,8 @@ RSpec.describe "Books" do
           it "uses custom limit when specified" do
             get books_path(q: "ruby", limit: 50), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 50
             )
@@ -100,7 +102,8 @@ RSpec.describe "Books" do
           it "caps limit at 1000 when higher value is provided" do
             get books_path(q: "ruby", limit: 1500), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 1000
             )
@@ -109,7 +112,8 @@ RSpec.describe "Books" do
           it "uses limit 0 when invalid limit is provided" do
             get books_path(q: "ruby", limit: "invalid"), as: :html
 
-            expect(controller).to have_received(:pagy_meilisearch).with(
+            expect(controller).to have_received(:pagy).with(
+              :meilisearch,
               anything,
               limit: 0
             )
@@ -397,7 +401,7 @@ RSpec.describe "Books" do
 
     before do
       allow(Page).to receive(:pagy_search).and_return(mock_search_results)
-      allow_any_instance_of(BooksController).to receive(:pagy_meilisearch).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(BooksController).to receive(:pagy).and_return([ mock_pagy, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
       allow(Components::SearchBookResultsList).to receive(:new).and_call_original
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
     end
@@ -508,7 +512,7 @@ RSpec.describe "Books" do
         end
 
         before do
-          allow_any_instance_of(BooksController).to receive(:pagy_meilisearch).and_return([ mock_pagy, empty_results ]) # rubocop:disable RSpec/AnyInstance
+          allow_any_instance_of(BooksController).to receive(:pagy).and_return([ mock_pagy, empty_results ]) # rubocop:disable RSpec/AnyInstance
         end
 
         it "does not create SearchQuery when results are empty" do
@@ -536,7 +540,7 @@ RSpec.describe "Books" do
       end
 
       before do
-        allow_any_instance_of(BooksController).to receive(:pagy_meilisearch).and_return([ mock_pagy_page, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(BooksController).to receive(:pagy).and_return([ mock_pagy_page, mock_search_results ]) # rubocop:disable RSpec/AnyInstance
       end
 
       it "replaces the correct pagination element for subsequent pages" do

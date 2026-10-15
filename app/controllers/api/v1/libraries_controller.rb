@@ -10,7 +10,7 @@ class Api::V1::LibrariesController < Api::V1::BaseController
 
   def search_or_list_library_books
     if params[:q].present?
-      pagy_meilisearch(
+      pagy(:meilisearch,
         Book.pagy_search(
           params[:q],
           filter: %(hidden = false AND library = "#{@library.id}"),

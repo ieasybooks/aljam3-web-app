@@ -12,8 +12,8 @@
 class Author < ApplicationRecord
   include Meilisearch::Rails
 
-  extend Pagy::Meilisearch
-  ActiveRecord_Relation.include Pagy::Meilisearch
+  extend Pagy::Search
+  ActiveRecord_Relation.include Pagy::Search
 
   has_many :books, dependent: :destroy
   has_many :search_clicks, as: :result, dependent: :delete_all

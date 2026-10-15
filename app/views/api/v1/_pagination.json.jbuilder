@@ -9,6 +9,6 @@ json.pagination do
   json.limit pagy.limit
   json.next_page pagy.next
   json.next_page_link pagy.next ? send(url_method, **request.query_parameters.merge(page: pagy.next)) : nil
-  json.previous_page pagy.prev
-  json.previous_page_link pagy.prev ? send(url_method, **request.query_parameters.merge(page: pagy.prev)) : nil
+  json.previous_page pagy.previous
+  json.previous_page_link pagy.previous ? send(url_method, **request.query_parameters.merge(page: pagy.previous)) : nil
 end

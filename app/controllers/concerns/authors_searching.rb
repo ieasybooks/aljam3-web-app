@@ -3,7 +3,7 @@ module AuthorsSearching
 
   def search_or_list_authors
     if params[:q].present?
-      pagy_meilisearch(
+      pagy(:meilisearch,
         Author.pagy_search(
           params[:q],
           filter: "hidden = false",
@@ -19,7 +19,7 @@ module AuthorsSearching
 
   def search_or_list_author_books
     if params[:q].present?
-      pagy_meilisearch(
+      pagy(:meilisearch,
         Book.pagy_search(
           params[:q],
           filter: %(hidden = false AND author = "#{@author.id}"),

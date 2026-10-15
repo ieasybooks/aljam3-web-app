@@ -11,8 +11,8 @@
 class Category < ApplicationRecord
   include Meilisearch::Rails
 
-  extend Pagy::Meilisearch
-  ActiveRecord_Relation.include Pagy::Meilisearch
+  extend Pagy::Search
+  ActiveRecord_Relation.include Pagy::Search
 
   has_many :books, dependent: :destroy
 

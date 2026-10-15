@@ -3,7 +3,7 @@ module CategoriesSearching
 
   def search_or_list_category_books
     if params[:q].present?
-      pagy_meilisearch(
+      pagy(:meilisearch,
         Book.pagy_search(
           params[:q],
           filter: %((hidden = false OR hidden NOT EXISTS) AND category = "#{@category.id}"),

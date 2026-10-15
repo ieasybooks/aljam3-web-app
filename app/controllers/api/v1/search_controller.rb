@@ -1,6 +1,6 @@
 class Api::V1::SearchController < Api::V1::BaseController
   def index
-    @pagy, @pages = pagy_meilisearch(
+    @pagy, @pages = pagy(:meilisearch,
       Page.pagy_search(
         params[:q],
         filter:,
