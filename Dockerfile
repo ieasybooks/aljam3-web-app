@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-ARG RUBY_VERSION=3.4.4
+ARG RUBY_VERSION=4.0.7
 FROM oven/bun:1.4.3 AS bun
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:

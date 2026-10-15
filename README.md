@@ -9,7 +9,7 @@
 <p dir="rtl">يمكن للمساعدات الذكية البحث في الكتب وقراءة صفحاتها مع توثيق المصادر عبر <a href="docs/mcp.md">خادم MCP العام</a>.</p>
 
 <div dir="rtl">
-  <img src="https://img.shields.io/badge/Ruby-3.4.4-red?style=for-the-badge&logo=ruby" alt="Ruby Version">
+  <img src="https://img.shields.io/badge/Ruby-4.0.7-red?style=for-the-badge&logo=ruby" alt="Ruby Version">
   <img src="https://img.shields.io/badge/Rails-8.0.2-red?style=for-the-badge&logo=rubyonrails" alt="Rails Version">
   <img src="https://img.shields.io/badge/Bun-1.4.3-f9f1e1?style=for-the-badge&logo=bun&logoColor=black" alt="Bun Version">
   <img src="https://img.shields.io/badge/PostgreSQL-17.5-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Version">
@@ -61,7 +61,7 @@
   <li><a href="https://mise.jdx.dev">Mise</a></li>
   <li><a href="https://www.gnupg.org">gnupg</a></li>
   <li><a href="https://postgresql.org/docs/current/libpq.html">libpq</a></li>
-  <li><a href="https://ruby-lang.org">Ruby</a> (3.4.4)</li>
+  <li><a href="https://ruby-lang.org">Ruby</a> (4.0.7)</li>
   <li><a href="https://rubyonrails.org">Rails</a> (8.0.2)</li>
   <li><a href="https://bun.sh">Bun</a> (1.4.3)</li>
   <li><a href="https://postgresql.org">PostgreSQL</a> (17.5)</li>

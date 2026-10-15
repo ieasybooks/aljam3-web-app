@@ -8,7 +8,7 @@ The library of Islamic libraries
 
 AI assistants can search books and read cited source pages through the [public MCP server](docs/mcp.md).
 
-![Ruby Version](https://img.shields.io/badge/Ruby-3.4.4-red?style=for-the-badge&logo=ruby)
+![Ruby Version](https://img.shields.io/badge/Ruby-4.0.7-red?style=for-the-badge&logo=ruby)
 ![Rails Version](https://img.shields.io/badge/Rails-8.0.2-red?style=for-the-badge&logo=rubyonrails)
 ![Bun Version](https://img.shields.io/badge/Bun-1.4.3-f9f1e1?style=for-the-badge&logo=bun&logoColor=black)
 ![PostgreSQL Version](https://img.shields.io/badge/PostgreSQL-17.5-316192?style=for-the-badge&logo=postgresql&logoColor=white)
@@ -64,7 +64,7 @@ You will get the following tools by following the steps mentioned above:
 - [Mise](https://mise.jdx.dev)
 - [gnupg](https://www.gnupg.org)
 - [libpq](https://postgresql.org/docs/current/libpq.html)
-- [Ruby](https://ruby-lang.org) (3.4.4)
+- [Ruby](https://ruby-lang.org) (4.0.7)
 - [Rails](https://rubyonrails.org) (8.0.2)
 - [Bun](https://bun.sh) (1.4.3)
 - [PostgreSQL](https://postgresql.org) (17.5)

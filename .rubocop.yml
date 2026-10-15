@@ -13,7 +13,7 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 #   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 3.4.4
+  TargetRubyVersion: 4.0.7
   NewCops: enable
   Exclude:
     - '**/._*'
