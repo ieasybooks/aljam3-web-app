@@ -31,9 +31,7 @@ class PagesTest < ApplicationTest
 
   test "does not record a prefetch or anonymous search click" do
     assert_no_difference("SearchClick.count") do
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).returns(nil)
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).with("X-Sec-Purpose").returns("prefetch")
-      get page_path_for(@page, qid: @search_query.id)
+      get page_path_for(@page, qid: @search_query.id), headers: { "X-Sec-Purpose" => "prefetch" }
       get page_path_for(@page)
       get page_path_for(@page, qid: "")
     end
@@ -85,19 +83,6 @@ class PagesTest < ApplicationTest
     assert_no_changes -> { @page.file.book.reload.views_count } do
       get page_path_for(@page), as: :turbo_stream
     end
-  end
-
-  test "skips the click when the page request is a prefetch" do
-    controller = PagesController.new
-    controller.instance_variable_set(:@page, @page)
-    controller.stubs(:params).returns(ActionController::Parameters.new(qid: "query", i: "3", page_number: @page.number.to_s))
-    format = mock("format")
-    format.stubs(:html?).returns(false)
-    format.stubs(:turbo_stream?).returns(true)
-    controller.stubs(:request).returns(mock(headers: { "X-Sec-Purpose" => "prefetch" }, format:))
-    controller.stubs(:respond_to)
-
-    assert_no_difference("SearchClick.count") { controller.show }
   end
 
   private

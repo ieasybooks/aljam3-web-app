@@ -1,7 +1,6 @@
 require "test_helper"
 
-class BooksTaskTest < ActiveSupport::TestCase
-  include FactoryBot::Syntax::Methods
+class BooksTaskTest < ScriptTest
   include TaskSupport
 
   setup do

@@ -79,9 +79,8 @@ class BooksTest < ApplicationTest
     assert_equal(-1, SearchClick.last.index)
 
     assert_no_difference("SearchClick.count") do
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).returns(nil)
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).with("X-Sec-Purpose").returns("prefetch")
-      get book_path(book_id: @book.id), params: { qid: query.id }
+      get book_path(book_id: @book.id), params: { qid: query.id },
+        headers: { "X-Sec-Purpose" => "prefetch" }
     end
   end
 
@@ -98,9 +97,8 @@ class BooksTest < ApplicationTest
     assert_includes response.body, 'target="results_list_1"'
 
     assert_no_difference("SearchQuery.count") do
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).returns(nil)
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).with("X-Sec-Purpose").returns("prefetch")
-      get book_search_path(book_id: @book.id), params: { q: "page" }, as: :turbo_stream
+      get book_search_path(book_id: @book.id), params: { q: "page" }, as: :turbo_stream,
+        headers: { "X-Sec-Purpose" => "prefetch" }
     end
   end
 
@@ -114,16 +112,5 @@ class BooksTest < ApplicationTest
       get book_search_path(book_id: @book.id), params: { q: "missing" }, as: :turbo_stream
     end
     assert_response :ok
-  end
-
-  test "skips the click when the book show request is a prefetch" do
-    controller = BooksController.new
-    controller.instance_variable_set(:@book, @book)
-    controller.stubs(:params).returns(ActionController::Parameters.new(qid: "query", i: "3"))
-    controller.stubs(:request).returns(mock(headers: { "X-Sec-Purpose" => "prefetch" }))
-    controller.stubs(:book_file_page_path).returns("/")
-    controller.stubs(:redirect_to)
-
-    assert_no_difference("SearchClick.count") { controller.show }
   end
 end

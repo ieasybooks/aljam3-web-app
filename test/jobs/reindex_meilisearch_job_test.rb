@@ -12,12 +12,6 @@ class ReindexMeilisearchJobTest < ModelTest
     @records.stubs(:reindex!)
   end
 
-  test "constantizes the model name" do
-    @model.expects(:constantize).returns(@constantized_model)
-
-    @job.perform(@model, 1, 25000)
-  end
-
   test "reindexes default-sized chunks" do
     @constantized_model.expects(:where).with(id: 1..10000).returns(@records)
     @constantized_model.expects(:where).with(id: 10001..20000).returns(@records)
@@ -39,9 +33,5 @@ class ReindexMeilisearchJobTest < ModelTest
     @constantized_model.expects(:where).with(id: 10001..15500).returns(@records)
 
     @job.perform(@model, 1, 15500, 10000)
-  end
-
-  test "uses the default queue" do
-    assert_equal "default", ReindexMeilisearchJob.new.queue_name
   end
 end

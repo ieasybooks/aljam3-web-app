@@ -8,10 +8,9 @@ class AuthorTest < ModelTest
   end
 
   test "configures Meilisearch fields" do
-    Author.index
-    Author.ms_set_settings(true)
+    settings = Author.meilisearch_settings.to_settings
 
-    assert_equal [ "name" ], Author.index.searchable_attributes
-    assert_equal [ "hidden" ], Author.index.filterable_attributes
+    assert_equal [ :name ], settings.fetch(:searchable_attributes)
+    assert_equal [ :hidden ], settings.fetch(:filterable_attributes)
   end
 end

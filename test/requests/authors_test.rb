@@ -142,23 +142,8 @@ class AuthorsTest < ApplicationTest
     assert_equal(-1, SearchClick.last.index)
 
     assert_no_difference("SearchClick.count") do
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).returns(nil)
-      ActionDispatch::Http::Headers.any_instance.stubs(:[]).with("X-Sec-Purpose").returns("prefetch")
-      get author_path(id: @author.id, qid: search_query.id, i: "3")
+      get author_path(id: @author.id, qid: search_query.id, i: "3"),
+        headers: { "X-Sec-Purpose" => "prefetch" }
     end
-  end
-
-  test "skips the click when the controller receives a prefetch request" do
-    controller = AuthorsController.new
-    controller.stubs(:params).returns(ActionController::Parameters.new(qid: "query", i: "3"))
-    request = mock("request")
-    request.stubs(:headers).returns({ "X-Sec-Purpose" => "prefetch" })
-    controller.stubs(:request).returns(request)
-    controller.stubs(:search_or_list_author_books).returns([ Pagy::Offset.new(count: 0, page: 1), [] ])
-    controller.stubs(:respond_to)
-    assert controller.params[:qid].present?
-    assert_equal "prefetch", controller.request.headers["X-Sec-Purpose"]
-
-    assert_no_difference("SearchClick.count") { controller.show }
   end
 end

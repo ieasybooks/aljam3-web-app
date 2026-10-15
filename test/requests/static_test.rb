@@ -26,7 +26,7 @@ class StaticTest < ApplicationTest
     get root_path, params: { sign_in_token: token }
 
     assert_response :success
-    assert_equal user.id, User.find_signed(token, purpose: "native_handoff").id
+    assert_equal user, request.env["warden"].user
   end
 
   test "searches all tabs and creates a query with compact refinements" do

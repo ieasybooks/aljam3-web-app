@@ -35,6 +35,16 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+module MeilisearchTestIsolation
+  def ms_index_uid(*)
+    "#{super}_#{Process.pid}"
+  end
+end
+
+[ Page, Book, Author, Category ].each do |model|
+  model.singleton_class.prepend(MeilisearchTestIsolation)
+end
+
 class ApplicationTest < ActionDispatch::IntegrationTest
   include FactoryBot::Syntax::Methods
   include Devise::Test::IntegrationHelpers

@@ -73,7 +73,9 @@ class McpSearchTest < ApplicationTest
     page = create(:page, content: ("مقدمة " * 300) + "الحج")
     page.update!(content: "نص مصحح")
     index = mock("index")
-    index.expects(:search).returns({ "hits" => [ { "id" => page.id } ], "totalPages" => 1 })
+    index.expects(:search).returns(
+      { "hits" => [ { "id" => page.id, "_matchesPosition" => { "content" => [ { "start" => 1_800, "length" => 4 } ] } } ], "totalPages" => 1 }
+    )
     Page.stubs(:ms_index).returns(index)
 
     hit = mcp_data("search", q: "الحج").fetch("results").sole

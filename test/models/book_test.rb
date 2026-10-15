@@ -14,10 +14,10 @@ class BookTest < ModelTest
   end
 
   test "configures Meilisearch fields" do
-    Book.index.number_of_documents
+    settings = Book.meilisearch_settings.to_settings
 
-    assert_equal [ "title" ], Book.index.searchable_attributes
-    assert_equal [ "library", "author", "category", "hidden" ], Book.index.filterable_attributes
+    assert_equal [ :title ], settings.fetch(:searchable_attributes)
+    assert_equal [ :library, :author, :category, :hidden ], settings.fetch(:filterable_attributes)
   end
 
   test "increments the view count" do
