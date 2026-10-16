@@ -10,7 +10,7 @@ module Internationalization
       locale = locale_from_url || locale_from_cookies || locale_from_headers || I18n.default_locale
       cookies[:locale] = locale
 
-      response.set_header "Content-Language", locale
+      response.set_header "Content-Language", locale.to_s
       I18n.with_locale(locale, &)
     end
 
