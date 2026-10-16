@@ -44,7 +44,7 @@ class InternationalizationControllerTest < ActionController::TestCase
 
     assert_includes response.body, "Locale: en"
     assert_equal "en", cookies[:locale]
-    assert_equal :en, response.headers["Content-Language"]
+    assert_equal "en", response.headers["Content-Language"]
   end
 
   test "sets locale from cookie if no URL param" do
@@ -62,7 +62,7 @@ class InternationalizationControllerTest < ActionController::TestCase
 
     assert_includes response.body, "Locale: en"
     assert_equal "en", cookies[:locale]
-    assert_equal :en, response.headers["Content-Language"]
+    assert_equal "en", response.headers["Content-Language"]
   end
 
   test "parses and selects supported locale from Accept-Language header" do
@@ -80,7 +80,7 @@ class InternationalizationControllerTest < ActionController::TestCase
 
     assert_includes response.body, "Locale: en"
     assert_equal "en", cookies[:locale]
-    assert_equal :en, response.headers["Content-Language"]
+    assert_equal "en", response.headers["Content-Language"]
   end
 
   test "ignores empty Accept-Language header" do
@@ -89,7 +89,7 @@ class InternationalizationControllerTest < ActionController::TestCase
 
     assert_includes response.body, "Locale: en"
     assert_equal "en", cookies[:locale]
-    assert_equal :en, response.headers["Content-Language"]
+    assert_equal "en", response.headers["Content-Language"]
   end
 
   test "falls back to the default locale" do
@@ -97,6 +97,6 @@ class InternationalizationControllerTest < ActionController::TestCase
 
     assert_includes response.body, "Locale: en"
     assert_equal "en", cookies[:locale]
-    assert_equal :en, response.headers["Content-Language"]
+    assert_equal "en", response.headers["Content-Language"]
   end
 end
