@@ -30,7 +30,7 @@ gem "rails_performance", ">= 1.6"
 gem "rswag-api", "~> 2.16"
 gem "rswag-ui", "~> 2.16"
 gem "sitemap_generator", ">= 7.1.1"
-gem "solid_errors", "~> 0.7.0"
+gem "solid_errors", "~> 0.9.0"
 gem "stackprof", ">= 0.2.28" # rack-mini-profiler dependency to generate flamegraphs.
 gem "strict_ivars", "~> 1.0", ">= 1.0.2", require: false
 gem "sys-cpu", ">= 1.3"
