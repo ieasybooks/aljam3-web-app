@@ -426,7 +426,7 @@ GEM
       minitest (~> 6.0)
     padded_cell (0.2.0-x86_64-linux-musl)
       minitest (~> 6.0)
-    pagy (43.7.1)
+    pagy (43.8.1)
       json
       uri
       yaml
@@ -747,7 +747,7 @@ DEPENDENCIES
   omniauth-google-oauth2 (>= 1.2.3)
   omniauth-rails_csrf_protection (>= 2.0.1)
   padded_cell (~> 0.2)
-  pagy (~> 43.7)
+  pagy (~> 43.8)
   pg (~> 1.1)
   pg_query (>= 6.2.5)
   pghero (>= 4.0.1)
