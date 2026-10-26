@@ -442,7 +442,7 @@ GEM
     pg (1.7.0-x86_64-linux-musl)
     pg_query (6.2.5)
       google-protobuf (>= 4.34.0)
-    pghero (4.0.1)
+    pghero (4.1.0)
       activerecord (>= 7.2)
     phlex (2.4.1)
       refract (~> 1.0)
