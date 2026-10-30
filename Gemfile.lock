@@ -321,7 +321,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.2.1)
-    mcp (1.7.0)
+    mcp (1.8.2)
       json_schemer (>= 2.4)
     meilisearch (0.32.0)
       httparty (~> 0.22)
@@ -735,7 +735,7 @@ DEPENDENCIES
   kamal
   literal (>= 1.9)
   lookbook (>= 2.3.15)
-  mcp (~> 1.6, >= 1.6.1)
+  mcp (~> 1.8)
   meilisearch-rails (~> 0.16.0)
   memory_profiler (~> 1.0, >= 1.0.2)
   minitest (~> 6.0)
