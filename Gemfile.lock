@@ -202,7 +202,7 @@ GEM
       ffi (~> 1.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    goldiloader (6.0.0)
+    goldiloader (6.0.1)
       activerecord (>= 7.2, < 8.3)
       activesupport (>= 7.2, < 8.3)
     google-protobuf (4.36.2)
