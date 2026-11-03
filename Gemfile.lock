@@ -5,6 +5,14 @@ GIT
     active_record_doctor (2.1.0)
       activerecord (>= 7.0.0)
 
+GIT
+  remote: https://github.com/ieasybooks/cloudflare_only.git
+  revision: 11b0716516b5c72ecd503e3ed479c4b9e66b39e6
+  specs:
+    cloudflare_only (0.1.0)
+      cloudflare-rails (>= 7.0)
+      railties (>= 8.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -719,7 +727,7 @@ DEPENDENCIES
   brakeman
   browser (~> 6.2)
   cache_with_locale (~> 0.0.3)
-  cloudflare-rails (~> 7.0)
+  cloudflare_only!
   cssbundling-rails
   debug
   devise (>= 5.0.4)
