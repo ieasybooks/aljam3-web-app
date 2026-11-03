@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-docker run --rm -v "${PWD}:/workdir" --env-file <(env | grep -E '^(KAMAL_|SHIPYRD_)') ghcr.io/shipyrd/shipyrd-gem:latest /shipyrd/bin/$(basename $0)
