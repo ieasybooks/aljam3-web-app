@@ -66,7 +66,7 @@ group :development, :test do
 end
 
 group :production do
-  gem "cloudflare-rails", "~> 7.0"
+  gem "cloudflare_only", github: "ieasybooks/cloudflare_only"
 end
 
 # Template gems ↓
