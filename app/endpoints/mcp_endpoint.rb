@@ -17,7 +17,7 @@ class McpEndpoint
       stateless: true,
       enable_json_response: true,
       serve_subscriptions_listen: false,
-      allowed_hosts: Rails.application.config.hosts.grep(String) + %w[aljam3.com www.aljam3.com]
+      allowed_hosts: Rails.application.config.hosts.grep(String) + %w[aljam3.com]
     ).call(request.env)
   end
 
