@@ -1,0 +1,39 @@
+# Kamal Proxy terminates TLS and forwards cleartext traffic to Mothership on
+# the container's application port. Mothership owns HTTP and docks Shuttlebay
+# over a Unix socket; Rails never parses client HTTP directly.
+
+[mothership.bind]
+http = "0.0.0.0:3000"
+
+# Serve immutable assets directly from the image. Requests for paths that are
+# not files fall through to the Rails bay below.
+[[mothership.static_dirs]]
+path = "./public"
+prefix = "/"
+
+# Run migrations before the web and job processes start. This preserves the
+# previous entrypoint's db:prepare behavior while making it independent of a
+# particular Rack server.
+[[mothership.prelaunch]]
+name = "db-prepare"
+command = "bundle"
+args = ["exec", "rails", "db:prepare"]
+cwd = "/rails"
+env = { ENQUEUE_GENERATE_SITEMAP_JOB = "1" }
+
+[[bays.http]]
+name = "web"
+command = "bundle"
+args = ["exec", "shuttlebay", "config.ru"]
+cwd = "/rails"
+workers = 8
+threads = 3
+routes = [{ bind = "http", pattern = "/.*" }]
+
+# Solid Queue is supervised separately from the web workers. It inherits the
+# database and JOB_CONCURRENCY settings injected by Kamal.
+[[fleet.workers]]
+name = "jobs"
+command = "bundle"
+args = ["exec", "ruby", "bin/jobs"]
+cwd = "/rails"
